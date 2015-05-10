@@ -1,1 +1,25 @@
 A Pillars of Eternity save editor and character importer/exporter.
+
+# Dependencies
+Several dependencies are already bundled with the project. In order to build and run the project you will also need the following:
+
+* [Apache Maven](https://maven.apache.org/)
+* [JDK 1.8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) or above
+
+# Support
+Currently this has only been tested on 64-bit Windows. 32-bit Windows is unlikely to work without extra effort. Mac OSX and Linux support, however, should be easy enough to add if there's a demand for it.
+
+# Contributing
+1. Fork this repository.
+2. Clone your forked repository.
+3. Make changes.
+4. Write tests.
+5. Submit a pull request.
+
+# Building
+This project uses maven so building it should be relatively straightforward.
+
+	mvn install
+
+# Running
+Assuming you've already built the project and have a `target` directory now and have your Java 8 executable in your `PATH`, you can use `run.bat` to run the project.
