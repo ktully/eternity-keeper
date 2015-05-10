@@ -6,37 +6,47 @@ import org.cef.CefClient;
 import org.cef.CefSettings;
 import org.cef.OS;
 import org.cef.browser.CefBrowser;
+import org.cef.browser.CefMessageRouter;
 import org.cef.handler.CefAppHandlerAdapter;
+import uk.me.mantas.eternity.handlers.GetDefaultSaveLocation;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import static org.cef.browser.CefMessageRouter.CefMessageRouterConfig;
+
 public class EternityKeeper extends JFrame {
+	private CefApp cefApp;
+	private CefClient cefClient;
+	private CefBrowser browser;
+
 	private EternityKeeper () {
 		CefApp.addAppHandler(new CefAppHandlerAdapter(null) {
 			@Override
 			public void stateHasChanged (CefAppState state) {
-				if (state == CefAppState.TERMINATED)
-					cefShutdown();
+				if (state == CefAppState.TERMINATED) {
+					shutdown();
+				}
 			}
 		});
 
 		CefSettings settings = new CefSettings();
 		settings.windowless_rendering_enabled = OS.isLinux();
-		CefApp cefApp = CefApp.getInstance(settings);
-		CefClient client = cefApp.createClient();
-		CefBrowser browser = client.createBrowser(
+		settings.remote_debugging_port = 13001;
+
+		cefApp = CefApp.getInstance(settings);
+		cefClient = cefApp.createClient();
+		addJSHandlers();
+
+		browser = cefClient.createBrowser(
 			"file:///src/ui/index.html"
 			, OS.isLinux()
 			, false);
 
-		Component browserUI = browser.getUIComponent();
-		getContentPane().add(browserUI, BorderLayout.CENTER);
+		getContentPane().add(browser.getUIComponent(), BorderLayout.CENTER);
 		pack();
-		setSize(1024, 768);
-		setVisible(true);
 
 		addWindowListener(new WindowAdapter() {
 			@Override
@@ -47,11 +57,28 @@ public class EternityKeeper extends JFrame {
 		});
 	}
 
-	private void cefShutdown () {
+	private void addJSHandlers () {
+		CefMessageRouter openSavedGameRouter = CefMessageRouter.create(
+			new CefMessageRouterConfig(
+				"getDefaultSaveLocation"
+				, "getDefaultSaveLocationCancel")
+			, new GetDefaultSaveLocation());
+
+		cefClient.addMessageRouter(openSavedGameRouter);
+	}
+
+	private void shutdown () {
 		System.exit(0);
 	}
 
 	public static void main (String[] args) {
-		new EternityKeeper();
+		ImageIcon icon = new ImageIcon(
+			EternityKeeper.class.getResource("/icon.png"));
+
+		Frame frame = new EternityKeeper();
+		frame.setTitle("Eternity Keeper");
+		frame.setSize(1024, 768);
+		frame.setVisible(true);
+		frame.setIconImage(icon.getImage());
 	}
 }

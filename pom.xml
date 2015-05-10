@@ -1,78 +1,98 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-    <groupId>uk.me.mantas</groupId>
-    <artifactId>eternity</artifactId>
-    <version>1.0</version>
+	<groupId>uk.me.mantas</groupId>
+	<artifactId>eternity</artifactId>
+	<version>1.0</version>
 
-    <repositories>
-        <repository>
-            <id>lib</id>
-            <releases>
-                <enabled>true</enabled>
-                <checksumPolicy>ignore</checksumPolicy>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-            <url>file://${project.basedir}/lib</url>
-        </repository>
-    </repositories>
+	<repositories>
+		<repository>
+			<id>lib</id>
+			<releases>
+				<enabled>true</enabled>
+				<checksumPolicy>ignore</checksumPolicy>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<url>file://${project.basedir}/lib</url>
+		</repository>
+	</repositories>
 
-    <dependencies>
-        <dependency>
-            <groupId>dependencies</groupId>
-            <artifactId>gluegen-rt</artifactId>
-            <version>1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>dependencies</groupId>
-            <artifactId>gluegen-rt-natives-windows-amd64</artifactId>
-            <version>1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>dependencies</groupId>
-            <artifactId>jcef</artifactId>
-            <version>1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>dependencies</groupId>
-            <artifactId>jogl-all</artifactId>
-            <version>1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>dependencies</groupId>
-            <artifactId>jogl-all-natives-windows-amd64</artifactId>
-            <version>1.0</version>
-        </dependency>
-    </dependencies>
+	<dependencies>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>2.3</version>
-                <configuration>
-                    <transformers>
-                        <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                            <mainClass>uk.me.mantas.eternity.EternityKeeper</mainClass>
-                        </transformer>
-                    </transformers>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
+		<!-- Local Dependencies -->
+		<dependency>
+			<groupId>dependencies</groupId>
+			<artifactId>gluegen-rt</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>dependencies</groupId>
+			<artifactId>gluegen-rt-natives-windows-amd64</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>dependencies</groupId>
+			<artifactId>jcef</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>dependencies</groupId>
+			<artifactId>jogl-all</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>dependencies</groupId>
+			<artifactId>jogl-all-natives-windows-amd64</artifactId>
+			<version>1.0</version>
+		</dependency>
+
+		<!-- External Dependencies -->
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20141113</version>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>2.3</version>
+				<configuration>
+					<transformers>
+						<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+							<mainClass>uk.me.mantas.eternity.EternityKeeper
+							</mainClass>
+						</transformer>
+					</transformers>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.3</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 
 </project>
