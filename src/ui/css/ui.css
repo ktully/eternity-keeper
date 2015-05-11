@@ -44,6 +44,10 @@ html, * {
 	font-family: proxima-nova, sans-serif;
 }
 
+.clickable {
+	cursor: pointer;
+}
+
 .navbar-brand {
 	cursor: default;
 	margin-left: 0px !important;

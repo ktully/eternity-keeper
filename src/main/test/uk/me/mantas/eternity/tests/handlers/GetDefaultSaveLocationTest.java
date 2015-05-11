@@ -8,6 +8,7 @@ import org.junit.Test;
 import uk.me.mantas.eternity.EKUtils;
 import uk.me.mantas.eternity.Harness;
 import uk.me.mantas.eternity.Harness.EnvKey;
+import uk.me.mantas.eternity.handlers.GetDefaultSaveLocation;
 import uk.me.mantas.eternity.tests.mocks.MockCefBrowser;
 import uk.me.mantas.eternity.tests.mocks.MockCefQueryCallback;
 

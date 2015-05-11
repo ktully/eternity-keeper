@@ -1,4 +1,4 @@
-package uk.me.mantas.eternity.tests.handlers;
+package uk.me.mantas.eternity.handlers;
 
 import org.cef.browser.CefBrowser;
 import org.cef.callback.CefQueryCallback;

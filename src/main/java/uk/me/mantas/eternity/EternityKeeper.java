@@ -8,7 +8,8 @@ import org.cef.OS;
 import org.cef.browser.CefBrowser;
 import org.cef.browser.CefMessageRouter;
 import org.cef.handler.CefAppHandlerAdapter;
-import uk.me.mantas.eternity.tests.handlers.GetDefaultSaveLocation;
+import uk.me.mantas.eternity.handlers.GetDefaultSaveLocation;
+import uk.me.mantas.eternity.handlers.SpawnFileDialog;
 
 import javax.swing.*;
 import java.awt.*;
@@ -64,7 +65,14 @@ public class EternityKeeper extends JFrame {
 				, "getDefaultSaveLocationCancel")
 			, new GetDefaultSaveLocation());
 
+		CefMessageRouter spawnFileDialogRouter = CefMessageRouter.create(
+			new CefMessageRouterConfig(
+				"spawnFileDialog"
+				, "spawnFileDialogCancel")
+			, new SpawnFileDialog());
+
 		cefClient.addMessageRouter(openSavedGameRouter);
+		cefClient.addMessageRouter(spawnFileDialogRouter);
 	}
 
 	private void shutdown () {
