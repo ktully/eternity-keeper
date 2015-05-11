@@ -6,7 +6,7 @@ var SavesManager = function () {
 		if (response.error) {
 			savedGameLocationField.attr(
 				'placeholder'
-				, 'Unable to locate save folder.');
+				, 'Unable to locate save folder');
 		} else if (response.location) {
 			savedGameLocationField.val(response.location);
 		}
