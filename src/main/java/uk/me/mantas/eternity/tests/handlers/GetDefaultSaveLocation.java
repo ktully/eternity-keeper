@@ -1,12 +1,16 @@
-package uk.me.mantas.eternity.handlers;
+package uk.me.mantas.eternity.tests.handlers;
 
 import org.cef.browser.CefBrowser;
 import org.cef.callback.CefQueryCallback;
 import org.cef.handler.CefMessageRouterHandlerAdapter;
 import org.json.JSONStringer;
+import uk.me.mantas.eternity.Harness;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Optional;
+
+import static uk.me.mantas.eternity.Harness.EnvKey;
 
 public class GetDefaultSaveLocation extends CefMessageRouterHandlerAdapter {
 	@Override
@@ -17,14 +21,16 @@ public class GetDefaultSaveLocation extends CefMessageRouterHandlerAdapter {
 		, boolean peristent
 		, CefQueryCallback callback) {
 
-		String userProfile = System.getenv("USERPROFILE");
-		if (userProfile == null || userProfile.equals("")) {
+		Optional<String> userProfile =
+			Harness.getInstance().getEnvVar(EnvKey.USERPROFILE);
+
+		if (!userProfile.isPresent()) {
 			callback.success(noDefault());
 			return true;
 		}
 
-		Path defaultLocation =
-			Paths.get(userProfile).resolve("Saved Games\\Pillars of Eternity");
+		Path defaultLocation = Paths.get(userProfile.get())
+			.resolve("Saved Games\\Pillars of Eternity");
 
 		if (!defaultLocation.toFile().exists()) {
 			callback.success(noDefault());

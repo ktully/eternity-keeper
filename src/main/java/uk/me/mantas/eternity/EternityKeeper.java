@@ -8,7 +8,7 @@ import org.cef.OS;
 import org.cef.browser.CefBrowser;
 import org.cef.browser.CefMessageRouter;
 import org.cef.handler.CefAppHandlerAdapter;
-import uk.me.mantas.eternity.handlers.GetDefaultSaveLocation;
+import uk.me.mantas.eternity.tests.handlers.GetDefaultSaveLocation;
 
 import javax.swing.*;
 import java.awt.*;
@@ -75,9 +75,14 @@ public class EternityKeeper extends JFrame {
 		ImageIcon icon = new ImageIcon(
 			EternityKeeper.class.getResource("/icon.png"));
 
+		// We set up various environment properties and dependency injections
+		// here in order to make it easier to test classes later.
+		Harness.initialise();
+		Dimension windowSize = EKUtils.getBestWindowSize();
+
 		Frame frame = new EternityKeeper();
 		frame.setTitle("Eternity Keeper");
-		frame.setSize(1024, 768);
+		frame.setSize(windowSize.width, windowSize.height);
 		frame.setVisible(true);
 		frame.setIconImage(icon.getImage());
 	}
