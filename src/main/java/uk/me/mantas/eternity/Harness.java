@@ -1,5 +1,6 @@
 package uk.me.mantas.eternity;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -8,6 +9,15 @@ import java.util.Optional;
 public class Harness {
 	private static Harness instance = null;
 	private Map<EnvKey, String> environmentVariables = new HashMap<>();
+	private File settingsFile = new File(".", "settings.json");
+
+	public File getSettingsFile () {
+		return settingsFile;
+	}
+
+	public void setSettingsFile (File settingsFile) {
+		this.settingsFile = settingsFile;
+	}
 
 	public enum EnvKey {
 		USERPROFILE

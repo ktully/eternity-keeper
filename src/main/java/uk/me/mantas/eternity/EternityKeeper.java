@@ -8,6 +8,7 @@ import org.cef.OS;
 import org.cef.browser.CefBrowser;
 import org.cef.browser.CefMessageRouter;
 import org.cef.handler.CefAppHandlerAdapter;
+import org.json.JSONObject;
 import uk.me.mantas.eternity.handlers.GetDefaultSaveLocation;
 
 import javax.swing.*;
@@ -68,7 +69,19 @@ public class EternityKeeper extends JFrame {
 	}
 
 	private void shutdown () {
+		saveWindowState();
 		System.exit(0);
+	}
+
+	private void saveWindowState () {
+		Rectangle windowBounds = getBounds();
+		JSONObject settings = Settings.getInstance().json;
+
+		settings.put("width", windowBounds.width);
+		settings.put("height", windowBounds.height);
+		settings.put("x", windowBounds.x);
+		settings.put("y", windowBounds.y);
+		Settings.getInstance().save();
 	}
 
 	public static void main (String[] args) {
@@ -78,11 +91,12 @@ public class EternityKeeper extends JFrame {
 		// We set up various environment properties and dependency injections
 		// here in order to make it easier to test classes later.
 		Harness.initialise();
-		Dimension windowSize = EKUtils.getBestWindowSize();
+		Settings.initialise();
+		Rectangle windowBounds = EKUtils.getDefaultWindowBounds();
 
 		Frame frame = new EternityKeeper();
 		frame.setTitle("Eternity Keeper");
-		frame.setSize(windowSize.width, windowSize.height);
+		frame.setBounds(windowBounds);
 		frame.setVisible(true);
 		frame.setIconImage(icon.getImage());
 	}
