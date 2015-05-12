@@ -42,12 +42,7 @@ public class Harness {
 	}
 
 	public Optional<String> getEnvVar (EnvKey key) {
-		String value = environmentVariables.get(key);
-		if (value == null) {
-			return Optional.<String>empty();
-		}
-
-		return Optional.of(value);
+		return Optional.ofNullable(environmentVariables.get(key));
 	}
 
 	public void setEnvVar (EnvKey key, String value) {
