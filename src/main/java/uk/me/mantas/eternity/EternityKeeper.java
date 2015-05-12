@@ -90,7 +90,7 @@ public class EternityKeeper extends JFrame {
 
 		// We set up various environment properties and dependency injections
 		// here in order to make it easier to test classes later.
-		Harness.initialise();
+		Environment.initialise();
 		Settings.initialise();
 		Rectangle windowBounds = EKUtils.getDefaultWindowBounds();
 

@@ -11,7 +11,7 @@ public class Settings {
 	public JSONObject json = new JSONObject();
 
 	private Settings () {
-		settingsFile = Harness.getInstance().getSettingsFile();
+		settingsFile = Environment.getInstance().getSettingsFile();
 
 		try {
 			boolean fileCreated = settingsFile.createNewFile();

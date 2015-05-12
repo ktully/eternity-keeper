@@ -4,13 +4,13 @@ import org.cef.browser.CefBrowser;
 import org.cef.callback.CefQueryCallback;
 import org.cef.handler.CefMessageRouterHandlerAdapter;
 import org.json.JSONStringer;
-import uk.me.mantas.eternity.Harness;
+import uk.me.mantas.eternity.Environment;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
 
-import static uk.me.mantas.eternity.Harness.EnvKey;
+import static uk.me.mantas.eternity.Environment.EnvKey;
 
 public class GetDefaultSaveLocation extends CefMessageRouterHandlerAdapter {
 	@Override
@@ -22,7 +22,7 @@ public class GetDefaultSaveLocation extends CefMessageRouterHandlerAdapter {
 		, CefQueryCallback callback) {
 
 		Optional<String> userProfile =
-			Harness.getInstance().getEnvVar(EnvKey.USERPROFILE);
+			Environment.getInstance().getEnvVar(EnvKey.USERPROFILE);
 
 		if (!userProfile.isPresent()) {
 			callback.success(noDefault());

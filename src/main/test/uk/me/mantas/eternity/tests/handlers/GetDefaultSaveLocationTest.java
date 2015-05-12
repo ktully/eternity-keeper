@@ -6,8 +6,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import uk.me.mantas.eternity.EKUtils;
-import uk.me.mantas.eternity.Harness;
-import uk.me.mantas.eternity.Harness.EnvKey;
+import uk.me.mantas.eternity.Environment;
+import uk.me.mantas.eternity.Environment.EnvKey;
 import uk.me.mantas.eternity.handlers.GetDefaultSaveLocation;
 import uk.me.mantas.eternity.tests.mocks.MockCefBrowser;
 import uk.me.mantas.eternity.tests.mocks.MockCefQueryCallback;
@@ -25,7 +25,7 @@ public class GetDefaultSaveLocationTest {
 
 	@Before
 	public void setup () {
-		Harness.initialise();
+		Environment.initialise();
 	}
 
 	@After
@@ -51,7 +51,7 @@ public class GetDefaultSaveLocationTest {
 
 	@Test
 	public void onQueryTest () {
-		Harness harness = Harness.getInstance();
+		Environment environment = Environment.getInstance();
 		MockCefBrowser mockBrowser = new MockCefBrowser();
 		GetDefaultSaveLocation cls = new GetDefaultSaveLocation();
 
@@ -62,13 +62,13 @@ public class GetDefaultSaveLocationTest {
 			new MockCefQueryCallback(noDefault);
 
 		// No USERPROFILE environment variable.
-		harness.setEnvVar(EnvKey.USERPROFILE, null);
+		environment.setEnvVar(EnvKey.USERPROFILE, null);
 		cls.onQuery(mockBrowser, 0, "", false, noDefaultCallback);
 
 		Optional<File> saveLocation = EKUtils.createTempDir(PREFIX);
 		assertEquals(true, saveLocation.isPresent());
 
-		harness.setEnvVar(
+		environment.setEnvVar(
 			EnvKey.USERPROFILE
 			, saveLocation.get().getAbsolutePath());
 

@@ -6,8 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public class Harness {
-	private static Harness instance = null;
+public class Environment {
+	private static Environment instance = null;
 	private Map<EnvKey, String> environmentVariables = new HashMap<>();
 	private File settingsFile = new File(".", "settings.json");
 
@@ -23,7 +23,7 @@ public class Harness {
 		USERPROFILE
 	}
 
-	private Harness () {
+	private Environment () {
 		mapEnvironmentVariables();
 	}
 
@@ -53,7 +53,7 @@ public class Harness {
 		environmentVariables.putAll(newVariables);
 	}
 
-	public static Harness getInstance () {
+	public static Environment getInstance () {
 		if (instance == null) {
 			initialise();
 		}
@@ -62,6 +62,6 @@ public class Harness {
 	}
 
 	public static void initialise () {
-		instance = new Harness();
+		instance = new Environment();
 	}
 }
