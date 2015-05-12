@@ -1,5 +1,6 @@
 package uk.me.mantas.eternity;
 
+import org.apache.commons.io.FileUtils;
 import org.cef.CefApp;
 import org.cef.CefApp.CefAppState;
 import org.cef.CefClient;
@@ -10,11 +11,14 @@ import org.cef.browser.CefMessageRouter;
 import org.cef.handler.CefAppHandlerAdapter;
 import org.json.JSONObject;
 import uk.me.mantas.eternity.handlers.GetDefaultSaveLocation;
+import uk.me.mantas.eternity.handlers.ListSavedGames;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.IOException;
 
 import static org.cef.browser.CefMessageRouter.CefMessageRouterConfig;
 
@@ -65,12 +69,31 @@ public class EternityKeeper extends JFrame {
 				, "getDefaultSaveLocationCancel")
 			, new GetDefaultSaveLocation());
 
+		CefMessageRouter listSavedGamesRouter = CefMessageRouter.create(
+			new CefMessageRouterConfig("listSavedGames", "listSavedGamesCancel")
+			, new ListSavedGames());
+
 		cefClient.addMessageRouter(openSavedGameRouter);
+		cefClient.addMessageRouter(listSavedGamesRouter);
 	}
 
 	private void shutdown () {
 		saveWindowState();
+		cleanupTempDirs();
 		System.exit(0);
+	}
+
+	private void cleanupTempDirs () {
+		File workingDirectory = Environment.getInstance().getWorkingDirectory();
+
+		try {
+			FileUtils.deleteDirectory(workingDirectory);
+		} catch (IOException e) {
+			System.err.printf(
+				"Unable to delete working directory at '%s': %s%n"
+				, workingDirectory.getAbsolutePath()
+				, e.getMessage());
+		}
 	}
 
 	private void saveWindowState () {

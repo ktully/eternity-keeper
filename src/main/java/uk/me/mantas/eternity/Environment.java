@@ -5,11 +5,22 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class Environment {
 	private static Environment instance = null;
+	private static final long SHUTDOWN_TIMEOUT_SECONDS = 60;
+	private ExecutorService workers =
+		Executors.newFixedThreadPool(
+			Runtime.getRuntime().availableProcessors());
+
 	private Map<EnvKey, String> environmentVariables = new HashMap<>();
 	private File settingsFile = new File(".", "settings.json");
+	private File workingDirectory = new File(
+		System.getProperty("java.io.tmpdir")
+		, "EK-unpacked-saves");
 
 	public File getSettingsFile () {
 		return settingsFile;
@@ -17,6 +28,18 @@ public class Environment {
 
 	public void setSettingsFile (File settingsFile) {
 		this.settingsFile = settingsFile;
+	}
+
+	public ExecutorService getWorkers () {
+		return workers;
+	}
+
+	public File getWorkingDirectory () {
+		return workingDirectory;
+	}
+
+	public void setWorkingDirectory (File workingDirectory) {
+		this.workingDirectory = workingDirectory;
 	}
 
 	public enum EnvKey {
@@ -62,6 +85,33 @@ public class Environment {
 	}
 
 	public static void initialise () {
+		if (instance != null) {
+			joinAllWorkers();
+		}
+
 		instance = new Environment();
+	}
+
+	public static void joinAllWorkers () {
+		ExecutorService workers = getInstance().getWorkers();
+		workers.shutdown();
+
+		try {
+			if (!workers.awaitTermination(
+					SHUTDOWN_TIMEOUT_SECONDS
+					, TimeUnit.SECONDS)) {
+
+				workers.shutdownNow();
+				if (!workers.awaitTermination(
+						SHUTDOWN_TIMEOUT_SECONDS
+						, TimeUnit.SECONDS)) {
+
+					System.err.printf("Thread pool did not terminate!%n");
+				}
+			}
+		} catch (InterruptedException e) {
+			workers.shutdownNow();
+			Thread.currentThread().interrupt();
+		}
 	}
 }
