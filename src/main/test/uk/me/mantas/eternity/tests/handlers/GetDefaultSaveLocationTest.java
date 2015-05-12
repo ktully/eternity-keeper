@@ -1,53 +1,24 @@
 package uk.me.mantas.eternity.tests.handlers;
 
-import org.apache.commons.io.FileUtils;
 import org.cef.callback.CefQueryCallback;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import uk.me.mantas.eternity.EKUtils;
 import uk.me.mantas.eternity.Environment;
 import uk.me.mantas.eternity.Environment.EnvKey;
 import uk.me.mantas.eternity.handlers.GetDefaultSaveLocation;
+import uk.me.mantas.eternity.tests.TestHarness;
 import uk.me.mantas.eternity.tests.mocks.MockCefBrowser;
 import uk.me.mantas.eternity.tests.mocks.MockCefQueryCallback;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.Arrays;
 import java.util.Optional;
 import java.util.function.Consumer;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-public class GetDefaultSaveLocationTest {
-	private static final String PREFIX = "EK-GDSL-";
-
-	@Before
-	public void setup () {
-		Environment.initialise();
-	}
-
-	@After
-	public void cleanup () {
-		File temp = new File(System.getProperty("java.io.tmpdir"));
-		File[] files = temp.listFiles();
-
-		if (files != null) {
-			Arrays.stream(files)
-				.filter((file) -> file.getName().startsWith(PREFIX))
-				.forEach((file) -> {
-					try {
-						FileUtils.deleteDirectory(file);
-					} catch (IOException e) {
-						System.err.printf(
-							"Unable to delete temporary directory '%s': %s%n"
-							, file.getAbsoluteFile()
-							, e.getMessage());
-					}
-				});
-		}
-	}
+public class GetDefaultSaveLocationTest extends TestHarness {
+	protected String PREFIX = "EK-GDSL-";
 
 	@Test
 	public void onQueryTest () {
@@ -66,7 +37,7 @@ public class GetDefaultSaveLocationTest {
 		cls.onQuery(mockBrowser, 0, "", false, noDefaultCallback);
 
 		Optional<File> saveLocation = EKUtils.createTempDir(PREFIX);
-		assertEquals(true, saveLocation.isPresent());
+		assertTrue(saveLocation.isPresent());
 
 		environment.setEnvVar(
 			EnvKey.USERPROFILE
@@ -78,7 +49,7 @@ public class GetDefaultSaveLocationTest {
 		File pillarsSaves = saveLocation.get().toPath()
 			.resolve("Saved Games\\Pillars of Eternity").toFile();
 
-		assertEquals(true, pillarsSaves.mkdirs());
+		assertTrue(pillarsSaves.mkdirs());
 
 		Consumer<String> hasDefault = (String result) ->
 			assertEquals(
