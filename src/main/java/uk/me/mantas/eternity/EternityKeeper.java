@@ -77,6 +77,7 @@ public class EternityKeeper extends JFrame {
 	private void shutdown () {
 		saveWindowState();
 		cleanupTempDirs();
+		Environment.joinAllWorkers();
 		System.exit(0);
 	}
 

@@ -8,36 +8,16 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static uk.me.mantas.eternity.save.SaveGameInfo.*;
+
 public class SaveGameExtractor {
-
-	private static final String[] REQUIRED_FILES = {
-		"0.png"
-		, "screenshot.png"
-		, "saveinfo.xml"
-	};
-
-	private static final String[] OPTIONAL_FILES = {
-		"1.png"
-		, "2.png"
-		, "3.png"
-		, "4.png"
-		, "5.png"
-	};
-
 	private String savesLocation;
 	private File workingDirectory;
 
-	public SaveGameExtractor (String savesLocation, File workingDirectory)
-		throws NoSavesFoundException {
+	public SaveGameExtractor (String savesLocation, File workingDirectory) {
 
 		this.savesLocation = savesLocation;
 		this.workingDirectory = workingDirectory;
-
-		Optional<SaveGameInfo[]> saveGameInfo = unpackAllSaves();
-
-		if (!saveGameInfo.isPresent()) {
-			throw new NoSavesFoundException();
-		}
 	}
 
 	private File unpackSave (File save) {
@@ -58,7 +38,7 @@ public class SaveGameExtractor {
 		return null;
 	}
 
-	private SaveGameInfo extractInfo (File saveFolder) {
+	private Optional<SaveGameInfo> extractInfo (File saveFolder) {
 		File[] contents = saveFolder.listFiles();
 
 		if (contents == null) {
@@ -89,10 +69,14 @@ public class SaveGameExtractor {
 			return null;
 		}
 
-		return null;
+		try {
+			return Optional.of(new SaveGameInfo(saveFolder, importantFiles));
+		} catch (SaveFileInfoException e) {
+			return Optional.empty();
+		}
 	}
 
-	private Optional<SaveGameInfo[]> unpackAllSaves () {
+	public Optional<SaveGameInfo[]> unpackAllSaves () {
 		File savesDirectory = new File(savesLocation);
 
 		if (!savesDirectory.exists()) {
@@ -105,18 +89,14 @@ public class SaveGameExtractor {
 		}
 
 		SaveGameInfo[] info = Arrays.stream(saves)
+			.<File>filter(File::isFile)
 			.<File>map(this::unpackSave)
 			.<File>filter(a -> a != null)
-			.<SaveGameInfo>map(this::extractInfo)
-			.<SaveGameInfo>filter(a -> a != null)
+			.<Optional<SaveGameInfo>>map(this::extractInfo)
+			.<Optional<SaveGameInfo>>filter(Optional::isPresent)
+			.<SaveGameInfo>map(Optional::get)
 			.toArray(SaveGameInfo[]::new);
 
 		return Optional.of(info);
-	}
-
-	public static class NoSavesFoundException extends Exception {
-		public NoSavesFoundException () {
-			super();
-		}
 	}
 }

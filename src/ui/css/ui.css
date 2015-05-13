@@ -99,3 +99,42 @@ button#searchForSavedGames {
 #searchForSavedGames i {
 	display: none;
 }
+
+.save-blocks {
+	margin-top: 30px;
+}
+
+.save-info {
+	display: inline-block;
+	width: 500px;
+	box-shadow: 0 0 2px rgba(0,0,0,.1);
+	cursor: pointer;
+	border: 1px solid #eee;
+	margin-right: 30px;
+}
+
+.save-info:hover {
+	border-color: #ccc;
+}
+
+.save-info > * {
+	cursor: pointer;
+}
+
+.save-info td {
+	padding: 10px;
+}
+
+.save-info .name {
+	font-weight: bold;
+}
+
+.save-info .portraits {
+	min-width: 217px;
+}
+
+.save-info .date {
+	font-size: 10px;
+	color: #ccc;
+	vertical-align: bottom;
+}

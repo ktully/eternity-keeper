@@ -44,8 +44,7 @@ public class GetDefaultSaveLocation extends CefMessageRouterHandlerAdapter {
 	private String foundDefault (String defaultLocation) {
 		return new JSONStringer()
 			.object()
-				.key("location")
-				.value(defaultLocation)
+				.key("location").value(defaultLocation)
 			.endObject()
 			.toString();
 	}
@@ -59,8 +58,7 @@ public class GetDefaultSaveLocation extends CefMessageRouterHandlerAdapter {
 	private String noDefault () {
 		return new JSONStringer()
 			.object()
-				.key("error")
-				.value("NO_DEFAULT")
+				.key("error").value("NO_DEFAULT")
 			.endObject()
 			.toString();
 	}
