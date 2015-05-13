@@ -1,6 +1,9 @@
 package uk.me.mantas.eternity;
 
+import org.apache.commons.io.FileUtils;
+
 import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -42,11 +45,36 @@ public class Environment {
 		this.workingDirectory = workingDirectory;
 	}
 
+	public void deleteWorkingDirectory () {
+		try {
+			FileUtils.deleteDirectory(getWorkingDirectory());
+		} catch (IOException e) {
+			System.err.printf(
+				"Unable to delete working directory at '%s': %s%n"
+				, getWorkingDirectory().getAbsolutePath()
+				, e.getMessage());
+		}
+	}
+
+	public void emptyWorkingDirectory () {
+		deleteWorkingDirectory();
+		createWorkingDirectory();
+	}
+
+	private void createWorkingDirectory () {
+		if (!getWorkingDirectory().mkdir()) {
+			System.err.printf(
+				"Unable to create working directory in '%s'.%n"
+				, getWorkingDirectory().getAbsolutePath());
+		}
+	}
+
 	public enum EnvKey {
 		USERPROFILE
 	}
 
 	private Environment () {
+		createWorkingDirectory();
 		mapEnvironmentVariables();
 	}
 
