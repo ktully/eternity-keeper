@@ -96,9 +96,6 @@ button#searchForSavedGames {
 	transition: background-color .2s;
 }
 
-.ellipsis {
+#searchForSavedGames i {
 	display: none;
-	height: 16px;
-	width: 16px;
-	background: transparent url('../img/ellipsis.gif') center center no-repeat;
 }

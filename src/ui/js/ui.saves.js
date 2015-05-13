@@ -7,7 +7,7 @@ var SavesManager = function () {
 		$('#searchForSavedGames')
 		.prop('disabled', true)
 		.text('Searching')
-		.find('.ellipsis')
+		.find('i')
 			.show();
 	};
 
@@ -16,7 +16,7 @@ var SavesManager = function () {
 		$('#searchForSavedGames')
 		.prop('disabled', false)
 		.text('Search')
-		.find('.ellipsis')
+		.find('i')
 			.hide();
 	};
 
