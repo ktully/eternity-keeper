@@ -4,10 +4,25 @@ import net.lingala.zip4j.core.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.Optional;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class SaveGameExtractor {
+
+	private static final String[] REQUIRED_FILES = {
+		"0.png"
+		, "screenshot.png"
+		, "saveinfo.xml"
+	};
+
+	private static final String[] OPTIONAL_FILES = {
+		"1.png"
+		, "2.png"
+		, "3.png"
+		, "4.png"
+		, "5.png"
+	};
 
 	private String savesLocation;
 	private File workingDirectory;
@@ -54,13 +69,21 @@ public class SaveGameExtractor {
 			return null;
 		}
 
-		Optional<File> saveInfoXML = Arrays.stream(contents)
-			.filter(f -> f.getName().equals("saveinfo.xml"))
-			.findFirst();
+		Set<String> requiredFiles =
+			new HashSet<>(Arrays.asList(REQUIRED_FILES));
 
-		if (!saveInfoXML.isPresent()) {
+		Set<String> optionalFiles =
+			new HashSet<>(Arrays.asList(OPTIONAL_FILES));
+
+		Map<String, File> importantFiles = Arrays.stream(contents)
+			.filter(f ->
+				requiredFiles.contains(f.getName())
+				|| optionalFiles.contains(f.getName()))
+			.collect(Collectors.toMap(File::getName, Function.identity()));
+
+		if (!importantFiles.keySet().containsAll(requiredFiles)) {
 			System.err.printf(
-				"No saveinfo.xml present in extracted save game '%s'.%n"
+				"All required files not present in extracted save game '%s'.%n"
 				, saveFolder.getAbsolutePath());
 
 			return null;
