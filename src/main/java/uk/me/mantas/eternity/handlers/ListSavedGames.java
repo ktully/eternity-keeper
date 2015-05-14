@@ -72,6 +72,7 @@ public class ListSavedGames extends CefMessageRouterHandlerAdapter {
 			saveInfo -> new JSONObject()
 				.put("guid", saveInfo.guid)
 				.put("systemName", saveInfo.systemName)
+				.put("absolutePath", saveInfo.absolutePath)
 				.put("playerName", saveInfo.playerName)
 				.put("sceneTitle", saveInfo.sceneTitle)
 				.put("chapter", saveInfo.chapter)

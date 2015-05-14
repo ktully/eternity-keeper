@@ -34,6 +34,7 @@ public class SaveGameInfo {
 
 	public String guid;
 	public String systemName;
+	public String absolutePath;
 	public String playerName;
 	public String sceneTitle;
 	public int chapter;
@@ -47,6 +48,8 @@ public class SaveGameInfo {
 
 	public SaveGameInfo (File saveFolder, Map<String, File> infoFiles)
 		throws SaveFileInfoException {
+
+		absolutePath = saveFolder.getAbsolutePath();
 
 		try {
 			extractGUIDAndSystemName(saveFolder);
