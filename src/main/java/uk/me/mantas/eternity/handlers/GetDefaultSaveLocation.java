@@ -18,7 +18,7 @@ public class GetDefaultSaveLocation extends CefMessageRouterHandlerAdapter {
 		CefBrowser browser
 		, long id
 		, String request
-		, boolean peristent
+		, boolean persistant
 		, CefQueryCallback callback) {
 
 		Optional<String> userProfile =
