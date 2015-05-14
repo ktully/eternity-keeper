@@ -15,7 +15,6 @@ public class SaveGameExtractor {
 	private File workingDirectory;
 
 	public SaveGameExtractor (String savesLocation, File workingDirectory) {
-
 		this.savesLocation = savesLocation;
 		this.workingDirectory = workingDirectory;
 	}
@@ -46,7 +45,7 @@ public class SaveGameExtractor {
 				"Unzip resulted in 0 files for '%s'.%n"
 				, saveFolder.getAbsolutePath());
 
-			return null;
+			return Optional.empty();
 		}
 
 		Set<String> requiredFiles =
@@ -66,7 +65,7 @@ public class SaveGameExtractor {
 				"All required files not present in extracted save game '%s'.%n"
 				, saveFolder.getAbsolutePath());
 
-			return null;
+			return Optional.empty();
 		}
 
 		try {
@@ -84,7 +83,7 @@ public class SaveGameExtractor {
 		}
 
 		File[] saves = savesDirectory.listFiles();
-		if (saves == null || saves.length < 1) {
+		if (saves == null) {
 			return Optional.empty();
 		}
 

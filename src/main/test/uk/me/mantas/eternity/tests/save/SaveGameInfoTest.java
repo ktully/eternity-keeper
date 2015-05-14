@@ -1,23 +1,30 @@
 package uk.me.mantas.eternity.tests.save;
 
+import org.apache.commons.io.FileUtils;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.junit.Test;
 import uk.me.mantas.eternity.save.SaveGameInfo;
 import uk.me.mantas.eternity.tests.TestHarness;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.Base64;
 import java.util.Map;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static uk.me.mantas.eternity.save.SaveGameInfo.SaveFileInfoException;
 
+@SuppressWarnings("unchecked")
 public class SaveGameInfoTest extends TestHarness {
-	protected String PREFIX = "EK-SGI-";
+	private static final String PNG_FILE = "/png";
 	private static final String SAVEINFO_XML = "/SaveGameInfoTest.saveinfo.xml";
+	private static final String SAVEINFO_XML_MALFORMED =
+		"/SaveGameInfoTest.saveinfo.malformed.xml";
 
-	@SuppressWarnings("unchecked")
 	@Test
 	public void malformedSaveFolderName () {
 		File mockSaveFolder = mock(File.class);
@@ -33,7 +40,6 @@ public class SaveGameInfoTest extends TestHarness {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Test
 	public void saveInfoXMLDoesNotExist () {
 		File mockSaveFolder = getMockSaveFolder();
@@ -48,14 +54,13 @@ public class SaveGameInfoTest extends TestHarness {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Test
 	public void saveInfoXMLMalformed () throws URISyntaxException {
 		File mockSaveFolder = getMockSaveFolder();
 		Map mockInfoFiles = mock(Map.class);
 
 		File saveinfoXMLTest = new File(
-			this.getClass().getResource(SAVEINFO_XML).toURI());
+			this.getClass().getResource(SAVEINFO_XML_MALFORMED).toURI());
 
 		when(mockInfoFiles.get("saveinfo.xml")).thenReturn(saveinfoXMLTest);
 
@@ -64,6 +69,64 @@ public class SaveGameInfoTest extends TestHarness {
 		} catch (SaveFileInfoException e) {
 			assertNotNull(e);
 		}
+	}
+
+
+	@Test
+	public void imageFilesNotExist () throws URISyntaxException {
+		File mockSaveFolder = getMockSaveFolder();
+		Map mockInfoFiles = mock(Map.class);
+
+		File saveinfoXML = new File(
+			this.getClass().getResource(SAVEINFO_XML).toURI());
+
+		when(mockInfoFiles.get("saveinfo.xml")).thenReturn(saveinfoXML);
+		when(mockInfoFiles.get("screenshot.png")).thenReturn(new File("404"));
+
+		try {
+			new SaveGameInfo(mockSaveFolder, mockInfoFiles);
+		} catch (SaveFileInfoException e) {
+			assertNotNull(e);
+		}
+	}
+
+	@Test
+	public void parsesSaveInfoSuccessfully ()
+		throws URISyntaxException, SaveFileInfoException, IOException {
+
+		File mockSaveFolder = getMockSaveFolder();
+		Map mockInfoFiles = mock(Map.class);
+
+		String pngData = getPNGData();
+		File png = new File(this.getClass().getResource(PNG_FILE).toURI());
+		File saveinfoXML = new File(
+			this.getClass().getResource(SAVEINFO_XML).toURI());
+
+		when(mockInfoFiles.get("saveinfo.xml")).thenReturn(saveinfoXML);
+		when(mockInfoFiles.get("screenshot.png")).thenReturn(png);
+		when(mockInfoFiles.get("0.png")).thenReturn(png);
+		when(mockInfoFiles.get("1.png")).thenReturn(png);
+
+		SaveGameInfo info = new SaveGameInfo(mockSaveFolder, mockInfoFiles);
+
+		assertEquals("guid", info.guid);
+		assertEquals("systemname", info.systemName);
+		assertEquals("/path/to/guid systemname.savegame", info.absolutePath);
+		assertEquals("Elenor", info.playerName);
+		assertEquals("Encampment", info.sceneTitle);
+		assertEquals(1, info.chapter);
+		assertEquals(false, info.trialOfIron);
+		assertEquals("Start", info.userSaveName);
+		assertEquals("Hard", info.difficulty);
+		assertEquals(pngData, info.screenshot);
+
+		assertArrayEquals(
+			new String[]{pngData, pngData}
+			, info.portraits.toArray(new String[info.portraits.size()]));
+
+		assertEquals(
+			new DateTime(2015, 5, 10, 15, 44, 52, DateTimeZone.UTC)
+			, info.timestamp);
 	}
 
 	private File getMockSaveFolder () {
@@ -75,5 +138,11 @@ public class SaveGameInfoTest extends TestHarness {
 		when(mockSaveFolder.getName()).thenReturn("guid systemname.savegame");
 
 		return mockSaveFolder;
+	}
+
+	private String getPNGData () throws URISyntaxException, IOException {
+		return Base64.getEncoder().encodeToString(
+			FileUtils.readFileToByteArray(
+				new File(this.getClass().getResource(PNG_FILE).toURI())));
 	}
 }

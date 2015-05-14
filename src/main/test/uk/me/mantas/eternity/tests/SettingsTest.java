@@ -14,8 +14,6 @@ import java.util.Optional;
 import static org.junit.Assert.*;
 
 public class SettingsTest extends TestHarness {
-	protected String PREFIX = "EK-S-";
-
 	@Test
 	public void createsNewSettingsFileIfNotExists () throws IOException {
 		Optional<File> settingsLocation = EKUtils.createTempDir(PREFIX);

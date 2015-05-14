@@ -38,9 +38,10 @@ public class ListSavedGames extends CefMessageRouterHandlerAdapter {
 	@Override
 	public void onQueryCanceled (CefBrowser browser, long id) {
 		System.err.printf("Query #%d was cancelled.%n", id);
+		Environment.joinAllWorkers();
 	}
 
-	public class SaveInfoLister implements Runnable {
+	public static class SaveInfoLister implements Runnable {
 		private String savesLocation;
 		private CefQueryCallback callback;
 
@@ -67,7 +68,7 @@ public class ListSavedGames extends CefMessageRouterHandlerAdapter {
 		}
 	}
 
-	private String saveInfoToJSON (SaveGameInfo[] info) {
+	private static String saveInfoToJSON (SaveGameInfo[] info) {
 		JSONObject[] infoJSONObjects = Arrays.stream(info).map(
 			saveInfo -> new JSONObject()
 				.put("guid", saveInfo.guid)
@@ -87,7 +88,7 @@ public class ListSavedGames extends CefMessageRouterHandlerAdapter {
 		return new JSONArray(infoJSONObjects).toString();
 	}
 
-	private void notFound (CefQueryCallback callback) {
+	private static void notFound (CefQueryCallback callback) {
 		String json = new JSONStringer()
 			.object()
 				.key("error").value("NO_RESULTS")

@@ -17,8 +17,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 public class GetDefaultSaveLocationTest extends TestHarness {
-	protected String PREFIX = "EK-GDSL-";
-
 	private static final String NO_DEFAULT = "{\"error\":\"NO_DEFAULT\"}";
 
 	@Test
