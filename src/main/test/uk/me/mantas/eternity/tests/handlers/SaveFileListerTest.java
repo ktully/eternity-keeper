@@ -16,33 +16,33 @@ import static org.mockito.Mockito.verify;
 
 public class SaveFileListerTest extends TestHarness {
 	private final static String SAVES_JSON =
-		"[{\"date\":\"2015-05-10 15:44:52\",\"difficulty\":\"Hard\"" +
-		",\"chapter\":1,\"systemName\":\"systemname\",\"playerName\":\"Elenor\"" +
-		",\"portraits\":[" +
-			"\"iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAAAAAA6fptVAAAACklEQVQI12P4Dw" +
-			"ABAQEAG7buVgAAAABJRU5ErkJggg==\",\"iVBORw0KGgoAAAANSUhEUgAAAAEAA" +
-			"AABCAAAAAA6fptVAAAACklEQVQI12P4DwABAQEAG7buVgAAAABJRU5ErkJggg==\"" +
-			",\"iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAAAAAA6fptVAAAACklEQVQI12P4D" +
-			"wABAQEAG7buVgAAAABJRU5ErkJggg==\",\"iVBORw0KGgoAAAANSUhEUgAAAAEA" +
-			"AAABCAAAAAA6fptVAAAACklEQVQI12P4DwABAQEAG7buVgAAAABJRU5ErkJggg==\"" +
-			",\"iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAAAAAA6fptVAAAACklEQVQI12P4D" +
-			"wABAQEAG7buVgAAAABJRU5ErkJggg==\",\"iVBORw0KGgoAAAANSUhEUgAAAAEA" +
-			"AAABCAAAAAA6fptVAAAACklEQVQI12P4DwABAQEAG7buVgAAAABJRU5ErkJggg==\"]" +
-		",\"guid\":\"guid\",\"absolutePath\":\"%s\"" +
-		",\"screenshot\":\"iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAAAAAA6fptVAAAACk" +
-			"lEQVQI12P4DwABAQEAG7buVgAAAABJRU5ErkJggg==\"" +
-		",\"trialOfIron\":false,\"userSaveName\":\"Start\"" +
-		",\"sceneTitle\":\"Encampment\"}" +
-		",{\"date\":\"2015-05-10 15:44:52\",\"difficulty\":\"Hard\"" +
-		",\"chapter\":1,\"systemName\":\"systemname\",\"playerName\":\"Elenor\"" +
-		",\"portraits\":[" +
-			"\"iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAAAAAA6fptVAAAACklEQVQI12P4Dw" +
-			"ABAQEAG7buVgAAAABJRU5ErkJggg==\"]" +
-		",\"guid\":\"guid2\",\"absolutePath\":\"%s\"" +
-		",\"screenshot\":\"iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAAAAAA6fptVAAAACk" +
-			"lEQVQI12P4DwABAQEAG7buVgAAAABJRU5ErkJggg==\"" +
-		",\"trialOfIron\":false,\"userSaveName\":\"Start\"" +
-		",\"sceneTitle\":\"Encampment\"}]";
+		"[{\"date\":\"2015-05-10 15:44:52\",\"difficulty\":\"Hard\""
+		+ ",\"chapter\":1,\"systemName\":\"systemname\",\"playerName\":\"Elenor\""
+		+ ",\"portraits\":["
+			+ "\"iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAAAAAA6fptVAAAACklEQVQI12P4Dw"
+			+ "ABAQEAG7buVgAAAABJRU5ErkJggg==\",\"iVBORw0KGgoAAAANSUhEUgAAAAEAA"
+			+ "AABCAAAAAA6fptVAAAACklEQVQI12P4DwABAQEAG7buVgAAAABJRU5ErkJggg==\""
+			+ ",\"iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAAAAAA6fptVAAAACklEQVQI12P4D"
+			+ "wABAQEAG7buVgAAAABJRU5ErkJggg==\",\"iVBORw0KGgoAAAANSUhEUgAAAAEA"
+			+ "AAABCAAAAAA6fptVAAAACklEQVQI12P4DwABAQEAG7buVgAAAABJRU5ErkJggg==\""
+			+ ",\"iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAAAAAA6fptVAAAACklEQVQI12P4D"
+			+ "wABAQEAG7buVgAAAABJRU5ErkJggg==\",\"iVBORw0KGgoAAAANSUhEUgAAAAEA"
+			+ "AAABCAAAAAA6fptVAAAACklEQVQI12P4DwABAQEAG7buVgAAAABJRU5ErkJggg==\"]"
+		+ ",\"guid\":\"guid\",\"absolutePath\":\"%s\""
+		+ ",\"screenshot\":\"iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAAAAAA6fptVAAAACk"
+			+ "lEQVQI12P4DwABAQEAG7buVgAAAABJRU5ErkJggg==\""
+		+ ",\"trialOfIron\":false,\"userSaveName\":\"Start\""
+		+ ",\"sceneTitle\":\"Encampment\"}"
+		+ ",{\"date\":\"2015-05-10 15:44:52\",\"difficulty\":\"Hard\""
+		+ ",\"chapter\":1,\"systemName\":\"systemname\",\"playerName\":\"Elenor\""
+		+ ",\"portraits\":["
+			+ "\"iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAAAAAA6fptVAAAACklEQVQI12P4Dw"
+			+ "ABAQEAG7buVgAAAABJRU5ErkJggg==\"]"
+		+ ",\"guid\":\"guid2\",\"absolutePath\":\"%s\""
+		+ ",\"screenshot\":\"iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAAAAAA6fptVAAAACk"
+			+ "lEQVQI12P4DwABAQEAG7buVgAAAABJRU5ErkJggg==\""
+		+ ",\"trialOfIron\":false,\"userSaveName\":\"Start\""
+		+ ",\"sceneTitle\":\"Encampment\"}]";
 
 	@Test
 	public void noSaveFilesFound () throws IOException {
