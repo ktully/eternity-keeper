@@ -361,6 +361,10 @@ public class Deserializer {
 
 	private Object readValueCore (Class expectedType) throws IOException {
 		try {
+			if (expectedType.getSimpleName().equals("Byte[]")) {
+				return readByteArray();
+			}
+
 			if (expectedType.getSimpleName().equals("int")) {
 				return stream.readInt();
 			}
@@ -428,6 +432,27 @@ public class Deserializer {
 		}
 
 		return null;
+	}
+
+	private Byte[] readByteArray () throws IOException {
+		int length = readNumber();
+		if (length < 1) {
+			return null;
+		}
+
+		byte[] buffer = new byte[length];
+		stream.readFully(buffer);
+
+		return boxBytes(buffer);
+	}
+
+	private Byte[] boxBytes (byte[] in) {
+		Byte[] out = new Byte[in.length];
+		for (int i = 0; i < in.length; i++) {
+			out[i] = in[i];
+		}
+
+		return out;
 	}
 
 	private Object readEnumeration (Class type) throws IOException {
