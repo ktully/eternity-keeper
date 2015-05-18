@@ -4,12 +4,10 @@ package uk.me.mantas.eternity.serializer;
 // Pillars of Eternity to serialize game objects into saves.
 
 import com.google.common.io.LittleEndianDataInputStream;
+import com.google.common.io.LittleEndianDataOutputStream;
 import uk.me.mantas.eternity.serializer.properties.*;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -20,6 +18,8 @@ import static java.util.Map.Entry;
 
 public class SharpSerializer {
 	public static final Map<String, Class> typeMap = TypeMap.map;
+	public static final Map<Class, String> stringMap = TypeMap.reverseMap;
+
 	private Map<Integer, Object> objectCache = new HashMap<>();
 
 	public static class Elements {
@@ -64,6 +64,7 @@ public class SharpSerializer {
 
 				baseStream.getChannel().position(position);
 				Deserializer deserializer = new Deserializer(stream);
+
 				Property property = deserializer.deserialize();
 				position = baseStream.getChannel().position();
 
@@ -77,6 +78,25 @@ public class SharpSerializer {
 		}
 
 		return Optional.empty();
+	}
+
+	public void serialize (Object obj) {
+		try {
+			FileOutputStream baseStream = new FileOutputStream(targetFile);
+			try (LittleEndianDataOutputStream stream =
+				new LittleEndianDataOutputStream(baseStream)) {
+
+				baseStream.getChannel()
+					.position(baseStream.getChannel().size());
+				Serializer serializer = new Serializer(stream);
+				serializer.serialize(obj);
+			}
+		} catch (IOException e) {
+			System.err.printf(
+				"Error opening target file '%s' for serializing: %s%n"
+				, targetFile
+				, e.getMessage());
+		}
 	}
 
 	private Object createObject (Property property) {

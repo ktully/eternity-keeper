@@ -6,6 +6,7 @@ import uk.me.mantas.eternity.game.*;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.UUID;
 
 public class TypeMap {
@@ -103,4 +104,12 @@ public class TypeMap {
 				"QuestManager+QuestTimestamps"
 				, QuestManager.QuestTimestamps.class);
 		}};
+
+	public static final Map<Class, String> reverseMap = new HashMap<>();
+
+	static {
+		for (Entry<String, Class> item : map.entrySet()) {
+			reverseMap.put(item.getValue(), item.getKey());
+		}
+	}
 }

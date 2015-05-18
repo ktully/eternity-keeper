@@ -22,19 +22,19 @@ public class DeserializerTest {
 			new File(
 				this.getClass().getResource("/MobileObjects.save").toURI());
 
-		SharpSerializer serializer =
+		SharpSerializer deserializer =
 			new SharpSerializer(saveFile.getAbsolutePath());
 
 		List<Object> deserialized = new ArrayList<>();
 
-		Optional<Object> objectCount = serializer.deserialize();
+		Optional<Object> objectCount = deserializer.deserialize();
 		assertTrue(objectCount.isPresent());
 
 		int count = (int) objectCount.get();
 		assertEquals(17, count);
 
 		for (int i = 0; i < count; i++) {
-			Optional<Object> obj = serializer.deserialize();
+			Optional<Object> obj = deserializer.deserialize();
 			assertTrue(obj.isPresent());
 			deserialized.add(obj.get());
 		}
