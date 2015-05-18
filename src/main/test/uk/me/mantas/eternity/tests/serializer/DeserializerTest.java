@@ -38,5 +38,7 @@ public class DeserializerTest {
 			assertTrue(obj.isPresent());
 			deserialized.add(obj.get());
 		}
+
+		assertEquals(17, deserialized.size());
 	}
 }

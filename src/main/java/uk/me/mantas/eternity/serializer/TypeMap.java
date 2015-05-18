@@ -1,6 +1,5 @@
 package uk.me.mantas.eternity.serializer;
 
-import com.google.common.collect.TreeMultiset;
 import com.google.common.primitives.UnsignedInteger;
 import uk.me.mantas.eternity.game.*;
 
@@ -28,7 +27,7 @@ public class TypeMap {
 			put("System.Collections.Generic.List", CSharpCollection.class);
 			put("System.Collections.Generic.Dictionary", HashMap.class);
 			put("System.Collections.Hashtable", Hashtable.class);
-			put("System.Collections.Generic.SortedList", TreeMultiset.class);
+			put("System.Collections.Generic.SortedList", SortedList.class);
 
 			put("UnityEngine.Color", UnityEngine.Colour.class);
 			put("UnityEngine.Vector2", UnityEngine.Vector2.class);
@@ -56,6 +55,7 @@ public class TypeMap {
 			put("Disposition", Disposition.class);
 			put("NotesPage", NotesPage.class);
 			put("Item", Item.class);
+			put("GameDifficulty", GameDifficulty.class);
 
 			put("StrongholdEvent", StrongholdEvent.class);
 			put("StrongholdAdventure", StrongholdAdventure.class);

@@ -1,6 +1,7 @@
 package uk.me.mantas.eternity.serializer;
 
 import com.google.common.primitives.Shorts;
+import com.google.common.primitives.UnsignedInteger;
 import uk.me.mantas.eternity.serializer.properties.*;
 
 import java.io.DataInput;
@@ -366,7 +367,8 @@ public class Deserializer {
 			}
 
 			if (expectedType.getSimpleName().equals("UnsignedInteger")) {
-				return (long) stream.readInt() & 0xffff;
+				return UnsignedInteger.valueOf(
+					(long) stream.readInt() & 0xffff);
 			}
 
 			if (expectedType.getSimpleName().equals("String")) {
@@ -456,11 +458,24 @@ public class Deserializer {
 	private Object readEnumeration (Class type) throws IOException {
 		int value = stream.readInt();
 		try {
-			return type.getEnumConstants()[value];
+			Object[] constants = type.getEnumConstants();
+			try {
+				for (Object constant : constants) {
+					Field n = constant.getClass().getField("n");
+					int enumVal = n.getInt(constant);
+					if (enumVal == value) {
+						return constant;
+					}
+				}
+
+				return constants[value];
+			} catch (NoSuchFieldException | IllegalAccessException e) {
+				return constants[value];
+			}
 		} catch (ArrayIndexOutOfBoundsException e) {
 			System.err.printf(
 				"Tried to get enum value index #%d that "
-				+ "didn't exist for enum %s.%n"
+					+ "didn't exist for enum %s.%n"
 				, value
 				, type.getSimpleName());
 		}
@@ -482,6 +497,7 @@ public class Deserializer {
 				return new ComplexProperty(propertyName, propertyType);
 
 			case Elements.SingleArray:
+			case Elements.SingleArrayWithID:
 				return new SingleDimensionalArrayProperty(
 					propertyName
 					, propertyType);
