@@ -361,10 +361,6 @@ public class Deserializer {
 
 	private Object readValueCore (Class expectedType) throws IOException {
 		try {
-			if (expectedType.getSimpleName().equals("Byte[]")) {
-				return readByteArray();
-			}
-
 			if (expectedType.getSimpleName().equals("int")) {
 				return stream.readInt();
 			}
@@ -379,6 +375,18 @@ public class Deserializer {
 
 			if (expectedType.getSimpleName().equals("boolean")) {
 				return stream.readBoolean();
+			}
+
+			if (expectedType.getSimpleName().equals("Byte[]")) {
+				int length = readNumber();
+				if (length < 1) {
+					return null;
+				}
+
+				byte[] buffer = new byte[length];
+				stream.readFully(buffer);
+
+				return boxBytes(buffer);
 			}
 
 			if (expectedType.getSimpleName().equals("UUID")) {
@@ -434,18 +442,6 @@ public class Deserializer {
 		}
 
 		return null;
-	}
-
-	private Byte[] readByteArray () throws IOException {
-		int length = readNumber();
-		if (length < 1) {
-			return null;
-		}
-
-		byte[] buffer = new byte[length];
-		stream.readFully(buffer);
-
-		return boxBytes(buffer);
 	}
 
 	private Byte[] boxBytes (byte[] in) {
