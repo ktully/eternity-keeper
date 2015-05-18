@@ -423,7 +423,9 @@ public class Deserializer {
 
 			if (javaType == null) {
 				System.err.printf(
-					"No mapping found for type '%s'!%n", typeName);
+					"No mapping found for type '%s', expected type was '%s'.%n"
+					, typeName
+					, expectedType.getSimpleName());
 			}
 
 			return javaType;
