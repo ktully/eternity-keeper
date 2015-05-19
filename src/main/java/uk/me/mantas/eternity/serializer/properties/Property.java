@@ -1,11 +1,13 @@
 package uk.me.mantas.eternity.serializer.properties;
 
+import uk.me.mantas.eternity.serializer.TypePair;
+
 public abstract class Property {
 	public String name;
-	public Class type;
+	public TypePair type;
 	public Property parent;
 
-	Property (String name, Class type) {
+	Property (String name, TypePair type) {
 		this.name = name;
 		this.type = type;
 	}
@@ -15,7 +17,7 @@ public abstract class Property {
 	public static Property createInstance (
 		PropertyArt art
 		, String propertyName
-		, Class propertyType) {
+		, TypePair propertyType) {
 
 		switch (art) {
 			case Collection:

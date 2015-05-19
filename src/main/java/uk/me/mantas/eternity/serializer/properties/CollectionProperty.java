@@ -1,13 +1,15 @@
 package uk.me.mantas.eternity.serializer.properties;
 
+import uk.me.mantas.eternity.serializer.TypePair;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class CollectionProperty extends ComplexProperty {
 	public List<Property> items = new ArrayList<>();
-	public Class elementType;
+	public TypePair elementType;
 
-	public CollectionProperty (String name, Class type) {
+	public CollectionProperty (String name, TypePair type) {
 		super(name, type);
 	}
 

@@ -40,8 +40,9 @@ public class SerializerTest {
 		File saveOutputFile = Files.createTempFile(null, null).toFile();
 
 		try {
-			SharpSerializer serializer =
-				new SharpSerializer(saveOutputFile.getAbsolutePath());
+			SharpSerializer serializer = new SharpSerializer(
+				saveOutputFile.getAbsolutePath()
+				, deserializer.instanceMap);
 
 			serializer.serialize(deserialized.size());
 			for (Object obj : deserialized) {

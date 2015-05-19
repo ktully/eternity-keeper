@@ -19,6 +19,7 @@ import static java.util.Map.Entry;
 public class SharpSerializer {
 	public static final Map<String, Class> typeMap = TypeMap.map;
 	public static final Map<Class, String> stringMap = TypeMap.reverseMap;
+	public Map<Object, String> instanceMap;
 
 	private Map<Integer, Object> objectCache = new HashMap<>();
 
@@ -50,9 +51,24 @@ public class SharpSerializer {
 	private long position = 0;
 
 	public SharpSerializer (String filePath) throws FileNotFoundException {
+		this(filePath, new HashMap<>());
+	}
+
+	public SharpSerializer (
+		String filePath
+		, Map<Object, String> instanceMap)
+		throws FileNotFoundException {
+
+		this.instanceMap = instanceMap;
 		targetFile = new File(filePath);
 		if (!targetFile.exists()) {
 			throw new FileNotFoundException();
+		}
+	}
+
+	private void saveInstance (Object instance, String cSharpType) {
+		if (cSharpType != null) {
+			instanceMap.put(instance, cSharpType);
 		}
 	}
 
@@ -175,7 +191,7 @@ public class SharpSerializer {
 	private Object createObjectFromCollectionProperty (
 		CollectionProperty property) {
 
-		Class type = property.type;
+		Class type = property.type.type;
 		Object collection = createInstance(type);
 
 		if (property.reference != null) {
@@ -204,13 +220,14 @@ public class SharpSerializer {
 				, e.getMessage());
 		}
 
+		saveInstance(collection, property.type.cSharpType);
 		return collection;
 	}
 
 	private Object createObjectFromDictionaryProperty (
 		DictionaryProperty property) {
 
-		Object dictionary = createInstance(property.type);
+		Object dictionary = createInstance(property.type.type);
 
 		if (property.reference != null) {
 			objectCache.put(property.reference.id, dictionary);
@@ -240,6 +257,7 @@ public class SharpSerializer {
 				, e.getMessage());
 		}
 
+		saveInstance(dictionary, property.type.cSharpType);
 		return dictionary;
 	}
 
@@ -264,11 +282,15 @@ public class SharpSerializer {
 			}
 		}
 
-		return Arrays.copyOf(array, array.length, property.type);
+		Object[] typedArray =
+			Arrays.copyOf(array, array.length, property.type.type);
+
+		saveInstance(typedArray, property.type.cSharpType);
+		return typedArray;
 	}
 
 	private Object createObjectFromComplexProperty (ComplexProperty property) {
-		Object obj = createInstance(property.type);
+		Object obj = createInstance(property.type.type);
 		if (obj == null) {
 			return null;
 		}
@@ -278,6 +300,7 @@ public class SharpSerializer {
 		}
 
 		fillProperties(obj, property.properties);
+		saveInstance(obj, property.type.cSharpType);
 		return obj;
 	}
 

@@ -21,7 +21,7 @@ import static uk.me.mantas.eternity.serializer.SharpSerializer.typeMap;
 public class Deserializer {
 	private final DataInput stream;
 	private final List<String> names = new ArrayList<>();
-	private final List<Class> types = new ArrayList<>();
+	private final List<TypePair> types = new ArrayList<>();
 
 	private Map<Integer, ReferenceTargetProperty> propertyCache =
 		new HashMap<>();
@@ -39,7 +39,7 @@ public class Deserializer {
 		}
 	}
 
-	private static Class convertToType (String s) {
+	private static TypePair convertToType (String s) {
 		if (s == null) {
 			return null;
 		}
@@ -77,10 +77,10 @@ public class Deserializer {
 				"Unable to find class corresponding to key '%s'.%n"
 				, key);
 
-			return Object.class;
+			return new TypePair(Object.class, s);
 		}
 
-		return value;
+		return new TypePair(value, s);
 	}
 
 	private <T> void readHeader (
@@ -155,7 +155,7 @@ public class Deserializer {
 		return deserialize(elementID, null);
 	}
 
-	private Property deserialize (byte elementID, Class expectedType)
+	private Property deserialize (byte elementID, TypePair expectedType)
 		throws IOException {
 
 		String propertyName = readName();
@@ -165,9 +165,9 @@ public class Deserializer {
 	private Property deserialize (
 		byte elementID
 		, String propertyName
-		, Class expectedType) throws IOException {
+		, TypePair expectedType) throws IOException {
 
-		Class propertyType = readType();
+		TypePair propertyType = readType();
 		if (propertyType == null) {
 			propertyType = expectedType;
 		}
@@ -242,7 +242,7 @@ public class Deserializer {
 		throws IOException {
 
 		property.elementType = readType();
-		readProperties(property.properties, property.type);
+		readProperties(property.properties, property.type.type);
 		readItems(property.items, property.elementType);
 	}
 
@@ -251,7 +251,7 @@ public class Deserializer {
 
 		property.keyType = readType();
 		property.valueType = readType();
-		readProperties(property.properties, property.type);
+		readProperties(property.properties, property.type.type);
 		readDictionaryItems(
 			property.items
 			, property.keyType
@@ -260,8 +260,8 @@ public class Deserializer {
 
 	private void readDictionaryItems (
 		List<Entry<Property, Property>> items
-		, Class keyType
-		, Class valueType)
+		, TypePair keyType
+		, TypePair valueType)
 		throws IOException {
 
 		int count = readNumber();
@@ -272,8 +272,8 @@ public class Deserializer {
 
 	private void readDictionaryItem (
 		List<Entry<Property, Property>> items
-		, Class keyType
-		, Class valueType)
+		, TypePair keyType
+		, TypePair valueType)
 		throws IOException {
 
 		// Key
@@ -298,7 +298,7 @@ public class Deserializer {
 		readItems(property.items, property.elementType);
 	}
 
-	private void readItems (List items, Class elementType) throws IOException {
+	private void readItems (List items, TypePair elementType) throws IOException {
 		int count = readNumber();
 		for (int i = 0; i < count; i++) {
 			byte elementID = stream.readByte();
@@ -312,7 +312,7 @@ public class Deserializer {
 	private void parseComplexProperty (ComplexProperty property)
 		throws IOException {
 
-		readProperties(property.properties, property.type);
+		readProperties(property.properties, property.type.type);
 	}
 
 	private void readProperties (List properties, Class ownerType)
@@ -339,7 +339,7 @@ public class Deserializer {
 			Object subProperty = deserialize(
 				elementID
 				, propertyName
-				, propertyType);
+				, new TypePair(propertyType, null));
 
 			//noinspection unchecked
 			properties.add(subProperty);
@@ -349,7 +349,7 @@ public class Deserializer {
 	private void parseSimpleProperty (SimpleProperty property)
 		throws IOException {
 
-		property.value = readValue(property.type);
+		property.value = readValue(property.type.type);
 	}
 
 	private Object readValue (Class expectedType) throws IOException {
@@ -486,7 +486,7 @@ public class Deserializer {
 	private Property createProperty (
 		byte elementID
 		, String propertyName
-		, Class propertyType) {
+		, TypePair propertyType) {
 
 		switch (elementID) {
 			case Elements.SimpleObject:
@@ -521,7 +521,7 @@ public class Deserializer {
 	private Property createProperty (
 		int referenceID
 		, String propertyName
-		, Class propertyType) {
+		, TypePair propertyType) {
 
 		ReferenceTargetProperty cachedProperty = propertyCache.get(referenceID);
 
@@ -549,7 +549,7 @@ public class Deserializer {
 		return property;
 	}
 
-	private Class readType () throws IOException {
+	private TypePair readType () throws IOException {
 		int index = readNumber();
 		return types.get(index);
 	}

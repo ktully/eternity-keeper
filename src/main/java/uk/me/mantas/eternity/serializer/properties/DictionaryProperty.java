@@ -1,16 +1,18 @@
 package uk.me.mantas.eternity.serializer.properties;
 
+import uk.me.mantas.eternity.serializer.TypePair;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.Map.Entry;
 
 public class DictionaryProperty extends ComplexProperty {
-	public Class keyType;
-	public Class valueType;
+	public TypePair keyType;
+	public TypePair valueType;
 	public List<Entry<Property, Property>> items = new ArrayList<>();
 
-	public DictionaryProperty (String name, Class type) {
+	public DictionaryProperty (String name, TypePair type) {
 		super(name, type);
 	}
 

@@ -1,12 +1,14 @@
 package uk.me.mantas.eternity.serializer.properties;
 
+import uk.me.mantas.eternity.serializer.TypePair;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class ComplexProperty extends ReferenceTargetProperty {
 	public List properties = new ArrayList<>();
 
-	public ComplexProperty (String name, Class type) {
+	public ComplexProperty (String name, TypePair type) {
 		super(name, type);
 	}
 

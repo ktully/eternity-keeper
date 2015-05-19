@@ -1,14 +1,16 @@
 package uk.me.mantas.eternity.serializer.properties;
 
+import uk.me.mantas.eternity.serializer.TypePair;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class SingleDimensionalArrayProperty extends ReferenceTargetProperty {
-	public Class elementType;
+	public TypePair elementType;
 	public int lowerBound;
 	public List items = new ArrayList<>();
 
-	public SingleDimensionalArrayProperty (String name, Class type) {
+	public SingleDimensionalArrayProperty (String name, TypePair type) {
 		super(name, type);
 	}
 
