@@ -1,6 +1,7 @@
 package uk.me.mantas.eternity.serializer;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class CSharpCollection {
@@ -10,5 +11,9 @@ public class CSharpCollection {
 	@SuppressWarnings("unchecked")
 	public void add (Object item) {
 		backing.add(item);
+	}
+
+	public Iterator iterator () {
+		return backing.iterator();
 	}
 }

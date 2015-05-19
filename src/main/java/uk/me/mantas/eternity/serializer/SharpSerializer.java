@@ -104,7 +104,7 @@ public class SharpSerializer {
 
 				baseStream.getChannel()
 					.position(baseStream.getChannel().size());
-				Serializer serializer = new Serializer(stream);
+				Serializer serializer = new Serializer(stream, instanceMap);
 				serializer.serialize(obj);
 			}
 		} catch (IOException e) {
