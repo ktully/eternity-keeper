@@ -2,6 +2,10 @@ package uk.me.mantas.eternity.serializer;
 
 import com.google.common.primitives.UnsignedInteger;
 import uk.me.mantas.eternity.serializer.properties.*;
+import uk.me.mantas.eternity.serializer.write.ByteWriteCommand;
+import uk.me.mantas.eternity.serializer.write.NumberWriteCommand;
+import uk.me.mantas.eternity.serializer.write.ValueWriteCommand;
+import uk.me.mantas.eternity.serializer.write.WriteCommand;
 
 import java.io.DataOutput;
 import java.lang.reflect.*;
@@ -9,9 +13,14 @@ import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.*;
 import java.util.Map.Entry;
 
+import static uk.me.mantas.eternity.serializer.SharpSerializer.Elements;
+
 public class Serializer {
 	private static final String rootName = "Root";
-	private final DataOutput stream;
+	private final List<WriteCommand> commandCache = new ArrayList<>();
+	private final IndexGenerator<Class> types = new IndexGenerator<>();
+	private final IndexGenerator<String> names = new IndexGenerator<>();
+	private final BinaryWriter stream;
 	private final Map<Object, String> instanceMap;
 	private final Map<Class, TypeInfo> typeInfoCache = new HashMap<>();
 	private final Map<Class, List<Field>> fieldCache = new HashMap<>();
@@ -21,7 +30,7 @@ public class Serializer {
 	private int currentReferenceID = 1;
 
 	public Serializer (DataOutput stream, Map<Object, String> instanceMap) {
-		this.stream = stream;
+		this.stream = new BinaryWriter(stream);
 		this.instanceMap = instanceMap;
 	}
 
@@ -32,7 +41,274 @@ public class Serializer {
 		}
 
 		Property property = createProperty(rootName, obj);
+		serializeCore(new PropertyTypeInfo(property, null));
 		System.out.printf("Done!%n");
+	}
+
+	private void serializeCore (PropertyTypeInfo property) {
+		if (property == null) {
+			throw new IllegalArgumentException(
+				"Cannot serialize null property!");
+		}
+
+		if (property.property instanceof NullProperty) {
+			serializeNullProperty(
+				new PropertyTypeInfo(
+					property.property
+					, property.expectedPropertyType
+					, property.valueType));
+
+			return;
+		}
+
+		if (property.expectedPropertyType != null
+			&& property.expectedPropertyType == property.valueType) {
+
+			property.valueType = null;
+		}
+
+		if (property.property instanceof SimpleProperty) {
+			serializeSimpleProperty(
+				new PropertyTypeInfo(
+					property.property
+					, property.expectedPropertyType
+					, property.valueType));
+
+			return;
+		}
+
+		if (!serializeReference((ReferenceTargetProperty) property.property)) {
+			serializeReferenceTarget(
+				new PropertyTypeInfo(
+					property.property
+					, property.expectedPropertyType
+					, property.valueType));
+
+			return;
+		}
+
+		throw new IllegalArgumentException("Unknown property!");
+	}
+
+	private void serializeSimpleProperty (PropertyTypeInfo property) {
+		writePropertyHeader(
+			Elements.SimpleObject
+			, property.name
+			, property.valueType);
+
+		writeValue(((SimpleProperty) property.property).value);
+	}
+
+	private void writeValue (Object value) {
+		commandCache.add(new ValueWriteCommand(value));
+	}
+
+	private void writePropertyHeader (
+		byte elementID
+		, String name
+		, Class valueType) {
+
+		writeElementID(elementID);
+		writeName(name);
+		writeType(valueType);
+	}
+
+	private void writeType (Class type) {
+		int index = types.getIndexOfItem(type);
+		commandCache.add(new NumberWriteCommand(index));
+	}
+
+	private void writeName (String name) {
+		int index = names.getIndexOfItem(name);
+		commandCache.add(new NumberWriteCommand(index));
+	}
+
+	private void writeElementID (byte elementID) {
+		commandCache.add(new ByteWriteCommand(elementID));
+	}
+
+	private void serializeNullProperty (PropertyTypeInfo property) {
+		writePropertyHeader(Elements.Null, property.name, property.valueType);
+	}
+
+	private void serializeReferenceTarget (PropertyTypeInfo property) {
+		// MultiDimensionalArrayProperty
+
+		((ReferenceTargetProperty) property.property)
+			.reference.isProcessed = true;
+
+		if (property.property instanceof SingleDimensionalArrayProperty) {
+			serializeSingleDimensionalArrayProperty(
+				new PropertyTypeInfo(
+					property.property
+					, property.expectedPropertyType
+					, property.valueType));
+
+			return;
+		}
+
+		if (property.property instanceof DictionaryProperty) {
+			serializeDictionaryProperty(
+				new PropertyTypeInfo(
+					property.property
+					, property.expectedPropertyType
+					, property.valueType));
+
+			return;
+		}
+
+		if (property.property instanceof CollectionProperty) {
+			serializeCollectionProperty(
+				new PropertyTypeInfo(
+					property.property
+					, property.expectedPropertyType
+					, property.valueType));
+
+			return;
+		}
+
+		serializeComplexProperty(
+			new PropertyTypeInfo(
+				property.property
+				, property.expectedPropertyType
+				, property.valueType));
+	}
+
+	private void serializeComplexProperty (PropertyTypeInfo property) {
+		if (!writePropertyHeaderWithReferenceID(
+			Elements.ComplexObjectWithID
+			, ((ReferenceTargetProperty) property.property).reference
+			, property.name
+			, property.valueType)) {
+
+			writePropertyHeader(
+				Elements.ComplexObject
+				, property.name
+				, property.valueType);
+		}
+
+		writeProperties(
+			((ComplexProperty) property.property).properties
+			, property.property.type);
+	}
+
+	@SuppressWarnings("unchecked")
+	private void writeProperties (List properties, TypePair type) {
+		writeNumber((short) properties.size());
+		for (Property property : (List<Property>) properties) {
+			try {
+				Field field = type.type.getField(property.name);
+				serializeCore(new PropertyTypeInfo(property, field.getType()));
+			} catch (NoSuchFieldException e) {
+				System.err.printf(
+					"Class '%s' has no field named '%s': %s%n"
+					, type.type.getSimpleName()
+					, property.name, e.getMessage());
+			}
+		}
+	}
+
+	private boolean writePropertyHeaderWithReferenceID (
+		byte elementID
+		, Reference reference
+		, String name
+		, Class valueType) {
+
+		if (reference.count < 2) {
+			return false;
+		}
+
+		writePropertyHeader(elementID, name, valueType);
+		writeNumber(reference.id);
+	}
+
+	private void writeNumber (int n) {
+		commandCache.add(new NumberWriteCommand(n));
+	}
+
+	private void serializeCollectionProperty (PropertyTypeInfo property) {
+		if (!writePropertyHeaderWithReferenceID(
+			Elements.CollectionWithID
+			, ((ReferenceTargetProperty) property.property).reference
+			, property.name
+			, property.valueType)) {
+
+			writePropertyHeader(
+				Elements.Collection
+				, property.name
+				, property.valueType);
+		}
+
+		CollectionProperty listProperty =
+			(CollectionProperty) property.property;
+
+		writeType(listProperty.elementType);
+		writeProperties(listProperty.properties, listProperty.type);
+		writeItems(listProperty.items, listProperty.elementType);
+	}
+
+	private void serializeDictionaryProperty (PropertyTypeInfo property) {
+		if (!writePropertyHeaderWithReferenceID(
+			Elements.DictionaryWithID
+			, ((ReferenceTargetProperty) property.property).reference
+			, property.name
+			, property.valueType)) {
+
+			writePropertyHeader(
+				Elements.Dictionary
+				, property.name
+				, property.valueType);
+		}
+
+		DictionaryProperty dictProperty =
+			(DictionaryProperty) property.property;
+
+		writeType(dictProperty.keyType);
+		writeType(dictProperty.valueType);
+		writeProperties(dictProperty.properties, dictProperty.type);
+		writeDictionaryItems(
+			dictProperty.items
+			, dictProperty.keyType
+			, dictProperty.valueType);
+	}
+
+	private void serializeSingleDimensionalArrayProperty (
+		PropertyTypeInfo property) {
+
+		if (!writePropertyHeaderWithReferenceID(
+			Elements.SingleArrayWithID
+			, ((ReferenceTargetProperty) property.property).reference
+			, property.name
+			, property.valueType)) {
+
+			writePropertyHeader(
+				Elements.SingleArray
+				, property.name
+				, property.valueType);
+		}
+
+		SingleDimensionalArrayProperty arrayProperty =
+			(SingleDimensionalArrayProperty) property.property;
+
+		writeType(arrayProperty.elementType);
+		writeNumber(arrayProperty.lowerBound);
+		writeItems(arrayProperty.items, arrayProperty.elementType);
+	}
+
+	private boolean serializeReference (ReferenceTargetProperty property) {
+		if (property.reference.count > 1) {
+			if (property.reference.isProcessed) {
+				writePropertyHeader(
+					Elements.Reference
+					, property.name
+					, null);
+
+				writeNumber(property.reference.id);
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	private Property createProperty (String name, Object value) {
