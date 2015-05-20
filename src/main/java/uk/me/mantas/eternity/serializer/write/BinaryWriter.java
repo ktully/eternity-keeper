@@ -1,7 +1,8 @@
-package uk.me.mantas.eternity.serializer;
+package uk.me.mantas.eternity.serializer.write;
 
 import com.google.common.primitives.Ints;
 import com.google.common.primitives.Longs;
+import uk.me.mantas.eternity.serializer.CSharpType;
 
 import java.io.DataOutput;
 import java.io.IOException;
@@ -110,14 +111,17 @@ public class BinaryWriter {
 				return;
 			} catch (NoSuchFieldException | IllegalAccessException ignored) {}
 
-			try {
-				Field ordinalField = cls.getField("ordinal");
-				ordinal = ordinalField.getInt(value);
-				out.writeInt(ordinal);
-			} catch (NoSuchFieldException | IllegalAccessException e) {
-				System.err.printf(
-					"Supposed enum object had no ordinal field!%n");
+			Object[] constants = cls.getEnumConstants();
+			for (int i = 0; i < constants.length; i++) {
+				if (value == constants[i]) {
+					out.writeInt(i);
+					return;
+				}
 			}
+
+			System.err.printf(
+				"Supposed enum value couldn't be "
+				+ "matched with any enum constants!%n");
 
 			return;
 		}
@@ -129,6 +133,15 @@ public class BinaryWriter {
 
 		if (value instanceof Class) {
 			System.err.printf("Trying to write Class type unimplemented!%n");
+		}
+	}
+
+	public void writeStringGuarded (String value) throws IOException {
+		if (value == null || value.equals("")) {
+			out.writeBoolean(false);
+		} else {
+			out.writeBoolean(true);
+			writeString(value);
 		}
 	}
 
@@ -195,5 +208,12 @@ public class BinaryWriter {
 		}
 
 		return out;
+	}
+
+	public void writeNumbers (int[] n) throws IOException {
+		writeNumber(n.length);
+		for (int i : n) {
+			writeNumber(i);
+		}
 	}
 }

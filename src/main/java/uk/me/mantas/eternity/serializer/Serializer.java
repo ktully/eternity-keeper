@@ -2,18 +2,18 @@ package uk.me.mantas.eternity.serializer;
 
 import com.google.common.primitives.UnsignedInteger;
 import uk.me.mantas.eternity.serializer.properties.*;
-import uk.me.mantas.eternity.serializer.write.ByteWriteCommand;
-import uk.me.mantas.eternity.serializer.write.NumberWriteCommand;
-import uk.me.mantas.eternity.serializer.write.ValueWriteCommand;
-import uk.me.mantas.eternity.serializer.write.WriteCommand;
+import uk.me.mantas.eternity.serializer.write.*;
 
 import java.io.DataOutput;
+import java.io.IOException;
 import java.lang.reflect.*;
 import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.*;
 import java.util.Map.Entry;
 
 import static uk.me.mantas.eternity.serializer.SharpSerializer.Elements;
+import static uk.me.mantas.eternity.serializer.properties.MultiDimensionalArrayProperty.ArrayDimension;
+import static uk.me.mantas.eternity.serializer.properties.MultiDimensionalArrayProperty.MultiDimensionalArrayItem;
 
 public class Serializer {
 	private static final String rootName = "Root";
@@ -34,7 +34,7 @@ public class Serializer {
 		this.instanceMap = instanceMap;
 	}
 
-	public void serialize (Object obj) {
+	public void serialize (Object obj) throws IOException {
 		if (obj == null) {
 			throw new IllegalArgumentException(
 				"Tried to serialize null object.");
@@ -42,7 +42,38 @@ public class Serializer {
 
 		Property property = createProperty(rootName, obj);
 		serializeCore(new PropertyTypeInfo(property, null));
-		System.out.printf("Done!%n");
+		writeNamesHeader();
+		writeTypesHeader();
+		writeCache();
+	}
+
+	private void writeCache () throws IOException {
+		for (WriteCommand command : commandCache) {
+			command.write(stream);
+		}
+	}
+
+	private void writeTypesHeader () throws IOException {
+		stream.writeNumber(types.items.size());
+		for (Class type : types.items) {
+			String typeName = convertToTypeName(type);
+			stream.writeStringGuarded(typeName);
+		}
+	}
+
+	private String convertToTypeName (Class type) {
+		if (type == null) {
+			return null;
+		}
+
+		return type.getSimpleName();
+	}
+
+	private void writeNamesHeader () throws IOException {
+		stream.writeNumber(names.items.size());
+		for (String name : names.items) {
+			stream.writeStringGuarded(name);
+		}
 	}
 
 	private void serializeCore (PropertyTypeInfo property) {
@@ -132,10 +163,18 @@ public class Serializer {
 	}
 
 	private void serializeReferenceTarget (PropertyTypeInfo property) {
-		// MultiDimensionalArrayProperty
-
 		((ReferenceTargetProperty) property.property)
 			.reference.isProcessed = true;
+
+		if (property.property instanceof MultiDimensionalArrayProperty) {
+			serializeMultiDimensionalArrayProperty(
+				new PropertyTypeInfo(
+					property.property
+					, property.expectedPropertyType
+					, property.valueType));
+
+			return;
+		}
 
 		if (property.property instanceof SingleDimensionalArrayProperty) {
 			serializeSingleDimensionalArrayProperty(
@@ -172,6 +211,65 @@ public class Serializer {
 				property.property
 				, property.expectedPropertyType
 				, property.valueType));
+	}
+
+	private void serializeMultiDimensionalArrayProperty (
+		PropertyTypeInfo property) {
+
+		if (!writePropertyHeaderWithReferenceID(
+			Elements.MultiArrayWithID
+			, ((ReferenceTargetProperty) property.property).reference
+			, property.name
+			, property.valueType)) {
+
+			writePropertyHeader(
+				Elements.MultiArray
+				, property.name
+				, property.valueType);
+		}
+
+		MultiDimensionalArrayProperty arrayProperty =
+			(MultiDimensionalArrayProperty) property.property;
+
+		writeType(arrayProperty.type.type);
+		writeDimensions(arrayProperty.dimensions);
+		writeMultiDimensionalArrayItems(
+			arrayProperty.items
+			, arrayProperty.elementType);
+	}
+
+	private void writeMultiDimensionalArrayItems (
+		List<MultiDimensionalArrayItem> items
+		, TypePair elementType) {
+
+		writeNumber(items.size());
+		for (MultiDimensionalArrayItem item : items) {
+			writeMultiDimensionalArrayItem(item, elementType);
+		}
+	}
+
+	private void writeMultiDimensionalArrayItem (
+		MultiDimensionalArrayItem item
+		, TypePair elementType) {
+
+		writeNumbers(item.indexes);
+		serializeCore(new PropertyTypeInfo(item.value, elementType.type));
+	}
+
+	private void writeNumbers (int[] n) {
+		commandCache.add(new NumbersWriteCommand(n));
+	}
+
+	private void writeDimensions (List<ArrayDimension> dimensions) {
+		writeNumber(dimensions.size());
+		for (ArrayDimension dim : dimensions) {
+			writeDimension(dim);
+		}
+	}
+
+	private void writeDimension (ArrayDimension dim) {
+		writeNumber(dim.length);
+		writeNumber(dim.lowerBound);
 	}
 
 	private void serializeComplexProperty (PropertyTypeInfo property) {
@@ -220,6 +318,7 @@ public class Serializer {
 
 		writePropertyHeader(elementID, name, valueType);
 		writeNumber(reference.id);
+		return true;
 	}
 
 	private void writeNumber (int n) {
@@ -242,9 +341,17 @@ public class Serializer {
 		CollectionProperty listProperty =
 			(CollectionProperty) property.property;
 
-		writeType(listProperty.elementType);
+		writeType(listProperty.elementType.type);
 		writeProperties(listProperty.properties, listProperty.type);
 		writeItems(listProperty.items, listProperty.elementType);
+	}
+
+	@SuppressWarnings("unchecked")
+	private void writeItems (List items, TypePair defaultItemType) {
+		writeNumber(items.size());
+		for (Property item : (List<Property>) items) {
+			serializeCore(new PropertyTypeInfo(item, defaultItemType.type));
+		}
 	}
 
 	private void serializeDictionaryProperty (PropertyTypeInfo property) {
@@ -263,13 +370,33 @@ public class Serializer {
 		DictionaryProperty dictProperty =
 			(DictionaryProperty) property.property;
 
-		writeType(dictProperty.keyType);
-		writeType(dictProperty.valueType);
+		writeType(dictProperty.keyType.type);
+		writeType(dictProperty.valueType.type);
 		writeProperties(dictProperty.properties, dictProperty.type);
 		writeDictionaryItems(
 			dictProperty.items
 			, dictProperty.keyType
 			, dictProperty.valueType);
+	}
+
+	private void writeDictionaryItems (
+		List<Entry<Property, Property>> items
+		, TypePair keyType
+		, TypePair valueType) {
+
+		writeNumber(items.size());
+		for (Entry<Property, Property> item : items) {
+			writeDictionaryItem(item, keyType, valueType);
+		}
+	}
+
+	private void writeDictionaryItem (
+		Entry<Property, Property> item
+		, TypePair keyType
+		, TypePair valueType) {
+
+		serializeCore(new PropertyTypeInfo(item.getKey(), keyType.type));
+		serializeCore(new PropertyTypeInfo(item.getValue(), valueType.type));
 	}
 
 	private void serializeSingleDimensionalArrayProperty (
@@ -290,7 +417,7 @@ public class Serializer {
 		SingleDimensionalArrayProperty arrayProperty =
 			(SingleDimensionalArrayProperty) property.property;
 
-		writeType(arrayProperty.elementType);
+		writeType(arrayProperty.elementType.type);
 		writeNumber(arrayProperty.lowerBound);
 		writeItems(arrayProperty.items, arrayProperty.elementType);
 	}
@@ -345,7 +472,14 @@ public class Serializer {
 			return referenceTarget;
 		}
 
-		// MultiDimensionalArrayProperty
+		if (referenceTarget instanceof MultiDimensionalArrayProperty) {
+			fillMultiDimensionalArrayProperty(
+				(MultiDimensionalArrayProperty) referenceTarget
+				, typeInfo
+				, value);
+
+			return referenceTarget;
+		}
 
 		if (referenceTarget instanceof DictionaryProperty) {
 			fillDictionaryProperty(
@@ -376,6 +510,45 @@ public class Serializer {
 
 		System.err.printf("Unable to fill property!%n");
 		throw new IllegalArgumentException();
+	}
+
+	private void fillMultiDimensionalArrayProperty (
+		MultiDimensionalArrayProperty property
+		, TypeInfo info
+		, Object value) {
+
+		if (property == null) {
+			return;
+		}
+
+		ArrayAnalyser analyser = new ArrayAnalyser(value);
+
+		property.elementType = new TypePair(info.type, null);
+		property.dimensions = analyser.getDimensions();
+
+		for (Integer[] coord : analyser.getCoordSet()) {
+			Object ar = value;
+			Object subValue = null;
+			for (int i = 0; i < coord.length; i++) {
+				ar = Array.get(ar, coord[i]);
+				if (i == coord.length - 1) {
+					subValue = ar;
+				}
+			}
+
+			Property item = createProperty(null, subValue);
+			property.items.add(
+				new MultiDimensionalArrayItem(unboxInts(coord), item));
+		}
+	}
+
+	private int[] unboxInts (Integer[] in) {
+		int[] out = new int[in.length];
+		for (int i = 0; i < in.length; i++) {
+			out[i] = in[i];
+		}
+
+		return out;
 	}
 
 	private void fillComplexProperty (
@@ -548,8 +721,10 @@ public class Serializer {
 					, new TypePair(typeInfo.type, null));
 			}
 
-			System.err.printf("Multi-dimensional arrays unimplemented!%n");
-			throw new IllegalArgumentException();
+			return new MultiDimensionalArrayProperty(
+				name
+				, new TypePair(typeInfo.type
+				, null));
 		}
 
 		if (typeInfo.isDictionary) {

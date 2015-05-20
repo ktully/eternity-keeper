@@ -2,14 +2,15 @@ package uk.me.mantas.eternity.serializer.write;
 
 import java.io.IOException;
 
-public class ValueWriteCommand extends WriteCommand {
-	public Object data;
-	public ValueWriteCommand (Object data) {
+public class NumbersWriteCommand extends WriteCommand {
+	public int[] data;
+
+	public NumbersWriteCommand (int[] data) {
 		this.data = data;
 	}
 
 	@Override
 	public void write (BinaryWriter writer) throws IOException {
-		writer.writeValue(data);
+		writer.writeNumbers(data);
 	}
 }

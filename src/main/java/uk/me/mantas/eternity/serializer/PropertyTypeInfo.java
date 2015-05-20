@@ -11,7 +11,7 @@ public class PropertyTypeInfo {
 	public PropertyTypeInfo (Property property, Class valueType) {
 		this.property = property;
 		this.expectedPropertyType = valueType;
-		this.valueType = property.type.type;
+		this.valueType = (property.type != null) ? property.type.type : null;
 		this.name = property.name;
 	}
 
