@@ -108,17 +108,15 @@ public class Serializer {
 			return;
 		}
 
-		if (!serializeReference((ReferenceTargetProperty) property.property)) {
-			serializeReferenceTarget(
-				new PropertyTypeInfo(
-					property.property
-					, property.expectedPropertyType
-					, property.valueType));
-
+		if (serializeReference(((ReferenceTargetProperty) property.property))) {
 			return;
 		}
 
-		throw new IllegalArgumentException("Unknown property!");
+		serializeReferenceTarget(
+			new PropertyTypeInfo(
+				property.property
+				, property.expectedPropertyType
+				, property.valueType));
 	}
 
 	private void serializeSimpleProperty (PropertyTypeInfo property) {
@@ -423,16 +421,14 @@ public class Serializer {
 	}
 
 	private boolean serializeReference (ReferenceTargetProperty property) {
-		if (property.reference.count > 1) {
-			if (property.reference.isProcessed) {
-				writePropertyHeader(
-					Elements.Reference
-					, property.name
-					, null);
+		if (property.reference.count > 1 && property.reference.isProcessed) {
+			writePropertyHeader(
+				Elements.Reference
+				, property.name
+				, null);
 
-				writeNumber(property.reference.id);
-				return true;
-			}
+			writeNumber(property.reference.id);
+			return true;
 		}
 
 		return false;

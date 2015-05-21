@@ -1,5 +1,6 @@
 package uk.me.mantas.eternity.serializer;
 
+import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
@@ -15,5 +16,9 @@ public class SortedList {
 
 	public Set<Entry> entrySet () {
 		return backing.entrySet();
+	}
+
+	public Iterator<Entry> iterator () {
+		return backing.entrySet().iterator();
 	}
 }
