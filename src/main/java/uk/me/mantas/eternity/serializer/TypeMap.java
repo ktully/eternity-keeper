@@ -111,5 +111,12 @@ public class TypeMap {
 		for (Entry<String, Class> item : map.entrySet()) {
 			reverseMap.put(item.getValue(), item.getKey());
 		}
+
+		reverseMap.put(Integer.class, "System.Int32");
+		reverseMap.put(Boolean.class, "System.Boolean");
+		reverseMap.put(Float.class, "System.Single");
+		reverseMap.put(Double.class, "System.Double");
+		reverseMap.put(Short.class, "System.Int16");
+		reverseMap.put(Byte.class, "System.Byte");
 	}
 }

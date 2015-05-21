@@ -98,7 +98,10 @@ public class SharpSerializer {
 
 	public void serialize (Object obj) {
 		try {
-			FileOutputStream baseStream = new FileOutputStream(targetFile);
+			FileOutputStream baseStream = new FileOutputStream(
+				targetFile
+				, true);
+			
 			try (LittleEndianDataOutputStream stream =
 				new LittleEndianDataOutputStream(baseStream)) {
 
