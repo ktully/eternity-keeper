@@ -10,8 +10,6 @@ import java.lang.reflect.Field;
 import java.nio.ByteBuffer;
 import java.util.*;
 import java.util.function.Function;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static java.util.AbstractMap.Entry;
 import static java.util.AbstractMap.SimpleImmutableEntry;
@@ -19,6 +17,7 @@ import static uk.me.mantas.eternity.serializer.SharpSerializer.Elements;
 import static uk.me.mantas.eternity.serializer.SharpSerializer.typeMap;
 
 public class Deserializer {
+	private final SharpSerializer parent;
 	private final DataInput stream;
 	private final List<String> names = new ArrayList<>();
 	private final List<TypePair> types = new ArrayList<>();
@@ -26,12 +25,13 @@ public class Deserializer {
 	private Map<Integer, ReferenceTargetProperty> propertyCache =
 		new HashMap<>();
 
-	public Deserializer (DataInput stream) {
+	public Deserializer (DataInput stream, SharpSerializer parent) {
 		this.stream = stream;
+		this.parent = parent;
 
 		try {
 			readHeader(names, Function.identity());
-			readHeader(types, Deserializer::convertToType);
+			readHeader(types, this::convertToType);
 		} catch (IOException e) {
 			System.err.printf(
 				"An error occurred whilst deserializing: %s%n"
@@ -39,15 +39,17 @@ public class Deserializer {
 		}
 	}
 
-	private static TypePair convertToType (String s) {
+	private TypePair convertToType (String s) {
 		if (s == null) {
 			return null;
 		}
 
 		String key = s.replaceAll("`\\d", "");
-		String innerClass = null;
-		Pattern innerClassPattern = Pattern.compile("\\[\\[([^]]+)\\]\\]");
-		Matcher innerClassMatcher = innerClassPattern.matcher(s);
+		String publicKeyToken = s.substring(s.lastIndexOf("=") + 1);
+
+		if (!publicKeyToken.equals("null")) {
+			parent.publicKeyToken = publicKeyToken;
+		}
 
 		if (key.contains(",")) {
 			key = key.split(",")[0];
@@ -55,20 +57,6 @@ public class Deserializer {
 
 		if (key.contains("[[")) {
 			key = key.split("\\[\\[")[0];
-		}
-
-		if (innerClassMatcher.find()) {
-			innerClass = innerClassMatcher.group(1);
-			if (innerClass != null && innerClass.contains(",")) {
-				innerClass = innerClass.split(",")[0];
-			}
-		}
-
-		//noinspection StatementWithEmptyBody
-		if (innerClass != null) {
-			// At the moment we don't care about the inner class since all our
-			// collections are of type Object.
-			//key = String.format("%s<%s>", key, innerClass);
 		}
 
 		Class value = typeMap.get(key);

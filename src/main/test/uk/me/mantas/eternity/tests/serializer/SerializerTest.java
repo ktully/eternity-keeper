@@ -42,7 +42,8 @@ public class SerializerTest {
 		try {
 			SharpSerializer serializer = new SharpSerializer(
 				saveOutputFile.getAbsolutePath()
-				, deserializer.instanceMap);
+				, deserializer.instanceMap
+				, deserializer.publicKeyToken);
 
 			serializer.serialize(deserialized.size());
 			for (Object obj : deserialized) {

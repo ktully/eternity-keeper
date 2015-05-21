@@ -19,9 +19,9 @@ import static java.util.Map.Entry;
 public class SharpSerializer {
 	public static final Map<String, Class> typeMap = TypeMap.map;
 	public static final Map<Class, String> stringMap = TypeMap.reverseMap;
-	public Map<Object, String> instanceMap;
-
 	private Map<Integer, Object> objectCache = new HashMap<>();
+	public String publicKeyToken = "";
+	public Map<Object, String> instanceMap;
 
 	public static class Elements {
 		public static final byte Collection = 1;
@@ -51,15 +51,17 @@ public class SharpSerializer {
 	private long position = 0;
 
 	public SharpSerializer (String filePath) throws FileNotFoundException {
-		this(filePath, new HashMap<>());
+		this(filePath, new HashMap<>(), null);
 	}
 
 	public SharpSerializer (
 		String filePath
-		, Map<Object, String> instanceMap)
+		, Map<Object, String> instanceMap
+		, String publicKeyToken)
 		throws FileNotFoundException {
 
 		this.instanceMap = instanceMap;
+		this.publicKeyToken = publicKeyToken;
 		targetFile = new File(filePath);
 		if (!targetFile.exists()) {
 			throw new FileNotFoundException();
@@ -79,7 +81,7 @@ public class SharpSerializer {
 				new LittleEndianDataInputStream(baseStream)) {
 
 				baseStream.getChannel().position(position);
-				Deserializer deserializer = new Deserializer(stream);
+				Deserializer deserializer = new Deserializer(stream, this);
 
 				Property property = deserializer.deserialize();
 				position = baseStream.getChannel().position();
@@ -101,13 +103,16 @@ public class SharpSerializer {
 			FileOutputStream baseStream = new FileOutputStream(
 				targetFile
 				, true);
-			
+
 			try (LittleEndianDataOutputStream stream =
 				new LittleEndianDataOutputStream(baseStream)) {
 
 				baseStream.getChannel()
 					.position(baseStream.getChannel().size());
-				Serializer serializer = new Serializer(stream, instanceMap);
+
+				Serializer serializer =
+					new Serializer(stream, instanceMap, publicKeyToken);
+				
 				serializer.serialize(obj);
 			}
 		} catch (IOException e) {

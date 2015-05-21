@@ -19,6 +19,7 @@ import static uk.me.mantas.eternity.serializer.properties.MultiDimensionalArrayP
 
 public class Serializer {
 	private static final String rootName = "Root";
+	private final String publicKeyToken;
 	private final List<WriteCommand> commandCache = new ArrayList<>();
 	private final IndexGenerator<String> types = new IndexGenerator<>();
 	private final IndexGenerator<String> names = new IndexGenerator<>();
@@ -29,11 +30,19 @@ public class Serializer {
 	private final Map<Object, ReferenceTargetProperty> propertyCache =
 		new HashMap<>();
 
+	private static final String typeString =
+		", %s, Version=%s, Culture=neutral, PublicKeyToken=%s";
+
 	private int currentReferenceID = 1;
 
-	public Serializer (DataOutput stream, Map<Object, String> instanceMap) {
+	public Serializer (
+		DataOutput stream
+		, Map<Object, String> instanceMap
+		, String publicKeyToken) {
+
 		this.stream = new BinaryWriter(stream);
 		this.instanceMap = instanceMap;
+		this.publicKeyToken = publicKeyToken;
 	}
 
 	public void serialize (Object obj) throws IOException {
@@ -815,6 +824,21 @@ public class Serializer {
 		String cSharpType = instanceMap.get(value);
 		if (cSharpType == null) {
 			cSharpType = SharpSerializer.stringMap.get(type);
+			if (cSharpType != null) {
+				if (cSharpType.startsWith("System.")) {
+					cSharpType += String.format(
+						typeString
+						, "mscorlib"
+						, "2.0.0.0"
+						, publicKeyToken);
+				} else {
+					cSharpType += String.format(
+						typeString
+						, "Assembly-CSharp"
+						, "0.0.0.0"
+						, "null");
+				}
+			}
 		}
 
 		if (cSharpType == null && !value.getClass().isArray()) {
