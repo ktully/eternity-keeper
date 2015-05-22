@@ -28,7 +28,7 @@ public class SerializerTest {
 		SharpSerializer deserializer =
 			new SharpSerializer(saveFile.getAbsolutePath());
 
-		List<Object> deserialized = new ArrayList<>();
+		List<Property> deserialized = new ArrayList<>();
 
 		Optional<Property> objectCount = deserializer.deserialize();
 		int count = (int) objectCount.get().obj;
@@ -44,8 +44,8 @@ public class SerializerTest {
 			SharpSerializer serializer = new SharpSerializer(
 				saveOutputFile.getAbsolutePath());
 
-			serializer.serialize(deserialized.size());
-			for (Object obj : deserialized) {
+			serializer.serialize(objectCount.get());
+			for (Property obj : deserialized) {
 				serializer.serialize(obj);
 			}
 

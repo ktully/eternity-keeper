@@ -26,7 +26,7 @@ public class DeserializerTest {
 		SharpSerializer deserializer =
 			new SharpSerializer(saveFile.getAbsolutePath());
 
-		List<Object> deserialized = new ArrayList<>();
+		List<Property> deserialized = new ArrayList<>();
 
 		Optional<Property> objectCount = deserializer.deserialize();
 		assertTrue(objectCount.isPresent());

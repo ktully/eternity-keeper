@@ -80,7 +80,7 @@ public class SharpSerializer {
 		return Optional.empty();
 	}
 
-	public void serialize (Object obj) {
+	public void serialize (Property property) {
 		try {
 			FileOutputStream baseStream = new FileOutputStream(
 				targetFile
@@ -93,8 +93,7 @@ public class SharpSerializer {
 					.position(baseStream.getChannel().size());
 
 				Serializer serializer =	new Serializer(stream);
-				
-				serializer.serialize(obj);
+				serializer.serialize(property);
 			}
 		} catch (IOException e) {
 			System.err.printf(
