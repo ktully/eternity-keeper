@@ -2,6 +2,7 @@ package uk.me.mantas.eternity.tests.serializer;
 
 import org.junit.Test;
 import uk.me.mantas.eternity.serializer.SharpSerializer;
+import uk.me.mantas.eternity.serializer.properties.Property;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -27,14 +28,14 @@ public class DeserializerTest {
 
 		List<Object> deserialized = new ArrayList<>();
 
-		Optional<Object> objectCount = deserializer.deserialize();
+		Optional<Property> objectCount = deserializer.deserialize();
 		assertTrue(objectCount.isPresent());
 
-		int count = (int) objectCount.get();
+		int count = (int) objectCount.get().obj;
 		assertEquals(17, count);
 
 		for (int i = 0; i < count; i++) {
-			Optional<Object> obj = deserializer.deserialize();
+			Optional<Property> obj = deserializer.deserialize();
 			assertTrue(obj.isPresent());
 			deserialized.add(obj.get());
 		}

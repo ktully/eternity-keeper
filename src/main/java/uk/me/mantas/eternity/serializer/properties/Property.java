@@ -6,6 +6,7 @@ public abstract class Property {
 	public String name;
 	public TypePair type;
 	public Property parent;
+	public Object obj;
 
 	Property (String name, TypePair type) {
 		this.name = name;

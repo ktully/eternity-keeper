@@ -10,8 +10,6 @@ import java.lang.reflect.*;
 import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.*;
 import java.util.Map.Entry;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static uk.me.mantas.eternity.serializer.SharpSerializer.Elements;
 import static uk.me.mantas.eternity.serializer.properties.MultiDimensionalArrayProperty.ArrayDimension;
@@ -19,30 +17,19 @@ import static uk.me.mantas.eternity.serializer.properties.MultiDimensionalArrayP
 
 public class Serializer {
 	private static final String rootName = "Root";
-	private final String publicKeyToken;
 	private final List<WriteCommand> commandCache = new ArrayList<>();
 	private final IndexGenerator<String> types = new IndexGenerator<>();
 	private final IndexGenerator<String> names = new IndexGenerator<>();
 	private final BinaryWriter stream;
-	private final Map<Object, String> instanceMap;
 	private final Map<TypePair, TypeInfo> typeInfoCache = new HashMap<>();
 	private final Map<Class, List<Field>> fieldCache = new HashMap<>();
 	private final Map<Object, ReferenceTargetProperty> propertyCache =
 		new HashMap<>();
 
-	private static final String typeString =
-		", %s, Version=%s, Culture=neutral, PublicKeyToken=%s";
-
 	private int currentReferenceID = 1;
 
-	public Serializer (
-		DataOutput stream
-		, Map<Object, String> instanceMap
-		, String publicKeyToken) {
-
+	public Serializer (DataOutput stream) {
 		this.stream = new BinaryWriter(stream);
-		this.instanceMap = instanceMap;
-		this.publicKeyToken = publicKeyToken;
 	}
 
 	public void serialize (Object obj) throws IOException {
@@ -137,7 +124,7 @@ public class Serializer {
 		writePropertyHeader(
 			Elements.SimpleObject
 			, property.name
-			, property.cSharpValueType);
+			, property.property);
 
 		writeValue(((SimpleProperty) property.property).value);
 	}
@@ -149,15 +136,19 @@ public class Serializer {
 	private void writePropertyHeader (
 		byte elementID
 		, String name
-		, String valueType) {
+		, Property property) {
 
 		writeElementID(elementID);
 		writeName(name);
-		writeType(valueType);
+		writeType(property);
 	}
 
-	private void writeType (String cSharpType) {
-		int index = types.getIndexOfItem(cSharpType);
+	private void writeType (Property property) {
+		writeCSharpType("");
+	}
+
+	private void writeCSharpType (String type) {
+		int index = types.getIndexOfItem(type);
 		commandCache.add(new NumberWriteCommand(index));
 	}
 
@@ -174,7 +165,7 @@ public class Serializer {
 		writePropertyHeader(
 			Elements.Null
 			, property.name
-			, property.cSharpValueType);
+			, property.property);
 	}
 
 	private void serializeReferenceTarget (PropertyTypeInfo property) {
@@ -245,22 +236,26 @@ public class Serializer {
 			Elements.MultiArrayWithID
 			, ((ReferenceTargetProperty) property.property).reference
 			, property.name
-			, property.cSharpValueType)) {
+			, property.property)) {
 
 			writePropertyHeader(
 				Elements.MultiArray
 				, property.name
-				, property.cSharpValueType);
+				, property.property);
 		}
 
 		MultiDimensionalArrayProperty arrayProperty =
 			(MultiDimensionalArrayProperty) property.property;
 
-		writeType(arrayProperty.type.cSharpType);
+		writeElementType(arrayProperty);
 		writeDimensions(arrayProperty.dimensions);
 		writeMultiDimensionalArrayItems(
 			arrayProperty.items
 			, arrayProperty.elementType);
+	}
+
+	private void writeElementType (Property property) {
+		writeCSharpType("");
 	}
 
 	private void writeMultiDimensionalArrayItems (
@@ -306,12 +301,12 @@ public class Serializer {
 			Elements.ComplexObjectWithID
 			, ((ReferenceTargetProperty) property.property).reference
 			, property.name
-			, property.cSharpValueType)) {
+			, property.property)) {
 
 			writePropertyHeader(
 				Elements.ComplexObject
 				, property.name
-				, property.cSharpValueType);
+				, property.property);
 		}
 
 		writeProperties(
@@ -345,13 +340,13 @@ public class Serializer {
 		byte elementID
 		, Reference reference
 		, String name
-		, String valueType) {
+		, Property property) {
 
 		if (reference.count < 2) {
 			return false;
 		}
 
-		writePropertyHeader(elementID, name, valueType);
+		writePropertyHeader(elementID, name, property);
 		writeNumber(reference.id);
 		return true;
 	}
@@ -365,18 +360,18 @@ public class Serializer {
 			Elements.CollectionWithID
 			, ((ReferenceTargetProperty) property.property).reference
 			, property.name
-			, property.cSharpValueType)) {
+			, property.property)) {
 
 			writePropertyHeader(
 				Elements.Collection
 				, property.name
-				, property.cSharpValueType);
+				, property.property);
 		}
 
 		CollectionProperty listProperty =
 			(CollectionProperty) property.property;
 
-		writeType(listProperty.elementType.cSharpType);
+		writeElementType(listProperty);
 		writeProperties(listProperty.properties, listProperty.type);
 		writeItems(listProperty.items, listProperty.elementType);
 	}
@@ -398,24 +393,32 @@ public class Serializer {
 			Elements.DictionaryWithID
 			, ((ReferenceTargetProperty) property.property).reference
 			, property.name
-			, property.cSharpValueType)) {
+			, property.property)) {
 
 			writePropertyHeader(
 				Elements.Dictionary
 				, property.name
-				, property.cSharpValueType);
+				, property.property);
 		}
 
 		DictionaryProperty dictProperty =
 			(DictionaryProperty) property.property;
 
-		writeType(dictProperty.keyType.cSharpType);
-		writeType(dictProperty.valueType.cSharpType);
+		writeKeyType(dictProperty);
+		writeValueType(dictProperty);
 		writeProperties(dictProperty.properties, dictProperty.type);
 		writeDictionaryItems(
 			dictProperty.items
 			, dictProperty.keyType
 			, dictProperty.valueType);
+	}
+
+	private void writeValueType (DictionaryProperty dictProperty) {
+		writeCSharpType("");
+	}
+
+	private void writeKeyType (DictionaryProperty dictProperty) {
+		writeCSharpType("");
 	}
 
 	private void writeDictionaryItems (
@@ -454,18 +457,18 @@ public class Serializer {
 			Elements.SingleArrayWithID
 			, ((ReferenceTargetProperty) property.property).reference
 			, property.name
-			, property.cSharpValueType)) {
+			, property.property)) {
 
 			writePropertyHeader(
 				Elements.SingleArray
 				, property.name
-				, property.cSharpValueType);
+				, property.property);
 		}
 
 		SingleDimensionalArrayProperty arrayProperty =
 			(SingleDimensionalArrayProperty) property.property;
 
-		writeType(arrayProperty.elementType.cSharpType);
+		writeType(arrayProperty);
 		writeNumber(arrayProperty.lowerBound);
 		writeItems(arrayProperty.items, arrayProperty.elementType);
 	}
@@ -485,11 +488,15 @@ public class Serializer {
 	}
 
 	private Property createProperty (String name, Object value) {
+		return createProperty(name, value, null);
+	}
+
+	private Property createProperty (String name, Object value, Field field) {
 		if (value == null) {
 			return new NullProperty(name);
 		}
 
-		TypeInfo typeInfo = getTypeInfo(value);
+		TypeInfo typeInfo = getTypeInfo(value, field);
 		Property property = createSimpleProperty(name, typeInfo, value);
 		if (property != null) {
 			return property;
@@ -628,7 +635,8 @@ public class Serializer {
 				Object subValue = field.get(value);
 				Property subProperty = createProperty(
 					field.getName()
-					, subValue);
+					, subValue
+					, field);
 
 				//noinspection unchecked
 				property.properties.add(subProperty);
@@ -814,43 +822,16 @@ public class Serializer {
 		return property;
 	}
 
-	private TypeInfo getTypeInfo (Object value) {
+	private TypeInfo getTypeInfo (Object value, Field field) {
 		if (value == null) {
 			throw new IllegalArgumentException(
 				"Cannot get type of null object.");
 		}
 
-		Class type = value.getClass();
-		String cSharpType = instanceMap.get(value);
-		if (cSharpType == null) {
-			cSharpType = SharpSerializer.stringMap.get(type);
-			if (cSharpType != null) {
-				if (cSharpType.startsWith("System.")) {
-					cSharpType += String.format(
-						typeString
-						, "mscorlib"
-						, "2.0.0.0"
-						, publicKeyToken);
-				} else {
-					cSharpType += String.format(
-						typeString
-						, "Assembly-CSharp"
-						, "0.0.0.0"
-						, "null");
-				}
-			}
-		}
-
-		if (cSharpType == null && !value.getClass().isArray()) {
-			System.err.printf(
-				"Unable to determine C# type for class '%s'!%n"
-				, type.getSimpleName());
-		}
-
-		return getTypeInfo(type, cSharpType);
+		return getTypeInfo(value.getClass(), null, field);
 	}
 
-	private TypeInfo getTypeInfo (Class type, String cSharpType) {
+	private TypeInfo getTypeInfo (Class type, String cSharpType, Field field) {
 		TypePair pair = new TypePair(type, cSharpType);
 		TypeInfo typeInfo = typeInfoCache.get(pair);
 
@@ -896,34 +877,37 @@ public class Serializer {
 					if (typeInfo.isCollection) {
 						typeInfo.isDictionary = isDictionary(type);
 
-						// Can't get compile-time generics information at
-						// runtime in Java because of type erasure so we have
-						// to rely on our instance map and some string hacking.
-						String[] extractedTypes =
-							extractTypes(typeInfo.cSharpType);
-
-						String cSharpKeyType = extractedTypes[0];
-						String cSharpElementType = extractedTypes[1];
-
-						typeInfo.cSharpKeyType = cSharpKeyType;
-						typeInfo.cSharpElementType = cSharpElementType;
-
-						if (cSharpKeyType.contains(",")) {
-							typeInfo.keyType = SharpSerializer.typeMap.get(
-								cSharpKeyType.split(",")[0]);
+						if (field == null) {
+							typeInfo.keyType = Object.class;
+							typeInfo.elementType = Object.class;
 						} else {
-							typeInfo.keyType =
-								SharpSerializer.typeMap.get(cSharpKeyType);
+							Type fieldType = field.getGenericType();
+							if (fieldType instanceof ParameterizedType) {
+								Type[] parameters =
+									((ParameterizedType) fieldType)
+										.getActualTypeArguments();
+								try {
+									if (parameters.length > 1) {
+										typeInfo.keyType =
+											Class.forName(
+												parameters[0].getTypeName());
+										typeInfo.elementType =
+											Class.forName(
+												parameters[1].getTypeName());
+									} else {
+										typeInfo.elementType =
+											Class.forName(
+												parameters[0].getTypeName());
+									}
+								} catch (ClassNotFoundException e) {
+									typeInfo.keyType = Object.class;
+									typeInfo.elementType = Object.class;
+								}
+							} else {
+								typeInfo.keyType = Object.class;
+								typeInfo.elementType = Object.class;
+							}
 						}
-
-						if (cSharpElementType.contains(",")) {
-							typeInfo.elementType = SharpSerializer.typeMap.get(
-								cSharpElementType.split(",")[0]);
-						} else {
-							typeInfo.elementType =
-								SharpSerializer.typeMap.get(cSharpElementType);
-						}
-
 					}
 				}
 			}
@@ -932,28 +916,6 @@ public class Serializer {
 		}
 
 		return typeInfo;
-	}
-
-	private String[] extractTypes (String cSharpType) {
-		String[] extracted = new String[]{"System.Object", "System.Object"};
-		if (!cSharpType.contains("[[")) {
-			System.err.printf(
-				"Unable to find any types in supposed C# collection '%s'!%n"
-				, cSharpType);
-
-			return extracted;
-		}
-
-		Pattern innerClassPattern = Pattern.compile("\\[([^]]+)\\]");
-		Matcher innerClassMatcher = innerClassPattern.matcher(cSharpType);
-
-		for (int i = 0; i < 2; i++) {
-			if (innerClassMatcher.find()) {
-				extracted[i] = innerClassMatcher.group(1);
-			}
-		}
-
-		return extracted;
 	}
 
 	private boolean isDictionary (Class type) {

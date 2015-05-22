@@ -45,11 +45,6 @@ public class Deserializer {
 		}
 
 		String key = s.replaceAll("`\\d", "");
-		String publicKeyToken = s.substring(s.lastIndexOf("=") + 1);
-
-		if (!publicKeyToken.equals("null")) {
-			parent.publicKeyToken = publicKeyToken;
-		}
 
 		if (key.contains(",")) {
 			key = key.split(",")[0];

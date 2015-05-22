@@ -19,9 +19,7 @@ import static java.util.Map.Entry;
 public class SharpSerializer {
 	public static final Map<String, Class> typeMap = TypeMap.map;
 	public static final Map<Class, String> stringMap = TypeMap.reverseMap;
-	private Map<Integer, Object> objectCache = new HashMap<>();
-	public String publicKeyToken = "";
-	public Map<Object, String> instanceMap;
+	private Map<Integer, Property> propertyCache = new HashMap<>();
 
 	public static class Elements {
 		public static final byte Collection = 1;
@@ -51,30 +49,14 @@ public class SharpSerializer {
 	private long position = 0;
 
 	public SharpSerializer (String filePath) throws FileNotFoundException {
-		this(filePath, new HashMap<>(), null);
-	}
 
-	public SharpSerializer (
-		String filePath
-		, Map<Object, String> instanceMap
-		, String publicKeyToken)
-		throws FileNotFoundException {
-
-		this.instanceMap = instanceMap;
-		this.publicKeyToken = publicKeyToken;
 		targetFile = new File(filePath);
 		if (!targetFile.exists()) {
 			throw new FileNotFoundException();
 		}
 	}
 
-	private void saveInstance (Object instance, String cSharpType) {
-		if (cSharpType != null) {
-			instanceMap.put(instance, cSharpType);
-		}
-	}
-
-	public Optional<Object> deserialize () {
+	public Optional<Property> deserialize () {
 		try {
 			FileInputStream baseStream = new FileInputStream(targetFile);
 			try (LittleEndianDataInputStream stream =
@@ -110,8 +92,7 @@ public class SharpSerializer {
 				baseStream.getChannel()
 					.position(baseStream.getChannel().size());
 
-				Serializer serializer =
-					new Serializer(stream, instanceMap, publicKeyToken);
+				Serializer serializer =	new Serializer(stream);
 				
 				serializer.serialize(obj);
 			}
@@ -123,14 +104,15 @@ public class SharpSerializer {
 		}
 	}
 
-	private Object createObject (Property property) {
+	private Property createObject (Property property) {
 		if (property == null) {
 			System.err.printf("Property is null!%n");
 			return null;
 		}
 
 		if (property instanceof NullProperty) {
-			return null;
+			property.obj = null;
+			return property;
 		}
 
 		if (property.type == null) {
@@ -159,10 +141,10 @@ public class SharpSerializer {
 		if (referenceTarget.reference != null
 			&& !referenceTarget.reference.isProcessed) {
 
-			return objectCache.get(referenceTarget.reference.id);
+			return propertyCache.get(referenceTarget.reference.id);
 		}
 
-		Object value = createObjectCore(property);
+		Property value = createObjectCore(property);
 		if (value == null) {
 			System.err.printf("Unimplemented property type!%n");
 			return null;
@@ -171,7 +153,7 @@ public class SharpSerializer {
 		return value;
 	}
 
-	private Object createObjectCore (Object property) {
+	private Property createObjectCore (Object property) {
 		// MultiDimensionalArray
 
 		if (property instanceof SingleDimensionalArrayProperty) {
@@ -196,14 +178,14 @@ public class SharpSerializer {
 		return null;
 	}
 
-	private Object createObjectFromCollectionProperty (
+	private Property createObjectFromCollectionProperty (
 		CollectionProperty property) {
 
 		Class type = property.type.type;
 		Object collection = createInstance(type);
 
 		if (property.reference != null) {
-			objectCache.put(property.reference.id, collection);
+			propertyCache.put(property.reference.id, property);
 		}
 
 		fillProperties(collection, property.properties);
@@ -213,8 +195,8 @@ public class SharpSerializer {
 				, Object.class);
 
 			for (Property item : property.items) {
-				Object value = createObject(item);
-				addMethod.invoke(collection, value);
+				Property value = createObject(item);
+				addMethod.invoke(collection, value.obj);
 			}
 		} catch (NoSuchMethodException e) {
 			System.err.printf(
@@ -228,17 +210,17 @@ public class SharpSerializer {
 				, e.getMessage());
 		}
 
-		saveInstance(collection, property.type.cSharpType);
-		return collection;
+		property.obj = collection;
+		return property;
 	}
 
-	private Object createObjectFromDictionaryProperty (
+	private Property createObjectFromDictionaryProperty (
 		DictionaryProperty property) {
 
 		Object dictionary = createInstance(property.type.type);
 
 		if (property.reference != null) {
-			objectCache.put(property.reference.id, dictionary);
+			propertyCache.put(property.reference.id, property);
 		}
 
 		fillProperties(dictionary, property.properties);
@@ -249,9 +231,9 @@ public class SharpSerializer {
 				, Object.class);
 
 			for (Entry<Property, Property> item : property.items) {
-				Object key = createObject(item.getKey());
-				Object value = createObject(item.getValue());
-				putMethod.invoke(dictionary, key, value);
+				Property key = createObject(item.getKey());
+				Property value = createObject(item.getValue());
+				putMethod.invoke(dictionary, key.obj, value.obj);
 			}
 		} catch (NoSuchMethodException e) {
 			System.err.printf(
@@ -265,18 +247,18 @@ public class SharpSerializer {
 				, e.getMessage());
 		}
 
-		saveInstance(dictionary, property.type.cSharpType);
-		return dictionary;
+		property.obj = dictionary;
+		return property;
 	}
 
-	private Object createObjectFromSingleDimensionalArrayProperty (
+	private Property createObjectFromSingleDimensionalArrayProperty (
 		SingleDimensionalArrayProperty property) {
 
 		int itemsCount = property.items.size();
 		Object[] array = new Object[itemsCount];
 
 		if (property.reference != null) {
-			objectCache.put(property.reference.id, array);
+			propertyCache.put(property.reference.id, property);
 		}
 
 		for (int index = property.lowerBound
@@ -284,32 +266,32 @@ public class SharpSerializer {
 			; index++) {
 
 			Property item = (Property) property.items.get(index);
-			Object value = createObject(item);
+			Property value = createObject(item);
 			if (value != null) {
-				array[index] = value;
+				array[index] = value.obj;
 			}
 		}
 
 		Object[] typedArray =
 			Arrays.copyOf(array, array.length, property.type.type);
 
-		saveInstance(typedArray, property.type.cSharpType);
-		return typedArray;
+		property.obj = typedArray;
+		return property;
 	}
 
-	private Object createObjectFromComplexProperty (ComplexProperty property) {
+	private Property createObjectFromComplexProperty (ComplexProperty property) {
 		Object obj = createInstance(property.type.type);
 		if (obj == null) {
 			return null;
 		}
 
 		if (property.reference != null) {
-			objectCache.put(property.reference.id, obj);
+			propertyCache.put(property.reference.id, property);
 		}
 
 		fillProperties(obj, property.properties);
-		saveInstance(obj, property.type.cSharpType);
-		return obj;
+		property.obj = obj;
+		return property;
 	}
 
 	private void fillProperties (Object obj, List properties) {
@@ -329,13 +311,13 @@ public class SharpSerializer {
 				continue;
 			}
 
-			Object value = createObject(property);
+			Property value = createObject(property);
 			if (value == null) {
 				continue;
 			}
 
 			try {
-				field.set(obj, value);
+				field.set(obj, value.obj);
 			} catch (IllegalAccessException | IllegalArgumentException e) {
 				System.err.printf(
 					"Unable to set field '%s' of class '%s': %s%n"
@@ -363,7 +345,8 @@ public class SharpSerializer {
 		return null;
 	}
 
-	private Object createObjectFromSimpleProperty (SimpleProperty property) {
-		return property.value;
+	private Property createObjectFromSimpleProperty (SimpleProperty property) {
+		property.obj = property.value;
+		return property;
 	}
 }

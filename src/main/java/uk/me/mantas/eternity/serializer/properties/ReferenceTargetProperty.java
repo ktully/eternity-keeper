@@ -11,5 +11,6 @@ public abstract class ReferenceTargetProperty extends Property {
 
 	public void makeFlatCopyFrom (ReferenceTargetProperty source) {
 		reference = source.reference;
+		obj = source.obj;
 	}
 }

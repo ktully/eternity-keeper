@@ -3,6 +3,7 @@ package uk.me.mantas.eternity.tests.serializer;
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 import uk.me.mantas.eternity.serializer.SharpSerializer;
+import uk.me.mantas.eternity.serializer.properties.Property;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,11 +30,11 @@ public class SerializerTest {
 
 		List<Object> deserialized = new ArrayList<>();
 
-		Optional<Object> objectCount = deserializer.deserialize();
-		int count = (int) objectCount.get();
+		Optional<Property> objectCount = deserializer.deserialize();
+		int count = (int) objectCount.get().obj;
 
 		for (int i = 0; i < count; i++) {
-			Optional<Object> obj = deserializer.deserialize();
+			Optional<Property> obj = deserializer.deserialize();
 			deserialized.add(obj.get());
 		}
 
@@ -41,9 +42,7 @@ public class SerializerTest {
 
 		try {
 			SharpSerializer serializer = new SharpSerializer(
-				saveOutputFile.getAbsolutePath()
-				, deserializer.instanceMap
-				, deserializer.publicKeyToken);
+				saveOutputFile.getAbsolutePath());
 
 			serializer.serialize(deserialized.size());
 			for (Object obj : deserialized) {
