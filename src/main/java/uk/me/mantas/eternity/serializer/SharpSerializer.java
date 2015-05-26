@@ -64,7 +64,6 @@ public class SharpSerializer {
 
 				baseStream.getChannel().position(position);
 				Deserializer deserializer = new Deserializer(stream, this);
-
 				Property property = deserializer.deserialize();
 				position = baseStream.getChannel().position();
 
