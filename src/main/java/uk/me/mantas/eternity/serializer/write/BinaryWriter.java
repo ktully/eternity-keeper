@@ -2,6 +2,7 @@ package uk.me.mantas.eternity.serializer.write;
 
 import com.google.common.primitives.Ints;
 import com.google.common.primitives.Longs;
+import com.google.common.primitives.UnsignedInteger;
 import uk.me.mantas.eternity.serializer.CSharpType;
 
 import java.io.DataOutput;
@@ -90,6 +91,11 @@ public class BinaryWriter {
 			return;
 		}
 
+		if (value instanceof UnsignedInteger) {
+			out.writeInt(((UnsignedInteger) value).intValue());
+			return;
+		}
+
 		if (value instanceof Long) {
 			out.writeLong((long) value);
 			return;
@@ -133,7 +139,12 @@ public class BinaryWriter {
 
 		if (value instanceof Class) {
 			System.err.printf("Trying to write Class type unimplemented!%n");
+			return;
 		}
+
+		System.err.printf(
+			"Don't know how to write object of type '%s'!%n"
+			, value.getClass().getSimpleName());
 	}
 
 	public void writeStringGuarded (String value) throws IOException {
@@ -189,7 +200,7 @@ public class BinaryWriter {
 			return 4;
 		}
 
-		if (n > Byte.MAX_VALUE || n < Byte.MIN_VALUE) {
+		if (n > 255 || n < 0) {
 			return 2;
 		}
 
