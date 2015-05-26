@@ -152,7 +152,7 @@ public class Deserializer {
 
 		TypePair propertyType = readType();
 		if (propertyType == null) {
-			propertyType = expectedType;
+			propertyType = new TypePair(expectedType.type, null);
 		}
 
 		int referenceID = 0;
