@@ -350,8 +350,7 @@ public class Deserializer {
 			}
 
 			if (expectedType.getSimpleName().equals("UnsignedInteger")) {
-				return UnsignedInteger.valueOf(
-					(long) stream.readInt() & 0xffff);
+				return UnsignedInteger.valueOf((long) stream.readInt());
 			}
 
 			if (expectedType.getSimpleName().equals("String")) {
@@ -379,8 +378,16 @@ public class Deserializer {
 				stream.readFully(buffer.array());
 
 				int a = Integer.reverseBytes(buffer.getInt(0));
-				short b = Shorts.fromBytes(buffer.array()[5], buffer.array()[4]);
-				short c = Shorts.fromBytes(buffer.array()[7], buffer.array()[6]);
+				int b = Shorts.fromBytes(
+					buffer.array()[5]
+					, buffer.array()[4])
+					& 0xffff;
+
+				int c = Shorts.fromBytes(
+					buffer.array()[7]
+					, buffer.array()[6])
+					& 0xffff;
+
 				int d = buffer.array()[8] & 0xff;
 				int e = buffer.array()[9] & 0xff;
 				int f = buffer.array()[10] & 0xff;
