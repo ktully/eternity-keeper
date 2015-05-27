@@ -75,7 +75,6 @@ public class Serializer {
 	}
 
 	private void unprocessDictionaryReferences (DictionaryProperty property) {
-		property.reference.isProcessed = false;
 		unprocessPropertyReferences(property);
 		for (Entry<Property, Property> item : property.items) {
 			unprocessReference(item.getKey());
@@ -84,7 +83,6 @@ public class Serializer {
 	}
 
 	private void unprocessCollectionReferences (CollectionProperty property) {
-		property.reference.isProcessed = false;
 		unprocessPropertyReferences(property);
 		for (Property item : property.items) {
 			unprocessReference(item);
@@ -93,11 +91,10 @@ public class Serializer {
 
 	@SuppressWarnings("unchecked")
 	private void unprocessPropertyReferences (ComplexProperty property) {
-		if (property.reference == null) {
-			return;
+		if (property.reference != null) {
+			property.reference.isProcessed = false;
 		}
 
-		property.reference.isProcessed = false;
 		for (Property item : (List<Property>) property.properties) {
 			unprocessReference(item);
 		}
@@ -106,7 +103,10 @@ public class Serializer {
 	private void unprocessMultiArrayReferences
 		(MultiDimensionalArrayProperty property) {
 
-		property.reference.isProcessed = false;
+		if (property.reference != null) {
+			property.reference.isProcessed = false;
+		}
+
 		for (MultiDimensionalArrayItem item : property.items) {
 			unprocessReference(item.value);
 		}
@@ -116,7 +116,10 @@ public class Serializer {
 	private void unprocessSingleArrayReferences (
 		SingleDimensionalArrayProperty property) {
 
-		property.reference.isProcessed = false;
+		if (property.reference != null) {
+			property.reference.isProcessed = false;
+		}
+
 		for (Property item : (List<Property>) property.items) {
 			unprocessReference(item);
 		}
