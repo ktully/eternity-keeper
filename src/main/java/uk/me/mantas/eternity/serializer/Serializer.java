@@ -35,7 +35,7 @@ public class Serializer {
 				"Attempted to serialize non-root property!");
 		}
 
-		unprocessReference(property);
+		//unprocessReference(property);
 		serializeCore(property);
 		writeNamesHeader();
 		writeTypesHeader();
@@ -411,7 +411,7 @@ public class Serializer {
 			return false;
 		}
 
-		if (property.reference.count > 1 && property.reference.isProcessed) {
+		if (property.reference.count < 2 && !property.reference.isProcessed) {
 			writePropertyHeader(Elements.Reference, property.name, null);
 			writeNumber(property.reference.id);
 			return true;
