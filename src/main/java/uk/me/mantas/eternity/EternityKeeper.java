@@ -11,6 +11,7 @@ import org.cef.handler.CefAppHandlerAdapter;
 import org.json.JSONObject;
 import uk.me.mantas.eternity.handlers.GetDefaultSaveLocation;
 import uk.me.mantas.eternity.handlers.ListSavedGames;
+import uk.me.mantas.eternity.handlers.OpenSavedGame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -60,7 +61,7 @@ public class EternityKeeper extends JFrame {
 	}
 
 	private void addJSHandlers () {
-		CefMessageRouter openSavedGameRouter = CefMessageRouter.create(
+		CefMessageRouter getDefaultSaveLocationRouter = CefMessageRouter.create(
 			new CefMessageRouterConfig(
 				"getDefaultSaveLocation"
 				, "getDefaultSaveLocationCancel")
@@ -70,15 +71,30 @@ public class EternityKeeper extends JFrame {
 			new CefMessageRouterConfig("listSavedGames", "listSavedGamesCancel")
 			, new ListSavedGames());
 
-		cefClient.addMessageRouter(openSavedGameRouter);
+		CefMessageRouter openSavedGameRouter = CefMessageRouter.create(
+			new CefMessageRouterConfig("openSavedGame", "openSavedGameCancel")
+			, new OpenSavedGame());
+
+		cefClient.addMessageRouter(getDefaultSaveLocationRouter);
 		cefClient.addMessageRouter(listSavedGamesRouter);
+		cefClient.addMessageRouter(openSavedGameRouter);
 	}
 
 	private void shutdown () {
 		saveWindowState();
+		saveFilePaths();
 		cleanupTempDirs();
 		Environment.joinAllWorkers();
 		System.exit(0);
+	}
+
+	private void saveFilePaths () {
+		Environment environment = Environment.getInstance();
+		JSONObject settings = Settings.getInstance().json;
+
+		settings.put("savesLocation", environment.savesLocation);
+		settings.put("gameLocation", environment.gameLocation);
+		Settings.getInstance().save();
 	}
 
 	private void cleanupTempDirs () {

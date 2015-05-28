@@ -27,6 +27,8 @@ public class ListSavedGames extends CefMessageRouterHandlerAdapter {
 		, boolean persistent
 		, CefQueryCallback callback) {
 
+		Environment.getInstance().savesLocation = request;
+
 		// Spawn a separate thread to handle all the file stuff so we don't
 		// lock up the UI.
 		Environment.getInstance().getWorkers().execute(

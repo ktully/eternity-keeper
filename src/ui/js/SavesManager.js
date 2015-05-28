@@ -1,4 +1,6 @@
 var SavesManager = function () {
+	var self = this;
+
 	var saveBlock =
 		$('<div class="save-info">'
 			+ '<table>'
@@ -13,13 +15,14 @@ var SavesManager = function () {
 					+ '</tr>'
 				+ '</tbody>'
 			+ '</table>'
+			+ '<i class="fa fa-spinner fa-pulse"></i>'
 		+ '</div>');
 
 	var savedGameLocationField = $('#savedGameLocation');
-	var isSearching = false;
+	var isProcessing = false;
 
 	var searching = function () {
-		isSearching = true;
+		isProcessing = true;
 		$('#searchForSavedGames')
 		.prop('disabled', true)
 		.html('<i class="fa fa-spinner fa-pulse" style="display: inline-block;">'
@@ -27,7 +30,7 @@ var SavesManager = function () {
 	};
 
 	var notSearching = function () {
-		isSearching = false;
+		isProcessing = false;
 		$('#searchForSavedGames')
 		.prop('disabled', false)
 		.html('<i class="fa fa-spinner fa-pulse" style="display: none;">'
@@ -39,6 +42,25 @@ var SavesManager = function () {
 		console.error('Error listing saved games.');
 	};
 
+	var opening = function (el) {
+		isProcessing = true;
+		$(el).find('i').show();
+	};
+
+	self.notOpening = function () {
+		isProcessing = false;
+		$('.save-info i').hide();
+	};
+
+	var openSavedGame = function (info, e) {
+		if (isProcessing) {
+			return;
+		}
+
+		opening(e.target);
+		new SavedGame(info.absolutePath)
+	};
+
 	var generateSaveGameTiles = function (response) {
 		notSearching();
 
@@ -46,10 +68,7 @@ var SavesManager = function () {
 		$('.save-blocks').empty();
 
 		if (saveInfo.error) {
-			$('.save-blocks')
-				.append($('<div class="alert alert-warning">'
-					+ 'No saves found</div>'));
-
+			errorShow('No saves found.');
 			return;
 		}
 
@@ -74,12 +93,13 @@ var SavesManager = function () {
 			});
 
 			saveTile.find('.portraits').html(portraits.join(' '));
+			saveTile.click(openSavedGame.bind(self, info));
 			$('.save-blocks').append(saveTile);
 		});
 	};
 
 	var listSavedGames = function () {
-		if (isSearching) {
+		if (isProcessing) {
 			return;
 		}
 
@@ -93,13 +113,13 @@ var SavesManager = function () {
 
 	var updateSaveLocation = function (response) {
 		response = JSON.parse(response);
-		if (response.error) {
+		if (!response.savesLocation || response.savesLocation.length < 1) {
 			savedGameLocationField.attr(
-				'placeholder'
-				, 'Unable to locate save folder');
-		} else if (response.location) {
-			savedGameLocationField.val(response.location);
-			listSavedGames();
+                'placeholder'
+                , 'Unable to locate save folder');
+		} else {
+			savedGameLocationField.val(response.savesLocation);
+            listSavedGames();
 		}
 	};
 
@@ -114,4 +134,4 @@ var SavesManager = function () {
 	$('#searchForSavedGames').click(listSavedGames);
 };
 
-new SavesManager();
+var savesManager = new SavesManager();

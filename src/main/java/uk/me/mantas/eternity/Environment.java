@@ -1,6 +1,7 @@
 package uk.me.mantas.eternity;
 
 import org.apache.commons.io.FileUtils;
+import uk.me.mantas.eternity.serializer.properties.Property;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,11 +20,15 @@ public class Environment {
 		Executors.newFixedThreadPool(
 			Runtime.getRuntime().availableProcessors());
 
+	private Map<String, Property> characterCache;
 	private Map<EnvKey, String> environmentVariables = new HashMap<>();
 	private File settingsFile = new File(".", "settings.json");
 	private File workingDirectory = new File(
 		System.getProperty("java.io.tmpdir")
 		, "EK-unpacked-saves");
+
+	public String savesLocation = "";
+	public String gameLocation = "";
 
 	public File getSettingsFile () {
 		return settingsFile;
@@ -35,6 +40,14 @@ public class Environment {
 
 	public ExecutorService getWorkers () {
 		return workers;
+	}
+
+	public Map<String, Property> getCharacterCache () {
+		return characterCache;
+	}
+
+	public void setCharacterCache (Map<String, Property> characterCache) {
+		this.characterCache = characterCache;
 	}
 
 	public File getWorkingDirectory () {
@@ -71,6 +84,7 @@ public class Environment {
 
 	public enum EnvKey {
 		USERPROFILE
+		, HOME
 	}
 
 	private Environment () {
@@ -80,7 +94,7 @@ public class Environment {
 
 	private void mapEnvironmentVariables () {
 		// A list of all the environment variables we care about:
-		EnvKey[] variables = new EnvKey[]{EnvKey.USERPROFILE};
+		EnvKey[] variables = new EnvKey[]{EnvKey.USERPROFILE, EnvKey.HOME};
 
 		Arrays.stream(variables).forEach((variable) -> {
 			String value = System.getenv(variable.name());
