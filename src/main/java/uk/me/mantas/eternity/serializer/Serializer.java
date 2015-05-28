@@ -35,94 +35,10 @@ public class Serializer {
 				"Attempted to serialize non-root property!");
 		}
 
-		//unprocessReference(property);
 		serializeCore(property);
 		writeNamesHeader();
 		writeTypesHeader();
 		writeCache();
-	}
-
-	private void unprocessReference (Property property) {
-		if (!(property instanceof ReferenceTargetProperty)) {
-			return;
-		}
-
-		if (property instanceof SingleDimensionalArrayProperty) {
-			unprocessSingleArrayReferences(
-				(SingleDimensionalArrayProperty) property);
-
-			return;
-		}
-
-		if (property instanceof MultiDimensionalArrayProperty) {
-			unprocessMultiArrayReferences(
-				(MultiDimensionalArrayProperty) property);
-
-			return;
-		}
-
-		if (property instanceof CollectionProperty) {
-			unprocessCollectionReferences((CollectionProperty) property);
-			return;
-		}
-
-		if (property instanceof DictionaryProperty) {
-			unprocessDictionaryReferences((DictionaryProperty) property);
-			return;
-		}
-
-		unprocessPropertyReferences((ComplexProperty) property);
-	}
-
-	private void unprocessDictionaryReferences (DictionaryProperty property) {
-		unprocessPropertyReferences(property);
-		for (Entry<Property, Property> item : property.items) {
-			unprocessReference(item.getKey());
-			unprocessReference(item.getValue());
-		}
-	}
-
-	private void unprocessCollectionReferences (CollectionProperty property) {
-		unprocessPropertyReferences(property);
-		for (Property item : property.items) {
-			unprocessReference(item);
-		}
-	}
-
-	@SuppressWarnings("unchecked")
-	private void unprocessPropertyReferences (ComplexProperty property) {
-		if (property.reference != null) {
-			property.reference.isProcessed = false;
-		}
-
-		for (Property item : (List<Property>) property.properties) {
-			unprocessReference(item);
-		}
-	}
-
-	private void unprocessMultiArrayReferences
-		(MultiDimensionalArrayProperty property) {
-
-		if (property.reference != null) {
-			property.reference.isProcessed = false;
-		}
-
-		for (MultiDimensionalArrayItem item : property.items) {
-			unprocessReference(item.value);
-		}
-	}
-
-	@SuppressWarnings("unchecked")
-	private void unprocessSingleArrayReferences (
-		SingleDimensionalArrayProperty property) {
-
-		if (property.reference != null) {
-			property.reference.isProcessed = false;
-		}
-
-		for (Property item : (List<Property>) property.items) {
-			unprocessReference(item);
-		}
 	}
 
 	private void writeCache () throws IOException {
