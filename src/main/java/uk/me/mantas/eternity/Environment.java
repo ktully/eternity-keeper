@@ -11,6 +11,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 public class Environment {
+	public static final String PILLARS_DATA_DIR = "PillarsOfEternity_Data";
+
 	private static Environment instance = null;
 	private static final long SHUTDOWN_TIMEOUT_SECONDS = 60;
 	private ExecutorService workers =

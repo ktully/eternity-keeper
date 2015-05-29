@@ -9,6 +9,7 @@ import org.json.JSONStringer;
 import uk.me.mantas.eternity.Environment;
 import uk.me.mantas.eternity.Settings;
 
+import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
@@ -64,9 +65,14 @@ public class GetDefaultSaveLocation extends CefMessageRouterHandlerAdapter {
 				for (String possibleLocation :
 					environment.possibleInstallationLocations) {
 
-					Path resolvedLocation = root.resolve(possibleLocation);
-					if (resolvedLocation.toFile().exists()) {
-						defaultGameLocation = resolvedLocation.toString();
+					File resolvedLocation = new File(
+						root.toFile()
+						, possibleLocation);
+
+					if (resolvedLocation.exists()) {
+						defaultGameLocation =
+							resolvedLocation.getAbsolutePath();
+
 						break;
 					}
 				}

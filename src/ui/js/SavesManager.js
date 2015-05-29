@@ -58,7 +58,7 @@ var SavesManager = function () {
 			return;
 		}
 
-		opening(e.target);
+		opening(e.currentTarget);
 		new SavedGame(info.absolutePath)
 	};
 
@@ -104,6 +104,7 @@ var SavesManager = function () {
 			return;
 		}
 
+		errorHide();
 		searching();
 		window.listSavedGames({
 			request: $('#savedGameLocation').val()
