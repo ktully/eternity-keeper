@@ -1,9 +1,12 @@
 package uk.me.mantas.eternity.save;
 
+import org.apache.commons.io.FileUtils;
 import org.cef.callback.CefQueryCallback;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import uk.me.mantas.eternity.Environment;
+import uk.me.mantas.eternity.Settings;
 import uk.me.mantas.eternity.game.ObjectPersistencePacket;
 import uk.me.mantas.eternity.handlers.OpenSavedGame;
 import uk.me.mantas.eternity.serializer.SharpSerializer;
@@ -11,7 +14,13 @@ import uk.me.mantas.eternity.serializer.properties.Property;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
+
+import static uk.me.mantas.eternity.Environment.EnvKey;
+import static uk.me.mantas.eternity.Environment.getInstance;
 
 public class SavedGameOpener implements Runnable {
 	private final String saveGameLocation;
@@ -39,7 +48,7 @@ public class SavedGameOpener implements Runnable {
 		Map<String, Property> characters =
 			extractCharacters(gameObjects);
 
-		Environment.getInstance().setCharacterCache(characters);
+		getInstance().setCharacterCache(characters);
 		sendJSON(characters);
 	}
 
@@ -51,11 +60,68 @@ public class SavedGameOpener implements Runnable {
 			ObjectPersistencePacket packet =
 				(ObjectPersistencePacket) property.obj;
 
+			jsonObject.put("portrait", extractPortrait(packet));
 			return jsonObject;
 		}).toArray(JSONObject[]::new);
 
 		String json = new JSONArray(jsonObjects).toString();
 		callback.success(json);
+	}
+
+	private String extractPortrait (ObjectPersistencePacket packet) {
+		Environment environment = getInstance();
+		JSONObject settings = Settings.getInstance().json;
+
+		Optional<String> portraitSubPath =
+			Arrays.stream(packet.ComponentPackets)
+				.filter(c -> c.TypeString.equals("Portrait"))
+				.findFirst()
+				.map(c -> (String) c.Variables.get("m_textureLargePath"));
+
+		if (!portraitSubPath.isPresent()) {
+			return "";
+		}
+
+		Optional<String> systemDrive =
+			environment.getEnvVar(EnvKey.SYSTEMDRIVE);
+
+		if (!systemDrive.isPresent()) {
+			return "";
+		}
+
+		String installationPath;
+		try {
+			installationPath = settings.getString("gameLocation");
+		} catch (JSONException e) {
+			return "";
+		}
+
+		Path portraitPath =
+			Paths.get(systemDrive.get())
+				.resolve(installationPath)
+				.resolve(portraitSubPath.get());
+
+		if (!portraitPath.toFile().exists()) {
+			System.err.printf(
+				"Game files contained reference to portrait at '%s' "
+				+ "but it didn't exist.%n", portraitPath.toString());
+
+			return "";
+		}
+
+		try {
+			byte[] portraitData =
+				FileUtils.readFileToByteArray(portraitPath.toFile());
+
+			return Base64.getEncoder().encodeToString(portraitData);
+		} catch (IOException e) {
+			System.err.printf(
+				"Unable to open portrait file '%s': %s%n"
+				, portraitPath.toString()
+				, e.getMessage());
+		}
+
+		return "";
 	}
 
 	private Map<String, Property> extractCharacters (
