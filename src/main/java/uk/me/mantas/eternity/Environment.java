@@ -5,10 +5,7 @@ import uk.me.mantas.eternity.serializer.properties.Property;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -27,8 +24,14 @@ public class Environment {
 		System.getProperty("java.io.tmpdir")
 		, "EK-unpacked-saves");
 
-	public String savesLocation = "";
-	public String gameLocation = "";
+	public List<String> possibleInstallationLocations =
+		new ArrayList<String>()	{{
+			add("Program Files\\GOG Games\\Pillars of Eternity");
+			add("Program Files (x86)\\GOG Games\\Pillars of Eternity");
+			add("Program Files\\Steam\\SteamApps\\common\\Pillars of Eternity");
+			add("Program Files (x86)\\Steam\\SteamApps\\"
+				+ "common\\Pillars of Eternity");
+		}};
 
 	public File getSettingsFile () {
 		return settingsFile;
@@ -85,6 +88,7 @@ public class Environment {
 	public enum EnvKey {
 		USERPROFILE
 		, HOME
+		, SYSTEMDRIVE
 	}
 
 	private Environment () {
@@ -94,7 +98,10 @@ public class Environment {
 
 	private void mapEnvironmentVariables () {
 		// A list of all the environment variables we care about:
-		EnvKey[] variables = new EnvKey[]{EnvKey.USERPROFILE, EnvKey.HOME};
+		EnvKey[] variables = new EnvKey[]{
+			EnvKey.USERPROFILE
+			, EnvKey.HOME
+			, EnvKey.SYSTEMDRIVE};
 
 		Arrays.stream(variables).forEach((variable) -> {
 			String value = System.getenv(variable.name());

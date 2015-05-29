@@ -9,6 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONStringer;
 import uk.me.mantas.eternity.Environment;
+import uk.me.mantas.eternity.Settings;
 import uk.me.mantas.eternity.save.SaveGameExtractor;
 import uk.me.mantas.eternity.save.SaveGameInfo;
 
@@ -27,7 +28,7 @@ public class ListSavedGames extends CefMessageRouterHandlerAdapter {
 		, boolean persistent
 		, CefQueryCallback callback) {
 
-		Environment.getInstance().savesLocation = request;
+		Settings.getInstance().json.put("savesLocation", request);
 
 		// Spawn a separate thread to handle all the file stuff so we don't
 		// lock up the UI.

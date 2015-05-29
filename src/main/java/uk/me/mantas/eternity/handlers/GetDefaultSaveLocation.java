@@ -9,7 +9,6 @@ import org.json.JSONStringer;
 import uk.me.mantas.eternity.Environment;
 import uk.me.mantas.eternity.Settings;
 
-import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
@@ -25,6 +24,7 @@ public class GetDefaultSaveLocation extends CefMessageRouterHandlerAdapter {
 		, boolean persistent
 		, CefQueryCallback callback) {
 
+		Environment environment = Environment.getInstance();
 		JSONObject settings = Settings.getInstance().json;
 		String defaultSaveLocation = null;
 		String defaultGameLocation = null;
@@ -39,7 +39,7 @@ public class GetDefaultSaveLocation extends CefMessageRouterHandlerAdapter {
 
 		if (defaultSaveLocation == null || defaultSaveLocation.length() < 1) {
 			Optional<String> userProfile =
-				Environment.getInstance().getEnvVar(EnvKey.USERPROFILE);
+				environment.getEnvVar(EnvKey.USERPROFILE);
 
 			if (userProfile.isPresent()) {
 				Path defaultLocation = Paths.get(userProfile.get())
@@ -56,16 +56,27 @@ public class GetDefaultSaveLocation extends CefMessageRouterHandlerAdapter {
 		}
 
 		if (defaultGameLocation == null || defaultGameLocation.length() < 1) {
-			File steamLocation = new File("C:\\Program Files (x86)\\Steam\\"
-				+ "SteamApps\\common\\Pillars of Eternity");
+			Optional<String> systemDrive =
+				environment.getEnvVar(EnvKey.SYSTEMDRIVE);
 
-			if (steamLocation.exists()) {
-				defaultGameLocation = steamLocation.getAbsolutePath();
+			if (systemDrive.isPresent()) {
+				Path root = Paths.get(systemDrive.get());
+				for (String possibleLocation :
+					environment.possibleInstallationLocations) {
+
+					Path resolvedLocation = root.resolve(possibleLocation);
+					if (resolvedLocation.toFile().exists()) {
+						defaultGameLocation = resolvedLocation.toString();
+						break;
+					}
+				}
 			}
 		}
 
 		if (defaultGameLocation == null) {
 			defaultGameLocation = "";
+		} else {
+			settings.put("gameLocation", defaultGameLocation);
 		}
 
 		callback.success(

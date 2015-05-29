@@ -19,6 +19,7 @@ var SavesManager = function () {
 		+ '</div>');
 
 	var savedGameLocationField = $('#savedGameLocation');
+	var gameLocationField = $('#gameLocation');
 	var isProcessing = false;
 
 	var searching = function () {
@@ -120,6 +121,16 @@ var SavesManager = function () {
 		} else {
 			savedGameLocationField.val(response.savesLocation);
             listSavedGames();
+		}
+
+		if (!response.gameLocation || response.gameLocation.length < 1) {
+			gameLocationField.attr(
+				'placeholder'
+				, 'Unable to locate installation folder');
+
+			$('#settings').modal('show');
+		} else {
+			gameLocationField.val(response.gameLocation);
 		}
 	};
 

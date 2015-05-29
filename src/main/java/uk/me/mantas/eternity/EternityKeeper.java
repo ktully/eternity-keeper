@@ -12,6 +12,7 @@ import org.json.JSONObject;
 import uk.me.mantas.eternity.handlers.GetDefaultSaveLocation;
 import uk.me.mantas.eternity.handlers.ListSavedGames;
 import uk.me.mantas.eternity.handlers.OpenSavedGame;
+import uk.me.mantas.eternity.handlers.SaveSettings;
 
 import javax.swing.*;
 import java.awt.*;
@@ -75,26 +76,21 @@ public class EternityKeeper extends JFrame {
 			new CefMessageRouterConfig("openSavedGame", "openSavedGameCancel")
 			, new OpenSavedGame());
 
+		CefMessageRouter saveSettingsRouter = CefMessageRouter.create(
+			new CefMessageRouterConfig("saveSettings", "saveSettingsCancel")
+			, new SaveSettings());
+
 		cefClient.addMessageRouter(getDefaultSaveLocationRouter);
 		cefClient.addMessageRouter(listSavedGamesRouter);
 		cefClient.addMessageRouter(openSavedGameRouter);
+		cefClient.addMessageRouter(saveSettingsRouter);
 	}
 
 	private void shutdown () {
 		saveWindowState();
-		saveFilePaths();
 		cleanupTempDirs();
 		Environment.joinAllWorkers();
 		System.exit(0);
-	}
-
-	private void saveFilePaths () {
-		Environment environment = Environment.getInstance();
-		JSONObject settings = Settings.getInstance().json;
-
-		settings.put("savesLocation", environment.savesLocation);
-		settings.put("gameLocation", environment.gameLocation);
-		Settings.getInstance().save();
 	}
 
 	private void cleanupTempDirs () {

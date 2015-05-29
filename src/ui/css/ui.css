@@ -100,7 +100,8 @@ button#searchForSavedGames {
 	transition: background-color .2s;
 }
 
-#searchForSavedGames i {
+#searchForSavedGames i
+, #saveSettings i {
 	display: none;
 }
 

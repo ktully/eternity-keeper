@@ -13,6 +13,31 @@
 
 </head>
 <body>
+	<div class="modal fade" id="settings" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span>&times;</span>
+					</button>
+					<h4 class="modal-title">Settings</h4>
+				</div>
+				<div class="modal-body">
+					<form>
+						<div class="form-group form-group-sm">
+							<label for="gameLocation">Pillars of Eternity Installation Folder</label>
+							<input id="gameLocation" type="text" class="form-control">
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary btn-sm" id="saveSettings">
+						<i class="fa fa-spinner fa-pulse"></i> Save settings
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<nav class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container-fluid">
@@ -30,7 +55,7 @@
 								<li><a href="javascript:void(0);" id="menu-open-saved-game">Open saved game</a></li>
 								<li class="disabled"><a href="javascript:void(0);">Save modifications</a></li>
 								<li class="divider"></li>
-								<li><a href="javascript:void(0);" id="menu-settings">Settings</a></li>
+								<li><a data-toggle="modal" href="#settings" id="menu-settings">Settings</a></li>
 							</ul>
 						</li>
 					</ul>
@@ -67,6 +92,7 @@
 	<script src="js/jquery-2.1.4.min.js"></script>
 	<script src="bootstrap/js/bootstrap.min.js"></script>
 	<script src="js/Errors.js"></script>
+	<script src="js/Settings.js"></script>
 	<script src="js/SavedGame.js"></script>
 	<script src="js/SavesManager.js"></script>
 
