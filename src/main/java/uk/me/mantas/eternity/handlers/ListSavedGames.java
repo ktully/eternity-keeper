@@ -29,11 +29,13 @@ public class ListSavedGames extends CefMessageRouterHandlerAdapter {
 		, CefQueryCallback callback) {
 
 		Settings.getInstance().json.put("savesLocation", request);
+		Environment environment = Environment.getInstance();
 
 		// Spawn a separate thread to handle all the file stuff so we don't
 		// lock up the UI.
-		Environment.getInstance().getWorkers().execute(
-			new SaveInfoLister(request, callback));
+		SaveInfoLister lister = new SaveInfoLister(request, callback);
+		environment.setCurrentSaveLister(lister);
+		environment.getWorkers().execute(lister);
 
 		return true;
 	}
@@ -47,6 +49,7 @@ public class ListSavedGames extends CefMessageRouterHandlerAdapter {
 	public static class SaveInfoLister implements Runnable {
 		private String savesLocation;
 		private CefQueryCallback callback;
+		public SaveGameExtractor extractor = null;
 
 		public SaveInfoLister (String savesLocation, CefQueryCallback callback) {
 			this.savesLocation = savesLocation;
@@ -56,7 +59,7 @@ public class ListSavedGames extends CefMessageRouterHandlerAdapter {
 		@Override
 		public void run () {
 			Environment.getInstance().emptyWorkingDirectory();
-			SaveGameExtractor extractor = new SaveGameExtractor(
+			extractor = new SaveGameExtractor(
 				savesLocation
 				, Environment.getInstance().getWorkingDirectory());
 

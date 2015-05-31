@@ -44,6 +44,14 @@ html, * {
 	font-family: proxima-nova, sans-serif;
 }
 
+#progress {
+	position: fixed;
+	bottom: 10px;
+	right: 10px;
+	width: 100px;
+	margin-bottom: 0px;
+}
+
 .clickable {
 	cursor: pointer;
 }

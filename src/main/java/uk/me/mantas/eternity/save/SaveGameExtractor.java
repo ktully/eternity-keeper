@@ -5,6 +5,7 @@ import net.lingala.zip4j.exception.ZipException;
 
 import java.io.File;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -13,8 +14,13 @@ import static uk.me.mantas.eternity.save.SaveGameInfo.*;
 public class SaveGameExtractor {
 	private String savesLocation;
 	private File workingDirectory;
+	public AtomicInteger totalFiles = new AtomicInteger(0);
+	public AtomicInteger currentCount = new AtomicInteger(0);
 
-	public SaveGameExtractor (String savesLocation, File workingDirectory) {
+	public SaveGameExtractor (
+		String savesLocation
+		, File workingDirectory) {
+
 		this.savesLocation = savesLocation;
 		this.workingDirectory = workingDirectory;
 	}
@@ -26,6 +32,7 @@ public class SaveGameExtractor {
 		try {
 			ZipFile archive = new ZipFile(save);
 			archive.extractAll(destinationPath);
+			currentCount.getAndIncrement();
 			return new File(destinationPath);
 		} catch (ZipException e) {
 			System.err.printf(
@@ -87,8 +94,13 @@ public class SaveGameExtractor {
 			return Optional.empty();
 		}
 
-		SaveGameInfo[] info = Arrays.stream(saves)
-			.<File>filter(File::isFile)
+		File[] saveFiles = Arrays.stream(saves)
+			.filter(File::isFile)
+			.toArray(File[]::new);
+
+		totalFiles.set(saveFiles.length);
+		currentCount.set(0);
+		SaveGameInfo[] info = Arrays.stream(saveFiles)
 			.<File>map(this::unpackSave)
 			.<File>filter(a -> a != null)
 			.<Optional<SaveGameInfo>>map(this::extractInfo)

@@ -1,5 +1,6 @@
 var SavesManager = function () {
 	var self = this;
+	var updateInterval = null;
 	self.currentSavedGame = null;
 	self.windowClosing = false;
 
@@ -30,9 +31,12 @@ var SavesManager = function () {
 		.prop('disabled', true)
 		.html('<i class="fa fa-spinner fa-pulse" style="display: inline-block;">'
 			+ '</i> Searching...');
+
+		updateInterval = setInterval(pollForUpdate, 1000);
 	};
 
 	var notSearching = function () {
+		clearInterval(updateInterval);
 		isProcessing = false;
 		$('#searchForSavedGames')
 		.prop('disabled', false)
@@ -41,6 +45,7 @@ var SavesManager = function () {
 	};
 
 	var listSavedGamesFailed = function () {
+		resetProgress();
 		notSearching();
 		console.error('Error listing saved games.');
 	};
@@ -64,16 +69,34 @@ var SavesManager = function () {
 		self.currentSavedGame = new SavedGame(info);
 	};
 
-	var generateSaveGameTiles = function (response) {
-		notSearching();
+	var updateProgress = function (responseText) {
+		var response = JSON.parse(responseText);
+		if (response.update) {
+			$('#progress div').css('width', response.update + 'px');
+		}
+	};
 
-		var saveInfo = JSON.parse(response);
+	var pollForUpdate = function () {
+		window.checkExtractionProgress({
+			request: "true"
+			, onSuccess: updateProgress
+			, onFailure: console.error.bind(
+				console
+				, "Error checking for extraction progress")
+		});
+	};
+
+	var generateSaveGameTiles = function (response) {
+		resetProgress();
+		notSearching();
 		$('.save-blocks').empty();
 
-		if (saveInfo.error) {
-			errorShow('No saves found.');
-			return;
-		}
+		var saveInfo = JSON.parse(response);
+		if (response.error) {
+            resetProgress();
+            errorShow('No saves found.');
+            return;
+        }
 
 		saveInfo.forEach(function (info) {
 			var saveTile = saveBlock.clone();
@@ -101,11 +124,16 @@ var SavesManager = function () {
 		});
 	};
 
+	var resetProgress = function () {
+		$('#progress div').css('width', '0px');
+	};
+
 	var listSavedGames = function () {
 		if (isProcessing) {
 			return;
 		}
 
+		resetProgress();
 		errorHide();
 		searching();
 		window.listSavedGames({

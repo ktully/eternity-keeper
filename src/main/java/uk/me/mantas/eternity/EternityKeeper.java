@@ -93,12 +93,20 @@ public class EternityKeeper extends JFrame {
 			new CefMessageRouterConfig("closeWindow", "closeWindowCancel")
 			, new CloseWindow(this));
 
+		CefMessageRouter checkExtractionProgressRouter =
+			CefMessageRouter.create(
+				new CefMessageRouterConfig(
+					"checkExtractionProgress"
+					, "checkExtractionProgressCancel")
+				, new CheckExtractionProgress());
+
 		cefClient.addMessageRouter(getDefaultSaveLocationRouter);
 		cefClient.addMessageRouter(listSavedGamesRouter);
 		cefClient.addMessageRouter(openSavedGameRouter);
 		cefClient.addMessageRouter(saveSettingsRouter);
 		cefClient.addMessageRouter(saveChangesRouter);
 		cefClient.addMessageRouter(closeWindowRouter);
+		cefClient.addMessageRouter(checkExtractionProgressRouter);
 	}
 
 	private void shutdown () {

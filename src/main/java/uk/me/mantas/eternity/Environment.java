@@ -10,6 +10,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+import static uk.me.mantas.eternity.handlers.ListSavedGames.SaveInfoLister;
+
 public class Environment {
 	public static final String PILLARS_DATA_DIR = "PillarsOfEternity_Data";
 	public boolean closing = false;
@@ -20,6 +22,7 @@ public class Environment {
 		Executors.newFixedThreadPool(
 			Runtime.getRuntime().availableProcessors());
 
+	private SaveInfoLister currentSaveLister = null;
 	private Map<String, Property> characterCache;
 	private Map<EnvKey, String> environmentVariables = new HashMap<>();
 	private File previousSaveDirectory = null;
@@ -63,6 +66,14 @@ public class Environment {
 
 	public void setWorkingDirectory (File workingDirectory) {
 		this.workingDirectory = workingDirectory;
+	}
+
+	public SaveInfoLister getCurrentSaveLister () {
+		return currentSaveLister;
+	}
+
+	public void setCurrentSaveLister (SaveInfoLister currentSaveLister) {
+		this.currentSaveLister = currentSaveLister;
 	}
 
 	public void deleteWorkingDirectory () {
