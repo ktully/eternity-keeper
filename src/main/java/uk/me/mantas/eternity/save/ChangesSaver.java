@@ -240,6 +240,7 @@ public class ChangesSaver implements Runnable {
 							(SimpleProperty) item.getValue();
 
 						valueProperty.value = updateValue;
+						valueProperty.obj = updateValue;
 						break;
 					}
 				}

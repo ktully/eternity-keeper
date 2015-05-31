@@ -102,7 +102,7 @@ button#searchForSavedGames {
 
 #searchForSavedGames i
 , #saveSettings i
-, #saveFile i {
+, # {
 	display: none;
 }
 

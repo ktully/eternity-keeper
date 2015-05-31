@@ -1,6 +1,7 @@
 var SaveModifications = function () {
 	var self = this;
 	var previousName = null;
+	var switchingContexts = false;
 	self.savedYet = false;
 
 	var saving = function () {
@@ -20,6 +21,8 @@ var SaveModifications = function () {
 				, onSuccess: function () {}
 				, onFailure: function () {}
 			});
+
+			return;
 		}
 
 		notSaving();
@@ -28,6 +31,11 @@ var SaveModifications = function () {
 		self.savedYet = true;
 		previousName = saveName;
 		savesManager.currentSavedGame.modifications = false;
+
+		if (switchingContexts) {
+			switchingContexts = false;
+			savesManager.switchToSavesManagerContext();
+		}
 	};
 
 	var failedToSave = function (errID, response) {
@@ -72,6 +80,7 @@ var SaveModifications = function () {
 			return;
 		}
 
+		$('#saveFileDialog').off();
 		$('#saveChangesDialog').modal('hide');
 		$('#saveFileDialog').modal('show');
 		$('#saveFileDialog').on('shown.bs.modal', function () {
@@ -86,6 +95,8 @@ var SaveModifications = function () {
 	};
 
 	var dontSaveChanges = function () {
+		switchingContexts = false;
+
 		if (savesManager.windowClosing) {
 			window.closeWindow({
 				request: 'true'
@@ -98,9 +109,25 @@ var SaveModifications = function () {
 		}
 	};
 
+	var checkBeforeSwitching = function () {
+		if (savesManager.currentSavedGame.modifications) {
+			switchingContexts = true;
+			$('#saveChangesDialog').modal('show');
+		} else {
+			savesManager.switchToSavesManagerContext();
+		}
+	};
+
+	var notSwitchingContexts = function () {
+		switchingContexts = false;
+	};
+
 	$('#dontSaveChanges').click(dontSaveChanges);
 	$('#saveChanges').click(self.saveChanges);
 	$('#saveFile').click(doSave.bind(self, $('#newSaveName').val()));
+	$('#menu-open-saved-game').click(checkBeforeSwitching);
+	$('#saveChangesDialog .close').click(notSwitchingContexts);
+	$('#saveFileDialog .close').click(notSwitchingContexts);
 };
 
 var checkForModifications = function () {
