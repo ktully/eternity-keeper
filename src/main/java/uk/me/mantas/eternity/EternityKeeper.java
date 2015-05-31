@@ -9,10 +9,7 @@ import org.cef.browser.CefBrowser;
 import org.cef.browser.CefMessageRouter;
 import org.cef.handler.CefAppHandlerAdapter;
 import org.json.JSONObject;
-import uk.me.mantas.eternity.handlers.GetDefaultSaveLocation;
-import uk.me.mantas.eternity.handlers.ListSavedGames;
-import uk.me.mantas.eternity.handlers.OpenSavedGame;
-import uk.me.mantas.eternity.handlers.SaveSettings;
+import uk.me.mantas.eternity.handlers.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -49,14 +46,22 @@ public class EternityKeeper extends JFrame {
 			, OS.isLinux()
 			, false);
 
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		getContentPane().add(browser.getUIComponent(), BorderLayout.CENTER);
 		pack();
 
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing (WindowEvent e) {
-				CefApp.getInstance().dispose();
-				dispose();
+				if (Environment.getInstance().closing) {
+					cefApp.dispose();
+					dispose();
+				} else {
+					browser.executeJavaScript(
+						"checkForModifications();"
+						, browser.getURL()
+						, 0);
+				}
 			}
 		});
 	}
@@ -80,10 +85,20 @@ public class EternityKeeper extends JFrame {
 			new CefMessageRouterConfig("saveSettings", "saveSettingsCancel")
 			, new SaveSettings());
 
+		CefMessageRouter saveChangesRouter = CefMessageRouter.create(
+			new CefMessageRouterConfig("saveChanges", "saveChangesCancel")
+			, new SaveChanges());
+
+		CefMessageRouter closeWindowRouter = CefMessageRouter.create(
+			new CefMessageRouterConfig("closeWindow", "closeWindowCancel")
+			, new CloseWindow(this));
+
 		cefClient.addMessageRouter(getDefaultSaveLocationRouter);
 		cefClient.addMessageRouter(listSavedGamesRouter);
 		cefClient.addMessageRouter(openSavedGameRouter);
 		cefClient.addMessageRouter(saveSettingsRouter);
+		cefClient.addMessageRouter(saveChangesRouter);
+		cefClient.addMessageRouter(closeWindowRouter);
 	}
 
 	private void shutdown () {

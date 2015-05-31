@@ -38,6 +38,7 @@ public class GetDefaultSaveLocationTest extends TestHarness {
 
 		// No USERPROFILE environment variable.
 		environment.setEnvVar(EnvKey.USERPROFILE, null);
+		environment.setEnvVar(EnvKey.SYSTEMDRIVE, null);
 		cls.onQuery(mockBrowser, 0, "", false, mockCallback);
 		verify(mockCallback).success(NO_DEFAULT);
 	}

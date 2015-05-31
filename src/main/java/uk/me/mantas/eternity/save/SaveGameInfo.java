@@ -5,7 +5,7 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.joox.Match;
-import org.xml.sax.SAXException;
+import org.w3c.dom.DOMException;
 
 import java.io.File;
 import java.io.IOException;
@@ -114,7 +114,10 @@ public class SaveGameInfo {
 
 	private boolean parseSaveInfoXML (File saveInfoXML) {
 		try {
-			Match xml = $(saveInfoXML);
+			String contents =
+				FileUtils.readFileToString(saveInfoXML).replace("\uFEFF", "");
+
+			Match xml = $(contents);
 
 			playerName = xml.find("Simple[name='PlayerName']").attr("value");
 			sceneTitle = xml.find("Simple[name='SceneTitle']").attr("value");
@@ -136,7 +139,7 @@ public class SaveGameInfo {
 			timestamp = dateFormatter.parseDateTime(timestampText);
 
 			return true;
-		} catch (SAXException e) {
+		} catch (DOMException e) {
 			System.err.printf(
 				"Error parsing %s: %s%n"
 				, saveInfoXML.getAbsolutePath()

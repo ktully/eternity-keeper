@@ -101,7 +101,8 @@ button#searchForSavedGames {
 }
 
 #searchForSavedGames i
-, #saveSettings i {
+, #saveSettings i
+, #saveFile i {
 	display: none;
 }
 
@@ -190,4 +191,8 @@ ul.characters {
 
 .character .stats input {
 	width: 60px;
+}
+
+#saveChanges {
+	float: right;
 }

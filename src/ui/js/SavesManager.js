@@ -1,5 +1,7 @@
 var SavesManager = function () {
 	var self = this;
+	self.currentSavedGame = null;
+	self.windowClosing = false;
 
 	var saveBlock =
 		$('<div class="save-info">'
@@ -59,7 +61,7 @@ var SavesManager = function () {
 		}
 
 		opening(e.currentTarget);
-		new SavedGame(info.absolutePath)
+		self.currentSavedGame = new SavedGame(info);
 	};
 
 	var generateSaveGameTiles = function (response) {
@@ -117,11 +119,11 @@ var SavesManager = function () {
 		response = JSON.parse(response);
 		if (!response.savesLocation || response.savesLocation.length < 1) {
 			savedGameLocationField.attr(
-                'placeholder'
-                , 'Unable to locate save folder');
+				'placeholder'
+				, 'Unable to locate save folder');
 		} else {
 			savedGameLocationField.val(response.savesLocation);
-            listSavedGames();
+			listSavedGames();
 		}
 
 		if (!response.gameLocation || response.gameLocation.length < 1) {
@@ -134,6 +136,43 @@ var SavesManager = function () {
 			gameLocationField.val(response.gameLocation);
 		}
 	};
+
+	self.switchToSavesManagerContext = function () {
+		$('.character').hide();
+		$('.characters').empty();
+
+		$('#menu-save-modification'
+			+ ', #menu-export-character'
+			+ ', #menu-import-character')
+			.parent().addClass('disabled');
+
+		$('#menu-save-modification'
+			+ ', #menu-export-character'
+			+ ', #menu-import-character')
+			.off();
+
+		$('.saved-game-locator, .save-blocks').show();
+		self.currentSavedGame = null;
+		saveModifications.savedYet = false;
+	};
+
+	self.switchToSavedGameContext = function () {
+		errorHide();
+		$('.saved-game-locator').hide();
+		$('.save-blocks').hide();
+		$('#menu-save-modification'
+			+ ', #menu-export-character'
+			+ ', #menu-import-character')
+			.parent().removeClass('disabled');
+
+		$('#menu-save-modification').click(saveModifications.saveChanges);
+	};
+
+	$(document).keyup(function (e) {
+		if (e.ctrlKey === true && e.keyCode === 83) { // Ctrl+s
+			saveModifications.saveChanges();
+		}
+	});
 
 	window.getDefaultSaveLocation({
 		request: 'default'

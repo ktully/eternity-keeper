@@ -1,12 +1,55 @@
-var SavedGame = function (absolutePath) {
-	var populateCharacterList = function (characters) {
-		var items = characters.map(function (character) {
+var SavedGame = function (info) {
+	var self = this;
+	self.info = info;
+	self.characterData = null;
+	self.modifications = false;
+
+	var switchCharacter = function (e) {
+		var guid = $(e.currentTarget).attr('data-guid');
+		$('.characters li').removeClass('active');
+		$(e.currentTarget).addClass('active');
+		var character = self.characterData.filter(function (c) {
+			return c.GUID === guid;
+		}).shift();
+
+		populateCharacter(character);
+	};
+
+	var populateCharacterList = function () {
+		var items = self.characterData.map(function (character) {
 			return $('<li>')
 				.attr('data-guid', character.GUID)
 				.text(character.name);
 		});
 
 		$('.characters').empty().append(items);
+		$('.characters li').click(switchCharacter);
+	};
+
+	var updateData = function (e) {
+		var el = $(e.currentTarget);
+		var type = el.attr('type');
+		var key = el.attr('data-key');
+		var value = el.val();
+
+		if (key === null || key.length < 1) {
+			return;
+		}
+
+		if (type === 'number') {
+			value = parseInt(value);
+			if (isNaN(value)) {
+				return;
+			}
+		}
+
+		var guid = $('.characters .active').attr('data-guid');
+		var character = self.characterData.filter(function (c) {
+			return c.GUID === guid;
+		}).shift();
+
+		character.stats[key] = value;
+		self.modifications = true;
 	};
 
 	var populateCharacter = function (character) {
@@ -31,9 +74,13 @@ var SavedGame = function (absolutePath) {
                     .append(
                         $('<input>')
                         .attr('type', 'number')
-                        .addClass('form-control'))
-                        .val(character.stats[stat])));
+                        .attr('value', character.stats[stat])
+                        .attr('data-key', stat)
+                        .addClass('form-control'))));
 		}
+
+		$('.stats input').change(updateData);
+		$('.stats input').keyup(updateData);
 	};
 
 	var loadUI = function (response) {
@@ -45,23 +92,21 @@ var SavedGame = function (absolutePath) {
 			return;
 		}
 
-		errorHide();
-		$('.saved-game-locator').hide();
-		$('.save-blocks').hide();
-		$('.character').show();
-		$('#menu-save-modification').removeClass('disabled');
+		self.characterData = characters;
+		savesManager.switchToSavedGameContext();
 
-		populateCharacterList(characters);
+		$('.character').show();
+		populateCharacterList();
 		$('.characters li').first().addClass('active');
 		populateCharacter(characters[0]);
 	};
 
 	window.openSavedGame({
-		request: absolutePath
+		request: info.absolutePath
 		, onSuccess: loadUI
 		, onFailure: console.error.bind(
 			console
 			, 'Error opening saved game %s.'
-			, absolutePath)
+			, info.absolutePath)
 	});
 };

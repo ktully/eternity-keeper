@@ -1,4 +1,4 @@
-<Complex name="Root" type="SaveGameInfo, Assembly-CSharp">
+﻿<Complex name="Root" type="SaveGameInfo, Assembly-CSharp">
     <Properties>
         <Simple name="PlayerName" type="System.String, mscorlib" value="Elenor" />
         <Simple name="MapName" type="System.String, mscorlib" value="AR_0701_Encampment" />

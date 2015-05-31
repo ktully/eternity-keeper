@@ -12,15 +12,17 @@ import java.util.concurrent.TimeUnit;
 
 public class Environment {
 	public static final String PILLARS_DATA_DIR = "PillarsOfEternity_Data";
+	public boolean closing = false;
 
 	private static Environment instance = null;
-	private static final long SHUTDOWN_TIMEOUT_SECONDS = 60;
+	private static final long SHUTDOWN_TIMEOUT_SECONDS = 20;
 	private ExecutorService workers =
 		Executors.newFixedThreadPool(
 			Runtime.getRuntime().availableProcessors());
 
 	private Map<String, Property> characterCache;
 	private Map<EnvKey, String> environmentVariables = new HashMap<>();
+	private File previousSaveDirectory = null;
 	private File settingsFile = new File(".", "settings.json");
 	private File workingDirectory = new File(
 		System.getProperty("java.io.tmpdir")
@@ -85,6 +87,14 @@ public class Environment {
 				"Unable to create working directory in '%s'.%n"
 				, getWorkingDirectory().getAbsolutePath());
 		}
+	}
+
+	public File getPreviousSaveDirectory () {
+		return previousSaveDirectory;
+	}
+
+	public void setPreviousSaveDirectory (File previousSaveDirectory) {
+		this.previousSaveDirectory = previousSaveDirectory;
 	}
 
 	public enum EnvKey {
