@@ -21,7 +21,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.util.Map.Entry;
-import static uk.me.mantas.eternity.Environment.getInstance;
 
 public class SavedGameOpener implements Runnable {
 	private final String saveGameLocation;
@@ -57,7 +56,6 @@ public class SavedGameOpener implements Runnable {
 		Map<String, Property> characters =
 			extractCharacters(gameObjects);
 
-		getInstance().setCharacterCache(characters);
 		sendJSON(characters);
 	}
 

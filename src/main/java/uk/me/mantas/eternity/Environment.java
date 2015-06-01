@@ -1,7 +1,6 @@
 package uk.me.mantas.eternity;
 
 import org.apache.commons.io.FileUtils;
-import uk.me.mantas.eternity.serializer.properties.Property;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,7 +22,6 @@ public class Environment {
 			Runtime.getRuntime().availableProcessors());
 
 	private SaveInfoLister currentSaveLister = null;
-	private Map<String, Property> characterCache;
 	private Map<EnvKey, String> environmentVariables = new HashMap<>();
 	private File previousSaveDirectory = null;
 	private File settingsFile = new File(".", "settings.json");
@@ -50,14 +48,6 @@ public class Environment {
 
 	public ExecutorService getWorkers () {
 		return workers;
-	}
-
-	public Map<String, Property> getCharacterCache () {
-		return characterCache;
-	}
-
-	public void setCharacterCache (Map<String, Property> characterCache) {
-		this.characterCache = characterCache;
 	}
 
 	public File getWorkingDirectory () {
