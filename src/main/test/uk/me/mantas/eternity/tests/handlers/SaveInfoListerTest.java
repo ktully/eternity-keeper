@@ -14,7 +14,7 @@ import java.nio.file.Files;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-public class SaveFileListerTest extends TestHarness {
+public class SaveInfoListerTest extends TestHarness {
 	private final static String SAVES_JSON =
 		"[{\"date\":\"2015-05-10 15:44:52\",\"difficulty\":\"Hard\""
 		+ ",\"chapter\":1,\"systemName\":\"systemname\",\"playerName\":\"Elenor\""

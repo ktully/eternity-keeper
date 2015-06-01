@@ -43,5 +43,7 @@ public class SaveGameExtractorTest extends TestHarness {
 		assertTrue(saveGameInfo.isPresent());
 		assertEquals(2, saveGameInfo.get().length);
 		assertEquals(6, saveGameInfo.get()[0].portraits.size());
+		assertEquals(4, saveGameExtractor.totalFiles.get());
+		assertEquals(3, saveGameExtractor.currentCount.get());
 	}
 }

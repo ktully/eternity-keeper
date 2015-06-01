@@ -9,6 +9,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 
+import static org.junit.Assert.assertTrue;
+
 public abstract class TestHarness {
 	protected static String PREFIX = "EK-";
 
@@ -26,13 +28,18 @@ public abstract class TestHarness {
 			Arrays.stream(files)
 				.filter((file) -> file.getName().startsWith(PREFIX))
 				.forEach((file) -> {
-					try {
-						FileUtils.deleteDirectory(file);
-					} catch (IOException e) {
-						System.err.printf(
-							"Unable to delete temporary directory '%s': %s%n"
-							, file.getAbsoluteFile()
-							, e.getMessage());
+					if (file.isDirectory()) {
+						try {
+							FileUtils.deleteDirectory(file);
+						} catch (IOException e) {
+							System.err.printf(
+								"Unable to delete temporary directory '%s': "
+									+ "%s%n"
+								, file.getAbsoluteFile()
+								, e.getMessage());
+						}
+					} else {
+						assertTrue(file.delete());
 					}
 				});
 		}

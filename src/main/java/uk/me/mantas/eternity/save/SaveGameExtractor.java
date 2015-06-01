@@ -17,10 +17,7 @@ public class SaveGameExtractor {
 	public AtomicInteger totalFiles = new AtomicInteger(0);
 	public AtomicInteger currentCount = new AtomicInteger(0);
 
-	public SaveGameExtractor (
-		String savesLocation
-		, File workingDirectory) {
-
+	public SaveGameExtractor (String savesLocation, File workingDirectory) {
 		this.savesLocation = savesLocation;
 		this.workingDirectory = workingDirectory;
 	}
