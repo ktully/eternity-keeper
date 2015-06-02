@@ -6,6 +6,7 @@ import uk.me.mantas.eternity.Settings;
 import java.lang.reflect.Field;
 
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class TestUtils {
 	public static Environment mockEnvironment ()
@@ -18,6 +19,8 @@ public class TestUtils {
 
 		instanceField.setAccessible(true);
 		instanceField.set(environment, mockEnvironment);
+
+		when(mockEnvironment.getWorkers()).thenReturn(environment.getWorkers());
 
 		return mockEnvironment;
 	}

@@ -8,6 +8,10 @@
 	<artifactId>eternity</artifactId>
 	<version>0.1</version>
 
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
 	<!-- Maven 'hack' to include our bundled dependencies as normal maven
 	dependencies so we don't have to mess around with the classpath at all -->
 
