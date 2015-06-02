@@ -1,0 +1,19 @@
+﻿<Complex name="Root" type="SaveGameInfo, Assembly-CSharp">
+    <Properties>
+        <Simple name="PlayerName" type="System.String, mscorlib" value="Elenor" />
+        <Simple name="MapName" type="System.String, mscorlib" value="AR_0701_Encampment" />
+        <Simple name="SceneTitle" type="System.String, mscorlib" value="Encampment" />
+        <Simple name="SceneTitleId" type="System.Int32, mscorlib" value="117" />
+        <Simple name="Chapter" type="System.Int32, mscorlib" value="1" />
+        <Simple name="RealtimePlayDurationSeconds" type="System.Int32, mscorlib" value="397" />
+        <Simple name="PlaytimeSeconds" type="System.Int32, mscorlib" value="5380" />
+        <Simple name="TrialOfIron" type="System.Boolean, mscorlib" value="False" />
+        <Simple name="RealTimestamp" type="System.DateTime, mscorlib" value="05/10/2015 15:44:52" />
+        <Simple name="SessionID" type="System.Guid, mscorlib" value="9c7236f9-f4f9-4db1-8dd2-0fb4056f437a" />
+        <Simple name="FileName" type="System.String, mscorlib" value="" />
+        <Simple name="SaveVersion" type="System.Int32, mscorlib" value="1" />
+        <Simple name="GameComplete" type="System.Boolean, mscorlib" value="False" />
+        <Simple name="UserSaveName" type="System.String, mscorlib" value="Start" />
+        <Simple name="Difficulty" type="GameDifficulty, Assembly-CSharp" value="Hard" />
+    </Properties>
+</Complex>
