@@ -6,6 +6,7 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.joox.Match;
 import org.w3c.dom.DOMException;
+import uk.me.mantas.eternity.EKUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -114,8 +115,8 @@ public class SaveGameInfo {
 
 	private boolean parseSaveInfoXML (File saveInfoXML) {
 		try {
-			String contents =
-				FileUtils.readFileToString(saveInfoXML).replace("\uFEFF", "");
+			String contents = new String(
+				EKUtils.removeBOM(FileUtils.readFileToByteArray(saveInfoXML)));
 
 			Match xml = $(contents);
 

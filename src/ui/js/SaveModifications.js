@@ -1,7 +1,7 @@
 var SaveModifications = function () {
 	var self = this;
-	var previousName = null;
 	var switchingContexts = false;
+	self.previousName = null;
 	self.savedYet = false;
 
 	var saving = function () {
@@ -29,7 +29,7 @@ var SaveModifications = function () {
 		$('#saveFileDialog').modal('hide');
 		$('#saveChangesDialog').modal('hide');
 		self.savedYet = true;
-		previousName = saveName;
+		self.previousName = saveName;
 		savesManager.currentSavedGame.modifications = false;
 
 		if (switchingContexts) {
@@ -55,7 +55,11 @@ var SaveModifications = function () {
 	};
 
 	var doSave = function (saveName) {
-		if (saveName === null || saveName.length < 1) {
+		if (typeof saveName !== 'string') {
+			saveName = $('#newSaveName').val();
+		}
+
+		if (saveName.length < 1) {
 			saveName = suggestSaveName();
 		}
 
@@ -76,7 +80,7 @@ var SaveModifications = function () {
 
 	self.saveChanges = function () {
 		if (self.savedYet) {
-			doSave(previousName);
+			doSave(self.previousName);
 			return;
 		}
 
@@ -85,8 +89,8 @@ var SaveModifications = function () {
 		$('#saveFileDialog').modal('show');
 		$('#saveFileDialog').on('shown.bs.modal', function () {
 			var saveName = suggestSaveName();
-            if (previousName !== null) {
-                saveName = previousName;
+            if (self.previousName !== null) {
+                saveName = self.previousName;
             }
 
             $('#newSaveName').val(saveName);
@@ -124,7 +128,7 @@ var SaveModifications = function () {
 
 	$('#dontSaveChanges').click(dontSaveChanges);
 	$('#saveChanges').click(self.saveChanges);
-	$('#saveFile').click(doSave.bind(self, $('#newSaveName').val()));
+	$('#saveFile').click(doSave);
 	$('#menu-open-saved-game').click(checkBeforeSwitching);
 	$('#saveChangesDialog .close').click(notSwitchingContexts);
 	$('#saveFileDialog .close').click(notSwitchingContexts);

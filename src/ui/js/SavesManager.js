@@ -92,7 +92,7 @@ var SavesManager = function () {
 		$('.save-blocks').empty();
 
 		var saveInfo = JSON.parse(response);
-		if (response.error) {
+		if (saveInfo.error) {
             resetProgress();
             errorShow('No saves found.');
             return;
@@ -181,6 +181,7 @@ var SavesManager = function () {
 
 		$('.saved-game-locator, .save-blocks').show();
 		self.currentSavedGame = null;
+		saveModifications.previousName = null;
 		saveModifications.savedYet = false;
 	};
 

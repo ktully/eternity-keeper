@@ -117,13 +117,12 @@ public class ChangesSaverTest extends TestHarness {
 		verify(mockCallback).success("{\"success\":true}");
 		verify(mockEnvironment).setPreviousSaveDirectory(saveDirectory);
 
-		String saveinfo =
-			FileUtils.readFileToString(new File(saveDirectory, "saveinfo.xml"));
+		byte[] saveinfoBytes =
+			FileUtils.readFileToByteArray(
+				new File(saveDirectory, "saveinfo.xml"));
 
-		assertEquals(0, saveinfo.indexOf("\uFEFF"));
-		saveinfo = saveinfo.replace("\uFEFF", "");
-
-		Match xml = $(saveinfo);
+		assertEquals(-17, saveinfoBytes[0]);
+		Match xml = $(new String(EKUtils.removeBOM(saveinfoBytes)));
 		assertEquals(
 			"TEST"
 			, xml.find("Simple[name='UserSaveName']").attr("value"));

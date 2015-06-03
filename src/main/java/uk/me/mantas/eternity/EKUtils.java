@@ -44,4 +44,26 @@ public class EKUtils {
 
 		return Optional.<File>empty();
 	}
+
+	public static byte[] removeBOM (byte[] bytes) {
+		if (bytes.length < 3) {
+			return bytes;
+		}
+
+		if (bytes[0] == -17 && bytes[1] == -69 && bytes[2] == -65) {
+			byte[] newBytes = new byte[bytes.length - 3];
+			System.arraycopy(bytes, 3, newBytes, 0, bytes.length - 3);
+			return newBytes;
+		}
+
+		return bytes;
+	}
+
+	public static byte[] addBOM (byte[] bytes) {
+		byte[] newBytes = new byte[bytes.length + 3];
+		newBytes[0] = -17; newBytes[1] = -69; newBytes[2] = -65;
+		System.arraycopy(bytes, 0, newBytes, 3, bytes.length);
+
+		return newBytes;
+	}
 }

@@ -10,6 +10,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.DOMException;
+import uk.me.mantas.eternity.EKUtils;
 import uk.me.mantas.eternity.Environment;
 import uk.me.mantas.eternity.Settings;
 import uk.me.mantas.eternity.game.ComponentPersistencePacket;
@@ -252,8 +253,8 @@ public class ChangesSaver implements Runnable {
 		throws IOException {
 
 		File saveinfoXML = new File(saveDirectory, "saveinfo.xml");
-		String contents =
-			FileUtils.readFileToString(saveinfoXML).replace("\uFEFF", "");
+		String contents = new String(
+			EKUtils.removeBOM(FileUtils.readFileToByteArray(saveinfoXML)));
 
 		ByteArrayOutputStream newContentsStream =
 			new ByteArrayOutputStream(contents.length());
@@ -270,11 +271,12 @@ public class ChangesSaver implements Runnable {
 		}
 
 		String newContents = newContentsStream.toString("UTF-8");
-		if (newContents.indexOf("\uFEFF") != 0) {
-			newContents = "\uFEFF" + newContents.replace("\uFEFF", "");
+		byte[] newContentsBytes = newContents.getBytes();
+		if (newContentsBytes[0] != -17) {
+			newContentsBytes = EKUtils.addBOM(newContentsBytes);
 		}
 
-		FileUtils.writeStringToFile(saveinfoXML, newContents, "UTF-8");
+		FileUtils.writeByteArrayToFile(saveinfoXML, newContentsBytes, false);
 	}
 
 	private File createNewSave (String absolutePath) throws IOException {
