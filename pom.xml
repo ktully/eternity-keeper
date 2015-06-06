@@ -44,6 +44,11 @@
 		</dependency>
 		<dependency>
 			<groupId>dependencies</groupId>
+			<artifactId>gluegen-rt-natives-linux-amd64</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>dependencies</groupId>
 			<artifactId>jcef</artifactId>
 			<version>1.0</version>
 		</dependency>
@@ -55,6 +60,11 @@
 		<dependency>
 			<groupId>dependencies</groupId>
 			<artifactId>jogl-all-natives-windows-amd64</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>dependencies</groupId>
+			<artifactId>jogl-all-natives-linux-amd64</artifactId>
 			<version>1.0</version>
 		</dependency>
 
