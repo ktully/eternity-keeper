@@ -88,6 +88,45 @@
 		</div>
 	</div>
 
+	<div class="modal fade" id="checkUpdatesDialog" role="dialog">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span>&times;</span>
+					</button>
+					<h4 class="modal-title">Check for updates</h4>
+				</div>
+				<div class="modal-body">
+					<div class="alert alert-danger" id="checkUpdatesError">
+						There was an error checking for updates...
+					</div>
+					<div class="alert alert-danger" id="checkUpdatesDownloadFailed">
+						<strong>Error!</strong> Download failed, please download manually.
+					</div>
+					<div class="alert alert-success" id="checkUpdatesNoUpdates">
+						Eternity Keeper is up to date!
+					</div>
+					<div class="alert alert-success" id="checkUpdatesDownloadSuccess">
+						Eternity Keeper was successfully updated, please restart it when ready.
+					</div>
+					<div class="alert alert-warning" id="checkUpdatesAvailable">
+						There is an update available!
+					</div>
+					<div id="checkUpdatesProgress" class="progress">
+						<div class="progress-bar progress-bar-success" role="progressbar">
+							Checking...
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary btn-sm" id="checkUpdatesTryAgain">Check again</button>
+					<button type="button" class="btn btn-success btn-sm" id="checkUpdatesDownload">Download</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<nav class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container-fluid">
 			<div class="row">
@@ -105,10 +144,11 @@
 								<li class="disabled"><a href="javascript:void(0);" id="menu-save-modification">Save modifications</a></li>
 								<li class="divider"></li>
 								<li><a data-toggle="modal" href="#settings" id="menu-settings">Settings</a></li>
+								<li><a href="javascript:void(0);" id="menu-check-updates">Check for updates</a></li>
 							</ul>
 						</li>
 						<li class="dropdown">
-							<a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0;">
+							<a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
 								Character <span class="caret"></span>
 							</a>
 							<ul class="dropdown-menu">
@@ -166,6 +206,7 @@
 	<script src="js/SavedGame.js"></script>
 	<script src="js/SavesManager.js"></script>
 	<script src="js/SaveModifications.js"></script>
+	<script src="js/CheckUpdates.js"></script>
 
 </body>
 </html>

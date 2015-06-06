@@ -7,7 +7,10 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class EKUtils {
 	@SuppressWarnings("EmptyCatchBlock")
@@ -65,5 +68,32 @@ public class EKUtils {
 		System.arraycopy(bytes, 0, newBytes, 3, bytes.length);
 
 		return newBytes;
+	}
+
+	public static String removeExtension (String s) {
+		if (s == null || s.length() < 1 || !s.contains(".")) {
+			return s;
+		}
+
+		return s.substring(0, s.lastIndexOf("."));
+	}
+
+	public static Optional<String> getExtension (String s) {
+		if (s == null || s.length() < 1 || !s.contains(".")) {
+			return Optional.empty();
+		}
+
+		return Optional.of(s.substring(s.lastIndexOf(".") + 1, s.length()));
+	}
+
+	public static long getTimestampOfLatestJar (File[] jars) {
+		java.util.List<Long> timestamps =
+			Arrays.stream(jars)
+				.map(File::getName)
+				.map(EKUtils::removeExtension)
+				.map(Long::parseLong)
+				.collect(Collectors.toList());
+
+		return Collections.max(timestamps);
 	}
 }

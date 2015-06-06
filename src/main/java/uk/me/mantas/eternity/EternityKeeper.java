@@ -15,6 +15,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
+import java.util.Arrays;
 
 import static org.cef.browser.CefMessageRouter.CefMessageRouterConfig;
 
@@ -24,6 +26,8 @@ public class EternityKeeper extends JFrame {
 	private CefBrowser browser;
 
 	private EternityKeeper () {
+		cleanupOldUpdates();
+
 		CefApp.addAppHandler(new CefAppHandlerAdapter(null) {
 			@Override
 			public void stateHasChanged (CefAppState state) {
@@ -35,7 +39,7 @@ public class EternityKeeper extends JFrame {
 
 		CefSettings settings = new CefSettings();
 		settings.windowless_rendering_enabled = OS.isLinux();
-		settings.remote_debugging_port = 13001;
+		settings.remote_debugging_port = 13002;
 
 		cefApp = CefApp.getInstance(settings);
 		cefClient = cefApp.createClient();
@@ -100,6 +104,27 @@ public class EternityKeeper extends JFrame {
 					, "checkExtractionProgressCancel")
 				, new CheckExtractionProgress());
 
+		CefMessageRouter checkForUpdatesRouter =
+			CefMessageRouter.create(
+				new CefMessageRouterConfig(
+					"checkForUpdates"
+					, "checkForUpdatesCancel")
+				, new CheckForUpdates());
+
+		CefMessageRouter downloadUpdateRouter =
+			CefMessageRouter.create(
+				new CefMessageRouterConfig(
+					"downloadUpdate"
+					, "downloadUpdateCancel")
+				, new DownloadUpdate());
+
+		CefMessageRouter checkDownloadProgressRouter =
+			CefMessageRouter.create(
+				new CefMessageRouterConfig(
+					"checkDownloadProgress"
+					, "checkDownloadProgressCancel")
+				, new CheckDownloadProgress());
+
 		cefClient.addMessageRouter(getDefaultSaveLocationRouter);
 		cefClient.addMessageRouter(listSavedGamesRouter);
 		cefClient.addMessageRouter(openSavedGameRouter);
@@ -107,6 +132,9 @@ public class EternityKeeper extends JFrame {
 		cefClient.addMessageRouter(saveChangesRouter);
 		cefClient.addMessageRouter(closeWindowRouter);
 		cefClient.addMessageRouter(checkExtractionProgressRouter);
+		cefClient.addMessageRouter(checkForUpdatesRouter);
+		cefClient.addMessageRouter(downloadUpdateRouter);
+		cefClient.addMessageRouter(checkDownloadProgressRouter);
 	}
 
 	private void shutdown () {
@@ -114,6 +142,33 @@ public class EternityKeeper extends JFrame {
 		cleanupTempDirs();
 		Environment.joinAllWorkers();
 		System.exit(0);
+	}
+
+	private void cleanupOldUpdates () {
+		File jarDirectory = Environment.getInstance().getJarDirectory();
+		if (!jarDirectory.exists()) {
+			//noinspection ResultOfMethodCallIgnored
+			jarDirectory.mkdirs();
+			return;
+		}
+
+		File[] jars = jarDirectory.listFiles();
+		if (jars == null || jars.length < 2) {
+			return;
+		}
+
+		long latestTimestamp = EKUtils.getTimestampOfLatestJar(jars);
+		String latestFilename = String.format("%d.jar", latestTimestamp);
+
+		// Delete all files that have .jar extensions which aren't the latest
+		// one (which we should be using).
+		Arrays.stream(jars)
+			.filter(jar -> !jar.getName().equals(latestFilename))
+			.filter(File::isFile)
+			.filter(jar ->
+				EKUtils.getExtension(jar.getName())
+					.map(s -> s.equals("jar")).orElse(false))
+			.forEach(File::delete);
 	}
 
 	private void cleanupTempDirs () {

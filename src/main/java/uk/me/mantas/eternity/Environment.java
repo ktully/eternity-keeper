@@ -9,6 +9,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+import static uk.me.mantas.eternity.handlers.DownloadUpdate.UpdateDownloader;
 import static uk.me.mantas.eternity.handlers.ListSavedGames.SaveInfoLister;
 
 public class Environment {
@@ -22,9 +23,11 @@ public class Environment {
 			Runtime.getRuntime().availableProcessors());
 
 	private SaveInfoLister currentSaveLister = null;
+	private UpdateDownloader currentUpdateDownloader = null;
 	private Map<EnvKey, String> environmentVariables = new HashMap<>();
 	private File previousSaveDirectory = null;
 	private File settingsFile = new File(".", "settings.json");
+	private File jarDirectory = new File("jar");
 	private File workingDirectory = new File(
 		System.getProperty("java.io.tmpdir")
 		, "EK-unpacked-saves");
@@ -37,6 +40,14 @@ public class Environment {
 			add("Program Files (x86)\\Steam\\SteamApps\\"
 				+ "common\\Pillars of Eternity");
 		}};
+
+	public File getJarDirectory () {
+		return jarDirectory;
+	}
+
+	public void setJarDirectory (File jarDirectory) {
+		this.jarDirectory = jarDirectory;
+	}
 
 	public File getSettingsFile () {
 		return settingsFile;
@@ -64,6 +75,14 @@ public class Environment {
 
 	public void setCurrentSaveLister (SaveInfoLister currentSaveLister) {
 		this.currentSaveLister = currentSaveLister;
+	}
+
+	public UpdateDownloader getCurrentUpdateDownloader () {
+		return currentUpdateDownloader;
+	}
+
+	public void setCurrentUpdateDownloader (UpdateDownloader currentUpdateDownloader) {
+		this.currentUpdateDownloader = currentUpdateDownloader;
 	}
 
 	public void deleteWorkingDirectory () {

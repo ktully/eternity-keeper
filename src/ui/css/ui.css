@@ -204,3 +204,14 @@ ul.characters {
 #saveChanges {
 	float: right;
 }
+
+#checkUpdatesDialog .modal-footer
+, #checkUpdatesTryAgain
+, #checkUpdatesError
+, #checkUpdatesNoUpdates
+, #checkUpdatesAvailable
+, #checkUpdatesDownload
+, #checkUpdatesDownloadFailed
+, #checkUpdatesDownloadSuccess {
+	display: none;
+}
