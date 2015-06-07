@@ -39,7 +39,7 @@ public class DownloadUpdate extends CefMessageRouterHandlerAdapter {
 
 	public static class UpdateDownloader implements Runnable {
 		public long totalBytes = -1;
-		public AtomicLong currentBytes = null;
+		public AtomicLong currentBytes = new AtomicLong(0L);
 		public AtomicBoolean failed = new AtomicBoolean(false);
 
 		private final String jarName;

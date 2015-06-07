@@ -28,7 +28,6 @@ var SavedGame = function (info) {
 
 	var updateData = function (e) {
 		var el = $(e.currentTarget);
-		var type = el.attr('type');
 		var key = el.attr('data-key');
 		var value = el.val();
 
@@ -36,19 +35,12 @@ var SavedGame = function (info) {
 			return;
 		}
 
-		if (type === 'number') {
-			value = parseInt(value);
-			if (isNaN(value)) {
-				return;
-			}
-		}
-
 		var guid = $('.characters .active').attr('data-guid');
 		var character = self.characterData.filter(function (c) {
 			return c.GUID === guid;
 		}).shift();
 
-		character.stats[key] = value;
+		character.stats[key] = value.toString();
 		self.modifications = true;
 	};
 
@@ -58,25 +50,10 @@ var SavedGame = function (info) {
 				'src'
 				, 'data:image/png;base64,' + character.portrait));
 
-		$('.character .stats form').empty();
 		for (var stat in character.stats) {
-			var statName = stat.replace(/Base/g, '');
-			$('.character .stats form').append(
-				$('<div>')
-				.addClass('form-group form-group-sm')
-				.append(
-					$('<label>')
-					.addClass('col-sm-2 control-label')
-					.text(statName))
-				.append(
-                    $('<div>')
-                    .addClass('col-sm-2')
-                    .append(
-                        $('<input>')
-                        .attr('type', 'number')
-                        .attr('value', character.stats[stat])
-                        .attr('data-key', stat)
-                        .addClass('form-control'))));
+			$('.character .stats')
+				.find('input[data-key="' + stat + '"]')
+				.val(character.stats[stat]);
 		}
 
 		$('.stats input').change(updateData);
@@ -92,7 +69,15 @@ var SavedGame = function (info) {
 			return;
 		}
 
-		self.characterData = characters;
+		self.characterData = characters.map(function (character) {
+			// Hate to lose type information here but HTML forms won't preserve it for us anyway.
+			for (stat in character.stats) {
+				character.stats[stat] = character.stats[stat].toString();
+			}
+
+			return character;
+		});
+
 		savesManager.switchToSavedGameContext();
 
 		$('.character').show();

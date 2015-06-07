@@ -71,12 +71,12 @@ var CheckUpdates = function () {
 
 	var updateDownloadProgress = function (responseText) {
 		var response = JSON.parse(responseText);
-		if (response.percentage === 100) {
+		if (response.percentage == 100) {
 			downloadComplete();
 			return;
 		}
 
-		var percentage = response.percentage + '%';
+		var percentage = response.percentage.toFixed(2) + '%';
 		$('#checkUpdatesProgress').find('div').css('width', percentage).text(percentage);
 	};
 

@@ -232,7 +232,7 @@ public class ChangesSaver implements Runnable {
 		}
 
 		for (String updateKey : character.keySet()) {
-			int updateValue = character.getInt(updateKey);
+			String updateValue = character.getString(updateKey);
 			for (Entry<Property, Property> item : variables.items) {
 				if (item.getKey() instanceof SimpleProperty) {
 					SimpleProperty keyProperty = (SimpleProperty) item.getKey();
@@ -240,13 +240,34 @@ public class ChangesSaver implements Runnable {
 						SimpleProperty valueProperty =
 							(SimpleProperty) item.getValue();
 
-						valueProperty.value = updateValue;
-						valueProperty.obj = updateValue;
+						Object typedValue =
+							castValue(valueProperty.obj, updateValue);
+
+						valueProperty.value = typedValue;
+						valueProperty.obj = typedValue;
 						break;
 					}
 				}
 			}
 		}
+	}
+
+	private Object castValue (Object primitive, String val) {
+		String cls = primitive.getClass().getSimpleName();
+
+		if (cls.equals("int") || cls.equals("Integer")) {
+			return Integer.parseInt(val);
+		}
+
+		if (cls.equals("double") || cls.equals("Double")) {
+			return Double.parseDouble(val);
+		}
+
+		if (cls.equals("float") || cls.equals("Float")) {
+			return Float.parseFloat(val);
+		}
+
+		return val;
 	}
 
 	private void updateSaveInfo (File saveDirectory, String saveName)

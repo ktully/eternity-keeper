@@ -72,10 +72,8 @@ public class CheckForUpdates extends CefMessageRouterHandlerAdapter {
 			}
 
 			long currentTimestamp = EKUtils.getTimestampOfLatestJar(jars);
-			if (Long.parseLong(EKUtils.removeExtension(latest)) >
-				currentTimestamp) {
-
-				return Optional.of(latest);
+			if (Long.parseLong(latest) > currentTimestamp) {
+				return Optional.of(latest + ".jar");
 			}
 
 			return Optional.empty();
@@ -89,7 +87,8 @@ public class CheckForUpdates extends CefMessageRouterHandlerAdapter {
 						.execute().returnContent();
 
 				Optional<String> updateAvailable =
-					isUpdate(response.asString(Charset.forName("UTF-8")));
+					isUpdate(
+						response.asString(Charset.forName("UTF-8")).trim());
 
 				if (updateAvailable.isPresent()) {
 					update(updateAvailable.get());

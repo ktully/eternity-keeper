@@ -29,6 +29,7 @@ public class SavedGameOpener implements Runnable {
 	private static final String[] CHARACTER_STATS = new String[]{
 		"BaseMight", "BaseConstitution", "BaseDexterity"
 		, "BasePerception", "BaseIntellect", "BaseResolve"
+		, "OverrideName"
 	};
 
 	public static final Set<String> characterStats =
@@ -68,10 +69,21 @@ public class SavedGameOpener implements Runnable {
 				(ObjectPersistencePacket) property.obj;
 
 			boolean isCompanion = packet.ObjectName.startsWith("Companion");
+			Map<String, Object> stats = extractCharacterStats(packet);
+			String name = extractName(packet);
+
+			if (stats.get("OverrideName") != null
+				&& !stats.get("OverrideName").equals("")) {
+
+				name = (String) stats.get("OverrideName");
+			} else if (isCompanion) {
+				stats.put("OverrideName", name);
+			}
+
 			jsonObject.put("isCompanion", isCompanion);
-			jsonObject.put("name", extractName(packet));
+			jsonObject.put("name", name);
 			jsonObject.put("portrait", extractPortrait(packet, isCompanion));
-			jsonObject.put("stats", extractCharacterStats(packet));
+			jsonObject.put("stats", stats);
 
 			return jsonObject;
 		}).toArray(JSONObject[]::new);

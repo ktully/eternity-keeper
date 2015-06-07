@@ -49,7 +49,7 @@ html, * {
 	bottom: 10px;
 	right: 10px;
 	width: 100px;
-	margin-bottom: 0px;
+	margin-bottom: 0;
 }
 
 .clickable {
@@ -58,7 +58,7 @@ html, * {
 
 .navbar-brand {
 	cursor: default;
-	margin-left: 0px !important;
+	margin-left: 0 !important;
 }
 
 .sidebar {
@@ -187,18 +187,26 @@ ul.characters {
 	width: 240px;
 }
 
-.character .stats > div {
+.character .stats > .row:first-child {
+	margin-bottom: 10px;
+}
+
+.character .stats .attributes {
 	background-color: #f5f5f5;
 	border: 1px solid #eee;
 	padding: 20px;
 }
 
 .character .stats .form-group:last-child {
-	margin-bottom: 0px;
+	margin-bottom: 0;
 }
 
-.character .stats input {
+.character .stats input[type="number"] {
 	width: 60px;
+}
+
+.character .stats input[data-key="OverrideName"] {
+	width: 150px;
 }
 
 #saveChanges {
