@@ -223,3 +223,34 @@ ul.characters {
 , #checkUpdatesDownloadSuccess {
 	display: none;
 }
+
+.modal .alert {
+	border-radius: 0;
+}
+
+ul.multi-selector {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+}
+
+ul.multi-selector li {
+	cursor: pointer;
+	padding: 14px 16px;
+	width: 100%;
+}
+
+ul.multi-selector li:hover {
+	background-color: #222;
+	color: #9d9d9d;
+}
+
+#exportCharacterDialog i
+, #exportCharacterDialog .alert {
+	display: none;
+}
+
+ul.multi-selector i {
+	float: right;
+}

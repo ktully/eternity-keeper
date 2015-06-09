@@ -127,6 +127,28 @@
 		</div>
 	</div>
 
+	<div class="modal fade" id="exportCharacterDialog" role="dialog">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span>&times;</span>
+					</button>
+					<h4 class="modal-title">Export character</h4>
+				</div>
+				<div class="modal-body">
+					<ul class="multi-selector"></ul>
+					<div class="alert alert-danger">
+						Error exporting character.
+					</div>
+					<div class="alert alert-success">
+						Character exported successfully.
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<nav class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container-fluid">
 			<div class="row">
@@ -153,7 +175,7 @@
 							</a>
 							<ul class="dropdown-menu">
 								<li class="disabled"><a href="javascript:void(0);" id="menu-export-character">Export</a></li>
-								<li class="disabled"><a href="javascript:void(0);" id="menu-import-character">Import another character</a></li>
+								<li class="disabled"><a href="javascript:void(0);" id="menu-import-character">Import into save</a></li>
 							</ul>
 						</li>
 					</ul>
@@ -258,6 +280,7 @@
 	<script src="js/SavesManager.js"></script>
 	<script src="js/SaveModifications.js"></script>
 	<script src="js/CheckUpdates.js"></script>
+	<script src="js/ExportCharacter.js"></script>
 
 </body>
 </html>
