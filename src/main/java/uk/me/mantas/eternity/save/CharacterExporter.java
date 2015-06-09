@@ -7,6 +7,7 @@ import uk.me.mantas.eternity.serializer.properties.SimpleProperty;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -20,7 +21,7 @@ public class CharacterExporter {
 		String savePath
 		, String guid
 		, String chrFileName)
-		throws FileNotFoundException {
+		throws IOException {
 
 		File saveDirectory = new File(savePath);
 		if (!saveDirectory.exists()) {
@@ -28,6 +29,12 @@ public class CharacterExporter {
 		}
 
 		File chrFile = new File(chrFileName);
+		//noinspection ResultOfMethodCallIgnored
+		chrFile.delete();
+
+		if (!chrFile.createNewFile()) {
+			throw new FileNotFoundException("Cannot create " + chrFileName);
+		}
 
 		this.saveDirectory = saveDirectory;
 		this.chrFile = chrFile;

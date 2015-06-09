@@ -132,6 +132,13 @@ public class EternityKeeper extends JFrame {
 					, "exportCharacterCancel")
 				, new ExportCharacter());
 
+		CefMessageRouter importCharacterRouter =
+			CefMessageRouter.create(
+				new CefMessageRouterConfig(
+					"importCharacter"
+					, "importCharacterCancel")
+				, new ImportCharacter());
+
 		cefClient.addMessageRouter(getDefaultSaveLocationRouter);
 		cefClient.addMessageRouter(listSavedGamesRouter);
 		cefClient.addMessageRouter(openSavedGameRouter);
@@ -143,6 +150,7 @@ public class EternityKeeper extends JFrame {
 		cefClient.addMessageRouter(downloadUpdateRouter);
 		cefClient.addMessageRouter(checkDownloadProgressRouter);
 		cefClient.addMessageRouter(exportCharacterRouter);
+		cefClient.addMessageRouter(importCharacterRouter);
 	}
 
 	private void shutdown () {

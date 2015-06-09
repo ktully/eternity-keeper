@@ -60,7 +60,7 @@ var SavedGame = function (info) {
 		$('.stats input').keyup(updateData);
 	};
 
-	var loadUI = function (response) {
+	self.loadUI = function (response) {
 		savesManager.notOpening();
 		var characters = JSON.parse(response);
 
@@ -88,7 +88,7 @@ var SavedGame = function (info) {
 
 	window.openSavedGame({
 		request: info.absolutePath
-		, onSuccess: loadUI
+		, onSuccess: self.loadUI
 		, onFailure: console.error.bind(
 			console
 			, 'Error opening saved game %s.'

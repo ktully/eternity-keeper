@@ -6,10 +6,12 @@ import org.cef.callback.CefRunFileDialogCallback;
 import org.cef.handler.CefMessageRouterHandlerAdapter;
 import org.json.JSONException;
 import org.json.JSONObject;
+import uk.me.mantas.eternity.EKUtils;
 import uk.me.mantas.eternity.Environment;
-import uk.me.mantas.eternity.save.CharacterExporter;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Optional;
 import java.util.Vector;
 
 import static org.cef.handler.CefDialogHandler.FileDialogMode;
@@ -55,7 +57,7 @@ public class ExportCharacter extends CefMessageRouterHandlerAdapter {
 				FileDialogMode.FILE_DIALOG_SAVE
 				, "Save Character"
 				, ""
-				, new Vector<String>(){{add("chr");}}
+				, new Vector<String>(){{add(".chr");}}
 				, new FileCallback(request, callback));
 		}
 	}
@@ -74,7 +76,7 @@ public class ExportCharacter extends CefMessageRouterHandlerAdapter {
 			CefBrowser browser
 			, Vector<String> filenames) {
 
-			if (filenames.size() < 1) {
+			if (filenames.size() < 1 || filenames.get(0).length() < 1) {
 				callback.failure(-1, "NO_SAVENAME");
 				return;
 			}
@@ -84,10 +86,10 @@ public class ExportCharacter extends CefMessageRouterHandlerAdapter {
 				String guid = json.getString("GUID");
 				String savePath = json.getString("absolutePath");
 
-				CharacterExporter exporter = new CharacterExporter(
+				uk.me.mantas.eternity.save.CharacterExporter exporter = new uk.me.mantas.eternity.save.CharacterExporter(
 					savePath
 					, guid
-					, filenames.get(0));
+					, addChrExtension(filenames.get(0)));
 
 				boolean exportedSuccessfully = exporter.export();
 
@@ -101,6 +103,27 @@ public class ExportCharacter extends CefMessageRouterHandlerAdapter {
 				callback.failure(-1, "BAD_REQUEST");
 			} catch (FileNotFoundException e) {
 				System.err.printf("Unable to find file : %s%n", e.getMessage());
+				callback.failure(-1, "FILE+NOT_FOUND");
+			} catch (IOException e) {
+				System.err.printf("Filesystem error: %s%n", e.getMessage());
+				callback.failure(-1, "FILESYSTEM_ERR");
+			}
+		}
+
+		private String addChrExtension (String filename) {
+			if (filename.contains(".")) {
+				Optional<String> extension = EKUtils.getExtension(filename);
+				if (!extension.isPresent()) {
+					return filename + ".chr";
+				}
+
+				if (extension.get().equals("chr")) {
+					return filename;
+				} else {
+					return filename + ".chr";
+				}
+			} else {
+				return filename + ".chr";
 			}
 		}
 	}

@@ -14,12 +14,16 @@ var ExportCharacter = function () {
 
 	var exportFailed = function () {
 		notExporting();
-		$('#exportCharacterDialog').find('.alert-danger').show();
+		var dialog = $('#exportCharacterDialog');
+		dialog.find('.alert-danger').show();
+		dialog.find('.multi-selector').empty();
 	};
 
 	var exportComplete = function () {
 		notExporting();
-		$('#exportCharacterDialog').find('.alert-success').show();
+		var dialog = $('#exportCharacterDialog');
+		dialog.find('.alert-success').show();
+		dialog.find('.multi-selector').empty();
 	};
 
 	var doExport = function (e) {
