@@ -7,4 +7,11 @@ public class AIController {
 		, Summoned
 		, Pet
 	}
+
+	public enum AggressionType {
+		DefendMyself
+		, Passive
+		, Defensive
+		, Aggressive
+	}
 }

@@ -57,6 +57,7 @@ public class TypeMap {
 			put("NotesPage", NotesPage.class);
 			put("Item", Item.class);
 			put("GameDifficulty", GameDifficulty.class);
+			put("PrerequisiteData", PrerequisiteData.class);
 
 			put("StrongholdEvent", StrongholdEvent.class);
 			put("StrongholdAdventure", StrongholdAdventure.class);
@@ -82,6 +83,9 @@ public class TypeMap {
 				, PartyMemberAI.DetectionObject.class);
 
 			put("AIController+AISummonType", AIController.AISummonType.class);
+			put(
+				"AIController+AggressionType"
+				, AIController.AggressionType.class);
 
 			put("CharacterStats+Race", CharacterStats.Race.class);
 			put("CharacterStats+Subrace", CharacterStats.Subrace.class);

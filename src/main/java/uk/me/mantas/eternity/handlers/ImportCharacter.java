@@ -5,8 +5,13 @@ import org.cef.callback.CefQueryCallback;
 import org.cef.callback.CefRunFileDialogCallback;
 import org.cef.handler.CefDialogHandler.FileDialogMode;
 import org.cef.handler.CefMessageRouterHandlerAdapter;
+import org.json.JSONException;
 import uk.me.mantas.eternity.Environment;
+import uk.me.mantas.eternity.save.CharacterImporter;
+import uk.me.mantas.eternity.save.SavedGameOpener;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Vector;
 
 public class ImportCharacter extends CefMessageRouterHandlerAdapter {
@@ -31,16 +36,16 @@ public class ImportCharacter extends CefMessageRouterHandlerAdapter {
 
 	private class SelectChrFile implements Runnable {
 		private final CefBrowser browser;
-		private final String absolutePath;
+		private final String request;
 		private final CefQueryCallback callback;
 
 		public SelectChrFile (
 			CefBrowser browser
-			, String absolutePath
+			, String request
 			, CefQueryCallback callback) {
 
 			this.browser = browser;
-			this.absolutePath = absolutePath;
+			this.request = request;
 			this.callback = callback;
 		}
 
@@ -51,19 +56,19 @@ public class ImportCharacter extends CefMessageRouterHandlerAdapter {
 				, "Choose a character"
 				, ""
 				, new Vector<String>(){{add(".chr");}}
-				, new FileCallback(absolutePath, callback));
+				, new FileCallback(request, callback));
 		}
 	}
 
 	private class FileCallback implements CefRunFileDialogCallback {
-		private final String absolutePath;
+		private final String request;
 		private final CefQueryCallback callback;
 
 		public FileCallback (
-			String absolutePath
+			String request
 			, CefQueryCallback callback) {
 
-			this.absolutePath = absolutePath;
+			this.request = request;
 			this.callback = callback;
 		}
 
@@ -74,7 +79,44 @@ public class ImportCharacter extends CefMessageRouterHandlerAdapter {
 
 			if (filenames.size() < 1 || filenames.get(0).length() < 1) {
 				callback.failure(-1, "NO_SAVE");
+				return;
 			}
+
+			doImport(request, callback, filenames.get(0));
+		}
+	}
+
+	private void doImport (
+		String request
+		, CefQueryCallback callback
+		, String chrFile) {
+
+		try {
+			CharacterImporter importer =
+				new CharacterImporter(request, chrFile);
+
+			boolean success = importer.importCharacter();
+
+			if (success) {
+				SavedGameOpener opener = new SavedGameOpener(
+					importer.saveFile.getAbsolutePath()
+					, callback);
+
+				opener.run();
+			} else {
+				callback.failure(-1, "Character import failed.");
+			}
+		} catch (JSONException e) {
+			System.err.printf("Error parsing JSON request: %s%n", request);
+			callback.failure(-1, "Error parsing JSON request.");
+		} catch (FileNotFoundException e) {
+			System.err.printf("File not found: %s%n", e.getMessage());
+			callback.failure(-1, "Unable to find your save or CHR file.");
+		} catch (IOException e) {
+			System.err.printf("%s%n", e.getMessage());
+			callback.failure(
+				-1
+				, "Error modifying temporary MobileObjects.save");
 		}
 	}
 }

@@ -2,6 +2,9 @@ package uk.me.mantas.eternity.serializer.properties;
 
 import uk.me.mantas.eternity.serializer.TypePair;
 
+import java.util.List;
+import java.util.Optional;
+
 public abstract class Property {
 	public String name;
 	public TypePair type;
@@ -51,6 +54,53 @@ public abstract class Property {
 
 				return null;
 		}
+	}
+
+	public static boolean update (
+		Property property
+		, String propertyName
+		, Object value) {
+
+		Optional<Property> subProperty = find(property, propertyName);
+		if (!subProperty.isPresent()) {
+			System.err.printf(
+				"Unable to locate sub-property with name '%s'.%n"
+				, propertyName);
+
+			return false;
+		}
+
+		if (!(subProperty.get() instanceof SimpleProperty)) {
+			System.err.printf(
+				"Sub-property '%s' was not a SimpleProperty.%n"
+				, propertyName);
+
+			return false;
+		}
+
+		SimpleProperty simpleSubProperty = (SimpleProperty) subProperty.get();
+		simpleSubProperty.value = value;
+		simpleSubProperty.obj = value;
+
+		return true;
+	}
+
+	@SuppressWarnings("unchecked")
+	public static Optional<Property> find (Property haystack, String needle) {
+		if (!(haystack instanceof ComplexProperty)) {
+			return Optional.empty();
+		}
+
+		ComplexProperty complexHaystack = (ComplexProperty) haystack;
+		for (Property subProperty :
+			(List<Property>) complexHaystack.properties) {
+
+			if (subProperty.name.equals(needle)) {
+				return Optional.of(subProperty);
+			}
+		}
+
+		return Optional.empty();
 	}
 
 	public enum PropertyArt {

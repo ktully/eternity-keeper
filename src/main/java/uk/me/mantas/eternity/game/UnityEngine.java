@@ -31,4 +31,12 @@ public class UnityEngine {
 		, Pad5, Pad6, Pad7, Pad8
 		, HideAndDontSave
 	}
+
+	public static class GameObject {
+
+	}
+
+	public static class MonoBehaviour {
+
+	}
 }
