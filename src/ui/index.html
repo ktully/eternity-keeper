@@ -215,8 +215,23 @@
 										data-key="OverrideName"/>
 								</div>
 							</form>
+							<ul class="nav nav-tabs">
+								<li role="presentation" class="active"><a target=".attributes" href="javascript:void(0);">Attributes</a></li>
+								<li role="presentation"><a target=".raw" href="javascript:void(0);">Raw</a></li>
+							</ul>
 						</div>
-						<div class="row attributes">
+						<div class="row section raw">
+							<table class="table table-striped table-bordered">
+								<thead>
+									<tr>
+										<th>Key</th>
+										<th>Value</th>
+									</tr>
+								</thead>
+								<tbody></tbody>
+							</table>
+						</div>
+						<div class="row section attributes">
 							<form class="form-horizontal">
 								<div class="row form-group form-group-sm">
 									<label class="col-sm-2 control-label">Might</label>
@@ -282,6 +297,7 @@
 	<script src="js/CheckUpdates.js"></script>
 	<script src="js/ExportCharacter.js"></script>
 	<script src="js/ImportCharacter.js"></script>
+	<script src="js/TabActivator.js"></script>
 
 </body>
 </html>

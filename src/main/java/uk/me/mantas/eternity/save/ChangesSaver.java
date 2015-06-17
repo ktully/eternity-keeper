@@ -267,6 +267,10 @@ public class ChangesSaver implements Runnable {
 			return Float.parseFloat(val);
 		}
 
+		if (cls.equals("boolean") || cls.equals("Boolean")) {
+			return Boolean.parseBoolean(val);
+		}
+
 		return val;
 	}
 

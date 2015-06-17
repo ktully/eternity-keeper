@@ -26,15 +26,6 @@ public class SavedGameOpener implements Runnable {
 	private final String saveGameLocation;
 	private final CefQueryCallback callback;
 
-	private static final String[] CHARACTER_STATS = new String[]{
-		"BaseMight", "BaseConstitution", "BaseDexterity"
-		, "BasePerception", "BaseIntellect", "BaseResolve"
-		, "OverrideName"
-	};
-
-	public static final Set<String> characterStats =
-		new HashSet<>(Arrays.asList(CHARACTER_STATS));
-
 	public SavedGameOpener (
 		String saveGameLocation
 		, CefQueryCallback callback) {
@@ -92,17 +83,24 @@ public class SavedGameOpener implements Runnable {
 		callback.success(json);
 	}
 
-	private Map<String, Object> extractCharacterStats (
-		ObjectPersistencePacket packet) {
-
+	private Map<String, Object> extractCharacterStats (ObjectPersistencePacket packet) {
 		return Arrays.stream(packet.ComponentPackets)
 			.filter(c -> c.TypeString.equals("CharacterStats"))
 			.findFirst()
 			.map(c ->
 				c.Variables.entrySet().stream()
-					.filter(e -> characterStats.contains(e.getKey()))
+					.filter(entry -> isSupportedType(entry.getValue()))
 					.collect(Collectors.toMap(Entry::getKey, Entry::getValue)))
 			.get();
+	}
+
+	private boolean isSupportedType (Object obj) {
+		String cls = obj.getClass().getSimpleName();
+		return cls.equals("int") || cls.equals("Integer")
+			|| cls.equals("float") || cls.equals("Float")
+			|| cls.equals("double") || cls.equals("Double")
+			|| cls.equals("boolean") || cls.equals("Boolean")
+			|| cls.equals("String");
 	}
 
 	private String extractName (ObjectPersistencePacket packet) {

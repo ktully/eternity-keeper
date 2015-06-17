@@ -191,10 +191,70 @@ ul.characters {
 	margin-bottom: 10px;
 }
 
-.character .stats .attributes {
+.character .stats .section {
 	background-color: #f5f5f5;
 	border: 1px solid #eee;
 	padding: 20px;
+	border-radius: 3px;
+	box-shadow: 0 0 2px rgba(0,0,0,.1);
+}
+
+.character .stats .section.raw {
+	padding: 0;
+}
+
+.raw {
+	display: none;
+}
+
+.raw table {
+	border: none;
+	margin-bottom: 0;
+	border-radius: 3px;
+	table-layout: fixed;
+}
+
+.raw table td {
+	width: 50%;
+	word-wrap: break-word;
+}
+
+.raw table td div {
+	display: block;
+	overflow: scroll;
+	overflow-y: hidden;
+}
+
+.raw table tr:last-child {
+	border-bottom: none;
+}
+
+.character .stats > .row:first-child {
+	margin-bottom: 0;
+}
+
+.character .stats .row:first-child .form-group {
+	float: left;
+}
+
+.character .stats .nav-tabs {
+	float: right;
+	border-bottom: none;
+	margin-bottom: -1px;
+}
+
+.character .stats .nav-tabs > li > a {
+	border-color: #eee;
+	border-radius: 3px;
+	border-bottom: none;
+}
+
+.character .stats .nav-tabs > li.active a {
+	background-color: #f5f5f5;
+}
+
+.character .stats .nav-tabs > li > a:hover {
+	background-color: #f5f5f5;
 }
 
 .character .stats .form-group:last-child {

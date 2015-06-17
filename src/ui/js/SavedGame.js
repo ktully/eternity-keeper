@@ -4,6 +4,13 @@ var SavedGame = function (info) {
 	self.characterData = null;
 	self.modifications = false;
 
+	var getSelectedCharacter = function () {
+		var guid = $('.characters .active').attr('data-guid');
+		return self.characterData.filter(function (c) {
+			return c.GUID === guid;
+		}).shift();
+	};
+
 	var switchCharacter = function (e) {
 		var guid = $(e.currentTarget).attr('data-guid');
 		$('.characters li').removeClass('active');
@@ -29,19 +36,21 @@ var SavedGame = function (info) {
 	var updateData = function (e) {
 		var el = $(e.currentTarget);
 		var key = el.attr('data-key');
-		var value = el.val();
+		var value = (el.prop('nodeName') === 'TD') ? el.text() : el.val();
 
 		if (key === null || key.length < 1) {
 			return;
 		}
 
-		var guid = $('.characters .active').attr('data-guid');
-		var character = self.characterData.filter(function (c) {
-			return c.GUID === guid;
-		}).shift();
-
+		var character = getSelectedCharacter();
 		character.stats[key] = value.toString();
 		self.modifications = true;
+	};
+
+	self.tabSwitch = function () {
+		// We need to refresh values between tabs since they both modify the same source data.
+		var character = getSelectedCharacter();
+		populateCharacter(character);
 	};
 
 	var populateCharacter = function (character) {
@@ -50,14 +59,32 @@ var SavedGame = function (info) {
 				'src'
 				, 'data:image/png;base64,' + character.portrait));
 
+		var row = $('<tr><td></td><td contenteditable></td></tr>');
+		var rawTable = $('.raw').find('tbody');
+		rawTable.empty();
+
 		for (var stat in character.stats) {
+			if (!character.stats.hasOwnProperty(stat)) {
+				continue;
+			}
+
 			$('.character .stats')
 				.find('input[data-key="' + stat + '"]')
 				.val(character.stats[stat]);
+
+			var rawRow = row.clone();
+			rawRow.find('td:first-child').text(stat);
+			rawRow.find('td:last-child')
+				.text(character.stats[stat])
+				.attr('data-key', stat);
+
+			rawTable.append(rawRow);
 		}
 
-		$('.stats input').change(updateData);
-		$('.stats input').keyup(updateData);
+		var formInputs = $('.stats').find('input');
+		formInputs.change(updateData);
+		formInputs.keyup(updateData);
+		$('.raw tr > td:last-child').keyup(updateData);
 	};
 
 	self.loadUI = function (response) {
@@ -72,6 +99,10 @@ var SavedGame = function (info) {
 		self.characterData = characters.map(function (character) {
 			// Hate to lose type information here but HTML forms won't preserve it for us anyway.
 			for (stat in character.stats) {
+				if (!character.stats.hasOwnProperty(stat)) {
+					continue;
+				}
+
 				character.stats[stat] = character.stats[stat].toString();
 			}
 
