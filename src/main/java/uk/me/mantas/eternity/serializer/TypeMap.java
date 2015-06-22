@@ -58,18 +58,29 @@ public class TypeMap {
 			put("Item", Item.class);
 			put("GameDifficulty", GameDifficulty.class);
 			put("PrerequisiteData", PrerequisiteData.class);
+			put("CharacterDatabaseString", CharacterDatabaseString.class);
+			put("GenericSpell", GenericSpell.class);
+			put("Phrase", Phrase.class);
+
+			// TODO: This is a little weird.
+			//put("Phrase[]", Phrase[].class);
+			put("Phrase[]", String[].class);
+
+			put("OCL+State", OCL.State.class);
 
 			put("StrongholdEvent", StrongholdEvent.class);
 			put("StrongholdAdventure", StrongholdAdventure.class);
+			put("StrongholdAdventure+Reward", StrongholdAdventure.Reward.class);
 			put("StrongholdHireling", StrongholdHireling.class);
+			put("StrongholdGuestHireling", StrongholdGuestHireling.class);
 			put("StrongholdPrisonerData", StrongholdPrisonerData.class);
 			put("StrongholdUpgrade+Type", StrongholdUpgrade.Type.class);
-
-			put(
-				"StrongholdVisitorSerializeData"
-				, StrongholdVisitorSerializeData.class);
+			put("StrongholdVisitorSerializeData", StrongholdVisitorSerializeData.class);
 
 			put("GenericAbility+AbilityType", GenericAbility.AbilityType.class);
+
+			put("Grimoire+SpellChapter", Grimoire.SpellChapter.class);
+			put("Grimoire+SpellChapter[]", Grimoire.SpellChapter[].class);
 
 			put("NPCAppearance+Sex", NPCAppearance.Sex.class);
 			put("NPCAppearance+Race", NPCAppearance.Race.class);
@@ -78,35 +89,28 @@ public class TypeMap {
 			put("Religion+Deity", Religion.Deity.class);
 			put("Religion+PaladinOrder", Religion.PaladinOrder.class);
 
-			put(
-				"PartyMemberAI+DetectionObject"
-				, PartyMemberAI.DetectionObject.class);
+			put("PartyMemberAI+DetectionObject", PartyMemberAI.DetectionObject.class);
 
 			put("AIController+AISummonType", AIController.AISummonType.class);
-			put(
-				"AIController+AggressionType"
-				, AIController.AggressionType.class);
+			put("AIController+AggressionType", AIController.AggressionType.class);
 
 			put("CharacterStats+Race", CharacterStats.Race.class);
 			put("CharacterStats+Subrace", CharacterStats.Subrace.class);
 			put("CharacterStats+Culture", CharacterStats.Culture.class);
 			put("CharacterStats+Class", CharacterStats.Class.class);
 			put("CharacterStats+Background", CharacterStats.Background.class);
+			put("CharacterStats+NoiseLevelType", CharacterStats.NoiseLevelType.class);
 
-			put(
-				"CharacterStats+NoiseLevelType"
-				, CharacterStats.NoiseLevelType.class);
-
-			put(
-				"AchievementTracker+TrackedAchievementStat"
-				, AchievementTracker.TrackedAchievementStat.class);
+			put("CompanionNames+Companions", CompanionNames.Companions.class);
 
 			put("MapData+VisibilityType", MapData.VisibilityType.class);
 			put("MapData+VisibilityType[]", MapData.VisibilityType[].class);
 
+			put("QuestManager+QuestTimestamps", QuestManager.QuestTimestamps.class);
+
 			put(
-				"QuestManager+QuestTimestamps"
-				, QuestManager.QuestTimestamps.class);
+				"AchievementTracker+TrackedAchievementStat"
+				, AchievementTracker.TrackedAchievementStat.class);
 		}};
 
 	public static final Map<Class, String> reverseMap = new HashMap<>();

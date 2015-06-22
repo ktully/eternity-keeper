@@ -259,10 +259,7 @@ public class SharpSerializer {
 			propertyCache.put(property.reference.id, property);
 		}
 
-		for (int index = property.lowerBound
-			; index < property.lowerBound + itemsCount
-			; index++) {
-
+		for (int index = property.lowerBound; index < property.lowerBound + itemsCount; index++) {
 			Property item = (Property) property.items.get(index);
 			Property value = createObject(item);
 			if (value != null) {
@@ -270,10 +267,7 @@ public class SharpSerializer {
 			}
 		}
 
-		Object[] typedArray =
-			Arrays.copyOf(array, array.length, property.type.type);
-
-		property.obj = typedArray;
+		property.obj = Arrays.copyOf(array, array.length, property.type.type);
 		return property;
 	}
 

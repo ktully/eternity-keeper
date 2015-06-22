@@ -121,7 +121,7 @@ button#searchForSavedGames {
 .save-info {
 	position: relative;
 	display: inline-block;
-	width: 500px;
+	width: 600px;
 	box-shadow: 0 0 2px rgba(0,0,0,.1);
 	cursor: pointer;
 	border: 1px solid #eee;

@@ -473,11 +473,7 @@ public class Deserializer {
 		return null;
 	}
 
-	private Property createProperty (
-		byte elementID
-		, String propertyName
-		, TypePair propertyType) {
-
+	private Property createProperty (byte elementID, String propertyName, TypePair propertyType) {
 		switch (elementID) {
 			case Elements.SimpleObject:
 				return new SimpleProperty(propertyName, propertyType);
@@ -488,11 +484,10 @@ public class Deserializer {
 
 			case Elements.SingleArray:
 			case Elements.SingleArrayWithID:
-				return new SingleDimensionalArrayProperty(
-					propertyName
-					, propertyType);
+				return new SingleDimensionalArrayProperty(propertyName, propertyType);
 
 			case Elements.Dictionary:
+			case Elements.DictionaryWithID:
 				return new DictionaryProperty(propertyName, propertyType);
 
 			case Elements.Collection:

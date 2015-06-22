@@ -26,10 +26,7 @@ public class SavedGameOpener implements Runnable {
 	private final String saveGameLocation;
 	private final CefQueryCallback callback;
 
-	public SavedGameOpener (
-		String saveGameLocation
-		, CefQueryCallback callback) {
-
+	public SavedGameOpener (String saveGameLocation, CefQueryCallback callback) {
 		this.saveGameLocation = saveGameLocation;
 		this.callback = callback;
 	}
@@ -45,9 +42,7 @@ public class SavedGameOpener implements Runnable {
 		}
 
 		List<Property> gameObjects = deserialize(mobileObjectsFile);
-		Map<String, Property> characters =
-			extractCharacters(gameObjects);
-
+		Map<String, Property> characters = extractCharacters(gameObjects);
 		sendJSON(characters);
 	}
 
@@ -55,43 +50,48 @@ public class SavedGameOpener implements Runnable {
 		JSONObject[] jsonObjects = characters.entrySet().stream().map(entry -> {
 			JSONObject jsonObject = new JSONObject();
 			jsonObject.put("GUID", entry.getKey());
-			Property property = entry.getValue();
-			ObjectPersistencePacket packet =
-				(ObjectPersistencePacket) property.obj;
 
+			Property property = entry.getValue();
+			ObjectPersistencePacket packet = (ObjectPersistencePacket) property.obj;
 			boolean isCompanion = packet.ObjectName.startsWith("Companion");
-			Map<String, Object> stats = extractCharacterStats(packet);
 			String name = extractName(packet);
 
-			if (stats.get("OverrideName") != null
-				&& !stats.get("OverrideName").equals("")) {
+			Optional<Map<String, Object>> stats = extractCharacterStats(packet);
+			if (!stats.isPresent()) {
+				// This is a stored character that is not presently in the party.
+				return Optional.empty();
+			}
 
-				name = (String) stats.get("OverrideName");
+			if (stats.get().get("OverrideName") != null
+				&& !stats.get().get("OverrideName").equals("")) {
+
+				name = (String) stats.get().get("OverrideName");
 			} else if (isCompanion) {
-				stats.put("OverrideName", name);
+				stats.get().put("OverrideName", name);
 			}
 
 			jsonObject.put("isCompanion", isCompanion);
 			jsonObject.put("name", name);
 			jsonObject.put("portrait", extractPortrait(packet, isCompanion));
-			jsonObject.put("stats", stats);
+			jsonObject.put("stats", stats.get());
 
-			return jsonObject;
-		}).toArray(JSONObject[]::new);
+			return Optional.of(jsonObject);
+		}).filter(Optional::isPresent)
+		.map(Optional::get)
+		.toArray(JSONObject[]::new);
 
 		String json = new JSONArray(jsonObjects).toString();
 		callback.success(json);
 	}
 
-	private Map<String, Object> extractCharacterStats (ObjectPersistencePacket packet) {
+	private Optional<Map<String, Object>> extractCharacterStats (ObjectPersistencePacket packet) {
 		return Arrays.stream(packet.ComponentPackets)
 			.filter(c -> c.TypeString.equals("CharacterStats"))
 			.findFirst()
 			.map(c ->
 				c.Variables.entrySet().stream()
 					.filter(entry -> isSupportedType(entry.getValue()))
-					.collect(Collectors.toMap(Entry::getKey, Entry::getValue)))
-			.get();
+					.collect(Collectors.toMap(Entry::getKey, Entry::getValue)));
 	}
 
 	private boolean isSupportedType (Object obj) {
@@ -115,12 +115,8 @@ public class SavedGameOpener implements Runnable {
 		return name;
 	}
 
-	private String extractPortrait (
-		ObjectPersistencePacket packet
-		, boolean isCompanion) {
-
+	private String extractPortrait (ObjectPersistencePacket packet, boolean isCompanion) {
 		JSONObject settings = Settings.getInstance().json;
-
 		Optional<String> portraitSubPath =
 			Arrays.stream(packet.ComponentPackets)
 				.filter(c -> c.TypeString.equals("Portrait"))
@@ -160,9 +156,7 @@ public class SavedGameOpener implements Runnable {
 		}
 
 		try {
-			byte[] portraitData =
-				FileUtils.readFileToByteArray(portraitPath.toFile());
-
+			byte[] portraitData = FileUtils.readFileToByteArray(portraitPath.toFile());
 			return Base64.getEncoder().encodeToString(portraitData);
 		} catch (IOException e) {
 			System.err.printf(
@@ -174,18 +168,14 @@ public class SavedGameOpener implements Runnable {
 		return "";
 	}
 
-	private Map<String, Property> extractCharacters (
-		List<Property> gameObjects) {
-
+	private Map<String, Property> extractCharacters (List<Property> gameObjects) {
 		Map<String, Property> characters = new HashMap<>();
 		for (Property property : gameObjects) {
 			if (!(property.obj instanceof ObjectPersistencePacket)) {
 				continue;
 			}
 
-			ObjectPersistencePacket packet =
-				(ObjectPersistencePacket) property.obj;
-
+			ObjectPersistencePacket packet = (ObjectPersistencePacket) property.obj;
 			if (packet.ObjectName == null || packet.ObjectID == null) {
 				continue;
 			}

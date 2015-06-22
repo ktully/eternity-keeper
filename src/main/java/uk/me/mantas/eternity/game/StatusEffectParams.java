@@ -44,7 +44,9 @@ public class StatusEffectParams {
 	public Equippable EquippableSerialized2;
 	public UUID AttackPrefabSerialized;
 	public AttackBase AttackPrefabSerialized2;
-	public Affliction AfflictionPrefabSerialized;
+	// TODO: Check this.
+	//public Affliction AfflictionPrefabSerialized;
+	public String AfflictionPrefabSerialized;
 	public UUID OnDamageCallbackAbilitySerialized;
 	public String Description;
 	public boolean IsCleanedUp;

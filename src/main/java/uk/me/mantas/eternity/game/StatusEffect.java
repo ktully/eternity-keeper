@@ -42,11 +42,15 @@ public class StatusEffect {
 	public UUID ExtraObjectSerialized;
 	public GenericAbility.AbilityType AbilityType;
 	public UUID AbilityOriginSerialized;
-	public Equippable EquipmentOrigin;
+	// TODO: Check this.
+	//public Equippable EquipmentOrigin;
+	public String EquipmentOrigin;
 	public UUID EquipmentOriginSerialized;
 	public Phrase PhraseOrigin;
 	public UUID PhraseOriginSerialized;
-	public Affliction AfflictionOrigin;
+	// TODO: Check this.
+	//public Affliction AfflictionOrigin;
+	public String AfflictionOrigin;
 	public UUID AfflictionOriginSerialized;
 	public String AfflictionKeyword;
 	public MonoBehaviour Origin;
