@@ -23,6 +23,7 @@ import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
 import uk.me.mantas.eternity.Environment;
+import uk.me.mantas.eternity.Settings;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,8 +35,9 @@ public abstract class TestHarness {
 	protected static String PREFIX = "EK-";
 
 	@Before
-	public void setup () {
+	public void setup () throws NoSuchFieldException, IllegalAccessException {
 		Environment.initialise();
+		Settings.clear();
 	}
 
 	@After

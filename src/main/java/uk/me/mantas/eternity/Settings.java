@@ -101,4 +101,8 @@ public class Settings {
 	public static void initialise () {
 		instance = new Settings();
 	}
+
+	public static void clear () {
+		instance = null;
+	}
 }
