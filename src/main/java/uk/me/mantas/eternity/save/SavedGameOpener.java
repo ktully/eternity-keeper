@@ -53,7 +53,7 @@ public class SavedGameOpener implements Runnable {
 
 			Property property = entry.getValue();
 			ObjectPersistencePacket packet = (ObjectPersistencePacket) property.obj;
-			boolean isCompanion = packet.ObjectName.startsWith("Companion");
+			boolean isCompanion = detectCompanion(packet);
 			String name = extractName(packet);
 
 			Optional<Map<String, Object>> stats = extractCharacterStats(packet);
@@ -82,6 +82,11 @@ public class SavedGameOpener implements Runnable {
 
 		String json = new JSONArray(jsonObjects).toString();
 		callback.success(json);
+	}
+
+	private boolean detectCompanion (ObjectPersistencePacket packet) {
+		return packet.ObjectName.startsWith("Companion_")
+			&& !packet.ObjectName.startsWith("Companion_Generic");
 	}
 
 	private Optional<Map<String, Object>> extractCharacterStats (ObjectPersistencePacket packet) {
