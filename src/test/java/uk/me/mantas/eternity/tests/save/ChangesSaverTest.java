@@ -108,9 +108,9 @@ public class ChangesSaverTest extends TestHarness {
 			+ ",\"absolutePath\":\"%s\""
 			+ ",\"characterData\":[{"
 				+ "\"GUID\":\"b1a7e809-0000-0000-0000-000000000000\""
-				+ ", \"stats\":{\"BaseMight\":30}}, {"
+				+ ", \"stats\":{\"BaseMight\":\"30\"}}, {"
 				+ "\"GUID\":\"09517a0d-4fec-407c-a749-a531f3be64e0\""
-				+ ", \"stats\":{\"BaseResolve\":50}}]}";
+				+ ", \"stats\":{\"BaseResolve\":\"50\"}}]}";
 
 		String absolutePath = new File(
 			getClass()
@@ -120,16 +120,11 @@ public class ChangesSaverTest extends TestHarness {
 
 		mockSettings.json = mockJSON;
 		request = String.format(request, absolutePath.replace("\\", "\\\\"));
-		when(mockEnvironment.getWorkingDirectory())
-			.thenReturn(workingDirectory);
+		when(mockEnvironment.getWorkingDirectory()).thenReturn(workingDirectory);
 
-		doThrow(new JSONException(""))
-			.when(mockJSON).getString(anyString());
+		doThrow(new JSONException("")).when(mockJSON).getString(anyString());
 
-		File saveDirectory = new File(
-			workingDirectory
-			, "id 0 Encampment.savegame");
-
+		File saveDirectory = new File(workingDirectory, "id 0 Encampment.savegame");
 		ChangesSaver cls = new ChangesSaver(request, mockCallback);
 
 		cls.run();
@@ -142,14 +137,10 @@ public class ChangesSaverTest extends TestHarness {
 
 		assertEquals(-17, saveinfoBytes[0]);
 		Match xml = $(new String(EKUtils.removeBOM(saveinfoBytes)));
-		assertEquals(
-			"TEST"
-			, xml.find("Simple[name='UserSaveName']").attr("value"));
+		assertEquals("TEST", xml.find("Simple[name='UserSaveName']").attr("value"));
 
 		File mobileObjectsFile = new File(saveDirectory, "MobileObjects.save");
-		SharpSerializer deserializer =
-			new SharpSerializer(mobileObjectsFile.getAbsolutePath());
-
+		SharpSerializer deserializer = new SharpSerializer(mobileObjectsFile.getAbsolutePath());
 		Optional<Property> objectCountProp = deserializer.deserialize();
 		assertTrue(objectCountProp.isPresent());
 
@@ -164,8 +155,7 @@ public class ChangesSaverTest extends TestHarness {
 				(ObjectPersistencePacket) property.get().obj;
 
 			if (!packet.ObjectID.equals("b1a7e809-0000-0000-0000-000000000000")
-				&& !packet.ObjectID
-					.equals("09517a0d-4fec-407c-a749-a531f3be64e0")) {
+				&& !packet.ObjectID.equals("09517a0d-4fec-407c-a749-a531f3be64e0")) {
 
 				continue;
 			}
@@ -178,15 +168,11 @@ public class ChangesSaverTest extends TestHarness {
 
 			Map<String, Object> vars = stats.Variables;
 
-			if (packet.ObjectID
-				.equals("b1a7e809-0000-0000-0000-000000000000")) {
-
+			if (packet.ObjectID.equals("b1a7e809-0000-0000-0000-000000000000")) {
 				mightUpdated = (int) vars.get("BaseMight") == 30;
 			}
 
-			if (packet.ObjectID
-				.equals("09517a0d-4fec-407c-a749-a531f3be64e0")) {
-
+			if (packet.ObjectID.equals("09517a0d-4fec-407c-a749-a531f3be64e0")) {
 				resolveUpdated = (int) vars.get("BaseResolve") == 50;
 			}
 		}
