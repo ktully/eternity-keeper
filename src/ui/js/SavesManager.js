@@ -208,9 +208,9 @@ var SavesManager = function () {
 		errorHide();
 		$('.saved-game-locator').hide();
 		$('.save-blocks').hide();
-		$('#menu-save-modification'
-			+ ', #menu-export-character'
-			+ ', #menu-import-character')
+		$('#menu-save-modification')
+			//+ ', #menu-export-character'
+			//+ ', #menu-import-character')
 			.parent().removeClass('disabled');
 
 		$('#menu-save-modification').click(saveModifications.saveChanges);

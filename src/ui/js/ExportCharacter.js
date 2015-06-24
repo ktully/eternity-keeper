@@ -84,7 +84,8 @@ var ExportCharacter = function () {
 		dialog.modal('show');
 	};
 
-	$('#menu-export-character').click(selectCharacterToExport);
+	// Disabling this feature until it's working.
+	//$('#menu-export-character').click(selectCharacterToExport);
 };
 
 new ExportCharacter();

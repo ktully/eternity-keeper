@@ -49,7 +49,8 @@ var ImportCharacter = function () {
 		});
 	};
 
-	$('#menu-import-character').click(selectCharacterToImport);
+	// Disabling this feature until it's working.
+	//$('#menu-import-character').click(selectCharacterToImport);
 };
 
 new ImportCharacter();
