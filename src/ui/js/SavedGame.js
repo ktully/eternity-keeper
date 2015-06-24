@@ -45,7 +45,8 @@ var SavedGame = function (info) {
 		var items = self.characterData.map(function (character) {
 			return $('<li>')
 				.attr('data-guid', character.GUID)
-				.text(character.name);
+				.html('<i class="fa fa-heartbeat"></i> ' + character.name)
+				.addClass(character.isDead ? 'dead' : '');
 		});
 
 		$('.characters').empty().append(items);
@@ -73,10 +74,15 @@ var SavedGame = function (info) {
 	};
 
 	var populateCharacter = function (character) {
-		$('.character .portrait').empty().append(
-			$('<img>').attr(
-				'src'
-				, 'data:image/png;base64,' + character.portrait));
+		var portrait = $('.character .portrait');
+		portrait
+			.empty()
+			.css('background-image', 'url(data:image/png;base64,' + character.portrait + ')')
+			.css('background-repeat', 'no-repeat');
+
+		if (character.isDead) {
+			portrait.append($('<div>DEAD</div>'));
+		}
 
 		var row = $('<tr><td></td><td contenteditable></td></tr>');
 		var rawTable = $('.raw').find('tbody');

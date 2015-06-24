@@ -108,6 +108,7 @@ public class SavedGameOpenerTest extends TestHarness {
 		+ ",\"name\":\"Calisca\""
 		+ ",\"portrait\":\"iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAAAAAA6fptVAAAACklEQVQI12P4DwABAQEAG7bu"
 			+ "VgAAAABJRU5ErkJggg==\""
+		+ ",\"isDead\":false"
 		+ "},{\"isCompanion\":false,\"stats\":{"
 			+ "\"StaminaRechargeMult\":1,\"LoreBonus\":0,\"FinishingBlowDamageMult\":1"
 			+ ",\"HostileAOEDamageMultiplier\":1,\"EngagementDistanceBonus\":0"
@@ -175,7 +176,8 @@ public class SavedGameOpenerTest extends TestHarness {
 		+ "},\"GUID\":\"09517a0d-4fec-407c-a749-a531f3be64e0\""
 		+ ",\"name\":\"Elenor\""
 		+ ",\"portrait\":\"iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAAAAAA6fptVAAAACklEQVQI12P4DwABAQEAG7bu"
-			+ "VgAAAABJRU5ErkJggg==\"}]";
+			+ "VgAAAABJRU5ErkJggg==\""
+		+ ",\"isDead\":false}]";
 
 	@Test
 	public void mobileObjectsFileNotExists () {

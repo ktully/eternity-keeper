@@ -73,6 +73,7 @@ public class SavedGameOpener implements Runnable {
 			Property property = entry.getValue();
 			ObjectPersistencePacket packet = (ObjectPersistencePacket) property.obj;
 			boolean isCompanion = detectCompanion(packet);
+			boolean isDead = detectDead(packet);
 			String name = extractName(packet);
 
 			Optional<Map<String, Object>> stats = extractCharacterStats(packet);
@@ -90,6 +91,7 @@ public class SavedGameOpener implements Runnable {
 			}
 
 			jsonObject.put("isCompanion", isCompanion);
+			jsonObject.put("isDead", isDead);
 			jsonObject.put("name", name);
 			jsonObject.put("portrait", extractPortrait(packet, isCompanion));
 			jsonObject.put("stats", stats.get());
@@ -137,6 +139,16 @@ public class SavedGameOpener implements Runnable {
 		}
 
 		return name;
+	}
+
+	private boolean detectDead (ObjectPersistencePacket packet) {
+		Optional<Float> currentHealth =
+			Arrays.stream(packet.ComponentPackets)
+				.filter(c -> c.TypeString.equals("Health"))
+				.findFirst()
+				.map(c -> (Float) c.Variables.get("CurrentHealth"));
+
+		return currentHealth.isPresent() && currentHealth.get() == 0f;
 	}
 
 	private String extractPortrait (ObjectPersistencePacket packet, boolean isCompanion) {
