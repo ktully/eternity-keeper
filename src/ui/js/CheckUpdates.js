@@ -136,7 +136,11 @@ var CheckUpdates = function () {
 	};
 
 	var alreadyUpToDate = function () {
-		$('#checkUpdatesProgress, #checkUpdatesAvailable, #checkUpdatesDownload').hide();
+		$('#checkUpdatesProgress'
+			+ ', #checkUpdatesAvailable'
+			+ ', #checkUpdatesDownload'
+			+ ', #checkUpdatesDownloadSuccess').hide();
+
 		$('#checkUpdatesDialog').find('.modal-footer').show();
 		$('#checkUpdatesTryAgain').show();
 		$('#checkUpdatesNoUpdates').show();
