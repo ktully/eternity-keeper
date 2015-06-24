@@ -24,6 +24,7 @@ var CheckUpdates = function () {
 	var checkInterval = null;
 	var downloadingInterval = null;
 	var currentProgess = 0;
+	var jarDownloaded = false;
 
 	var updateProgress = function () {
 		$('#checkUpdatesProgress').find('div').css('width', currentProgess * 10 + '%');
@@ -45,6 +46,7 @@ var CheckUpdates = function () {
 
 	var notChecking = function () {
 		isChecking = false;
+		jarDownloaded = false;
 		clearInterval(checkInterval);
 	};
 
@@ -71,6 +73,7 @@ var CheckUpdates = function () {
 
 	var notDownloading = function () {
 		isDownloading = false;
+		jarDownloaded = false;
 		clearInterval(downloadingInterval);
 	};
 
@@ -90,7 +93,15 @@ var CheckUpdates = function () {
 
 	var updateDownloadProgress = function (responseText) {
 		var response = JSON.parse(responseText);
-		if (response.percentage == 100) {
+
+		if (!jarDownloaded) {
+			if (response.jarDownloaded) {
+				resetProgress();
+				jarDownloaded = true;
+			}
+		}
+
+		if (response.percentage == 100 && jarDownloaded) {
 			downloadComplete();
 			return;
 		}

@@ -47,6 +47,7 @@ public class Environment {
 	private File previousSaveDirectory = null;
 	private File settingsFile = new File(".", "settings.json");
 	private File jarDirectory = new File("jar");
+	private File uiDirectory = new File("src");
 	private File workingDirectory = new File(
 		System.getProperty("java.io.tmpdir")
 		, "EK-unpacked-saves");
@@ -66,6 +67,14 @@ public class Environment {
 
 	public void setJarDirectory (File jarDirectory) {
 		this.jarDirectory = jarDirectory;
+	}
+
+	public File getUiDirectory () {
+		return uiDirectory;
+	}
+
+	public void setUiDirectory (File uiDirectory) {
+		this.uiDirectory = uiDirectory;
 	}
 
 	public File getSettingsFile () {
