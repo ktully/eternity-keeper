@@ -26,6 +26,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONStringer;
 import uk.me.mantas.eternity.Environment;
+import uk.me.mantas.eternity.Logger;
 import uk.me.mantas.eternity.Settings;
 
 import java.io.File;
@@ -36,6 +37,8 @@ import java.util.Optional;
 import static uk.me.mantas.eternity.Environment.EnvKey;
 
 public class GetDefaultSaveLocation extends CefMessageRouterHandlerAdapter {
+	private static final Logger logger = Logger.getLogger(GetDefaultSaveLocation.class);
+
 	@Override
 	public boolean onQuery (
 		CefBrowser browser
@@ -58,8 +61,7 @@ public class GetDefaultSaveLocation extends CefMessageRouterHandlerAdapter {
 		} catch (JSONException ignored) {}
 
 		if (defaultSaveLocation == null || defaultSaveLocation.length() < 1) {
-			Optional<String> userProfile =
-				environment.getEnvVar(EnvKey.USERPROFILE);
+			Optional<String> userProfile = environment.getEnvVar(EnvKey.USERPROFILE);
 
 			if (userProfile.isPresent()) {
 				Path defaultLocation = Paths.get(userProfile.get())
@@ -76,25 +78,30 @@ public class GetDefaultSaveLocation extends CefMessageRouterHandlerAdapter {
 		}
 
 		if (defaultGameLocation == null || defaultGameLocation.length() < 1) {
-			Optional<String> systemDrive =
-				environment.getEnvVar(EnvKey.SYSTEMDRIVE);
+			Optional<File> foundLocation = Optional.empty();
+			Optional<String> systemDrive = environment.getEnvVar(EnvKey.SYSTEMDRIVE);
 
 			if (systemDrive.isPresent()) {
 				Path root = Paths.get(systemDrive.get());
-				for (String possibleLocation :
-					environment.possibleInstallationLocations) {
+				foundLocation = searchLikelyLocations(root.toFile());
+			}
 
-					File resolvedLocation = new File(
-						root.toFile()
-						, possibleLocation);
-
-					if (resolvedLocation.exists()) {
-						defaultGameLocation =
-							resolvedLocation.getAbsolutePath();
-
-						break;
+			if (!foundLocation.isPresent()) {
+				// Try all the possible drives. Is this excessive?
+				final char[] alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
+				for (final char letter : alphabet) {
+					final File drive = new File(String.valueOf(letter));
+					if (drive.exists()) {
+						foundLocation = searchLikelyLocations(drive);
+						if (foundLocation.isPresent()) {
+							break;
+						}
 					}
 				}
+			}
+
+			if (foundLocation.isPresent()) {
+				defaultGameLocation = foundLocation.get().getAbsolutePath();
 			}
 		}
 
@@ -104,10 +111,20 @@ public class GetDefaultSaveLocation extends CefMessageRouterHandlerAdapter {
 			settings.put("gameLocation", defaultGameLocation);
 		}
 
-		callback.success(
-			foundDefault(defaultSaveLocation, defaultGameLocation));
-
+		callback.success(foundDefault(defaultSaveLocation, defaultGameLocation));
 		return true;
+	}
+
+	private Optional<File> searchLikelyLocations (final File systemDrive) {
+		final Environment environment = Environment.getInstance();
+		for (String possibleLocation : environment.possibleInstallationLocations) {
+			File resolvedLocation = new File(systemDrive, possibleLocation);
+			if (resolvedLocation.exists()) {
+				return Optional.of(resolvedLocation);
+			}
+		}
+
+		return Optional.empty();
 	}
 
 	private String foundDefault (String savesLocation, String gameLocation) {
@@ -122,6 +139,6 @@ public class GetDefaultSaveLocation extends CefMessageRouterHandlerAdapter {
 	@Override
 	public void onQueryCanceled (CefBrowser browser, long id) {
 		// Not really sure what this means yet so log it for now.
-		System.err.printf("Query #%d was cancelled.%n", id);
+		logger.error("Query #%d was cancelled.%n", id);
 	}
 }

@@ -26,6 +26,7 @@ import org.joda.time.format.DateTimeFormatter;
 import org.joox.Match;
 import org.w3c.dom.DOMException;
 import uk.me.mantas.eternity.EKUtils;
+import uk.me.mantas.eternity.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -35,6 +36,7 @@ import java.util.stream.Collectors;
 import static org.joox.JOOX.$;
 
 public class SaveGameInfo {
+	private static final Logger logger = Logger.getLogger(SaveGameInfo.class);
 	private static final DateTimeFormatter dateFormatter =
 		DateTimeFormat.forPattern("MM/dd/yyyy HH:mm:ss").withZoneUTC();
 
@@ -74,7 +76,7 @@ public class SaveGameInfo {
 		try {
 			extractGUIDAndSystemName(saveFolder);
 		} catch (ArrayIndexOutOfBoundsException e) {
-			System.err.printf(
+			logger.error(
 				"Save folder name was malformed: %s%n"
 				, saveFolder.getName());
 
@@ -124,7 +126,7 @@ public class SaveGameInfo {
 
 			return screenshot.length() > 0 && portraits.size() > 0;
 		} catch (IOException e) {
-			System.err.printf(
+			logger.error(
 				"Error reading image files: %s%n"
 				, e.getMessage());
 		}
@@ -160,12 +162,12 @@ public class SaveGameInfo {
 
 			return true;
 		} catch (DOMException e) {
-			System.err.printf(
+			logger.error(
 				"Error parsing %s: %s%n"
 				, saveInfoXML.getAbsolutePath()
 				, e.getMessage());
 		} catch (IOException e) {
-			System.err.printf(
+			logger.error(
 				"Error reading %s: %s%n"
 				, saveInfoXML.getAbsolutePath()
 				, e.getMessage());

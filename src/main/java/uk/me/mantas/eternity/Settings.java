@@ -25,6 +25,7 @@ import org.json.JSONTokener;
 import java.io.*;
 
 public class Settings {
+	private static final Logger logger = Logger.getLogger(Settings.class);
 	private static Settings instance = null;
 	private final File settingsFile;
 	public JSONObject json = new JSONObject();
@@ -40,7 +41,7 @@ public class Settings {
 				readSettingsJSON();
 			}
 		} catch (IOException e) {
-			System.err.printf(
+			logger.error(
 				"Error processing settings file: %s%n"
 				, e.getMessage());
 		}
@@ -54,7 +55,7 @@ public class Settings {
 
 			json = new JSONObject(new JSONTokener(reader));
 		} catch (IOException e) {
-			System.err.printf(
+			logger.error(
 				"Error reading file '%s': %s%n"
 				, settingsFile.getAbsolutePath()
 				, e.getMessage());
@@ -69,7 +70,7 @@ public class Settings {
 
 			writer.write("{}");
 		} catch (IOException e) {
-			System.err.printf(
+			logger.error(
 				"Unable to write to '%s': %s%n"
 				, settingsFile.getAbsolutePath()
 				, e.getMessage());
@@ -84,7 +85,7 @@ public class Settings {
 
 			writer.write(json.toString());
 		} catch (IOException e) {
-			System.err.printf(
+			logger.error(
 				"Unable to save settings file: %s%n"
 				, e.getMessage());
 		}

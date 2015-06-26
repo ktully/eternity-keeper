@@ -21,6 +21,7 @@ package uk.me.mantas.eternity.save;
 
 import net.lingala.zip4j.core.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
+import uk.me.mantas.eternity.Logger;
 
 import java.io.File;
 import java.util.*;
@@ -31,6 +32,7 @@ import java.util.stream.Collectors;
 import static uk.me.mantas.eternity.save.SaveGameInfo.*;
 
 public class SaveGameExtractor {
+	private static final Logger logger = Logger.getLogger(SaveGameExtractor.class);
 	private String savesLocation;
 	private File workingDirectory;
 	public AtomicInteger totalFiles = new AtomicInteger(0);
@@ -51,7 +53,7 @@ public class SaveGameExtractor {
 			currentCount.getAndIncrement();
 			return new File(destinationPath);
 		} catch (ZipException e) {
-			System.err.printf(
+			logger.error(
 				"Unable to unzip '%s': %s%n"
 				, save.getAbsolutePath()
 				, e.getMessage());
@@ -64,7 +66,7 @@ public class SaveGameExtractor {
 		File[] contents = saveFolder.listFiles();
 
 		if (contents == null) {
-			System.err.printf(
+			logger.error(
 				"Unzip resulted in 0 files for '%s'.%n"
 				, saveFolder.getAbsolutePath());
 
@@ -84,7 +86,7 @@ public class SaveGameExtractor {
 			.collect(Collectors.toMap(File::getName, Function.identity()));
 
 		if (!importantFiles.keySet().containsAll(requiredFiles)) {
-			System.err.printf(
+			logger.error(
 				"All required files not present in extracted save game '%s'.%n"
 				, saveFolder.getAbsolutePath());
 

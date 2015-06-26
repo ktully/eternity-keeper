@@ -27,6 +27,7 @@ import org.cef.handler.CefMessageRouterHandlerAdapter;
 import org.json.JSONStringer;
 import uk.me.mantas.eternity.EKUtils;
 import uk.me.mantas.eternity.Environment;
+import uk.me.mantas.eternity.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,6 +35,8 @@ import java.nio.charset.Charset;
 import java.util.Optional;
 
 public class CheckForUpdates extends CefMessageRouterHandlerAdapter {
+	private static final Logger logger = Logger.getLogger(CheckForUpdates.class);
+
 	@Override
 	public boolean onQuery (
 		CefBrowser browser
@@ -50,7 +53,7 @@ public class CheckForUpdates extends CefMessageRouterHandlerAdapter {
 
 	@Override
 	public void onQueryCanceled (CefBrowser browser, long id) {
-		System.err.printf("Query #%d cancelled.%n", id);
+		logger.error("Query #%d cancelled.%n", id);
 	}
 
 	private class UpdateChecker implements Runnable {

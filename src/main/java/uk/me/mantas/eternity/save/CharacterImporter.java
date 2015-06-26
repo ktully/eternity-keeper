@@ -22,6 +22,7 @@ package uk.me.mantas.eternity.save;
 import org.json.JSONObject;
 import uk.me.mantas.eternity.EKUtils;
 import uk.me.mantas.eternity.Environment;
+import uk.me.mantas.eternity.Logger;
 import uk.me.mantas.eternity.game.ObjectPersistencePacket;
 import uk.me.mantas.eternity.serializer.SharpSerializer;
 import uk.me.mantas.eternity.serializer.properties.Property;
@@ -38,6 +39,7 @@ import java.util.UUID;
 import static uk.me.mantas.eternity.game.UnityEngine.Vector3;
 
 public class CharacterImporter {
+	private static final Logger logger = Logger.getLogger(CharacterImporter.class);
 	public final File saveFile;
 	private final File chrFile;
 
@@ -54,7 +56,7 @@ public class CharacterImporter {
 				Environment.getInstance().getPreviousSaveDirectory();
 
 			if (previouslySaved == null) {
-				System.err.printf(
+				logger.error(
 					"Client reported we had already saved "
 					+ "but directory didn't exist!%n");
 			} else {
@@ -88,7 +90,7 @@ public class CharacterImporter {
 		List<Property> mobileObjects = new ArrayList<>();
 		Optional<Property> objCount = deserializer.deserialize();
 		if (!objCount.isPresent()) {
-			System.err.printf("Unable to deserialize MobileObjects.save.%n");
+			logger.error("Unable to deserialize MobileObjects.save.%n");
 			return false;
 		}
 
@@ -103,7 +105,7 @@ public class CharacterImporter {
 		}
 
 		if (mobileObjects.size() < 1) {
-			System.err.printf("No objects in MobileObjects.save.%n");
+			logger.error("No objects in MobileObjects.save.%n");
 			return false;
 		}
 
@@ -113,13 +115,13 @@ public class CharacterImporter {
 			findAnchorPoint(mobileObjects);
 
 		if (!anchorPoint.isPresent()) {
-			System.err.printf("Unable to find anchor point in save.%n");
+			logger.error("Unable to find anchor point in save.%n");
 			return false;
 		}
 
 		Optional<Property> characterProperty = findCharacter(chrObjects);
 		if (!characterProperty.isPresent()) {
-			System.err.printf("Unable to find character in CHR file.%n");
+			logger.error("Unable to find character in CHR file.%n");
 			return false;
 		}
 
@@ -127,7 +129,7 @@ public class CharacterImporter {
 			anchorCharacter(characterProperty.get(), anchorPoint.get());
 
 		if (!anchored) {
-			System.err.printf("Unable to anchor character!%n");
+			logger.error("Unable to anchor character!%n");
 			return false;
 		}
 
@@ -149,7 +151,7 @@ public class CharacterImporter {
 		totalObjects.addAll(mobileObjects);
 
 		if (!mobileObjectsFile.delete()) {
-			System.err.printf(
+			logger.error(
 				"Unable to delete '%s'.%n"
 				, mobileObjectsFile.getAbsolutePath());
 
@@ -157,7 +159,7 @@ public class CharacterImporter {
 		}
 
 		if (!mobileObjectsFile.createNewFile()) {
-			System.err.printf(
+			logger.error(
 				"Unable to create '%s'.%n"
 				, mobileObjectsFile.getAbsolutePath());
 
@@ -208,7 +210,7 @@ public class CharacterImporter {
 			Property.find(chrProperty, "Location");
 
 		if (!locationProperty.isPresent()) {
-			System.err.printf(
+			logger.error(
 				"Unable to find Location property of character object!%n");
 			return false;
 		}
@@ -223,7 +225,7 @@ public class CharacterImporter {
 			&& Property.update(locationProperty.get(), "z", newLocation.z);
 
 		if (!updatedLocation) {
-			System.err.printf("Unable to locate character's location!%n");
+			logger.error("Unable to locate character's location!%n");
 			return false;
 		}
 

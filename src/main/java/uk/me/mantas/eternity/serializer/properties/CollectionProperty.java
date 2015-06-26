@@ -19,12 +19,14 @@
 
 package uk.me.mantas.eternity.serializer.properties;
 
+import uk.me.mantas.eternity.Logger;
 import uk.me.mantas.eternity.serializer.TypePair;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CollectionProperty extends ComplexProperty {
+	private static final Logger logger = Logger.getLogger(CollectionProperty.class);
 	public List<Property> items = new ArrayList<>();
 	public TypePair elementType;
 
@@ -44,7 +46,7 @@ public class CollectionProperty extends ComplexProperty {
 			elementType = ((CollectionProperty) source).elementType;
 			items = ((CollectionProperty) source).items;
 		} else {
-			System.err.printf(
+			logger.error(
 				"Tried to make CollectionProperty flat copy of %s!%n"
 				, source.getClass().getSimpleName());
 		}

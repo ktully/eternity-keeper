@@ -31,6 +31,7 @@ import org.json.JSONObject;
 import org.w3c.dom.DOMException;
 import uk.me.mantas.eternity.EKUtils;
 import uk.me.mantas.eternity.Environment;
+import uk.me.mantas.eternity.Logger;
 import uk.me.mantas.eternity.Settings;
 import uk.me.mantas.eternity.game.ComponentPersistencePacket;
 import uk.me.mantas.eternity.game.ObjectPersistencePacket;
@@ -49,6 +50,7 @@ import java.util.stream.Collectors;
 import static org.joox.JOOX.$;
 
 public class ChangesSaver implements Runnable {
+	private static final Logger logger = Logger.getLogger(ChangesSaver.class);
 	private final CefQueryCallback callback;
 	private final JSONObject request;
 
@@ -68,7 +70,7 @@ public class ChangesSaver implements Runnable {
 
 			File saveDirectory = environment.getPreviousSaveDirectory();
 			if (savedYet && saveDirectory == null) {
-				System.err.printf(
+				logger.error(
 					"Client claimed we had already saved but "
 					+ "server had no record having saved previously.%n");
 
@@ -87,7 +89,7 @@ public class ChangesSaver implements Runnable {
 		} catch (JSONException e) {
 			callback.failure(-1, SaveChanges.jsonError());
 		} catch (IOException | ZipException e) {
-			System.err.printf("%s%n", e.getMessage());
+			logger.error("%s%n", e.getMessage());
 			callback.failure(-1, SaveChanges.ioError());
 		}
 	}
@@ -98,7 +100,7 @@ public class ChangesSaver implements Runnable {
 			pillarsSavesDirectory = new File(
 				Settings.getInstance().json.getString("savesLocation"));
 		} catch (JSONException e) {
-			System.err.printf(
+			logger.error(
 				"Unable to determine Pillars of Eternity "
 				+ "save game location!%n");
 
@@ -109,14 +111,14 @@ public class ChangesSaver implements Runnable {
 			new File(pillarsSavesDirectory, saveDirectory.getName());
 
 		if (!FileUtils.deleteQuietly(saveFile)) {
-			System.err.printf(
+			logger.error(
 				"Unable to delete old save game '%s'!%n"
 				, saveFile.getAbsolutePath());
 		}
 
 		File[] saveContents = saveDirectory.listFiles();
 		if (saveContents == null) {
-			System.err.printf(
+			logger.error(
 				"Save directory '%s' is empty!%n"
 				, saveDirectory.getAbsolutePath());
 
@@ -149,7 +151,7 @@ public class ChangesSaver implements Runnable {
 				|| !(potentialProperty.get().obj
 					instanceof ObjectPersistencePacket)) {
 
-				System.err.printf("Deserialization error!%n");
+				logger.error("Deserialization error!%n");
 				continue;
 			}
 
@@ -160,7 +162,7 @@ public class ChangesSaver implements Runnable {
 		}
 
 		if (!mobileObjectsFile.delete()) {
-			System.err.printf(
+			logger.error(
 				"Unable to remove old MobileObjects.save at '%s'!%n"
 				, mobileObjectsFile.getAbsolutePath());
 
@@ -215,7 +217,7 @@ public class ChangesSaver implements Runnable {
 		}
 
 		if (componentPackets == null) {
-			System.err.printf("No ComponentPackets property found!%n");
+			logger.error("No ComponentPackets property found!%n");
 			return;
 		}
 
@@ -231,7 +233,7 @@ public class ChangesSaver implements Runnable {
 		}
 
 		if (characterStats == null) {
-			System.err.printf("Unable to find CharacterStats!%n");
+			logger.error("Unable to find CharacterStats!%n");
 			return;
 		}
 
@@ -246,7 +248,7 @@ public class ChangesSaver implements Runnable {
 		}
 
 		if (variables == null) {
-			System.err.printf("No Variables property found!%n");
+			logger.error("No Variables property found!%n");
 			return;
 		}
 
@@ -308,7 +310,7 @@ public class ChangesSaver implements Runnable {
 			xml.find("Simple[name='UserSaveName']").attr("value", saveName);
 			xml.write(newContentsStream);
 		} catch (DOMException e) {
-			System.err.printf(
+			logger.error(
 				"Error parsing copied saveinfo '%s': %s%n"
 				, saveinfoXML.getAbsolutePath()
 				, e.getMessage());

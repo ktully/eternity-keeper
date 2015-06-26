@@ -19,12 +19,14 @@
 
 package uk.me.mantas.eternity.serializer.properties;
 
+import uk.me.mantas.eternity.Logger;
 import uk.me.mantas.eternity.serializer.TypePair;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MultiDimensionalArrayProperty extends ReferenceTargetProperty {
+	private static final Logger logger = Logger.getLogger(MultiDimensionalArrayProperty.class);
 	public TypePair elementType;
 	public List<MultiDimensionalArrayItem> items = new ArrayList<>();
 	public List<ArrayDimension> dimensions = new ArrayList<>();
@@ -41,7 +43,7 @@ public class MultiDimensionalArrayProperty extends ReferenceTargetProperty {
 			dimensions = ((MultiDimensionalArrayProperty) source).dimensions;
 			items = ((MultiDimensionalArrayProperty) source).items;
 		} else {
-			System.err.printf(
+			logger.error(
 				"Tried to make MultiDimensionalArray flat copy of '%s'!%n"
 				, source.getClass().getSimpleName());
 		}

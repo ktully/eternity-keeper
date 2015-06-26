@@ -25,6 +25,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import uk.me.mantas.eternity.Environment;
+import uk.me.mantas.eternity.Logger;
 import uk.me.mantas.eternity.Settings;
 import uk.me.mantas.eternity.game.ObjectPersistencePacket;
 import uk.me.mantas.eternity.handlers.OpenSavedGame;
@@ -42,6 +43,7 @@ import java.util.stream.Collectors;
 import static java.util.Map.Entry;
 
 public class SavedGameOpener implements Runnable {
+	private static final Logger logger = Logger.getLogger(SavedGameOpener.class);
 	private final String saveGameLocation;
 	private final CefQueryCallback callback;
 
@@ -184,7 +186,7 @@ public class SavedGameOpener implements Runnable {
 				.resolve(portraitSubPath.get());
 
 		if (!portraitPath.toFile().exists()) {
-			System.err.printf(
+			logger.error(
 				"Game files contained reference to portrait at '%s' "
 				+ "but it didn't exist.%n", portraitPath.toString());
 
@@ -195,7 +197,7 @@ public class SavedGameOpener implements Runnable {
 			byte[] portraitData = FileUtils.readFileToByteArray(portraitPath.toFile());
 			return Base64.getEncoder().encodeToString(portraitData);
 		} catch (IOException e) {
-			System.err.printf(
+			logger.error(
 				"Unable to open portrait file '%s': %s%n"
 				, portraitPath.toString()
 				, e.getMessage());

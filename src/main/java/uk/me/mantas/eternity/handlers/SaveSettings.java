@@ -24,11 +24,14 @@ import org.cef.callback.CefQueryCallback;
 import org.cef.handler.CefMessageRouterHandlerAdapter;
 import org.json.JSONException;
 import org.json.JSONObject;
+import uk.me.mantas.eternity.Logger;
 import uk.me.mantas.eternity.Settings;
 
 import java.util.Iterator;
 
 public class SaveSettings extends CefMessageRouterHandlerAdapter {
+	private static final Logger logger = Logger.getLogger(SaveSettings.class);
+
 	@Override
 	public boolean onQuery (
 		CefBrowser browser
@@ -50,7 +53,7 @@ public class SaveSettings extends CefMessageRouterHandlerAdapter {
 
 			Settings.getInstance().save();
 		} catch (JSONException e) {
-			System.err.printf(
+			logger.error(
 				"Unable to read JSON-formatted settings data from client: %s%n"
 				, e.getMessage());
 		}
@@ -61,6 +64,6 @@ public class SaveSettings extends CefMessageRouterHandlerAdapter {
 
 	@Override
 	public void onQueryCanceled (CefBrowser browser, long id) {
-		System.err.printf("Query #%d was cancelled.%n", id);
+		logger.error("Query #%d was cancelled.%n", id);
 	}
 }

@@ -21,6 +21,7 @@ package uk.me.mantas.eternity.serializer;
 
 import com.google.common.primitives.Shorts;
 import com.google.common.primitives.UnsignedInteger;
+import uk.me.mantas.eternity.Logger;
 import uk.me.mantas.eternity.serializer.properties.*;
 
 import java.io.DataInput;
@@ -36,6 +37,7 @@ import static uk.me.mantas.eternity.serializer.SharpSerializer.Elements;
 import static uk.me.mantas.eternity.serializer.SharpSerializer.typeMap;
 
 public class Deserializer {
+	private static final Logger logger = Logger.getLogger(Deserializer.class);
 	private final SharpSerializer parent;
 	private final DataInput stream;
 	private final List<String> names = new ArrayList<>();
@@ -52,7 +54,7 @@ public class Deserializer {
 			readHeader(names, Function.identity());
 			readHeader(types, this::convertToType);
 		} catch (IOException e) {
-			System.err.printf(
+			logger.error(
 				"An error occurred whilst deserializing: %s%n"
 				, e.getMessage());
 		}
@@ -75,7 +77,7 @@ public class Deserializer {
 
 		Class value = typeMap.get(key);
 		if (value == null) {
-			System.err.printf(
+			logger.error(
 				"Unable to find class corresponding to key '%s'.%n"
 				, key);
 
@@ -329,7 +331,7 @@ public class Deserializer {
 			try {
 				subPropertyInfo = ownerType.getField(propertyName);
 			} catch (NoSuchFieldException e) {
-				System.err.printf(
+				logger.error(
 					"No such field '%s' for type '%s'!%n"
 					, propertyName
 					, ownerType.getSimpleName());
@@ -432,7 +434,7 @@ public class Deserializer {
 				return readEnumeration(expectedType);
 			}
 		} catch (Exception e) {
-			System.err.printf(
+			logger.error(
 				"Unable to read property value: %s%n", e.getMessage());
 		}
 
@@ -441,7 +443,7 @@ public class Deserializer {
 			Class javaType = typeMap.get(typeName);
 
 			if (javaType == null) {
-				System.err.printf(
+				logger.error(
 					"No mapping found for type '%s', expected type was '%s'.%n"
 					, typeName
 					, expectedType.getSimpleName());
@@ -449,7 +451,7 @@ public class Deserializer {
 
 			return javaType;
 		} else {
-			System.err.printf("Expected type was null in readValueCore.%n");
+			logger.error("Expected type was null in readValueCore.%n");
 		}
 
 		return null;
@@ -482,7 +484,7 @@ public class Deserializer {
 				return constants[value];
 			}
 		} catch (ArrayIndexOutOfBoundsException e) {
-			System.err.printf(
+			logger.error(
 				"Tried to get enum value index #%d that "
 					+ "didn't exist for enum %s.%n"
 				, value
@@ -516,7 +518,7 @@ public class Deserializer {
 				return new NullProperty(propertyName);
 
 			default:
-				System.err.printf("Unimplemented element ID #%d.%n", elementID);
+				logger.error("Unimplemented element ID #%d.%n", elementID);
 		}
 
 		return null;
@@ -530,7 +532,7 @@ public class Deserializer {
 		ReferenceTargetProperty cachedProperty = propertyCache.get(referenceID);
 
 		if (cachedProperty == null) {
-			System.err.printf(
+			logger.error(
 				"No cached property found for reference ID #%d!%n"
 				, referenceID);
 

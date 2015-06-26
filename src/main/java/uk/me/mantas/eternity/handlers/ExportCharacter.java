@@ -27,6 +27,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import uk.me.mantas.eternity.EKUtils;
 import uk.me.mantas.eternity.Environment;
+import uk.me.mantas.eternity.Logger;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -36,6 +37,8 @@ import java.util.Vector;
 import static org.cef.handler.CefDialogHandler.FileDialogMode;
 
 public class ExportCharacter extends CefMessageRouterHandlerAdapter {
+	private static final Logger logger = Logger.getLogger(ExportCharacter.class);
+
 	@Override
 	public boolean onQuery (
 		CefBrowser browser
@@ -52,7 +55,7 @@ public class ExportCharacter extends CefMessageRouterHandlerAdapter {
 
 	@Override
 	public void onQueryCanceled (CefBrowser browser, long id) {
-		System.err.printf("Query #%d cancelled.%n", id);
+		logger.error("Query #%d cancelled.%n", id);
 	}
 
 	private class FileDialog implements Runnable {
@@ -118,13 +121,13 @@ public class ExportCharacter extends CefMessageRouterHandlerAdapter {
 					callback.failure(-1, "EXPORT_ERR");
 				}
 			} catch (JSONException e) {
-				System.err.printf("Error parsing JSON request: %s%n", request);
+				logger.error("Error parsing JSON request: %s%n", request);
 				callback.failure(-1, "BAD_REQUEST");
 			} catch (FileNotFoundException e) {
-				System.err.printf("Unable to find file : %s%n", e.getMessage());
+				logger.error("Unable to find file : %s%n", e.getMessage());
 				callback.failure(-1, "FILE+NOT_FOUND");
 			} catch (IOException e) {
-				System.err.printf("Filesystem error: %s%n", e.getMessage());
+				logger.error("Filesystem error: %s%n", e.getMessage());
 				callback.failure(-1, "FILESYSTEM_ERR");
 			}
 		}

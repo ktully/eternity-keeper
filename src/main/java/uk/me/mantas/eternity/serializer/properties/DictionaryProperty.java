@@ -19,6 +19,7 @@
 
 package uk.me.mantas.eternity.serializer.properties;
 
+import uk.me.mantas.eternity.Logger;
 import uk.me.mantas.eternity.serializer.TypePair;
 
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ import java.util.List;
 import static java.util.Map.Entry;
 
 public class DictionaryProperty extends ComplexProperty {
+	private static final Logger logger = Logger.getLogger(DictionaryProperty.class);
 	public TypePair keyType;
 	public TypePair valueType;
 	public List<Entry<Property, Property>> items = new ArrayList<>();
@@ -48,7 +50,7 @@ public class DictionaryProperty extends ComplexProperty {
 			valueType = ((DictionaryProperty) source).valueType;
 			items = ((DictionaryProperty) source).items;
 		} else {
-			System.err.printf(
+			logger.error(
 				"Tried to make DictionaryProperty flat copy of %s!%n"
 				, source.getClass().getSimpleName());
 		}

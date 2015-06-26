@@ -179,6 +179,11 @@ public class EternityKeeper extends JFrame {
 		System.exit(0);
 	}
 
+	private static void cleanupOldLogFile () {
+		//noinspection ResultOfMethodCallIgnored
+		new File("eternity.log").delete();
+	}
+
 	private void cleanupOldUpdates () {
 		File jarDirectory = Environment.getInstance().getJarDirectory();
 		if (!jarDirectory.exists()) {
@@ -222,8 +227,8 @@ public class EternityKeeper extends JFrame {
 	}
 
 	public static void main (String[] args) {
-		ImageIcon icon = new ImageIcon(
-			EternityKeeper.class.getResource("/icon.png"));
+		cleanupOldLogFile();
+		ImageIcon icon = new ImageIcon(EternityKeeper.class.getResource("/icon.png"));
 
 		// We set up various environment properties and dependency injections
 		// here in order to make it easier to test classes later.

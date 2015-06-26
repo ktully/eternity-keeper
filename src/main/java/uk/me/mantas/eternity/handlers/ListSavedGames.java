@@ -28,6 +28,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONStringer;
 import uk.me.mantas.eternity.Environment;
+import uk.me.mantas.eternity.Logger;
 import uk.me.mantas.eternity.Settings;
 import uk.me.mantas.eternity.save.SaveGameExtractor;
 import uk.me.mantas.eternity.save.SaveGameInfo;
@@ -36,6 +37,8 @@ import java.util.Arrays;
 import java.util.Optional;
 
 public class ListSavedGames extends CefMessageRouterHandlerAdapter {
+	private static final Logger logger = Logger.getLogger(ListSavedGames.class);
+
 	private static final DateTimeFormatter dateFormatter =
 		DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss").withZoneUTC();
 
@@ -61,7 +64,7 @@ public class ListSavedGames extends CefMessageRouterHandlerAdapter {
 
 	@Override
 	public void onQueryCanceled (CefBrowser browser, long id) {
-		System.err.printf("Query #%d was cancelled.%n", id);
+		logger.error("Query #%d was cancelled.%n", id);
 		Environment.joinAllWorkers();
 	}
 

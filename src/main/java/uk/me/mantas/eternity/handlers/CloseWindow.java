@@ -23,11 +23,13 @@ import org.cef.browser.CefBrowser;
 import org.cef.callback.CefQueryCallback;
 import org.cef.handler.CefMessageRouterHandlerAdapter;
 import uk.me.mantas.eternity.Environment;
+import uk.me.mantas.eternity.Logger;
 import uk.me.mantas.eternity.WindowCloser;
 
 import javax.swing.*;
 
 public class CloseWindow extends CefMessageRouterHandlerAdapter {
+	private static final Logger logger = Logger.getLogger(CloseWindow.class);
 	private final JFrame frame;
 
 	public CloseWindow (JFrame frame) {
@@ -53,6 +55,6 @@ public class CloseWindow extends CefMessageRouterHandlerAdapter {
 
 	@Override
 	public void onQueryCanceled (CefBrowser browser, long id) {
-		System.err.printf("Query #%d cancelled.%n", id);
+		logger.error("Query #%d cancelled.%n", id);
 	}
 }

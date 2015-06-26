@@ -19,12 +19,14 @@
 
 package uk.me.mantas.eternity.serializer.properties;
 
+import uk.me.mantas.eternity.Logger;
 import uk.me.mantas.eternity.serializer.TypePair;
 
 import java.util.List;
 import java.util.Optional;
 
 public abstract class Property {
+	private static final Logger logger = Logger.getLogger(Property.class);
 	public String name;
 	public TypePair type;
 	public Property parent;
@@ -67,7 +69,7 @@ public abstract class Property {
 					, propertyType);
 
 			default:
-				System.err.printf(
+				logger.error(
 					"Unimplemented Property.createInstance for "
 					+ "property of type '%s'!%n", art.name());
 
@@ -82,7 +84,7 @@ public abstract class Property {
 
 		Optional<Property> subProperty = find(property, propertyName);
 		if (!subProperty.isPresent()) {
-			System.err.printf(
+			logger.error(
 				"Unable to locate sub-property with name '%s'.%n"
 				, propertyName);
 
@@ -90,7 +92,7 @@ public abstract class Property {
 		}
 
 		if (!(subProperty.get() instanceof SimpleProperty)) {
-			System.err.printf(
+			logger.error(
 				"Sub-property '%s' was not a SimpleProperty.%n"
 				, propertyName);
 

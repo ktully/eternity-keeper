@@ -24,6 +24,7 @@ package uk.me.mantas.eternity.serializer;
 
 import com.google.common.io.LittleEndianDataInputStream;
 import com.google.common.io.LittleEndianDataOutputStream;
+import uk.me.mantas.eternity.Logger;
 import uk.me.mantas.eternity.serializer.properties.*;
 
 import java.io.*;
@@ -36,6 +37,8 @@ import static java.util.Map.Entry;
 
 
 public class SharpSerializer {
+	private static final Logger logger = Logger.getLogger(SharpSerializer.class);
+
 	public static final Map<String, Class> typeMap = TypeMap.map;
 	public static final Map<Class, String> stringMap = TypeMap.reverseMap;
 	private Map<Integer, Property> propertyCache = new HashMap<>();
@@ -89,7 +92,7 @@ public class SharpSerializer {
 				return Optional.ofNullable(createObject(property));
 			}
 		} catch (IOException e) {
-			System.err.printf(
+			logger.error(
 				"Error opening target file '%s' for deserializing: %s%n"
 				, targetFile
 				, e.getMessage());
@@ -114,7 +117,7 @@ public class SharpSerializer {
 				serializer.serialize(property);
 			}
 		} catch (IOException e) {
-			System.err.printf(
+			logger.error(
 				"Error opening target file '%s' for serializing: %s%n"
 				, targetFile
 				, e.getMessage());
@@ -123,7 +126,7 @@ public class SharpSerializer {
 
 	private Property createObject (Property property) {
 		if (property == null) {
-			System.err.printf("Property is null!%n");
+			logger.error("Property is null!%n");
 			return null;
 		}
 
@@ -133,7 +136,7 @@ public class SharpSerializer {
 		}
 
 		if (property.type == null) {
-			System.err.printf(
+			logger.error(
 				"Tried to create an object from a property with no type!%n");
 
 			return null;
@@ -148,7 +151,7 @@ public class SharpSerializer {
 		}
 
 		if (!(property instanceof ReferenceTargetProperty)) {
-			System.err.printf("Don't know what to do with this property!%n");
+			logger.error("Don't know what to do with this property!%n");
 			return null;
 		}
 
@@ -163,7 +166,7 @@ public class SharpSerializer {
 
 		Property value = createObjectCore(property);
 		if (value == null) {
-			System.err.printf("Unimplemented property type!%n");
+			logger.error("Unimplemented property type!%n");
 			return null;
 		}
 
@@ -216,12 +219,12 @@ public class SharpSerializer {
 				addMethod.invoke(collection, value.obj);
 			}
 		} catch (NoSuchMethodException e) {
-			System.err.printf(
+			logger.error(
 				"Supposed 'Collection' class '%s' had no add method: %s%n"
 				, collection.getClass().getSimpleName()
 				, e.getMessage());
 		} catch (InvocationTargetException | IllegalAccessException e) {
-			System.err.printf(
+			logger.error(
 				"Unable to call add method on class '%s': %s%n"
 				, collection.getClass().getSimpleName()
 				, e.getMessage());
@@ -253,12 +256,12 @@ public class SharpSerializer {
 				putMethod.invoke(dictionary, key.obj, value.obj);
 			}
 		} catch (NoSuchMethodException e) {
-			System.err.printf(
+			logger.error(
 				"Supposed 'Dictionary' class '%s' had no put method: %s%n"
 				, dictionary.getClass().getSimpleName()
 				, e.getMessage());
 		} catch (InvocationTargetException | IllegalAccessException e) {
-			System.err.printf(
+			logger.error(
 				"Unable to call put method on class '%s': %s%n"
 				, dictionary.getClass().getSimpleName()
 				, e.getMessage());
@@ -313,7 +316,7 @@ public class SharpSerializer {
 			try {
 				field = obj.getClass().getField(property.name);
 			} catch (NoSuchFieldException e) {
-				System.err.printf(
+				logger.error(
 					"Class '%s' has no field '%s': %s%n"
 					, obj.getClass().getSimpleName()
 					, property.name
@@ -330,7 +333,7 @@ public class SharpSerializer {
 			try {
 				field.set(obj, value.obj);
 			} catch (IllegalAccessException | IllegalArgumentException e) {
-				System.err.printf(
+				logger.error(
 					"Unable to set field '%s' of class '%s': %s%n"
 					, property.name
 					, obj.getClass().getSimpleName()
@@ -347,7 +350,7 @@ public class SharpSerializer {
 		try {
 			return type.newInstance();
 		} catch (InstantiationException | IllegalAccessException e) {
-			System.err.printf(
+			logger.error(
 				"Unable to instantiate object of type '%s': %s%n"
 				, type.getSimpleName()
 				, e.getMessage());

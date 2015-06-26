@@ -19,12 +19,14 @@
 
 package uk.me.mantas.eternity.serializer.properties;
 
+import uk.me.mantas.eternity.Logger;
 import uk.me.mantas.eternity.serializer.TypePair;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SingleDimensionalArrayProperty extends ReferenceTargetProperty {
+	private static final Logger logger = Logger.getLogger(SingleDimensionalArrayProperty.class);
 	public TypePair elementType;
 	public int lowerBound;
 	public List items = new ArrayList<>();
@@ -46,7 +48,7 @@ public class SingleDimensionalArrayProperty extends ReferenceTargetProperty {
 			elementType = ((SingleDimensionalArrayProperty) source).elementType;
 			items = ((SingleDimensionalArrayProperty) source).items;
 		} else {
-			System.err.printf(
+			logger.error(
 				"Tried to make SingleDimensionalArrayProperty "
 				+ "flat copy of %s!%n"
 				, source.getClass().getSimpleName());

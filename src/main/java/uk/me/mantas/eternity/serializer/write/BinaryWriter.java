@@ -22,6 +22,7 @@ package uk.me.mantas.eternity.serializer.write;
 import com.google.common.primitives.Ints;
 import com.google.common.primitives.Longs;
 import com.google.common.primitives.UnsignedInteger;
+import uk.me.mantas.eternity.Logger;
 import uk.me.mantas.eternity.serializer.CSharpType;
 
 import java.io.DataOutput;
@@ -32,6 +33,7 @@ import java.nio.ByteBuffer;
 import java.util.UUID;
 
 public class BinaryWriter {
+	private static final Logger logger = Logger.getLogger(BinaryWriter.class);
 	public DataOutput out;
 
 	public BinaryWriter (DataOutput out) {
@@ -49,7 +51,7 @@ public class BinaryWriter {
 
 	private void writeValueCore (Object value) throws IOException {
 		if (value == null) {
-			System.err.printf("Cannot write null value!%n");
+			logger.error("Cannot write null value!%n");
 			return;
 		}
 
@@ -144,7 +146,7 @@ public class BinaryWriter {
 				}
 			}
 
-			System.err.printf(
+			logger.error(
 				"Supposed enum value couldn't be "
 				+ "matched with any enum constants!%n");
 
@@ -157,11 +159,11 @@ public class BinaryWriter {
 		}
 
 		if (value instanceof Class) {
-			System.err.printf("Trying to write Class type unimplemented!%n");
+			logger.error("Trying to write Class type unimplemented!%n");
 			return;
 		}
 
-		System.err.printf(
+		logger.error(
 			"Don't know how to write object of type '%s'!%n"
 			, value.getClass().getSimpleName());
 	}

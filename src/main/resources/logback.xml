@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<appender name="stderr" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%message</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="eternity" class="ch.qos.logback.core.FileAppender">
+		<file>eternity.log</file>
+		<append>true</append>
+		<encoder>
+			<pattern>%message</pattern>
+		</encoder>
+	</appender>
+
+	<root level="all">
+		<appender-ref ref="stderr" />
+		<appender-ref ref="eternity" />
+	</root>
+</configuration>

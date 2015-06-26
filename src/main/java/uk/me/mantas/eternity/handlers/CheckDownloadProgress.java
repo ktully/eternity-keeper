@@ -24,10 +24,13 @@ import org.cef.callback.CefQueryCallback;
 import org.cef.handler.CefMessageRouterHandlerAdapter;
 import org.json.JSONStringer;
 import uk.me.mantas.eternity.Environment;
+import uk.me.mantas.eternity.Logger;
 
 import static uk.me.mantas.eternity.handlers.DownloadUpdate.UpdateDownloader;
 
 public class CheckDownloadProgress extends CefMessageRouterHandlerAdapter {
+	private static final Logger logger = Logger.getLogger(CheckDownloadProgress.class);
+
 	@Override
 	public boolean onQuery (
 		CefBrowser browser
@@ -56,7 +59,7 @@ public class CheckDownloadProgress extends CefMessageRouterHandlerAdapter {
 
 	@Override
 	public void onQueryCanceled (CefBrowser browser, long id) {
-		System.err.printf("Query #%d cancelled.%n", id);
+		logger.error("Query #%d cancelled.%n", id);
 	}
 
 	private void respond (CefQueryCallback callback, double percentage, boolean jarDownloaded) {

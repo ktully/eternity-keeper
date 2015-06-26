@@ -32,6 +32,7 @@ import static uk.me.mantas.eternity.handlers.DownloadUpdate.UpdateDownloader;
 import static uk.me.mantas.eternity.handlers.ListSavedGames.SaveInfoLister;
 
 public class Environment {
+	private static final Logger logger = Logger.getLogger(Environment.class);
 	public static final String PILLARS_DATA_DIR = "PillarsOfEternity_Data";
 	public boolean closing = false;
 
@@ -117,7 +118,7 @@ public class Environment {
 		try {
 			FileUtils.deleteDirectory(getWorkingDirectory());
 		} catch (IOException e) {
-			System.err.printf(
+			logger.error(
 				"Unable to delete working directory at '%s': %s%n"
 				, getWorkingDirectory().getAbsolutePath()
 				, e.getMessage());
@@ -131,7 +132,7 @@ public class Environment {
 
 	private void createWorkingDirectory () {
 		if (!getWorkingDirectory().mkdir()) {
-			System.err.printf(
+			logger.error(
 				"Unable to create working directory in '%s'.%n"
 				, getWorkingDirectory().getAbsolutePath());
 		}
@@ -215,7 +216,7 @@ public class Environment {
 						SHUTDOWN_TIMEOUT_SECONDS
 						, TimeUnit.SECONDS)) {
 
-					System.err.printf("Thread pool did not terminate!%n");
+					logger.error("Thread pool did not terminate!%n");
 				}
 			}
 		} catch (InterruptedException e) {

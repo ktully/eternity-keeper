@@ -34,6 +34,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class EKUtils {
+	private static final Logger logger = Logger.getLogger(EKUtils.class);
+
 	@SuppressWarnings("EmptyCatchBlock")
 	public static Rectangle getDefaultWindowBounds () {
 		final double multiplier = 2d / 3d;
@@ -57,11 +59,11 @@ public class EKUtils {
 		try {
 			return Optional.of(Files.createTempDirectory(prefix).toFile());
 		} catch (IOException e) {
-			System.err.printf(
+			logger.error(
 				"Error creating temp directory: %s%n"
 				, e.getMessage());
 		} catch (IllegalArgumentException e) {
-			System.err.printf(
+			logger.error(
 				"Unable to create temp directory with unique name: %s%n"
 				, e.getMessage());
 		}

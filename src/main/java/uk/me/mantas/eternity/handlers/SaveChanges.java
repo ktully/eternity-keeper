@@ -24,9 +24,12 @@ import org.cef.callback.CefQueryCallback;
 import org.cef.handler.CefMessageRouterHandlerAdapter;
 import org.json.JSONStringer;
 import uk.me.mantas.eternity.Environment;
+import uk.me.mantas.eternity.Logger;
 import uk.me.mantas.eternity.save.ChangesSaver;
 
 public class SaveChanges extends CefMessageRouterHandlerAdapter {
+	private static final Logger logger = Logger.getLogger(SaveChanges.class);
+
 	@Override
 	public boolean onQuery (
 		CefBrowser browser
@@ -43,7 +46,7 @@ public class SaveChanges extends CefMessageRouterHandlerAdapter {
 
 	@Override
 	public void onQueryCanceled (CefBrowser browser, long id) {
-		System.err.printf("Query #%d was cancelled.%n", id);
+		logger.error("Query #%d was cancelled.%n", id);
 		Environment.joinAllWorkers();
 	}
 

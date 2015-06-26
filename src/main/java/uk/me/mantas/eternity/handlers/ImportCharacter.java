@@ -26,6 +26,7 @@ import org.cef.handler.CefDialogHandler.FileDialogMode;
 import org.cef.handler.CefMessageRouterHandlerAdapter;
 import org.json.JSONException;
 import uk.me.mantas.eternity.Environment;
+import uk.me.mantas.eternity.Logger;
 import uk.me.mantas.eternity.save.CharacterImporter;
 import uk.me.mantas.eternity.save.SavedGameOpener;
 
@@ -34,6 +35,8 @@ import java.io.IOException;
 import java.util.Vector;
 
 public class ImportCharacter extends CefMessageRouterHandlerAdapter {
+	private static final Logger logger = Logger.getLogger(ImportCharacter.class);
+
 	@Override
 	public boolean onQuery (
 		CefBrowser browser
@@ -50,7 +53,7 @@ public class ImportCharacter extends CefMessageRouterHandlerAdapter {
 
 	@Override
 	public void onQueryCanceled (CefBrowser browser, long id) {
-		System.err.printf("Query #%d cancelled.%n", id);
+		logger.error("Query #%d cancelled.%n", id);
 	}
 
 	private class SelectChrFile implements Runnable {
@@ -126,13 +129,13 @@ public class ImportCharacter extends CefMessageRouterHandlerAdapter {
 				callback.failure(-1, "Character import failed.");
 			}
 		} catch (JSONException e) {
-			System.err.printf("Error parsing JSON request: %s%n", request);
+			logger.error("Error parsing JSON request: %s%n", request);
 			callback.failure(-1, "Error parsing JSON request.");
 		} catch (FileNotFoundException e) {
-			System.err.printf("File not found: %s%n", e.getMessage());
+			logger.error("File not found: %s%n", e.getMessage());
 			callback.failure(-1, "Unable to find your save or CHR file.");
 		} catch (IOException e) {
-			System.err.printf("%s%n", e.getMessage());
+			logger.error("%s%n", e.getMessage());
 			callback.failure(
 				-1
 				, "Error modifying temporary MobileObjects.save");
