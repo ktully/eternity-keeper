@@ -10,7 +10,10 @@ using System.IO.Compression;
 namespace EternityBootstrapper {
 	class Program {
 		static void Main (string[] args) {
-			string root = Directory.GetCurrentDirectory();
+			string root = AppDomain.CurrentDomain.BaseDirectory;
+			Console.WriteLine(root);
+			Directory.SetCurrentDirectory(root);
+
 			string java = Path.Combine(root, @"jre\bin\java.exe");
 			string jar = Path.Combine(root, "jar");
 			string ui = Path.Combine(root, "src");
