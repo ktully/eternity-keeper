@@ -86,20 +86,6 @@ public class GetDefaultSaveLocation extends CefMessageRouterHandlerAdapter {
 				foundLocation = searchLikelyLocations(root.toFile());
 			}
 
-			if (!foundLocation.isPresent()) {
-				// Try all the possible drives. Is this excessive?
-				final char[] alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
-				for (final char letter : alphabet) {
-					final File drive = new File(String.valueOf(letter));
-					if (drive.exists()) {
-						foundLocation = searchLikelyLocations(drive);
-						if (foundLocation.isPresent()) {
-							break;
-						}
-					}
-				}
-			}
-
 			if (foundLocation.isPresent()) {
 				defaultGameLocation = foundLocation.get().getAbsolutePath();
 			}
