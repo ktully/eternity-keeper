@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
@@ -58,7 +54,7 @@ namespace EternityBootstrapper {
 			process.StartInfo.UseShellExecute = false;
 			process.StartInfo.RedirectStandardOutput = false;
 			process.StartInfo.WorkingDirectory = root;
-			process.StartInfo.Arguments = "-jar -Djava.library.path=lib " + mostRecentJar;
+			process.StartInfo.Arguments = "-jar -Djava.library.path=lib \"" + mostRecentJar + "\"";
 			process.Start();
 		}
 	}

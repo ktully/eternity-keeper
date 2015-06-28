@@ -19,5 +19,19 @@
 
 package uk.me.mantas.eternity.game;
 
+import uk.me.mantas.eternity.serializer.CSharpCollection;
+
 public class NotesPage {
+	public CSharpCollection Notes = new CSharpCollection();
+	public DatabaseString LocalizedTitle;
+	public String UserTitle;
+	public String SerializedTitle;
+	public String DisplayTitle;
+	public CSharpCollection SerializedNotes;
+
+	public static class NoteEntry {
+		public String Text;
+		public EternityDateTime Timestamp;
+		public String SerializedText;
+	}
 }

@@ -89,6 +89,11 @@ public class SavedGameOpener implements Runnable {
 
 				name = (String) stats.get().get("OverrideName");
 			} else if (isCompanion) {
+				String mappedName = Environment.companionNameMap.get(name);
+				if (mappedName != null) {
+					name = mappedName;
+				}
+
 				stats.get().put("OverrideName", name);
 			}
 
@@ -114,6 +119,7 @@ public class SavedGameOpener implements Runnable {
 
 	private Optional<Map<String, Object>> extractCharacterStats (ObjectPersistencePacket packet) {
 		return Arrays.stream(packet.ComponentPackets)
+			.filter(c -> c != null)
 			.filter(c -> c.TypeString.equals("CharacterStats"))
 			.findFirst()
 			.map(c ->
@@ -157,16 +163,20 @@ public class SavedGameOpener implements Runnable {
 		JSONObject settings = Settings.getInstance().json;
 		Optional<String> portraitSubPath =
 			Arrays.stream(packet.ComponentPackets)
+				.filter(c -> c != null)
 				.filter(c -> c.TypeString.equals("Portrait"))
 				.findFirst()
 				.map(c -> (String) c.Variables.get("m_textureLargePath"));
 
 		if (isCompanion) {
 			String name = extractName(packet);
+			String mappedName = Environment.companionNameMap.get(name);
+			mappedName = (mappedName == null) ? null : mappedName.toLowerCase().replace(" ", "_");
+
 			portraitSubPath = Optional.of(
 				String.format(
 					"data/art/gui/portraits/companion/portrait_%s_lg.png"
-					, name.toLowerCase()));
+					, (mappedName == null) ? name.toLowerCase() : mappedName));
 		}
 
 		if (!portraitSubPath.isPresent()) {

@@ -81,6 +81,9 @@ public class TypeMap {
 			put("GenericSpell", GenericSpell.class);
 			put("Phrase", Phrase.class);
 
+			put("NotesPage", NotesPage.class);
+			put("NotesPage+NoteEntry", NotesPage.NoteEntry.class);
+
 			// TODO: This is a little weird.
 			//put("Phrase[]", Phrase[].class);
 			put("Phrase[]", String[].class);

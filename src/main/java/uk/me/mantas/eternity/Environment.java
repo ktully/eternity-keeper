@@ -62,6 +62,14 @@ public class Environment {
 				+ "common\\Pillars of Eternity");
 		}};
 
+	// For some reason, certain companions are referred to in the game code differently to their
+	// actual name.
+	public static final Map<String, String> companionNameMap =
+		new HashMap<String, String>() {{
+			put("GM", "Grieving Mother");
+			put("GGP", "Durance");
+		}};
+
 	public File getJarDirectory () {
 		return jarDirectory;
 	}
