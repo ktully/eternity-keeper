@@ -59,16 +59,12 @@ public class EKUtils {
 		try {
 			return Optional.of(Files.createTempDirectory(prefix).toFile());
 		} catch (IOException e) {
-			logger.error(
-				"Error creating temp directory: %s%n"
-				, e.getMessage());
+			logger.error("Error creating temp directory: %s%n", e.getMessage());
 		} catch (IllegalArgumentException e) {
-			logger.error(
-				"Unable to create temp directory with unique name: %s%n"
-				, e.getMessage());
+			logger.error("Unable to create temp directory with unique name: %s%n", e.getMessage());
 		}
 
-		return Optional.<File>empty();
+		return Optional.empty();
 	}
 
 	public static byte[] removeBOM (byte[] bytes) {
@@ -120,15 +116,11 @@ public class EKUtils {
 		return Collections.max(timestamps);
 	}
 
-	public static List<Property> deserializeFile (File file)
-		throws FileNotFoundException {
-
+	public static List<Property> deserializeFile (File file) throws FileNotFoundException {
 		List<Property> deserialized = new ArrayList<>();
-
-		SharpSerializer deserializer =
-			new SharpSerializer(file.getAbsolutePath());
-
+		SharpSerializer deserializer = new SharpSerializer(file.getAbsolutePath());
 		Optional<Property> objCountProp = deserializer.deserialize();
+
 		if (!objCountProp.isPresent()) {
 			return deserialized;
 		}

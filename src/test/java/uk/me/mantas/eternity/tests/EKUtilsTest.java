@@ -22,7 +22,11 @@ package uk.me.mantas.eternity.tests;
 import org.junit.Test;
 import uk.me.mantas.eternity.EKUtils;
 
-import static org.junit.Assert.assertArrayEquals;
+import java.io.File;
+
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class EKUtilsTest {
 	@Test
@@ -38,5 +42,40 @@ public class EKUtilsTest {
 		byte[] actual = EKUtils.addBOM(new byte[]{});
 		byte[] expected = new byte[]{-17, -69, -65};
 		assertArrayEquals(expected, actual);
+	}
+
+	@Test
+	public void removeExtensionTest () {
+		assertNull(EKUtils.removeExtension(null));
+		assertEquals("", EKUtils.removeExtension(""));
+		assertEquals("noextension", EKUtils.removeExtension("noextension"));
+		assertEquals("noextension", EKUtils.removeExtension("noextension.extension"));
+	}
+
+	@Test
+	public void getExtensionTest () {
+		assertFalse(EKUtils.getExtension(null).isPresent());
+		assertFalse(EKUtils.getExtension("").isPresent());
+		assertFalse(EKUtils.getExtension("noextension").isPresent());
+		assertEquals("ext", EKUtils.getExtension("file.ext").get());
+		assertEquals("ext", EKUtils.getExtension("file.part.ext").get());
+	}
+
+	public File mockJar (final String name) {
+		final File mockFile = mock(File.class);
+		when(mockFile.getName()).thenReturn(name);
+
+		return mockFile;
+	}
+
+	@Test
+	public void getTimestampOfLatestJarTest () {
+		final File[] jars = new File[]{
+			mockJar("0")
+			, mockJar("1")
+			, mockJar("2")
+		};
+
+		assertEquals(2, EKUtils.getTimestampOfLatestJar(jars));
 	}
 }

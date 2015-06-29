@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -69,26 +70,56 @@ public abstract class TestHarness {
 		}
 	}
 
-	protected Environment mockEnvironment () throws NoSuchFieldException, IllegalAccessException {
+	protected Environment mockEnvironment () {
 		Environment environment = Environment.getInstance();
 		Environment mockEnvironment = mock(Environment.class);
-		Field instanceField = Environment.class.getDeclaredField("instance");
+
+		Field instanceField = null;
+		try {
+			instanceField = Environment.class.getDeclaredField("instance");
+		} catch (NoSuchFieldException e) {
+			e.printStackTrace();
+			assertNull(e);
+		}
 
 		instanceField.setAccessible(true);
-		instanceField.set(environment, mockEnvironment);
+
+		try {
+			instanceField.set(environment, mockEnvironment);
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+			assertNull(e);
+		}
 
 		when(mockEnvironment.getWorkers()).thenReturn(environment.getWorkers());
 		return mockEnvironment;
 	}
 
-	protected Settings mockSettings () throws NoSuchFieldException, IllegalAccessException {
+	protected Settings mockSettings () {
 		Settings settings = Settings.getInstance();
 		Settings mockSettings = mock(Settings.class);
-		Field instanceField = Settings.class.getDeclaredField("instance");
+
+		Field instanceField = null;
+		try {
+			instanceField = Settings.class.getDeclaredField("instance");
+		} catch (NoSuchFieldException e) {
+			e.printStackTrace();
+			assertNull(e);
+		}
 
 		instanceField.setAccessible(true);
-		instanceField.set(settings, mockSettings);
+
+		try {
+			instanceField.set(settings, mockSettings);
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+			assertNull(e);
+		}
 
 		return mockSettings;
+	}
+
+	protected ExposedClass expose (final Class<?> cls) {
+		return new ExposedClass(cls);
 	}
 }

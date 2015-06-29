@@ -91,9 +91,7 @@ public class EternityKeeper extends JFrame {
 
 	private void addJSHandlers () {
 		CefMessageRouter getDefaultSaveLocationRouter = CefMessageRouter.create(
-			new CefMessageRouterConfig(
-				"getDefaultSaveLocation"
-				, "getDefaultSaveLocationCancel")
+			new CefMessageRouterConfig("getDefaultSaveLocation", "getDefaultSaveLocationCancel")
 			, new GetDefaultSaveLocation());
 
 		CefMessageRouter listSavedGamesRouter = CefMessageRouter.create(
@@ -116,47 +114,29 @@ public class EternityKeeper extends JFrame {
 			new CefMessageRouterConfig("closeWindow", "closeWindowCancel")
 			, new CloseWindow(this));
 
-		CefMessageRouter checkExtractionProgressRouter =
-			CefMessageRouter.create(
-				new CefMessageRouterConfig(
-					"checkExtractionProgress"
-					, "checkExtractionProgressCancel")
-				, new CheckExtractionProgress());
+		CefMessageRouter checkExtractionProgressRouter = CefMessageRouter.create(
+			new CefMessageRouterConfig("checkExtractionProgress", "checkExtractionProgressCancel")
+			, new CheckExtractionProgress());
 
-		CefMessageRouter checkForUpdatesRouter =
-			CefMessageRouter.create(
-				new CefMessageRouterConfig(
-					"checkForUpdates"
-					, "checkForUpdatesCancel")
-				, new CheckForUpdates());
+		CefMessageRouter checkForUpdatesRouter = CefMessageRouter.create(
+			new CefMessageRouterConfig("checkForUpdates", "checkForUpdatesCancel")
+			, new CheckForUpdates());
 
-		CefMessageRouter downloadUpdateRouter =
-			CefMessageRouter.create(
-				new CefMessageRouterConfig(
-					"downloadUpdate"
-					, "downloadUpdateCancel")
-				, new DownloadUpdate());
+		CefMessageRouter downloadUpdateRouter = CefMessageRouter.create(
+			new CefMessageRouterConfig("downloadUpdate", "downloadUpdateCancel")
+			, new DownloadUpdate());
 
-		CefMessageRouter checkDownloadProgressRouter =
-			CefMessageRouter.create(
-				new CefMessageRouterConfig(
-					"checkDownloadProgress"
-					, "checkDownloadProgressCancel")
-				, new CheckDownloadProgress());
+		CefMessageRouter checkDownloadProgressRouter = CefMessageRouter.create(
+			new CefMessageRouterConfig("checkDownloadProgress", "checkDownloadProgressCancel")
+			, new CheckDownloadProgress());
 
-		CefMessageRouter exportCharacterRouter =
-			CefMessageRouter.create(
-				new CefMessageRouterConfig(
-					"exportCharacter"
-					, "exportCharacterCancel")
-				, new ExportCharacter());
+		CefMessageRouter exportCharacterRouter = CefMessageRouter.create(
+			new CefMessageRouterConfig("exportCharacter", "exportCharacterCancel")
+			, new ExportCharacter());
 
-		CefMessageRouter importCharacterRouter =
-			CefMessageRouter.create(
-				new CefMessageRouterConfig(
-					"importCharacter"
-					, "importCharacterCancel")
-				, new ImportCharacter());
+		CefMessageRouter importCharacterRouter = CefMessageRouter.create(
+			new CefMessageRouterConfig("importCharacter", "importCharacterCancel")
+			, new ImportCharacter());
 
 		cefClient.addMessageRouter(getDefaultSaveLocationRouter);
 		cefClient.addMessageRouter(listSavedGamesRouter);
@@ -184,7 +164,7 @@ public class EternityKeeper extends JFrame {
 		new File("eternity.log").delete();
 	}
 
-	private void cleanupOldUpdates () {
+	private static void cleanupOldUpdates () {
 		File jarDirectory = Environment.getInstance().getJarDirectory();
 		if (!jarDirectory.exists()) {
 			//noinspection ResultOfMethodCallIgnored
