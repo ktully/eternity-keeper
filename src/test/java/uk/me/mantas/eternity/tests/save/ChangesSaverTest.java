@@ -34,7 +34,6 @@ import uk.me.mantas.eternity.save.ChangesSaver;
 import uk.me.mantas.eternity.serializer.SharpSerializer;
 import uk.me.mantas.eternity.serializer.properties.Property;
 import uk.me.mantas.eternity.tests.TestHarness;
-import uk.me.mantas.eternity.tests.TestUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -65,7 +64,7 @@ public class ChangesSaverTest extends TestHarness {
 		throws NoSuchFieldException
 		, IllegalAccessException {
 
-		Environment mockEnvironment = TestUtils.mockEnvironment();
+		Environment mockEnvironment = mockEnvironment();
 		CefQueryCallback mockCallback = mock(CefQueryCallback.class);
 		String request = "{"
 			+ "\"savedYet\":true"
@@ -92,14 +91,14 @@ public class ChangesSaverTest extends TestHarness {
 		, URISyntaxException
 		, IOException {
 
-		Environment mockEnvironment = TestUtils.mockEnvironment();
+		Environment mockEnvironment = mockEnvironment();
 
 		File workingDirectory = EKUtils.createTempDir(PREFIX).get();
 		File settingsFile = new File(workingDirectory, "settings.json");
 		FileUtils.writeStringToFile(settingsFile, "{}");
 		when(mockEnvironment.getSettingsFile()).thenReturn(settingsFile);
 
-		Settings mockSettings = TestUtils.mockSettings();
+		Settings mockSettings = mockSettings();
 		JSONObject mockJSON = mock(JSONObject.class);
 		CefQueryCallback mockCallback = mock(CefQueryCallback.class);
 		String request = "{"

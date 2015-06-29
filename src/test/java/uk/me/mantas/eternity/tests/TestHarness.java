@@ -27,9 +27,12 @@ import uk.me.mantas.eternity.Settings;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.Arrays;
 
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public abstract class TestHarness {
 	protected static String PREFIX = "EK-";
@@ -64,5 +67,28 @@ public abstract class TestHarness {
 					}
 				});
 		}
+	}
+
+	protected Environment mockEnvironment () throws NoSuchFieldException, IllegalAccessException {
+		Environment environment = Environment.getInstance();
+		Environment mockEnvironment = mock(Environment.class);
+		Field instanceField = Environment.class.getDeclaredField("instance");
+
+		instanceField.setAccessible(true);
+		instanceField.set(environment, mockEnvironment);
+
+		when(mockEnvironment.getWorkers()).thenReturn(environment.getWorkers());
+		return mockEnvironment;
+	}
+
+	protected Settings mockSettings () throws NoSuchFieldException, IllegalAccessException {
+		Settings settings = Settings.getInstance();
+		Settings mockSettings = mock(Settings.class);
+		Field instanceField = Settings.class.getDeclaredField("instance");
+
+		instanceField.setAccessible(true);
+		instanceField.set(settings, mockSettings);
+
+		return mockSettings;
 	}
 }

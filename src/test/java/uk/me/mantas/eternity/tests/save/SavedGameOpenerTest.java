@@ -26,7 +26,6 @@ import uk.me.mantas.eternity.EKUtils;
 import uk.me.mantas.eternity.Settings;
 import uk.me.mantas.eternity.save.SavedGameOpener;
 import uk.me.mantas.eternity.tests.TestHarness;
-import uk.me.mantas.eternity.tests.TestUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -210,7 +209,7 @@ public class SavedGameOpenerTest extends TestHarness {
 		, NoSuchFieldException
 		, IllegalAccessException {
 
-		Settings mockSettings = TestUtils.mockSettings();
+		Settings mockSettings = mockSettings();
 		JSONObject mockJSON = mock(JSONObject.class);
 		CefQueryCallback mockCallback = mock(CefQueryCallback.class);
 		File resources = new File(getClass().getResource("/").toURI());

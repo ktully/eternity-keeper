@@ -25,7 +25,6 @@ import org.junit.Test;
 import uk.me.mantas.eternity.Environment;
 import uk.me.mantas.eternity.handlers.OpenSavedGame;
 import uk.me.mantas.eternity.tests.TestHarness;
-import uk.me.mantas.eternity.tests.TestUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -51,7 +50,7 @@ public class OpenSavedGameTest extends TestHarness {
 		, IllegalAccessException
 		, IOException {
 
-		Environment mockEnvironment = TestUtils.mockEnvironment();
+		Environment mockEnvironment = mockEnvironment();
 		CefBrowser mockBrowser = mock(CefBrowser.class);
 		CefQueryCallback mockCallback = mock(CefQueryCallback.class);
 		ExecutorService mockWorkers = mock(ExecutorService.class);
