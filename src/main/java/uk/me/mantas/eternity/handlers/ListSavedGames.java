@@ -85,8 +85,11 @@ public class ListSavedGames extends CefMessageRouterHandlerAdapter {
 				savesLocation
 				, Environment.getInstance().getWorkingDirectory());
 
-			Optional<SaveGameInfo[]> info = extractor.unpackAllSaves();
+			unpackAllSaves(extractor);
+		}
 
+		private void unpackAllSaves (final SaveGameExtractor extractor) {
+			final Optional<SaveGameInfo[]> info = extractor.unpackAllSaves();
 			if (!info.isPresent() || info.get().length < 1) {
 				notFound(callback);
 				return;

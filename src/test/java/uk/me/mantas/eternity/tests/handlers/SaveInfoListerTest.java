@@ -20,18 +20,21 @@
 package uk.me.mantas.eternity.tests.handlers;
 
 import org.cef.callback.CefQueryCallback;
+import org.junit.Ignore;
 import org.junit.Test;
 import uk.me.mantas.eternity.Environment;
 import uk.me.mantas.eternity.handlers.ListSavedGames.SaveInfoLister;
+import uk.me.mantas.eternity.save.SaveGameExtractor;
+import uk.me.mantas.eternity.tests.ExposedClass;
 import uk.me.mantas.eternity.tests.TestHarness;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
+import java.util.Optional;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 public class SaveInfoListerTest extends TestHarness {
 	private final static String SAVES_JSON =
@@ -63,6 +66,8 @@ public class SaveInfoListerTest extends TestHarness {
 		+ ",\"trialOfIron\":false,\"userSaveName\":\"Start\""
 		+ ",\"sceneTitle\":\"Encampment\"}]";
 
+	private final static String NO_RESULTS = "{\"error\":\"NO_RESULTS\"}";
+
 	@Test
 	public void noSaveFilesFound () throws IOException {
 		CefQueryCallback mockCallback = mock(CefQueryCallback.class);
@@ -70,7 +75,7 @@ public class SaveInfoListerTest extends TestHarness {
 		Environment.getInstance().setWorkingDirectory(workingDirectory);
 
 		new SaveInfoLister("404", mockCallback).run();
-		verify(mockCallback).success("{\"error\":\"NO_RESULTS\"}");
+		verify(mockCallback).success(NO_RESULTS);
 	}
 
 	@Test
@@ -91,5 +96,19 @@ public class SaveInfoListerTest extends TestHarness {
 
 		new SaveInfoLister(savesLocation, mockCallback).run();
 		verify(mockCallback).success(String.format(SAVES_JSON, save1, save2));
+	}
+
+	@Test
+	@Ignore
+	public void unpackAllSavesTestNoSaves () {
+		final CefQueryCallback mockCallback = mock(CefQueryCallback.class);
+		final SaveGameExtractor mockExtractor = mock(SaveGameExtractor.class);
+		final SaveInfoLister saveInfoLister = new SaveInfoLister("404", mockCallback);
+		final ExposedClass exposedLister = expose(saveInfoLister);
+
+		when(mockExtractor.unpackAllSaves()).thenReturn(Optional.empty());
+		exposedLister.call("unpackAllSaves", mockExtractor);
+
+		verify(mockCallback).success(NO_RESULTS);
 	}
 }

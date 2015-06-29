@@ -122,4 +122,8 @@ public abstract class TestHarness {
 	protected ExposedClass expose (final Class<?> cls) {
 		return new ExposedClass(cls);
 	}
+
+	protected ExposedClass expose (final Object instance) {
+		return new ExposedClass(instance);
+	}
 }

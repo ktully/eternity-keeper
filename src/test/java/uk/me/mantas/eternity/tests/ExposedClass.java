@@ -21,6 +21,7 @@ package uk.me.mantas.eternity.tests;
 // This class serves to expose encapsulated functionality of classes so they can be unit tested
 // without compromising that encapsulation in non-test code.
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -28,17 +29,19 @@ import static org.junit.Assert.assertNull;
 
 public class ExposedClass {
 	private final Class<?> cls;
+	private final Object instance;
 
 	public ExposedClass (final Class<?> cls) {
 		this.cls = cls;
+		this.instance = null;
+	}
+
+	public ExposedClass (final Object instance) {
+		this.cls = instance.getClass();
+		this.instance = instance;
 	}
 
 	public Object call (final String methodName, Object... args) {
-
-		return call(null, methodName, args);
-	}
-
-	public Object call (final Object instance, final String methodName, Object... args) {
 		Method method = null;
 		try {
 			method = cls.getDeclaredMethod(methodName);
@@ -57,5 +60,24 @@ public class ExposedClass {
 		}
 
 		return null;
+	}
+
+	public void set (final String fieldName, final Object value) {
+		Field field = null;
+		try {
+			field = cls.getField(fieldName);
+		} catch (NoSuchFieldException e) {
+			e.printStackTrace();
+			assertNull(e);
+		}
+
+		field.setAccessible(true);
+
+		try {
+			field.set(instance, value);
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+			assertNull(e);
+		}
 	}
 }
