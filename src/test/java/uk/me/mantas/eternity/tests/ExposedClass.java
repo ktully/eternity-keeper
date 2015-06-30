@@ -24,6 +24,7 @@ package uk.me.mantas.eternity.tests;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 
 import static org.junit.Assert.assertNull;
 
@@ -41,10 +42,22 @@ public class ExposedClass {
 		this.instance = instance;
 	}
 
+	private Class[] extractClasses (final Object[] args) {
+		return Arrays.stream(args).map(arg -> {
+			if (arg.getClass().getSimpleName().contains("Mockito")) {
+				return arg.getClass().getSuperclass();
+			} else {
+				return arg.getClass();
+			}
+		}).toArray(Class[]::new);
+	}
+
 	public Object call (final String methodName, Object... args) {
 		Method method = null;
+		final Class[] argsClasses = extractClasses(args);
+
 		try {
-			method = cls.getDeclaredMethod(methodName);
+			method = cls.getDeclaredMethod(methodName, argsClasses);
 		} catch (NoSuchMethodException e) {
 			e.printStackTrace();
 			assertNull(e);

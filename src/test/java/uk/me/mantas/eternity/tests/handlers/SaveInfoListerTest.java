@@ -20,11 +20,11 @@
 package uk.me.mantas.eternity.tests.handlers;
 
 import org.cef.callback.CefQueryCallback;
-import org.junit.Ignore;
 import org.junit.Test;
 import uk.me.mantas.eternity.Environment;
 import uk.me.mantas.eternity.handlers.ListSavedGames.SaveInfoLister;
 import uk.me.mantas.eternity.save.SaveGameExtractor;
+import uk.me.mantas.eternity.save.SaveGameInfo;
 import uk.me.mantas.eternity.tests.ExposedClass;
 import uk.me.mantas.eternity.tests.TestHarness;
 
@@ -99,7 +99,6 @@ public class SaveInfoListerTest extends TestHarness {
 	}
 
 	@Test
-	@Ignore
 	public void unpackAllSavesTestNoSaves () {
 		final CefQueryCallback mockCallback = mock(CefQueryCallback.class);
 		final SaveGameExtractor mockExtractor = mock(SaveGameExtractor.class);
@@ -109,6 +108,9 @@ public class SaveInfoListerTest extends TestHarness {
 		when(mockExtractor.unpackAllSaves()).thenReturn(Optional.empty());
 		exposedLister.call("unpackAllSaves", mockExtractor);
 
-		verify(mockCallback).success(NO_RESULTS);
+		when(mockExtractor.unpackAllSaves()).thenReturn(Optional.of(new SaveGameInfo[0]));
+		exposedLister.call("unpackAllSaves", mockExtractor);
+
+		verify(mockCallback, times(2)).success(NO_RESULTS);
 	}
 }
