@@ -45,11 +45,7 @@ public class OpenSavedGameTest extends TestHarness {
 	}
 
 	@Test
-	public void requestFileExists ()
-		throws NoSuchFieldException
-		, IllegalAccessException
-		, IOException {
-
+	public void requestFileExists () throws IOException {
 		Environment mockEnvironment = mockEnvironment();
 		CefBrowser mockBrowser = mock(CefBrowser.class);
 		CefQueryCallback mockCallback = mock(CefQueryCallback.class);

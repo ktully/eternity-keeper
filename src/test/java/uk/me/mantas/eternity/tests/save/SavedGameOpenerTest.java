@@ -23,17 +23,24 @@ import org.cef.callback.CefQueryCallback;
 import org.json.JSONObject;
 import org.junit.Test;
 import uk.me.mantas.eternity.EKUtils;
+import uk.me.mantas.eternity.Environment;
 import uk.me.mantas.eternity.Settings;
+import uk.me.mantas.eternity.factory.SharpSerializerFactory;
 import uk.me.mantas.eternity.save.SavedGameOpener;
+import uk.me.mantas.eternity.serializer.SharpSerializer;
+import uk.me.mantas.eternity.serializer.properties.Property;
+import uk.me.mantas.eternity.tests.ExposedClass;
 import uk.me.mantas.eternity.tests.TestHarness;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
+import java.util.List;
 import java.util.Optional;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 public class SavedGameOpenerTest extends TestHarness {
@@ -178,6 +185,8 @@ public class SavedGameOpenerTest extends TestHarness {
 			+ "VgAAAABJRU5ErkJggg==\""
 		+ ",\"isDead\":false}]";
 
+	private static final String DESERIALIZATION_ERR = "{\"error\":\"DESERIALIZATION_ERR\"}";
+
 	@Test
 	public void mobileObjectsFileNotExists () {
 		CefQueryCallback mockCallback = mock(CefQueryCallback.class);
@@ -204,11 +213,7 @@ public class SavedGameOpenerTest extends TestHarness {
 	}
 
 	@Test
-	public void saveGameOpened ()
-		throws URISyntaxException
-		, NoSuchFieldException
-		, IllegalAccessException {
-
+	public void saveGameOpened () throws URISyntaxException {
 		Settings mockSettings = mockSettings();
 		JSONObject mockJSON = mock(JSONObject.class);
 		CefQueryCallback mockCallback = mock(CefQueryCallback.class);
@@ -217,11 +222,78 @@ public class SavedGameOpenerTest extends TestHarness {
 			new SavedGameOpener(resources.getAbsolutePath(), mockCallback);
 
 		mockSettings.json = mockJSON;
-		when(mockJSON.getString("gameLocation"))
-			.thenReturn(
-				new File(resources, "SavedGameOpenerTest").getAbsolutePath());
+		when(mockJSON.getString("gameLocation")).thenReturn(
+			new File(resources, "SavedGameOpenerTest").getAbsolutePath());
 
 		cls.run();
 		verify(mockCallback).success(EXTRACTED);
+	}
+
+	@Test
+	public void deserializeTestDeserializationError () throws FileNotFoundException {
+		final Environment mockEnvironment = mockEnvironment();
+		final SharpSerializerFactory mockFactory = mock(SharpSerializerFactory.class);
+		final SharpSerializer mockSerializer = mock(SharpSerializer.class);
+		final File mockMobileObjectsFile = mock(File.class);
+		final CefQueryCallback mockCallback = mock(CefQueryCallback.class);
+
+		when(mockEnvironment.sharpSerializer()).thenReturn(mockFactory);
+		when(mockFactory.forFile(anyString())).thenReturn(mockSerializer);
+		when(mockSerializer.deserialize()).thenReturn(Optional.empty());
+		when(mockMobileObjectsFile.getAbsolutePath()).thenReturn("404");
+
+		final SavedGameOpener savedGameOpener = new SavedGameOpener("404", mockCallback);
+		final ExposedClass exposedOpener = expose(savedGameOpener);
+		exposedOpener.call("deserialize", mockMobileObjectsFile);
+
+		verify(mockCallback).success(DESERIALIZATION_ERR);
+	}
+
+	@Test
+	public void deserializeTestThrowsException () throws FileNotFoundException {
+		final Environment mockEnvironment = mockEnvironment();
+		final SharpSerializerFactory mockFactory = mock(SharpSerializerFactory.class);
+		final File mockMobileObjectsFile = mock(File.class);
+		final CefQueryCallback mockCallback = mock(CefQueryCallback.class);
+
+		when(mockEnvironment.sharpSerializer()).thenReturn(mockFactory);
+		when(mockMobileObjectsFile.getAbsolutePath()).thenReturn("404");
+		doThrow(new FileNotFoundException()).when(mockFactory).forFile(anyString());
+
+		final SavedGameOpener savedGameOpener = new SavedGameOpener("404", mockCallback);
+		final ExposedClass exposedOpener = expose(savedGameOpener);
+		exposedOpener.call("deserialize", mockMobileObjectsFile);
+
+		verify(mockCallback).success(DESERIALIZATION_ERR);
+	}
+
+	@Test
+	@SuppressWarnings("unchecked")
+	public void deserializeTestFiltersFailedProperties () throws FileNotFoundException {
+		final Environment mockEnvironment = mockEnvironment();
+		final SharpSerializerFactory mockFactory = mock(SharpSerializerFactory.class);
+		final SharpSerializer mockSerializer = mock(SharpSerializer.class);
+		final File mockMobileObjectsFile = mock(File.class);
+		final CefQueryCallback mockCallback = mock(CefQueryCallback.class);
+		final Property mockObjectCount = mock(Property.class);
+		final Property mockDeserializedProperty = mock(Property.class);
+
+		mockObjectCount.obj = 2;
+		when(mockEnvironment.sharpSerializer()).thenReturn(mockFactory);
+		when(mockFactory.forFile(anyString())).thenReturn(mockSerializer);
+		when(mockMobileObjectsFile.getAbsolutePath()).thenReturn("404");
+
+		when(mockSerializer.deserialize())
+			.thenReturn(Optional.of(mockObjectCount))
+			.thenReturn(Optional.empty())
+			.thenReturn(Optional.of(mockDeserializedProperty));
+
+		final SavedGameOpener savedGameOpener = new SavedGameOpener("404", mockCallback);
+		final ExposedClass exposedOpener = expose(savedGameOpener);
+		final List<Property> deserialzed =
+			(List<Property>) exposedOpener.call("deserialize", mockMobileObjectsFile);
+
+		assertEquals(1, deserialzed.size());
+		assertSame(mockDeserializedProperty, deserialzed.get(0));
 	}
 }

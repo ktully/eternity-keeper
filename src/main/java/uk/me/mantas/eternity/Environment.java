@@ -20,6 +20,7 @@
 package uk.me.mantas.eternity;
 
 import org.apache.commons.io.FileUtils;
+import uk.me.mantas.eternity.factory.SharpSerializerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,7 +32,19 @@ import java.util.concurrent.TimeUnit;
 import static uk.me.mantas.eternity.handlers.DownloadUpdate.UpdateDownloader;
 import static uk.me.mantas.eternity.handlers.ListSavedGames.SaveInfoLister;
 
+// Pretty messy class that we use to manage the global state environment of the app as it runs. We
+// can imagine this part as the server state while the UI code handles the client state.
+
+// The main advantage of this is it allows us a fairly bare-bones method of dependency injection.
+// The Environment can change depending on whether the app is in a user-interaction environment or
+// if it is in a test environment.
+
 public class Environment {
+	// Factories.
+	private final SharpSerializerFactory sharpSerializerFactory = new SharpSerializerFactory();
+	public SharpSerializerFactory sharpSerializer () { return sharpSerializerFactory; }
+
+	// Application state and configuration.
 	private static final Logger logger = Logger.getLogger(Environment.class);
 	public static final String PILLARS_DATA_DIR = "PillarsOfEternity_Data";
 	public boolean closing = false;

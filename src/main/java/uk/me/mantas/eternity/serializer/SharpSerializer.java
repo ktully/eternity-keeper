@@ -71,7 +71,6 @@ public class SharpSerializer {
 	private long position = 0;
 
 	public SharpSerializer (String filePath) throws FileNotFoundException {
-
 		targetFile = new File(filePath);
 		if (!targetFile.exists()) {
 			throw new FileNotFoundException();

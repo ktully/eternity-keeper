@@ -27,6 +27,7 @@ import org.json.JSONObject;
 import uk.me.mantas.eternity.Environment;
 import uk.me.mantas.eternity.Logger;
 import uk.me.mantas.eternity.Settings;
+import uk.me.mantas.eternity.factory.SharpSerializerFactory;
 import uk.me.mantas.eternity.game.ObjectPersistencePacket;
 import uk.me.mantas.eternity.handlers.OpenSavedGame;
 import uk.me.mantas.eternity.serializer.SharpSerializer;
@@ -46,10 +47,14 @@ public class SavedGameOpener implements Runnable {
 	private static final Logger logger = Logger.getLogger(SavedGameOpener.class);
 	private final String saveGameLocation;
 	private final CefQueryCallback callback;
+	private final SharpSerializerFactory sharpSerializer;
 
 	public SavedGameOpener (String saveGameLocation, CefQueryCallback callback) {
 		this.saveGameLocation = saveGameLocation;
 		this.callback = callback;
+
+		final Environment environment = Environment.getInstance();
+		this.sharpSerializer = environment.sharpSerializer();
 	}
 
 	@Override
@@ -243,7 +248,7 @@ public class SavedGameOpener implements Runnable {
 
 		try {
 			SharpSerializer deserializer =
-				new SharpSerializer(mobileObjectsFile.getAbsolutePath());
+				sharpSerializer.forFile(mobileObjectsFile.getAbsolutePath());
 
 			Optional<Property> objectCount = deserializer.deserialize();
 			if (!objectCount.isPresent()) {
