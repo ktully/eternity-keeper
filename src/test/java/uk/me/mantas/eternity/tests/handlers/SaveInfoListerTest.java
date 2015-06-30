@@ -21,6 +21,7 @@ package uk.me.mantas.eternity.tests.handlers;
 
 import org.cef.callback.CefQueryCallback;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 import uk.me.mantas.eternity.Environment;
 import uk.me.mantas.eternity.handlers.ListSavedGames.SaveInfoLister;
 import uk.me.mantas.eternity.save.SaveGameExtractor;
@@ -34,6 +35,7 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.util.Optional;
 
+import static org.junit.Assert.assertNotEquals;
 import static org.mockito.Mockito.*;
 
 public class SaveInfoListerTest extends TestHarness {
@@ -112,5 +114,21 @@ public class SaveInfoListerTest extends TestHarness {
 		exposedLister.call("unpackAllSaves", mockExtractor);
 
 		verify(mockCallback, times(2)).success(NO_RESULTS);
+	}
+
+	@Test
+	public void unpackAllSavesTest () {
+		final CefQueryCallback mockCallback = mock(CefQueryCallback.class);
+		final SaveGameExtractor mockExtractor = mock(SaveGameExtractor.class);
+		final SaveGameInfo mockInfo = mock(SaveGameInfo.class);
+		final SaveInfoLister saveInfoLister = new SaveInfoLister("404", mockCallback);
+		final ExposedClass exposedLister = expose(saveInfoLister);
+
+		when(mockExtractor.unpackAllSaves()).thenReturn(Optional.of(new SaveGameInfo[]{mockInfo}));
+		exposedLister.call("unpackAllSaves", mockExtractor);
+
+		ArgumentCaptor<String> argument = ArgumentCaptor.forClass(String.class);
+		verify(mockCallback).success(argument.capture());
+		assertNotEquals(NO_RESULTS, argument.getValue());
 	}
 }

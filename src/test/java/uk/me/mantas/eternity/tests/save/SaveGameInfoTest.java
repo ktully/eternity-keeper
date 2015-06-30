@@ -96,9 +96,7 @@ public class SaveGameInfoTest extends TestHarness {
 		File mockSaveFolder = getMockSaveFolder();
 		Map mockInfoFiles = mock(Map.class);
 
-		File saveinfoXML = new File(
-			this.getClass().getResource(SAVEINFO_XML).toURI());
-
+		File saveinfoXML = new File(this.getClass().getResource(SAVEINFO_XML).toURI());
 		when(mockInfoFiles.get("saveinfo.xml")).thenReturn(saveinfoXML);
 		when(mockInfoFiles.get("screenshot.png")).thenReturn(new File("404"));
 
@@ -118,8 +116,7 @@ public class SaveGameInfoTest extends TestHarness {
 
 		String pngData = getPNGData();
 		File png = new File(this.getClass().getResource(PNG_FILE).toURI());
-		File saveinfoXML = new File(
-			this.getClass().getResource(SAVEINFO_XML).toURI());
+		File saveinfoXML = new File(this.getClass().getResource(SAVEINFO_XML).toURI());
 
 		when(mockInfoFiles.get("saveinfo.xml")).thenReturn(saveinfoXML);
 		when(mockInfoFiles.get("screenshot.png")).thenReturn(png);
@@ -143,17 +140,12 @@ public class SaveGameInfoTest extends TestHarness {
 			new String[]{pngData, pngData}
 			, info.portraits.toArray(new String[info.portraits.size()]));
 
-		assertEquals(
-			new DateTime(2015, 5, 10, 15, 44, 52, DateTimeZone.UTC)
-			, info.timestamp);
+		assertEquals(new DateTime(2015, 5, 10, 15, 44, 52, DateTimeZone.UTC), info.timestamp);
 	}
 
 	private File getMockSaveFolder () {
 		File mockSaveFolder = mock(File.class);
-
-		when(mockSaveFolder.getAbsolutePath())
-			.thenReturn("/path/to/guid systemname.savegame");
-
+		when(mockSaveFolder.getAbsolutePath()).thenReturn("/path/to/guid systemname.savegame");
 		when(mockSaveFolder.getName()).thenReturn("guid systemname.savegame");
 
 		return mockSaveFolder;

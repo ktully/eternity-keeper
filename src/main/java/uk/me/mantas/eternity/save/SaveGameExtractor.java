@@ -44,8 +44,7 @@ public class SaveGameExtractor {
 	}
 
 	private File unpackSave (File save) {
-		String destinationPath =
-			new File(workingDirectory, save.getName()).getAbsolutePath();
+		String destinationPath = new File(workingDirectory, save.getName()).getAbsolutePath();
 
 		try {
 			ZipFile archive = new ZipFile(save);
@@ -66,23 +65,14 @@ public class SaveGameExtractor {
 		File[] contents = saveFolder.listFiles();
 
 		if (contents == null) {
-			logger.error(
-				"Unzip resulted in 0 files for '%s'.%n"
-				, saveFolder.getAbsolutePath());
-
+			logger.error("Unzip resulted in 0 files for '%s'.%n", saveFolder.getAbsolutePath());
 			return Optional.empty();
 		}
 
-		Set<String> requiredFiles =
-			new HashSet<>(Arrays.asList(REQUIRED_FILES));
-
-		Set<String> optionalFiles =
-			new HashSet<>(Arrays.asList(OPTIONAL_FILES));
-
+		Set<String> requiredFiles =	new HashSet<>(Arrays.asList(REQUIRED_FILES));
+		Set<String> optionalFiles = new HashSet<>(Arrays.asList(OPTIONAL_FILES));
 		Map<String, File> importantFiles = Arrays.stream(contents)
-			.filter(f ->
-				requiredFiles.contains(f.getName())
-				|| optionalFiles.contains(f.getName()))
+			.filter(f -> requiredFiles.contains(f.getName()) || optionalFiles.contains(f.getName()))
 			.collect(Collectors.toMap(File::getName, Function.identity()));
 
 		if (!importantFiles.keySet().containsAll(requiredFiles)) {
@@ -102,7 +92,6 @@ public class SaveGameExtractor {
 
 	public Optional<SaveGameInfo[]> unpackAllSaves () {
 		File savesDirectory = new File(savesLocation);
-
 		if (!savesDirectory.exists()) {
 			return Optional.empty();
 		}
@@ -112,19 +101,18 @@ public class SaveGameExtractor {
 			return Optional.empty();
 		}
 
-		File[] saveFiles = Arrays.stream(saves)
-			.filter(File::isFile)
-			.toArray(File[]::new);
-
+		File[] saveFiles = Arrays.stream(saves).filter(File::isFile).toArray(File[]::new);
 		totalFiles.set(saveFiles.length);
 		currentCount.set(0);
-		SaveGameInfo[] info = Arrays.stream(saveFiles)
-			.<File>map(this::unpackSave)
-			.<File>filter(a -> a != null)
-			.<Optional<SaveGameInfo>>map(this::extractInfo)
-			.<Optional<SaveGameInfo>>filter(Optional::isPresent)
-			.<SaveGameInfo>map(Optional::get)
-			.toArray(SaveGameInfo[]::new);
+
+		SaveGameInfo[] info =
+			Arrays.stream(saveFiles)
+				.map(this::unpackSave)
+				.filter(a -> a != null)
+				.map(this::extractInfo)
+				.filter(Optional::isPresent)
+				.map(Optional::get)
+				.toArray(SaveGameInfo[]::new);
 
 		return Optional.of(info);
 	}
