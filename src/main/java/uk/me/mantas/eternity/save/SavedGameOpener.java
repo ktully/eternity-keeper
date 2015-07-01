@@ -180,7 +180,7 @@ public class SavedGameOpener implements Runnable {
 
 			portraitSubPath = Optional.of(
 				String.format(
-					"data/art/gui/portraits/companion/portrait_%s_lg.png"
+					Environment.getInstance().getCompanionPortraitPath()
 					, (mappedName == null) ? name.toLowerCase() : mappedName));
 		}
 
@@ -198,7 +198,8 @@ public class SavedGameOpener implements Runnable {
 		Path portraitPath =
 			Paths.get(installationPath)
 				.resolve(Environment.PILLARS_DATA_DIR)
-				.resolve(portraitSubPath.get());
+				.resolve(portraitSubPath.get())
+				.normalize();
 
 		if (!portraitPath.toFile().exists()) {
 			logger.error(

@@ -22,10 +22,13 @@ package uk.me.mantas.eternity.tests.save;
 import org.cef.callback.CefQueryCallback;
 import org.json.JSONObject;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 import uk.me.mantas.eternity.EKUtils;
 import uk.me.mantas.eternity.Environment;
+import uk.me.mantas.eternity.Logger;
 import uk.me.mantas.eternity.Settings;
 import uk.me.mantas.eternity.factory.SharpSerializerFactory;
+import uk.me.mantas.eternity.game.ComponentPersistencePacket;
 import uk.me.mantas.eternity.game.ObjectPersistencePacket;
 import uk.me.mantas.eternity.save.SavedGameOpener;
 import uk.me.mantas.eternity.serializer.SharpSerializer;
@@ -349,5 +352,82 @@ public class SavedGameOpenerTest extends TestHarness {
 		assertEquals(2, characters.size());
 		assertSame(startsWithCompanion, characters.get("Key_A"));
 		assertSame(startsWithPlayer, characters.get("Key_B"));
+	}
+
+	@Test
+	public void extractPortraitTestSelectsFirst () {
+		final CefQueryCallback mockCallback = mock(CefQueryCallback.class);
+		final ObjectPersistencePacket packet = new ObjectPersistencePacket();
+		final ComponentPersistencePacket firstComponent = new ComponentPersistencePacket();
+		final ComponentPersistencePacket secondComponent = new ComponentPersistencePacket();
+
+		firstComponent.TypeString = "Portrait";
+		secondComponent.TypeString = "Portrait";
+		firstComponent.Variables = new HashMap<>();
+		secondComponent.Variables = new HashMap<String, Object>() {{
+			put("m_textureLargePath", "png");
+		}};
+
+		packet.ComponentPackets = new ComponentPersistencePacket[]{
+			firstComponent
+			, secondComponent
+		};
+
+		mockSettings();
+
+		final SavedGameOpener savedGameOpener = new SavedGameOpener("404", mockCallback);
+		final ExposedClass exposedOpener = expose(savedGameOpener);
+		final String result = (String) exposedOpener.call("extractPortrait", packet, false);
+
+		assertEquals("", result);
+	}
+
+	@Test
+	public void extractPortraitTestNoGameLocation () {
+		final Settings mockSettings = mockSettings();
+		final CefQueryCallback mockCallback = mock(CefQueryCallback.class);
+		final ObjectPersistencePacket packet = new ObjectPersistencePacket();
+		final ComponentPersistencePacket component = new ComponentPersistencePacket();
+
+		component.TypeString = "Portrait";
+		component.Variables = new HashMap<String, Object>(){{
+			put("m_textureLargePath", "png");
+		}};
+
+		mockSettings.json = new JSONObject();
+		packet.ComponentPackets = new ComponentPersistencePacket[]{ component };
+
+		final SavedGameOpener savedGameOpener = new SavedGameOpener("404", mockCallback);
+		final ExposedClass exposedOpener = expose(savedGameOpener);
+		final String result = (String) exposedOpener.call("extractPortrait", packet, false);
+
+		assertEquals("", result);
+	}
+
+	@Test
+	public void extractPortraitTestPortraitNotFound () throws URISyntaxException {
+		final Settings mockSettings = mockSettings();
+		final Logger mockLogger = interceptLogging(SavedGameOpener.class);
+		final CefQueryCallback mockCallback = mock(CefQueryCallback.class);
+		final ObjectPersistencePacket packet = new ObjectPersistencePacket();
+		final ComponentPersistencePacket component = new ComponentPersistencePacket();
+		final File testResources = new File(getClass().getResource("/").toURI());
+
+		component.TypeString = "Portrait";
+		component.Variables = new HashMap<String, Object>(){{
+			put("m_textureLargePath", "../404");
+		}};
+
+		mockSettings.json = new JSONObject().put("gameLocation", testResources.getAbsolutePath());
+		packet.ComponentPackets = new ComponentPersistencePacket[]{ component };
+
+		final SavedGameOpener savedGameOpener = new SavedGameOpener("404", mockCallback);
+		final ExposedClass exposedOpener = expose(savedGameOpener);
+		final String result = (String) exposedOpener.call("extractPortrait", packet, false);
+
+		final ArgumentCaptor<String> argument = ArgumentCaptor.forClass(String.class);
+		verify(mockLogger).error(anyString(), argument.capture());
+		assertEquals("", result);
+		assertEquals(new File(testResources, "404").getAbsolutePath(), argument.getValue());
 	}
 }

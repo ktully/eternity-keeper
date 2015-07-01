@@ -24,12 +24,12 @@ public class Logger {
 	private final Class cls;
 	private final org.slf4j.Logger slfLogger;
 
-	private Logger (Class cls) {
+	private Logger (final Class cls) {
 		this.cls = cls;
 		slfLogger = LoggerFactory.getLogger(cls);
 	}
 
-	public void error (String format, Object... varargs) {
+	public void error (final String format, final Object... varargs) {
 		final String className = cls.getSimpleName();
 		final int lineNumber = getCallerLineNumber();
 
@@ -49,11 +49,11 @@ public class Logger {
 
 	private int getCallerLineNumber () {
 		final StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
-		final int callerIndex = Math.min(3, stackTrace.length);
+		final int callerIndex = Math.min(3, stackTrace.length - 1);
 		return stackTrace[callerIndex].getLineNumber();
 	}
 
-	public static Logger getLogger (Class cls) {
+	public static Logger getLogger (final Class cls) {
 		return new Logger(cls);
 	}
 }

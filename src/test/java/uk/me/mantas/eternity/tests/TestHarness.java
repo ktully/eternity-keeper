@@ -23,6 +23,7 @@ import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
 import uk.me.mantas.eternity.Environment;
+import uk.me.mantas.eternity.Logger;
 import uk.me.mantas.eternity.Settings;
 
 import java.io.File;
@@ -125,5 +126,12 @@ public abstract class TestHarness {
 
 	protected ExposedClass expose (final Object instance) {
 		return new ExposedClass(instance);
+	}
+
+	protected Logger interceptLogging (final Class cls) {
+		final ExposedClass exposedClass = expose(cls);
+		final Logger mockLogger = mock(Logger.class);
+		exposedClass.set("logger", mockLogger);
+		return mockLogger;
 	}
 }

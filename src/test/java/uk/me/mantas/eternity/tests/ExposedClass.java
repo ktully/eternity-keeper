@@ -21,11 +21,15 @@ package uk.me.mantas.eternity.tests;
 // This class serves to expose encapsulated functionality of classes so they can be unit tested
 // without compromising that encapsulation in non-test code.
 
+import com.google.common.collect.Maps;
+import uk.me.mantas.eternity.EKUtils;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.AbstractMap.SimpleImmutableEntry;
+import java.lang.reflect.Modifier;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
@@ -52,17 +56,37 @@ public class ExposedClass {
 			if (arg.getClass().getSimpleName().contains("Mockito")) {
 				return arg.getClass().getSuperclass();
 			} else {
-				return arg.getClass();
+				return toPrimitiveClass(arg.getClass());
 			}
 		}).toArray(Class[]::new);
 	}
 
-	public Object call (final String methodName, Object... args) {
+	private Class toPrimitiveClass (final Class cls) {
+		final String name = cls.getSimpleName();
+		switch (name) {
+			case "Boolean": return boolean.class;
+			case "Integer": return int.class;
+			case "Byte": return byte.class;
+			case "Character": return char.class;
+			case "Float": return float.class;
+			case "Double": return double.class;
+			case "Short": return short.class;
+		}
+
+		return cls;
+	}
+
+	public Object call (final String methodName, final Object... args) {
 		final Class[] argsClasses = extractClasses(args);
 		final Map<Object, Class> argMap =
 			IntStream.range(0, args.length)
-				.mapToObj(i -> new SimpleImmutableEntry<>(args[i], argsClasses[i]))
-				.collect(Collectors.toMap(Entry::getKey, Entry::getValue));
+				.mapToObj(i -> Maps.immutableEntry(args[i], argsClasses[i]))
+				.collect(Collectors.toMap(
+					Entry::getKey
+					, Entry::getValue
+					, EKUtils.throwingMerger()
+					// Need to use LinkedHashMap to maintain insertion order.
+					, LinkedHashMap::new));
 
 		return call(methodName, argMap);
 	}
@@ -95,16 +119,21 @@ public class ExposedClass {
 
 	public void set (final String fieldName, final Object value) {
 		Field field = null;
+		Field modifiersField = null;
+
 		try {
-			field = cls.getField(fieldName);
+			field = cls.getDeclaredField(fieldName);
+			modifiersField = Field.class.getDeclaredField("modifiers");
 		} catch (NoSuchFieldException e) {
 			e.printStackTrace();
 			assertNull(e);
 		}
 
 		field.setAccessible(true);
+		modifiersField.setAccessible(true);
 
 		try {
+			modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
 			field.set(instance, value);
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();

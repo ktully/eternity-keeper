@@ -55,6 +55,7 @@ public class Environment {
 		Executors.newFixedThreadPool(
 			Runtime.getRuntime().availableProcessors());
 
+	private String companionPortraitPath = "data/art/gui/portraits/companion/portrait_%s_lg.png";
 	private SaveInfoLister currentSaveLister = null;
 	private UpdateDownloader currentUpdateDownloader = null;
 	private Map<EnvKey, String> environmentVariables = new HashMap<>();
@@ -82,6 +83,10 @@ public class Environment {
 			put("GM", "Grieving Mother");
 			put("GGP", "Durance");
 		}};
+
+	public String getCompanionPortraitPath () {
+		return companionPortraitPath;
+	}
 
 	public File getJarDirectory () {
 		return jarDirectory;

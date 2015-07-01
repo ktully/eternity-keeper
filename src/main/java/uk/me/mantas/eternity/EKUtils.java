@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.*;
 import java.util.List;
+import java.util.function.BinaryOperator;
 import java.util.stream.Collectors;
 
 public class EKUtils {
@@ -134,5 +135,9 @@ public class EKUtils {
 		}
 
 		return deserialized;
+	}
+
+	public static <T> BinaryOperator<T> throwingMerger() {
+		return (u, v) -> { throw new IllegalStateException(String.format("Duplicate key %s", u)); };
 	}
 }
