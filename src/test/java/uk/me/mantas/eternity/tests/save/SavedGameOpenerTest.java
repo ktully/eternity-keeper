@@ -26,6 +26,7 @@ import uk.me.mantas.eternity.EKUtils;
 import uk.me.mantas.eternity.Environment;
 import uk.me.mantas.eternity.Settings;
 import uk.me.mantas.eternity.factory.SharpSerializerFactory;
+import uk.me.mantas.eternity.game.ObjectPersistencePacket;
 import uk.me.mantas.eternity.save.SavedGameOpener;
 import uk.me.mantas.eternity.serializer.SharpSerializer;
 import uk.me.mantas.eternity.serializer.properties.Property;
@@ -37,8 +38,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
@@ -295,5 +295,59 @@ public class SavedGameOpenerTest extends TestHarness {
 
 		assertEquals(1, deserialzed.size());
 		assertSame(mockDeserializedProperty, deserialzed.get(0));
+	}
+
+	@Test
+	@SuppressWarnings("unchecked")
+	public void extractCharactersTest () {
+		final CefQueryCallback mockCallback = mock(CefQueryCallback.class);
+		final Property notObjPersistencePacket = mock(Property.class);
+		final Property noObjectName = mock(Property.class);
+		final Property noObjectID = mock(Property.class);
+		final Property startsWithCompanion = mock(Property.class);
+		final Property startsWithPlayer = mock(Property.class);
+
+		final List<Property> gameObjects = new ArrayList<Property>(){{
+			add(notObjPersistencePacket);
+			add(noObjectName);
+			add(noObjectID);
+			add(startsWithCompanion);
+			add(startsWithPlayer);
+		}};
+
+		notObjPersistencePacket.obj = new Object();
+
+		final ObjectPersistencePacket noObjectNamePacket = new ObjectPersistencePacket();
+		noObjectNamePacket.ObjectName = null;
+		noObjectName.obj = noObjectNamePacket;
+
+		final ObjectPersistencePacket noObjectIDPacket = new ObjectPersistencePacket();
+		noObjectIDPacket.ObjectName = "";
+		noObjectIDPacket.ObjectID = null;
+		noObjectID.obj = noObjectIDPacket;
+
+		final ObjectPersistencePacket startsWithCompanionPacket = new ObjectPersistencePacket();
+		startsWithCompanionPacket.ObjectName = "Companion_A";
+		startsWithCompanionPacket.ObjectID = "Key_A";
+		startsWithCompanion.obj = startsWithCompanionPacket;
+
+		final ObjectPersistencePacket startsWithPlayerPacket = new ObjectPersistencePacket();
+		startsWithPlayerPacket.ObjectName = "Player_B";
+		startsWithPlayerPacket.ObjectID = "Key_B";
+		startsWithPlayer.obj = startsWithPlayerPacket;
+
+		final SavedGameOpener savedGameOpener = new SavedGameOpener("404", mockCallback);
+		final ExposedClass exposedOpener = expose(savedGameOpener);
+
+		final Map<Object, Class> argMap = new HashMap<Object, Class>(){{
+			put(gameObjects, List.class);
+		}};
+
+		final Map<String, Property> characters =
+			(Map<String, Property>) exposedOpener.call("extractCharacters", argMap);
+
+		assertEquals(2, characters.size());
+		assertSame(startsWithCompanion, characters.get("Key_A"));
+		assertSame(startsWithPlayer, characters.get("Key_B"));
 	}
 }

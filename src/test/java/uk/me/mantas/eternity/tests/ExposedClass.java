@@ -24,7 +24,12 @@ package uk.me.mantas.eternity.tests;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static org.junit.Assert.assertNull;
 
@@ -53,8 +58,19 @@ public class ExposedClass {
 	}
 
 	public Object call (final String methodName, Object... args) {
-		Method method = null;
 		final Class[] argsClasses = extractClasses(args);
+		final Map<Object, Class> argMap =
+			IntStream.range(0, args.length)
+				.mapToObj(i -> new SimpleImmutableEntry<>(args[i], argsClasses[i]))
+				.collect(Collectors.toMap(Entry::getKey, Entry::getValue));
+
+		return call(methodName, argMap);
+	}
+
+	public Object call (final String methodName, final Map<Object, Class> args) {
+		Method method = null;
+		final Class[] argsClasses =
+			args.entrySet().stream().map(Entry::getValue).toArray(Class[]::new);
 
 		try {
 			method = cls.getDeclaredMethod(methodName, argsClasses);
@@ -64,9 +80,11 @@ public class ExposedClass {
 		}
 
 		method.setAccessible(true);
+		final Object[] argsInstances =
+			args.entrySet().stream().map(Entry::getKey).toArray(Object[]::new);
 
 		try {
-			return method.invoke(instance, args);
+			return method.invoke(instance, argsInstances);
 		} catch (IllegalAccessException | InvocationTargetException e) {
 			e.printStackTrace();
 			assertNull(e);
