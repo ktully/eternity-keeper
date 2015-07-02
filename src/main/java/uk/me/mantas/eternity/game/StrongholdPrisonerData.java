@@ -20,4 +20,7 @@
 package uk.me.mantas.eternity.game;
 
 public class StrongholdPrisonerData {
+	public CharacterDatabaseString PrisonerName;
+	public StrongholdDatabaseString PrisonerDescription;
+	public String GlobalVariableName;
 }
