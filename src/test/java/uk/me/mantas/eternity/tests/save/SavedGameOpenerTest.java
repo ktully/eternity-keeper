@@ -19,6 +19,7 @@
 
 package uk.me.mantas.eternity.tests.save;
 
+import com.google.common.primitives.UnsignedInteger;
 import org.cef.callback.CefQueryCallback;
 import org.json.JSONObject;
 import org.junit.Test;
@@ -41,6 +42,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 
 import static org.junit.Assert.*;
@@ -429,5 +431,181 @@ public class SavedGameOpenerTest extends TestHarness {
 		verify(mockLogger).error(anyString(), argument.capture());
 		assertEquals("", result);
 		assertEquals(new File(testResources, "404").getAbsolutePath(), argument.getValue());
+	}
+
+	@Test
+	public void extractPortraitTestUnmappedCompanion () throws URISyntaxException {
+		final Settings mockSettings = mockSettings();
+		final Logger mockLogger = interceptLogging(SavedGameOpener.class);
+		final CefQueryCallback mockCallback = mock(CefQueryCallback.class);
+		final ObjectPersistencePacket packet = new ObjectPersistencePacket();
+		final ComponentPersistencePacket component = new ComponentPersistencePacket();
+		final File testResources = new File(getClass().getResource("/").toURI());
+		final String companionPortraitPath = Environment.getInstance().getCompanionPortraitPath();
+		final String substitutedPath = String.format(companionPortraitPath, "unmapped");
+		final File portraitFile =
+			Paths.get(testResources.toURI())
+				.resolve(Environment.PILLARS_DATA_DIR)
+				.resolve(substitutedPath)
+				.toFile();
+
+		mockSettings.json = new JSONObject().put("gameLocation", testResources.getAbsolutePath());
+		packet.ObjectName = "Companion_Unmapped";
+		component.TypeString = "Portrait";
+		component.Variables = new HashMap<>();
+		packet.ComponentPackets = new ComponentPersistencePacket[]{ component };
+
+		final SavedGameOpener savedGameOpener = new SavedGameOpener("404", mockCallback);
+		final ExposedClass exposedOpener = expose(savedGameOpener);
+		final String result = (String) exposedOpener.call("extractPortrait", packet, true);
+
+		final ArgumentCaptor<String> argument = ArgumentCaptor.forClass(String.class);
+		verify(mockLogger).error(anyString(), argument.capture());
+		assertEquals("", result);
+		assertEquals(portraitFile.getAbsolutePath(), argument.getValue());
+	}
+
+	@Test
+	public void extractPortraitTestMappedCompanion () throws URISyntaxException {
+		final Settings mockSettings = mockSettings();
+		final Logger mockLogger = interceptLogging(SavedGameOpener.class);
+		final CefQueryCallback mockCallback = mock(CefQueryCallback.class);
+		final ObjectPersistencePacket packet = new ObjectPersistencePacket();
+		final ComponentPersistencePacket component = new ComponentPersistencePacket();
+		final File testResources = new File(getClass().getResource("/").toURI());
+		final String companionPortraitPath = Environment.getInstance().getCompanionPortraitPath();
+		final String substitutedPath = String.format(companionPortraitPath, "grieving_mother");
+		final File portraitFile =
+			Paths.get(testResources.toURI())
+				.resolve(Environment.PILLARS_DATA_DIR)
+				.resolve(substitutedPath)
+				.toFile();
+
+		mockSettings.json = new JSONObject().put("gameLocation", testResources.getAbsolutePath());
+		packet.ObjectName = "Companion_GM";
+		component.TypeString = "Portrait";
+		component.Variables = new HashMap<>();
+		packet.ComponentPackets = new ComponentPersistencePacket[]{ component };
+
+		final SavedGameOpener savedGameOpener = new SavedGameOpener("404", mockCallback);
+		final ExposedClass exposedOpener = expose(savedGameOpener);
+		final String result = (String) exposedOpener.call("extractPortrait", packet, true);
+
+		final ArgumentCaptor<String> argument = ArgumentCaptor.forClass(String.class);
+		verify(mockLogger).error(anyString(), argument.capture());
+		assertEquals("", result);
+		assertEquals(portraitFile.getAbsolutePath(), argument.getValue());
+	}
+
+	@Test
+	public void detectDeadTest () {
+		final CefQueryCallback mockCallback = mock(CefQueryCallback.class);
+		final ObjectPersistencePacket packet = new ObjectPersistencePacket();
+		final ComponentPersistencePacket component = new ComponentPersistencePacket();
+
+		component.TypeString = "Health";
+		component.Variables = new HashMap<>();
+		packet.ComponentPackets = new ComponentPersistencePacket[]{ component };
+
+		final SavedGameOpener savedGameOpener = new SavedGameOpener("404", mockCallback);
+		final ExposedClass exposedOpener = expose(savedGameOpener);
+		boolean result = (boolean) exposedOpener.call("detectDead", packet);
+		assertFalse(result);
+
+		component.Variables = new HashMap<String, Object>(){{
+			put("CurrentHealth", 1f);
+		}};
+
+		result = (boolean) exposedOpener.call("detectDead", packet);
+		assertFalse(result);
+
+		component.Variables = new HashMap<String, Object>(){{
+			put("CurrentHealth", 0f);
+		}};
+
+		result = (boolean) exposedOpener.call("detectDead", packet);
+		assertTrue(result);
+	}
+
+	@Test
+	public void extractNameTest () {
+		final CefQueryCallback mockCallback = mock(CefQueryCallback.class);
+		final ObjectPersistencePacket packet = new ObjectPersistencePacket();
+		final SavedGameOpener savedGameOpener = new SavedGameOpener("404", mockCallback);
+		final ExposedClass exposedOpener = expose(savedGameOpener);
+
+		packet.ObjectName = "NoUnderscore";
+		String result = (String) exposedOpener.call("extractName", packet);
+		assertEquals("", result);
+
+		packet.ObjectName = "Player_HasUnderscore";
+		result = (String) exposedOpener.call("extractName", packet);
+		assertEquals("HasUnderscore", result);
+
+		packet.ObjectName = "Player_HasBracket(Clone)_1";
+		result = (String) exposedOpener.call("extractName", packet);
+		assertEquals("HasBracket", result);
+	}
+
+	@Test
+	@SuppressWarnings("unchecked")
+	public void extractCharacterStatsTest () {
+		final CefQueryCallback mockCallback = mock(CefQueryCallback.class);
+		final ObjectPersistencePacket packet = new ObjectPersistencePacket();
+		final ComponentPersistencePacket notStatsComponent = new ComponentPersistencePacket();
+		final ComponentPersistencePacket statsComponent = new ComponentPersistencePacket();
+		final SavedGameOpener savedGameOpener = new SavedGameOpener("404", mockCallback);
+		final ExposedClass exposedOpener = expose(savedGameOpener);
+
+		notStatsComponent.TypeString = "NotCharacterStats";
+		statsComponent.TypeString = "CharacterStats";
+		statsComponent.Variables = new HashMap<String, Object>(){{
+			put("Integer", 1);
+			put("Float", 1f);
+			put("String", "1");
+			put("UnsignedInteger", UnsignedInteger.valueOf(1L));
+		}};
+
+		packet.ComponentPackets = new ComponentPersistencePacket[]{ notStatsComponent };
+
+		Optional<Map<String, Object>> result =
+			(Optional<Map<String, Object>>) exposedOpener.call("extractCharacterStats", packet);
+
+		assertFalse(result.isPresent());
+
+		packet.ComponentPackets = new ComponentPersistencePacket[]{
+			notStatsComponent
+			, null
+			, statsComponent
+		};
+
+		result =
+			(Optional<Map<String, Object>>) exposedOpener.call("extractCharacterStats", packet);
+
+		assertTrue(result.isPresent());
+		assertEquals(1, result.get().get("Integer"));
+		assertEquals(1f, (float) result.get().get("Float"), 1e-6);
+		assertEquals("1", result.get().get("String"));
+		assertNull(result.get().get("UnsignedInteger"));
+	}
+
+	@Test
+	public void detectCompanionTest () {
+		final CefQueryCallback mockCallback = mock(CefQueryCallback.class);
+		final ObjectPersistencePacket packet = new ObjectPersistencePacket();
+		final SavedGameOpener savedGameOpener = new SavedGameOpener("404", mockCallback);
+		final ExposedClass exposedOpener = expose(savedGameOpener);
+
+		packet.ObjectName = "Companion_Calisca";
+		boolean result = (boolean) exposedOpener.call("detectCompanion", packet);
+		assertTrue(result);
+
+		packet.ObjectName = "Companion_Generic_(Clone)_1";
+		result = (boolean) exposedOpener.call("detectCompanion", packet);
+		assertFalse(result);
+
+		packet.ObjectName = "Player_Fyorl";
+		result = (boolean) exposedOpener.call("detectCompanion", packet);
+		assertFalse(result);
 	}
 }
