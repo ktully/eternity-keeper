@@ -20,6 +20,7 @@
 package uk.me.mantas.eternity;
 
 import org.apache.commons.io.FileUtils;
+import uk.me.mantas.eternity.factory.FileFactory;
 import uk.me.mantas.eternity.factory.SharpSerializerFactory;
 
 import java.io.File;
@@ -43,6 +44,8 @@ public class Environment {
 	// Factories.
 	private final SharpSerializerFactory sharpSerializerFactory = new SharpSerializerFactory();
 	public SharpSerializerFactory sharpSerializer () { return sharpSerializerFactory; }
+	private final FileFactory fileFactory = new FileFactory();
+	public FileFactory fileFactory () { return fileFactory; }
 
 	// Application state and configuration.
 	private static final Logger logger = Logger.getLogger(Environment.class);
