@@ -223,8 +223,11 @@ public class ChangesSaver implements Runnable {
 
 		ComplexProperty characterStats = null;
 		for (Property subProperty : (List<Property>) componentPackets.items) {
-			ComponentPersistencePacket packet =
-				(ComponentPersistencePacket) subProperty.obj;
+			ComponentPersistencePacket packet =	(ComponentPersistencePacket) subProperty.obj;
+
+			if (packet == null) {
+				continue;
+			}
 
 			if (packet.TypeString.equals("CharacterStats")) {
 				characterStats = (ComplexProperty) subProperty;
