@@ -113,7 +113,7 @@ public class Deserializer {
 		byte[] buffer = new byte[length];
 		stream.readFully(buffer);
 
-		return new String(buffer);
+		return new String(buffer, "UTF-8");
 	}
 
 	private int read7BitEncodedInt ()
