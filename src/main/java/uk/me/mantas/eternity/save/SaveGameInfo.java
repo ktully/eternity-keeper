@@ -137,29 +137,18 @@ public class SaveGameInfo {
 	private boolean parseSaveInfoXML (File saveInfoXML) {
 		try {
 			String contents = new String(
-				EKUtils.removeBOM(FileUtils.readFileToByteArray(saveInfoXML)));
+				EKUtils.removeBOM(FileUtils.readFileToByteArray(saveInfoXML))
+				, "UTF-8");
 
 			Match xml = $(contents);
-
 			playerName = xml.find("Simple[name='PlayerName']").attr("value");
 			sceneTitle = xml.find("Simple[name='SceneTitle']").attr("value");
 			difficulty = xml.find("Simple[name='Difficulty']").attr("value");
-
-			userSaveName =
-				xml.find("Simple[name='UserSaveName']").attr("value");
-
-			chapter =
-				xml.find("Simple[name='Chapter']").attr("value", Integer.class);
-
-			trialOfIron =
-				xml.find("Simple[name='TrialOfIron']")
-					.attr("value", Boolean.class);
-
-			String timestampText =
-				xml.find("Simple[name='RealTimestamp']").attr("value");
-
+			userSaveName = xml.find("Simple[name='UserSaveName']").attr("value");
+			chapter = xml.find("Simple[name='Chapter']").attr("value", Integer.class);
+			trialOfIron = xml.find("Simple[name='TrialOfIron']").attr("value", Boolean.class);
+			String timestampText = xml.find("Simple[name='RealTimestamp']").attr("value");
 			timestamp = dateFormatter.parseDateTime(timestampText);
-
 			return true;
 		} catch (DOMException e) {
 			logger.error(

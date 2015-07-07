@@ -73,9 +73,8 @@ public class GetDefaultSaveLocationTest extends TestHarness {
 		Optional<File> saveLocation = EKUtils.createTempDir(PREFIX);
 		assertTrue(saveLocation.isPresent());
 
-		environment.setEnvVar(
-			EnvKey.USERPROFILE
-			, saveLocation.get().getAbsolutePath());
+		environment.setEnvVar(EnvKey.USERPROFILE, saveLocation.get().getAbsolutePath());
+		environment.setEnvVar(EnvKey.SYSTEMDRIVE, "404");
 
 		// USERPROFILE environment variable is set but no Pillars directory.
 		cls.onQuery(mockBrowser, 0, "", false, mockCallback);
@@ -92,9 +91,8 @@ public class GetDefaultSaveLocationTest extends TestHarness {
 		Optional<File> saveLocation = EKUtils.createTempDir(PREFIX);
 		assertTrue(saveLocation.isPresent());
 
-		environment.setEnvVar(
-			EnvKey.USERPROFILE
-			, saveLocation.get().getAbsolutePath());
+		environment.setEnvVar(EnvKey.USERPROFILE, saveLocation.get().getAbsolutePath());
+		environment.setEnvVar(EnvKey.SYSTEMDRIVE, "404");
 
 		File pillarsSaves = saveLocation.get().toPath()
 			.resolve("Saved Games\\Pillars of Eternity").toFile();
@@ -119,9 +117,8 @@ public class GetDefaultSaveLocationTest extends TestHarness {
 		Optional<File> gameLocation = EKUtils.createTempDir(PREFIX);
 		assertTrue(gameLocation.isPresent());
 
-		environment.setEnvVar(
-			EnvKey.SYSTEMDRIVE
-			, gameLocation.get().getAbsolutePath());
+		environment.setEnvVar(EnvKey.USERPROFILE, "404");
+		environment.setEnvVar(EnvKey.SYSTEMDRIVE, gameLocation.get().getAbsolutePath());
 
 		environment.possibleInstallationLocations = new ArrayList<>();
 		environment.possibleInstallationLocations.add("first");

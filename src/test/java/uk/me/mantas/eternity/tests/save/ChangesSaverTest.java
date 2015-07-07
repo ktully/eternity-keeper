@@ -135,7 +135,7 @@ public class ChangesSaverTest extends TestHarness {
 				new File(saveDirectory, "saveinfo.xml"));
 
 		assertEquals(-17, saveinfoBytes[0]);
-		Match xml = $(new String(EKUtils.removeBOM(saveinfoBytes)));
+		Match xml = $(new String(EKUtils.removeBOM(saveinfoBytes), "UTF-8"));
 		assertEquals("TEST", xml.find("Simple[name='UserSaveName']").attr("value"));
 
 		File mobileObjectsFile = new File(saveDirectory, "MobileObjects.save");

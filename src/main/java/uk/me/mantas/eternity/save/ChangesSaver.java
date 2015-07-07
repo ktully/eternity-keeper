@@ -303,11 +303,10 @@ public class ChangesSaver implements Runnable {
 
 		File saveinfoXML = new File(saveDirectory, "saveinfo.xml");
 		String contents = new String(
-			EKUtils.removeBOM(FileUtils.readFileToByteArray(saveinfoXML)));
+			EKUtils.removeBOM(FileUtils.readFileToByteArray(saveinfoXML))
+			, "UTF-8");
 
-		ByteArrayOutputStream newContentsStream =
-			new ByteArrayOutputStream(contents.length());
-
+		ByteArrayOutputStream newContentsStream = new ByteArrayOutputStream(contents.length());
 		try {
 			Match xml = $(contents);
 			xml.find("Simple[name='UserSaveName']").attr("value", saveName);
