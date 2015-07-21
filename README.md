@@ -7,7 +7,7 @@ Several dependencies are already bundled with the project. In order to build and
 * [JDK 1.8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) or above
 
 # Support
-Currently this has only been tested on 64-bit Windows. 32-bit Windows is unlikely to work without extra effort. Mac OSX and Linux support, however, should be easy enough to add if there's a demand for it.
+Currently this has only been tested on Windows. Mac OSX and Linux support, however, is currently blocked by issues with the Chromium Embedded Framework.
 
 # Contributing
 1. Fork this repository.
