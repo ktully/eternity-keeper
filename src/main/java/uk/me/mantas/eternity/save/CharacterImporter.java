@@ -20,11 +20,12 @@
 package uk.me.mantas.eternity.save;
 
 import org.json.JSONObject;
-import uk.me.mantas.eternity.EKUtils;
 import uk.me.mantas.eternity.Environment;
 import uk.me.mantas.eternity.Logger;
+import uk.me.mantas.eternity.factory.ComponentDeserializerFactory;
 import uk.me.mantas.eternity.game.ObjectPersistencePacket;
-import uk.me.mantas.eternity.serializer.SharpSerializer;
+import uk.me.mantas.eternity.serializer.ComponentDeserializer;
+import uk.me.mantas.eternity.serializer.ComponentDeserializer.NotDeserializedException;
 import uk.me.mantas.eternity.serializer.properties.Property;
 import uk.me.mantas.eternity.serializer.properties.SimpleProperty;
 
@@ -42,23 +43,22 @@ public class CharacterImporter {
 	private static final Logger logger = Logger.getLogger(CharacterImporter.class);
 	public final File saveFile;
 	private final File chrFile;
+	private final ComponentDeserializerFactory componentDeserializer;
 
-	public CharacterImporter (String request, String chrFilePath)
+	public CharacterImporter (final String request, final String chrFilePath)
 		throws FileNotFoundException {
 
-		JSONObject json = new JSONObject(request);
-		boolean savedYet = json.getBoolean("savedYet");
-		String oldSavePath = json.getString("oldSave");
+		final Environment environment = Environment.getInstance();
+		final JSONObject json = new JSONObject(request);
+		final String oldSavePath = json.getString("oldSave");
+		final boolean savedYet = json.getBoolean("savedYet");
 
 		File saveFile = new File(oldSavePath);
 		if (savedYet) {
-			File previouslySaved =
-				Environment.getInstance().getPreviousSaveDirectory();
+			final File previouslySaved = environment.getPreviousSaveDirectory();
 
 			if (previouslySaved == null) {
-				logger.error(
-					"Client reported we had already saved "
-					+ "but directory didn't exist!%n");
+				logger.error("Client reported we had already saved but directory didn't exist!%n");
 			} else {
 				saveFile = previouslySaved;
 			}
@@ -68,42 +68,36 @@ public class CharacterImporter {
 			throw new FileNotFoundException(saveFile.getAbsolutePath());
 		}
 
-		File chrFile = new File(chrFilePath);
+		final File chrFile = new File(chrFilePath);
 		if (!chrFile.exists()) {
 			throw new FileNotFoundException(chrFilePath);
 		}
 
 		this.saveFile = saveFile;
 		this.chrFile = chrFile;
+
+		componentDeserializer = environment.componentDeserializer();
 	}
 
-	public boolean importCharacter () throws IOException {
-		List<Property> chrObjects = EKUtils.deserializeFile(chrFile);
+	public boolean importCharacter () throws IOException, NotDeserializedException {
+		final ComponentDeserializer chrDeserializer = componentDeserializer.forFile(chrFile);
+		if (!chrDeserializer.deserialize()) {
+			return false;
+		}
+
+		final List<Property> chrObjects = chrDeserializer.getComponents();
 		if (chrObjects.size() < 1) {
 			return false;
 		}
 
-		File mobileObjectsFile = new File(saveFile, "MobileObjects.save");
-		SharpSerializer deserializer =
-			new SharpSerializer(mobileObjectsFile.getAbsolutePath());
-
-		List<Property> mobileObjects = new ArrayList<>();
-		Optional<Property> objCount = deserializer.deserialize();
-		if (!objCount.isPresent()) {
+		final File mobileObjectsFile = new File(saveFile, "MobileObjects.save");
+		final ComponentDeserializer deserializer = componentDeserializer.forFile(mobileObjectsFile);
+		if (!deserializer.deserialize()) {
 			logger.error("Unable to deserialize MobileObjects.save.%n");
 			return false;
 		}
 
-		int count = (int) objCount.get().obj;
-		for (int i = 0; i < count; i++) {
-			Optional<Property> mobileObjectProperty =
-				deserializer.deserialize();
-
-			if (mobileObjectProperty.isPresent()) {
-				mobileObjects.add(mobileObjectProperty.get());
-			}
-		}
-
+		final List<Property> mobileObjects = deserializer.getComponents();
 		if (mobileObjects.size() < 1) {
 			logger.error("No objects in MobileObjects.save.%n");
 			return false;
@@ -111,23 +105,19 @@ public class CharacterImporter {
 
 		// We need to find a character in the existing save to 'anchor' the
 		// imported character to, i.e. set their area and location co-ords.
-		Optional<ObjectPersistencePacket> anchorPoint =
-			findAnchorPoint(mobileObjects);
-
+		final Optional<ObjectPersistencePacket> anchorPoint = findAnchorPoint(mobileObjects);
 		if (!anchorPoint.isPresent()) {
 			logger.error("Unable to find anchor point in save.%n");
 			return false;
 		}
 
-		Optional<Property> characterProperty = findCharacter(chrObjects);
+		final Optional<Property> characterProperty = findCharacter(chrObjects);
 		if (!characterProperty.isPresent()) {
 			logger.error("Unable to find character in CHR file.%n");
 			return false;
 		}
 
-		boolean anchored =
-			anchorCharacter(characterProperty.get(), anchorPoint.get());
-
+		final boolean anchored = anchorCharacter(characterProperty.get(), anchorPoint.get());
 		if (!anchored) {
 			logger.error("Unable to anchor character!%n");
 			return false;
@@ -135,54 +125,32 @@ public class CharacterImporter {
 
 		// Need to regenerate the GUID since it seems to be the same for all
 		// player characters.
-		UUID newGUID = UUID.randomUUID();
+		final UUID newGUID = UUID.randomUUID();
 		Property.update(characterProperty.get(), "GUID", newGUID);
-		Property.update(
-			characterProperty.get()
-			, "ObjectID"
-			, newGUID.toString());
+		Property.update(characterProperty.get(), "ObjectID", newGUID.toString());
 
-		SimpleProperty simpleObjCount = (SimpleProperty) objCount.get();
-		simpleObjCount.value = count + chrObjects.size();
-		simpleObjCount.obj = count + chrObjects.size();
+		final SimpleProperty simpleObjCount = deserializer.getCountProperty();
+		final int count = (int) simpleObjCount.obj;
+		Property.update(simpleObjCount, count + chrObjects.size());
 
-		List<Property> totalObjects = new ArrayList<>();
+		final List<Property> totalObjects = new ArrayList<>();
 		totalObjects.addAll(chrObjects);
 		totalObjects.addAll(mobileObjects);
 
 		if (!mobileObjectsFile.delete()) {
-			logger.error(
-				"Unable to delete '%s'.%n"
-				, mobileObjectsFile.getAbsolutePath());
-
+			logger.error("Unable to delete '%s'.%n", mobileObjectsFile.getAbsolutePath());
 			return false;
 		}
 
 		if (!mobileObjectsFile.createNewFile()) {
-			logger.error(
-				"Unable to create '%s'.%n"
-				, mobileObjectsFile.getAbsolutePath());
-
+			logger.error("Unable to create '%s'.%n", mobileObjectsFile.getAbsolutePath());
 			return false;
 		}
 
-		reserialize(mobileObjectsFile, simpleObjCount, totalObjects);
+		deserializer.setComponents(totalObjects);
+		deserializer.reserialize(mobileObjectsFile);
+
 		return true;
-	}
-
-	private void reserialize (
-		File mobileObjectsFile
-		, Property count
-		, List<Property> totalObjects)
-		throws FileNotFoundException {
-
-		SharpSerializer serializer =
-			new SharpSerializer(mobileObjectsFile.getAbsolutePath());
-
-		serializer.serialize(count);
-		for (Property property : totalObjects) {
-			serializer.serialize(property);
-		}
 	}
 
 	boolean anchorCharacter (

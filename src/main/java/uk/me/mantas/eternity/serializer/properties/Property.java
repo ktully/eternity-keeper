@@ -78,44 +78,40 @@ public abstract class Property {
 	}
 
 	public static boolean update (
-		Property property
-		, String propertyName
-		, Object value) {
+		final Property property
+		, final String propertyName
+		, final Object value) {
 
-		Optional<Property> subProperty = find(property, propertyName);
+		final Optional<Property> subProperty = find(property, propertyName);
 		if (!subProperty.isPresent()) {
-			logger.error(
-				"Unable to locate sub-property with name '%s'.%n"
-				, propertyName);
-
+			logger.error("Unable to locate sub-property with name '%s'.%n", propertyName);
 			return false;
 		}
 
-		if (!(subProperty.get() instanceof SimpleProperty)) {
-			logger.error(
-				"Sub-property '%s' was not a SimpleProperty.%n"
-				, propertyName);
+		return update(subProperty.get(), value);
+	}
 
+	public static boolean update (final Property property, final Object value) {
+		if (!(property instanceof SimpleProperty)) {
+			logger.error("Property was not a SimpleProperty.%n");
 			return false;
 		}
 
-		SimpleProperty simpleSubProperty = (SimpleProperty) subProperty.get();
-		simpleSubProperty.value = value;
-		simpleSubProperty.obj = value;
+		final SimpleProperty simpleProperty = (SimpleProperty) property;
+		simpleProperty.value = value;
+		simpleProperty.obj = value;
 
 		return true;
 	}
 
 	@SuppressWarnings("unchecked")
-	public static Optional<Property> find (Property haystack, String needle) {
+	public static Optional<Property> find (final Property haystack, final String needle) {
 		if (!(haystack instanceof ComplexProperty)) {
 			return Optional.empty();
 		}
 
-		ComplexProperty complexHaystack = (ComplexProperty) haystack;
-		for (Property subProperty :
-			(List<Property>) complexHaystack.properties) {
-
+		final ComplexProperty complexHaystack = (ComplexProperty) haystack;
+		for (final Property subProperty : (List<Property>) complexHaystack.properties) {
 			if (subProperty.name.equals(needle)) {
 				return Optional.of(subProperty);
 			}

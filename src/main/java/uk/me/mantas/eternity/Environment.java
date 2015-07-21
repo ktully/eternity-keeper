@@ -20,6 +20,7 @@
 package uk.me.mantas.eternity;
 
 import org.apache.commons.io.FileUtils;
+import uk.me.mantas.eternity.factory.ComponentDeserializerFactory;
 import uk.me.mantas.eternity.factory.FileFactory;
 import uk.me.mantas.eternity.factory.SharpSerializerFactory;
 
@@ -46,6 +47,11 @@ public class Environment {
 	public SharpSerializerFactory sharpSerializer () { return sharpSerializerFactory; }
 	private final FileFactory fileFactory = new FileFactory();
 	public FileFactory fileFactory () { return fileFactory; }
+
+	private final ComponentDeserializerFactory componentDeserializer =
+		new ComponentDeserializerFactory();
+
+	public ComponentDeserializerFactory componentDeserializer () { return componentDeserializer; }
 
 	// Application state and configuration.
 	private static final Logger logger = Logger.getLogger(Environment.class);
@@ -236,15 +242,9 @@ public class Environment {
 		workers.shutdown();
 
 		try {
-			if (!workers.awaitTermination(
-					SHUTDOWN_TIMEOUT_SECONDS
-					, TimeUnit.SECONDS)) {
-
+			if (!workers.awaitTermination(SHUTDOWN_TIMEOUT_SECONDS, TimeUnit.SECONDS)) {
 				workers.shutdownNow();
-				if (!workers.awaitTermination(
-						SHUTDOWN_TIMEOUT_SECONDS
-						, TimeUnit.SECONDS)) {
-
+				if (!workers.awaitTermination(SHUTDOWN_TIMEOUT_SECONDS, TimeUnit.SECONDS)) {
 					logger.error("Thread pool did not terminate!%n");
 				}
 			}

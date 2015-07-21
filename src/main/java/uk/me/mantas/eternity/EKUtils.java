@@ -21,16 +21,14 @@ package uk.me.mantas.eternity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import uk.me.mantas.eternity.serializer.SharpSerializer;
-import uk.me.mantas.eternity.serializer.properties.Property;
 
 import java.awt.*;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.*;
-import java.util.List;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Optional;
 import java.util.function.BinaryOperator;
 import java.util.stream.Collectors;
 
@@ -115,26 +113,6 @@ public class EKUtils {
 				.collect(Collectors.toList());
 
 		return Collections.max(timestamps);
-	}
-
-	public static List<Property> deserializeFile (File file) throws FileNotFoundException {
-		List<Property> deserialized = new ArrayList<>();
-		SharpSerializer deserializer = new SharpSerializer(file.getAbsolutePath());
-		Optional<Property> objCountProp = deserializer.deserialize();
-
-		if (!objCountProp.isPresent()) {
-			return deserialized;
-		}
-
-		int count = (int) objCountProp.get().obj;
-		for (int i = 0; i < count; i++) {
-			Optional<Property> property = deserializer.deserialize();
-			if (property.isPresent()) {
-				deserialized.add(property.get());
-			}
-		}
-
-		return deserialized;
 	}
 
 	public static <T> BinaryOperator<T> throwingMerger() {

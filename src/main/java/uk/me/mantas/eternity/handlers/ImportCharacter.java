@@ -29,6 +29,7 @@ import uk.me.mantas.eternity.Environment;
 import uk.me.mantas.eternity.Logger;
 import uk.me.mantas.eternity.save.CharacterImporter;
 import uk.me.mantas.eternity.save.SavedGameOpener;
+import uk.me.mantas.eternity.serializer.ComponentDeserializer.NotDeserializedException;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -109,18 +110,16 @@ public class ImportCharacter extends CefMessageRouterHandlerAdapter {
 	}
 
 	private void doImport (
-		String request
-		, CefQueryCallback callback
-		, String chrFile) {
+		final String request
+		, final CefQueryCallback callback
+		, final String chrFile) {
 
 		try {
-			CharacterImporter importer =
-				new CharacterImporter(request, chrFile);
-
-			boolean success = importer.importCharacter();
+			final CharacterImporter importer = new CharacterImporter(request, chrFile);
+			final boolean success = importer.importCharacter();
 
 			if (success) {
-				SavedGameOpener opener = new SavedGameOpener(
+				final SavedGameOpener opener = new SavedGameOpener(
 					importer.saveFile.getAbsolutePath()
 					, callback);
 
@@ -136,9 +135,10 @@ public class ImportCharacter extends CefMessageRouterHandlerAdapter {
 			callback.failure(-1, "Unable to find your save or CHR file.");
 		} catch (IOException e) {
 			logger.error("%s%n", e.getMessage());
-			callback.failure(
-				-1
-				, "Error modifying temporary MobileObjects.save");
+			callback.failure(-1, "Error modifying temporary MobileObjects.save");
+		} catch (NotDeserializedException e) {
+			logger.error("%s%n", e.getMessage());
+			callback.failure(-1, "Error deserializing CHR file.");
 		}
 	}
 }

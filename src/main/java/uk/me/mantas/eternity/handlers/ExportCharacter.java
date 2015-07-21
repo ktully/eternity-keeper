@@ -28,6 +28,8 @@ import org.json.JSONObject;
 import uk.me.mantas.eternity.EKUtils;
 import uk.me.mantas.eternity.Environment;
 import uk.me.mantas.eternity.Logger;
+import uk.me.mantas.eternity.save.CharacterExporter;
+import uk.me.mantas.eternity.serializer.ComponentDeserializer;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -95,8 +97,8 @@ public class ExportCharacter extends CefMessageRouterHandlerAdapter {
 
 		@Override
 		public void onFileDialogDismissed (
-			CefBrowser browser
-			, Vector<String> filenames) {
+			final CefBrowser browser
+			, final Vector<String> filenames) {
 
 			if (filenames.size() < 1 || filenames.get(0).length() < 1) {
 				callback.failure(-1, "NO_SAVENAME");
@@ -104,11 +106,11 @@ public class ExportCharacter extends CefMessageRouterHandlerAdapter {
 			}
 
 			try {
-				JSONObject json = new JSONObject(request);
-				String guid = json.getString("GUID");
-				String savePath = json.getString("absolutePath");
+				final JSONObject json = new JSONObject(request);
+				final String guid = json.getString("GUID");
+				final String savePath = json.getString("absolutePath");
 
-				uk.me.mantas.eternity.save.CharacterExporter exporter = new uk.me.mantas.eternity.save.CharacterExporter(
+				final CharacterExporter exporter = new CharacterExporter(
 					savePath
 					, guid
 					, addChrExtension(filenames.get(0)));
@@ -125,10 +127,13 @@ public class ExportCharacter extends CefMessageRouterHandlerAdapter {
 				callback.failure(-1, "BAD_REQUEST");
 			} catch (FileNotFoundException e) {
 				logger.error("Unable to find file : %s%n", e.getMessage());
-				callback.failure(-1, "FILE+NOT_FOUND");
+				callback.failure(-1, "FILE_NOT_FOUND");
 			} catch (IOException e) {
 				logger.error("Filesystem error: %s%n", e.getMessage());
 				callback.failure(-1, "FILESYSTEM_ERR");
+			} catch (ComponentDeserializer.NotDeserializedException e) {
+				logger.error("%s%n", e.getMessage());
+				callback.failure(-1, "SERIALIZATION_ERR");
 			}
 		}
 
