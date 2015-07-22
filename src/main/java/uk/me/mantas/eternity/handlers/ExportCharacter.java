@@ -29,7 +29,6 @@ import uk.me.mantas.eternity.EKUtils;
 import uk.me.mantas.eternity.Environment;
 import uk.me.mantas.eternity.Logger;
 import uk.me.mantas.eternity.save.CharacterExporter;
-import uk.me.mantas.eternity.serializer.ComponentDeserializer;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -131,9 +130,6 @@ public class ExportCharacter extends CefMessageRouterHandlerAdapter {
 			} catch (IOException e) {
 				logger.error("Filesystem error: %s%n", e.getMessage());
 				callback.failure(-1, "FILESYSTEM_ERR");
-			} catch (ComponentDeserializer.NotDeserializedException e) {
-				logger.error("%s%n", e.getMessage());
-				callback.failure(-1, "SERIALIZATION_ERR");
 			}
 		}
 

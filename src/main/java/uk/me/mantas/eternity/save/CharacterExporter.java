@@ -24,7 +24,7 @@ import uk.me.mantas.eternity.factory.ComponentDeserializerFactory;
 import uk.me.mantas.eternity.factory.SharpSerializerFactory;
 import uk.me.mantas.eternity.game.ObjectPersistencePacket;
 import uk.me.mantas.eternity.serializer.ComponentDeserializer;
-import uk.me.mantas.eternity.serializer.ComponentDeserializer.NotDeserializedException;
+import uk.me.mantas.eternity.serializer.DeserializedComponents;
 import uk.me.mantas.eternity.serializer.SharpSerializer;
 import uk.me.mantas.eternity.serializer.properties.Property;
 import uk.me.mantas.eternity.serializer.properties.SimpleProperty;
@@ -72,19 +72,20 @@ public class CharacterExporter {
 		sharpSerializer = environment.sharpSerializer();
 	}
 
-	public boolean export () throws FileNotFoundException, NotDeserializedException {
+	public boolean export () throws FileNotFoundException {
 		final File mobileObjectsFile = new File(saveDirectory, "MobileObjects.save");
 		if (!mobileObjectsFile.exists()) {
 			throw new FileNotFoundException(mobileObjectsFile.getAbsolutePath());
 		}
 
 		final ComponentDeserializer deserializer = componentDeserializer.forFile(mobileObjectsFile);
-		if (!deserializer.deserialize()) {
+		final Optional<DeserializedComponents> deserialized = deserializer.deserialize();
+		if (!deserialized.isPresent()) {
 			return false;
 		}
 
-		final List<Property> mobileObjects = deserializer.getComponents();
-		final SimpleProperty count = deserializer.getCountProperty();
+		final List<Property> mobileObjects = deserialized.get().getComponents();
+		final SimpleProperty count = deserialized.get().getCount();
 		final List<Property> extractedObjects = extractCharactersObjects(mobileObjects);
 		if (extractedObjects.size() < 1) {
 			return false;

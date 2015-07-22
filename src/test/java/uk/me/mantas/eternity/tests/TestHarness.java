@@ -25,14 +25,18 @@ import org.junit.Before;
 import uk.me.mantas.eternity.Environment;
 import uk.me.mantas.eternity.Logger;
 import uk.me.mantas.eternity.Settings;
+import uk.me.mantas.eternity.factory.SharpSerializerFactory;
+import uk.me.mantas.eternity.serializer.SharpSerializer;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -133,5 +137,17 @@ public abstract class TestHarness {
 		final Logger mockLogger = mock(Logger.class);
 		exposedClass.set("logger", mockLogger);
 		return mockLogger;
+	}
+
+	protected SharpSerializer mockSerializer (final Environment mockEnvironment)
+		throws FileNotFoundException {
+
+		final SharpSerializerFactory mockSerializerFactory = mock(SharpSerializerFactory.class);
+		final SharpSerializer mockSerializer = mock(SharpSerializer.class);
+
+		when(mockEnvironment.sharpSerializer()).thenReturn(mockSerializerFactory);
+		when(mockSerializerFactory.forFile(anyString())).thenReturn(mockSerializer);
+
+		return mockSerializer;
 	}
 }

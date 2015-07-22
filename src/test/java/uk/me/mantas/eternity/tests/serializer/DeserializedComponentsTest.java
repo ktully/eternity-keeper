@@ -16,55 +16,42 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+
 package uk.me.mantas.eternity.tests.serializer;
 
 import org.junit.Test;
+import org.mockito.InOrder;
 import uk.me.mantas.eternity.Environment;
-import uk.me.mantas.eternity.serializer.ComponentDeserializer;
 import uk.me.mantas.eternity.serializer.DeserializedComponents;
 import uk.me.mantas.eternity.serializer.SharpSerializer;
 import uk.me.mantas.eternity.serializer.properties.Property;
 import uk.me.mantas.eternity.serializer.properties.SimpleProperty;
 import uk.me.mantas.eternity.tests.TestHarness;
 
+import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
-public class ComponentDeserializerTest extends TestHarness {
+public class DeserializedComponentsTest extends TestHarness {
 	@Test
-	public void testDeserializeNoObjectCount () throws FileNotFoundException {
+	public void testReserialize () throws FileNotFoundException {
 		final Environment mockEnvironment = mockEnvironment();
 		final SharpSerializer mockSerializer = mockSerializer(mockEnvironment);
-		final ComponentDeserializer deserializer = new ComponentDeserializer("");
-
-		when(mockSerializer.deserialize()).thenReturn(Optional.empty());
-		assertFalse(deserializer.deserialize().isPresent());
-	}
-
-	@Test
-	public void testDeserialize () throws FileNotFoundException {
-		final Environment mockEnvironment = mockEnvironment();
-		final SharpSerializer mockSerializer = mockSerializer(mockEnvironment);
-		final SimpleProperty mockCount = mock(SimpleProperty.class);
+		final File mockFile = mock(File.class);
 		final Property mockProperty = mock(Property.class);
-		final ComponentDeserializer deserializer = new ComponentDeserializer("");
+		final SimpleProperty mockCount = mock(SimpleProperty.class);
+		final List<Property> components = new ArrayList<Property>() {{add(mockProperty);}};
+		final DeserializedComponents deserialized =
+			new DeserializedComponents(components, mockCount);
 
-		mockCount.obj = 2;
+		when(mockFile.getAbsolutePath()).thenReturn("");
+		deserialized.reserialize(mockFile);
 
-		when(mockSerializer.deserialize())
-			.thenReturn(Optional.of(mockCount))
-			.thenReturn(Optional.empty())
-			.thenReturn(Optional.of(mockProperty));
-
-		final Optional<DeserializedComponents> deserialized = deserializer.deserialize();
-
-		assertTrue(deserialized.isPresent());
-		assertSame(mockCount, deserialized.get().getCount());
-		assertEquals(1, deserialized.get().getComponents().size());
-		assertSame(mockProperty, deserialized.get().getComponents().get(0));
+		final InOrder inOrder = inOrder(mockSerializer);
+		inOrder.verify(mockSerializer).serialize(mockCount);
+		inOrder.verify(mockSerializer).serialize(mockProperty);
 	}
 }

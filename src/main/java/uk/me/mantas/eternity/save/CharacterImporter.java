@@ -25,7 +25,7 @@ import uk.me.mantas.eternity.Logger;
 import uk.me.mantas.eternity.factory.ComponentDeserializerFactory;
 import uk.me.mantas.eternity.game.ObjectPersistencePacket;
 import uk.me.mantas.eternity.serializer.ComponentDeserializer;
-import uk.me.mantas.eternity.serializer.ComponentDeserializer.NotDeserializedException;
+import uk.me.mantas.eternity.serializer.DeserializedComponents;
 import uk.me.mantas.eternity.serializer.properties.Property;
 import uk.me.mantas.eternity.serializer.properties.SimpleProperty;
 
@@ -79,25 +79,27 @@ public class CharacterImporter {
 		componentDeserializer = environment.componentDeserializer();
 	}
 
-	public boolean importCharacter () throws IOException, NotDeserializedException {
+	public boolean importCharacter () throws IOException {
 		final ComponentDeserializer chrDeserializer = componentDeserializer.forFile(chrFile);
-		if (!chrDeserializer.deserialize()) {
+		final Optional<DeserializedComponents> chrDeserialized = chrDeserializer.deserialize();
+		if (!chrDeserialized.isPresent()) {
 			return false;
 		}
 
-		final List<Property> chrObjects = chrDeserializer.getComponents();
+		final List<Property> chrObjects = chrDeserialized.get().getComponents();
 		if (chrObjects.size() < 1) {
 			return false;
 		}
 
 		final File mobileObjectsFile = new File(saveFile, "MobileObjects.save");
 		final ComponentDeserializer deserializer = componentDeserializer.forFile(mobileObjectsFile);
-		if (!deserializer.deserialize()) {
+		final Optional<DeserializedComponents> deserialized = deserializer.deserialize();
+		if (!deserialized.isPresent()) {
 			logger.error("Unable to deserialize MobileObjects.save.%n");
 			return false;
 		}
 
-		final List<Property> mobileObjects = deserializer.getComponents();
+		final List<Property> mobileObjects = deserialized.get().getComponents();
 		if (mobileObjects.size() < 1) {
 			logger.error("No objects in MobileObjects.save.%n");
 			return false;
@@ -129,7 +131,7 @@ public class CharacterImporter {
 		Property.update(characterProperty.get(), "GUID", newGUID);
 		Property.update(characterProperty.get(), "ObjectID", newGUID.toString());
 
-		final SimpleProperty simpleObjCount = deserializer.getCountProperty();
+		final SimpleProperty simpleObjCount = deserialized.get().getCount();
 		final int count = (int) simpleObjCount.obj;
 		Property.update(simpleObjCount, count + chrObjects.size());
 
@@ -147,8 +149,8 @@ public class CharacterImporter {
 			return false;
 		}
 
-		deserializer.setComponents(totalObjects);
-		deserializer.reserialize(mobileObjectsFile);
+		deserialized.get().setComponents(totalObjects);
+		deserialized.get().reserialize(mobileObjectsFile);
 
 		return true;
 	}

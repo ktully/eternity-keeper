@@ -36,9 +36,6 @@ import java.util.Optional;
 public class ComponentDeserializer {
 	private final File file;
 	private final SharpSerializerFactory sharpSerializer;
-	private boolean deserializedState = false;
-	private List<Property> components;
-	private SimpleProperty countProperty;
 
 	public ComponentDeserializer (final File file) {
 		this.file = file;
@@ -49,13 +46,13 @@ public class ComponentDeserializer {
 		this(new File(filename));
 	}
 
-	public boolean deserialize () throws FileNotFoundException {
+	public Optional<DeserializedComponents> deserialize () throws FileNotFoundException {
 		final List<Property> deserialized = new ArrayList<>();
 		final SharpSerializer deserializer = sharpSerializer.forFile(file.getAbsolutePath());
 		final Optional<Property> objCountProp = deserializer.deserialize();
 
 		if (!objCountProp.isPresent()) {
-			return false;
+			return Optional.empty();
 		}
 
 		final int count = (int) objCountProp.get().obj;
@@ -66,61 +63,7 @@ public class ComponentDeserializer {
 			}
 		}
 
-		countProperty = (SimpleProperty) objCountProp.get();
-		components = deserialized;
-		deserializedState = true;
-
-		return true;
-	}
-
-	public List<Property> getComponents () throws NotDeserializedException {
-		if (!deserializedState) {
-			throw new NotDeserializedException();
-		}
-
-		return components;
-	}
-
-	public void setComponents (final List<Property> newComponents) throws NotDeserializedException {
-		if (!deserializedState) {
-			throw new NotDeserializedException();
-		}
-
-		components = newComponents;
-	}
-
-	public SimpleProperty getCountProperty () throws NotDeserializedException {
-		if (!deserializedState) {
-			throw new NotDeserializedException();
-		}
-
-		return countProperty;
-	}
-
-	public void reserialize () throws FileNotFoundException, NotDeserializedException {
-		reserialize(file);
-	}
-
-	public void reserialize (final File destinationFile)
-		throws FileNotFoundException
-		, NotDeserializedException {
-
-		if (!deserializedState) {
-			throw new NotDeserializedException();
-		}
-
-		final SharpSerializer serializer =
-			sharpSerializer.forFile(destinationFile.getAbsolutePath());
-
-		serializer.serialize(countProperty);
-		for (final Property property : components) {
-			serializer.serialize(property);
-		}
-	}
-
-	public static class NotDeserializedException extends Exception {
-		public NotDeserializedException () {
-			super("File has not been deserialized yet. Call deserialize() first.");
-		}
+		final SimpleProperty countProperty = (SimpleProperty) objCountProp.get();
+		return Optional.of(new DeserializedComponents(deserialized, countProperty));
 	}
 }

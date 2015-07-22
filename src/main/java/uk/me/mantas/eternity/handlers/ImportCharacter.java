@@ -29,7 +29,6 @@ import uk.me.mantas.eternity.Environment;
 import uk.me.mantas.eternity.Logger;
 import uk.me.mantas.eternity.save.CharacterImporter;
 import uk.me.mantas.eternity.save.SavedGameOpener;
-import uk.me.mantas.eternity.serializer.ComponentDeserializer.NotDeserializedException;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -136,9 +135,6 @@ public class ImportCharacter extends CefMessageRouterHandlerAdapter {
 		} catch (IOException e) {
 			logger.error("%s%n", e.getMessage());
 			callback.failure(-1, "Error modifying temporary MobileObjects.save");
-		} catch (NotDeserializedException e) {
-			logger.error("%s%n", e.getMessage());
-			callback.failure(-1, "Error deserializing CHR file.");
 		}
 	}
 }
