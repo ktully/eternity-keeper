@@ -27,10 +27,11 @@ import org.json.JSONObject;
 import uk.me.mantas.eternity.Environment;
 import uk.me.mantas.eternity.Logger;
 import uk.me.mantas.eternity.Settings;
-import uk.me.mantas.eternity.factory.SharpSerializerFactory;
+import uk.me.mantas.eternity.factory.ComponentDeserializerFactory;
 import uk.me.mantas.eternity.game.ObjectPersistencePacket;
 import uk.me.mantas.eternity.handlers.OpenSavedGame;
-import uk.me.mantas.eternity.serializer.SharpSerializer;
+import uk.me.mantas.eternity.serializer.ComponentDeserializer;
+import uk.me.mantas.eternity.serializer.DeserializedComponents;
 import uk.me.mantas.eternity.serializer.properties.Property;
 
 import java.io.File;
@@ -47,14 +48,12 @@ public class SavedGameOpener implements Runnable {
 	private static final Logger logger = Logger.getLogger(SavedGameOpener.class);
 	private final String saveGameLocation;
 	private final CefQueryCallback callback;
-	private final SharpSerializerFactory sharpSerializer;
+	private final ComponentDeserializerFactory componentDeserializer;
 
-	public SavedGameOpener (String saveGameLocation, CefQueryCallback callback) {
+	public SavedGameOpener (final String saveGameLocation, final CefQueryCallback callback) {
 		this.saveGameLocation = saveGameLocation;
 		this.callback = callback;
-
-		final Environment environment = Environment.getInstance();
-		this.sharpSerializer = environment.sharpSerializer();
+		componentDeserializer = Environment.getInstance().componentDeserializer();
 	}
 
 	@Override
@@ -244,26 +243,18 @@ public class SavedGameOpener implements Runnable {
 		return characters;
 	}
 
-	private List<Property> deserialize (File mobileObjectsFile) {
+	private List<Property> deserialize (final File mobileObjectsFile) {
+		final ComponentDeserializer deserializer = componentDeserializer.forFile(mobileObjectsFile);
 		List<Property> objects = new ArrayList<>();
 
 		try {
-			SharpSerializer deserializer =
-				sharpSerializer.forFile(mobileObjectsFile.getAbsolutePath());
-
-			Optional<Property> objectCount = deserializer.deserialize();
-			if (!objectCount.isPresent()) {
+			final Optional<DeserializedComponents> deserialized = deserializer.deserialize();
+			if (!deserialized.isPresent()) {
 				OpenSavedGame.deserializationError(callback);
 				return objects;
 			}
 
-			int count = (int) objectCount.get().obj;
-			for (int i = 0; i < count; i++) {
-				Optional<Property> gameObject = deserializer.deserialize();
-				if (gameObject.isPresent()) {
-					objects.add(gameObject.get());
-				}
-			}
+			objects = deserialized.get().getComponents();
 		} catch (FileNotFoundException e) {
 			OpenSavedGame.deserializationError(callback);
 		}
