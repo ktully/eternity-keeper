@@ -18,16 +18,16 @@
 
 package uk.me.mantas.eternity.factory;
 
-import uk.me.mantas.eternity.serializer.ComponentDeserializer;
+import uk.me.mantas.eternity.serializer.PacketDeserializer;
 
 import java.io.File;
 
-public class ComponentDeserializerFactory {
-	public ComponentDeserializer forFile (final String filePath) {
-		return new ComponentDeserializer(filePath);
+public class PacketDeserializerFactory {
+	public PacketDeserializer forFile (final String filePath) {
+		return new PacketDeserializer(filePath);
 	}
 
-	public ComponentDeserializer forFile (final File file) {
-		return new ComponentDeserializer(file);
+	public PacketDeserializer forFile (final File file) {
+		return new PacketDeserializer(file);
 	}
 }

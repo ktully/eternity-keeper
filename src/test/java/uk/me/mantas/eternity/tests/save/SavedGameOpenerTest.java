@@ -28,11 +28,11 @@ import uk.me.mantas.eternity.EKUtils;
 import uk.me.mantas.eternity.Environment;
 import uk.me.mantas.eternity.Logger;
 import uk.me.mantas.eternity.Settings;
-import uk.me.mantas.eternity.factory.ComponentDeserializerFactory;
+import uk.me.mantas.eternity.factory.PacketDeserializerFactory;
 import uk.me.mantas.eternity.game.ComponentPersistencePacket;
 import uk.me.mantas.eternity.game.ObjectPersistencePacket;
 import uk.me.mantas.eternity.save.SavedGameOpener;
-import uk.me.mantas.eternity.serializer.ComponentDeserializer;
+import uk.me.mantas.eternity.serializer.PacketDeserializer;
 import uk.me.mantas.eternity.serializer.properties.Property;
 import uk.me.mantas.eternity.tests.ExposedClass;
 import uk.me.mantas.eternity.tests.TestHarness;
@@ -234,11 +234,11 @@ public class SavedGameOpenerTest extends TestHarness {
 		verify(mockCallback).success(EXTRACTED);
 	}
 
-	private ComponentDeserializer mockDeserializer (final Environment mockEnvironment) {
-		final ComponentDeserializerFactory mockFactory = mock(ComponentDeserializerFactory.class);
-		final ComponentDeserializer mockDeserializer = mock(ComponentDeserializer.class);
+	private PacketDeserializer mockDeserializer (final Environment mockEnvironment) {
+		final PacketDeserializerFactory mockFactory = mock(PacketDeserializerFactory.class);
+		final PacketDeserializer mockDeserializer = mock(PacketDeserializer.class);
 
-		when(mockEnvironment.componentDeserializer()).thenReturn(mockFactory);
+		when(mockEnvironment.packetDeserializer()).thenReturn(mockFactory);
 		when(mockFactory.forFile(any(File.class))).thenReturn(mockDeserializer);
 
 		return mockDeserializer;
@@ -247,7 +247,7 @@ public class SavedGameOpenerTest extends TestHarness {
 	@Test
 	public void deserializeTestDeserializationError () throws FileNotFoundException {
 		final Environment mockEnvironment = mockEnvironment();
-		final ComponentDeserializer mockDeserializer = mockDeserializer(mockEnvironment);
+		final PacketDeserializer mockDeserializer = mockDeserializer(mockEnvironment);
 		final File mockMobileObjectsFile = mock(File.class);
 		final CefQueryCallback mockCallback = mock(CefQueryCallback.class);
 
@@ -264,7 +264,7 @@ public class SavedGameOpenerTest extends TestHarness {
 	@Test
 	public void deserializeTestThrowsException () throws FileNotFoundException {
 		final Environment mockEnvironment = mockEnvironment();
-		final ComponentDeserializer mockDeserializer = mockDeserializer(mockEnvironment);
+		final PacketDeserializer mockDeserializer = mockDeserializer(mockEnvironment);
 		final File mockMobileObjectsFile = mock(File.class);
 		final CefQueryCallback mockCallback = mock(CefQueryCallback.class);
 

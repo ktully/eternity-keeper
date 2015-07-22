@@ -22,7 +22,7 @@ package uk.me.mantas.eternity.tests.serializer;
 import org.junit.Test;
 import org.mockito.InOrder;
 import uk.me.mantas.eternity.Environment;
-import uk.me.mantas.eternity.serializer.DeserializedComponents;
+import uk.me.mantas.eternity.serializer.DeserializedPackets;
 import uk.me.mantas.eternity.serializer.SharpSerializer;
 import uk.me.mantas.eternity.serializer.properties.Property;
 import uk.me.mantas.eternity.serializer.properties.SimpleProperty;
@@ -35,7 +35,7 @@ import java.util.List;
 
 import static org.mockito.Mockito.*;
 
-public class DeserializedComponentsTest extends TestHarness {
+public class DeserializedPacketsTest extends TestHarness {
 	@Test
 	public void testReserialize () throws FileNotFoundException {
 		final Environment mockEnvironment = mockEnvironment();
@@ -44,8 +44,8 @@ public class DeserializedComponentsTest extends TestHarness {
 		final Property mockProperty = mock(Property.class);
 		final SimpleProperty mockCount = mock(SimpleProperty.class);
 		final List<Property> components = new ArrayList<Property>() {{add(mockProperty);}};
-		final DeserializedComponents deserialized =
-			new DeserializedComponents(components, mockCount);
+		final DeserializedPackets deserialized =
+			new DeserializedPackets(components, mockCount);
 
 		when(mockFile.getAbsolutePath()).thenReturn("");
 		deserialized.reserialize(mockFile);

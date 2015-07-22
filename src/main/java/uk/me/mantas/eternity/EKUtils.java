@@ -21,6 +21,9 @@ package uk.me.mantas.eternity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import uk.me.mantas.eternity.game.ComponentPersistencePacket;
+import uk.me.mantas.eternity.game.ObjectPersistencePacket;
+import uk.me.mantas.eternity.serializer.properties.Property;
 
 import java.awt.*;
 import java.io.File;
@@ -28,8 +31,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.BinaryOperator;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class EKUtils {
@@ -117,5 +122,48 @@ public class EKUtils {
 
 	public static <T> BinaryOperator<T> throwingMerger() {
 		return (u, v) -> { throw new IllegalStateException(String.format("Duplicate key %s", u)); };
+	}
+
+	public static Optional<Property> findProperty (
+		final List<Property> haystack
+		, final String needle) {
+
+		return findProperty(haystack, objectName -> objectName.trim().equalsIgnoreCase(needle));
+	}
+
+	public static Optional<Property> findProperty (
+		final List<Property> haystack
+		, final Function<String, Boolean> predicate) {
+
+		Optional<Property> found = Optional.empty();
+		for (final Property property : haystack) {
+			if (!(property.obj instanceof ObjectPersistencePacket)) {
+				continue;
+			}
+
+			final ObjectPersistencePacket packet = (ObjectPersistencePacket) property.obj;
+			if (packet.ObjectName == null) {
+				continue;
+			}
+
+			if (predicate.apply(packet.ObjectName)) {
+				found = Optional.of(property);
+				break;
+			}
+		}
+
+		return found;
+	}
+
+	public static ObjectPersistencePacket unwrapPacket (final Property property) {
+		return (ObjectPersistencePacket) property.obj;
+	}
+
+	public static Optional<ComponentPersistencePacket> findComponent (
+		final ComponentPersistencePacket[] haystack
+		, final String needle) {
+
+		return Arrays.stream(haystack)
+			.filter(component -> component.TypeString.equalsIgnoreCase(needle)).findFirst();
 	}
 }

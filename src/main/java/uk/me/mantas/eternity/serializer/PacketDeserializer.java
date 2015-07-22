@@ -33,20 +33,20 @@ import java.util.Optional;
 // has been serialized in PoE's particular format (i.e. the first object is a plain integer of the
 // number of following ComponentPersistencePacket objects).
 
-public class ComponentDeserializer {
+public class PacketDeserializer {
 	private final File file;
 	private final SharpSerializerFactory sharpSerializer;
 
-	public ComponentDeserializer (final File file) {
+	public PacketDeserializer (final File file) {
 		this.file = file;
 		sharpSerializer = Environment.getInstance().sharpSerializer();
 	}
 
-	public ComponentDeserializer (final String filename) {
+	public PacketDeserializer (final String filename) {
 		this(new File(filename));
 	}
 
-	public Optional<DeserializedComponents> deserialize () throws FileNotFoundException {
+	public Optional<DeserializedPackets> deserialize () throws FileNotFoundException {
 		final List<Property> deserialized = new ArrayList<>();
 		final SharpSerializer deserializer = sharpSerializer.forFile(file.getAbsolutePath());
 		final Optional<Property> objCountProp = deserializer.deserialize();
@@ -64,6 +64,6 @@ public class ComponentDeserializer {
 		}
 
 		final SimpleProperty countProperty = (SimpleProperty) objCountProp.get();
-		return Optional.of(new DeserializedComponents(deserialized, countProperty));
+		return Optional.of(new DeserializedPackets(deserialized, countProperty));
 	}
 }

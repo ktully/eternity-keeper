@@ -28,23 +28,23 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.List;
 
-public class DeserializedComponents {
-	private List<Property> components;
+public class DeserializedPackets {
+	private List<Property> packets;
 	private final SimpleProperty count;
 	private final SharpSerializerFactory sharpSerializer;
 
-	public DeserializedComponents (final List<Property> components, final SimpleProperty count) {
-		this.components = components;
+	public DeserializedPackets (final List<Property> packets, final SimpleProperty count) {
+		this.packets = packets;
 		this.count = count;
 		sharpSerializer = Environment.getInstance().sharpSerializer();
 	}
 
-	public List<Property> getComponents () {
-		return components;
+	public List<Property> getPackets () {
+		return packets;
 	}
 
-	public void setComponents (final List<Property> components) {
-		this.components = components;
+	public void setPackets (final List<Property> packets) {
+		this.packets = packets;
 	}
 
 	public SimpleProperty getCount () {
@@ -56,7 +56,7 @@ public class DeserializedComponents {
 			sharpSerializer.forFile(destinationFile.getAbsolutePath());
 
 		serializer.serialize(count);
-		for (final Property property : components) {
+		for (final Property property : packets) {
 			serializer.serialize(property);
 		}
 	}

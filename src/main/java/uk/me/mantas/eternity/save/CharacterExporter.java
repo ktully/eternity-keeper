@@ -20,11 +20,11 @@
 package uk.me.mantas.eternity.save;
 
 import uk.me.mantas.eternity.Environment;
-import uk.me.mantas.eternity.factory.ComponentDeserializerFactory;
+import uk.me.mantas.eternity.factory.PacketDeserializerFactory;
 import uk.me.mantas.eternity.factory.SharpSerializerFactory;
 import uk.me.mantas.eternity.game.ObjectPersistencePacket;
-import uk.me.mantas.eternity.serializer.ComponentDeserializer;
-import uk.me.mantas.eternity.serializer.DeserializedComponents;
+import uk.me.mantas.eternity.serializer.DeserializedPackets;
+import uk.me.mantas.eternity.serializer.PacketDeserializer;
 import uk.me.mantas.eternity.serializer.SharpSerializer;
 import uk.me.mantas.eternity.serializer.properties.Property;
 import uk.me.mantas.eternity.serializer.properties.SimpleProperty;
@@ -41,7 +41,7 @@ public class CharacterExporter {
 	private final File chrFile;
 	private final String guid;
 
-	private final ComponentDeserializerFactory componentDeserializer;
+	private final PacketDeserializerFactory packetDeserializer;
 	private final SharpSerializerFactory sharpSerializer;
 
 	public CharacterExporter (
@@ -68,7 +68,7 @@ public class CharacterExporter {
 		this.guid = guid;
 
 		final Environment environment = Environment.getInstance();
-		componentDeserializer = environment.componentDeserializer();
+		packetDeserializer = environment.packetDeserializer();
 		sharpSerializer = environment.sharpSerializer();
 	}
 
@@ -78,13 +78,13 @@ public class CharacterExporter {
 			throw new FileNotFoundException(mobileObjectsFile.getAbsolutePath());
 		}
 
-		final ComponentDeserializer deserializer = componentDeserializer.forFile(mobileObjectsFile);
-		final Optional<DeserializedComponents> deserialized = deserializer.deserialize();
+		final PacketDeserializer deserializer = packetDeserializer.forFile(mobileObjectsFile);
+		final Optional<DeserializedPackets> deserialized = deserializer.deserialize();
 		if (!deserialized.isPresent()) {
 			return false;
 		}
 
-		final List<Property> mobileObjects = deserialized.get().getComponents();
+		final List<Property> mobileObjects = deserialized.get().getPackets();
 		final SimpleProperty count = deserialized.get().getCount();
 		final List<Property> extractedObjects = extractCharactersObjects(mobileObjects);
 		if (extractedObjects.size() < 1) {

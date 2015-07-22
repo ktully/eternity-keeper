@@ -22,10 +22,10 @@ package uk.me.mantas.eternity.save;
 import org.json.JSONObject;
 import uk.me.mantas.eternity.Environment;
 import uk.me.mantas.eternity.Logger;
-import uk.me.mantas.eternity.factory.ComponentDeserializerFactory;
+import uk.me.mantas.eternity.factory.PacketDeserializerFactory;
 import uk.me.mantas.eternity.game.ObjectPersistencePacket;
-import uk.me.mantas.eternity.serializer.ComponentDeserializer;
-import uk.me.mantas.eternity.serializer.DeserializedComponents;
+import uk.me.mantas.eternity.serializer.DeserializedPackets;
+import uk.me.mantas.eternity.serializer.PacketDeserializer;
 import uk.me.mantas.eternity.serializer.properties.Property;
 import uk.me.mantas.eternity.serializer.properties.SimpleProperty;
 
@@ -43,7 +43,7 @@ public class CharacterImporter {
 	private static final Logger logger = Logger.getLogger(CharacterImporter.class);
 	public final File saveFile;
 	private final File chrFile;
-	private final ComponentDeserializerFactory componentDeserializer;
+	private final PacketDeserializerFactory packetDeserializer;
 
 	public CharacterImporter (final String request, final String chrFilePath)
 		throws FileNotFoundException {
@@ -76,30 +76,30 @@ public class CharacterImporter {
 		this.saveFile = saveFile;
 		this.chrFile = chrFile;
 
-		componentDeserializer = environment.componentDeserializer();
+		packetDeserializer = environment.packetDeserializer();
 	}
 
 	public boolean importCharacter () throws IOException {
-		final ComponentDeserializer chrDeserializer = componentDeserializer.forFile(chrFile);
-		final Optional<DeserializedComponents> chrDeserialized = chrDeserializer.deserialize();
+		final PacketDeserializer chrDeserializer = packetDeserializer.forFile(chrFile);
+		final Optional<DeserializedPackets> chrDeserialized = chrDeserializer.deserialize();
 		if (!chrDeserialized.isPresent()) {
 			return false;
 		}
 
-		final List<Property> chrObjects = chrDeserialized.get().getComponents();
+		final List<Property> chrObjects = chrDeserialized.get().getPackets();
 		if (chrObjects.size() < 1) {
 			return false;
 		}
 
 		final File mobileObjectsFile = new File(saveFile, "MobileObjects.save");
-		final ComponentDeserializer deserializer = componentDeserializer.forFile(mobileObjectsFile);
-		final Optional<DeserializedComponents> deserialized = deserializer.deserialize();
+		final PacketDeserializer deserializer = packetDeserializer.forFile(mobileObjectsFile);
+		final Optional<DeserializedPackets> deserialized = deserializer.deserialize();
 		if (!deserialized.isPresent()) {
 			logger.error("Unable to deserialize MobileObjects.save.%n");
 			return false;
 		}
 
-		final List<Property> mobileObjects = deserialized.get().getComponents();
+		final List<Property> mobileObjects = deserialized.get().getPackets();
 		if (mobileObjects.size() < 1) {
 			logger.error("No objects in MobileObjects.save.%n");
 			return false;
@@ -149,7 +149,7 @@ public class CharacterImporter {
 			return false;
 		}
 
-		deserialized.get().setComponents(totalObjects);
+		deserialized.get().setPackets(totalObjects);
 		deserialized.get().reserialize(mobileObjectsFile);
 
 		return true;

@@ -20,8 +20,8 @@ package uk.me.mantas.eternity.tests.serializer;
 
 import org.junit.Test;
 import uk.me.mantas.eternity.Environment;
-import uk.me.mantas.eternity.serializer.ComponentDeserializer;
-import uk.me.mantas.eternity.serializer.DeserializedComponents;
+import uk.me.mantas.eternity.serializer.DeserializedPackets;
+import uk.me.mantas.eternity.serializer.PacketDeserializer;
 import uk.me.mantas.eternity.serializer.SharpSerializer;
 import uk.me.mantas.eternity.serializer.properties.Property;
 import uk.me.mantas.eternity.serializer.properties.SimpleProperty;
@@ -34,12 +34,12 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class ComponentDeserializerTest extends TestHarness {
+public class PacketDeserializerTest extends TestHarness {
 	@Test
 	public void testDeserializeNoObjectCount () throws FileNotFoundException {
 		final Environment mockEnvironment = mockEnvironment();
 		final SharpSerializer mockSerializer = mockSerializer(mockEnvironment);
-		final ComponentDeserializer deserializer = new ComponentDeserializer("");
+		final PacketDeserializer deserializer = new PacketDeserializer("");
 
 		when(mockSerializer.deserialize()).thenReturn(Optional.empty());
 		assertFalse(deserializer.deserialize().isPresent());
@@ -51,7 +51,7 @@ public class ComponentDeserializerTest extends TestHarness {
 		final SharpSerializer mockSerializer = mockSerializer(mockEnvironment);
 		final SimpleProperty mockCount = mock(SimpleProperty.class);
 		final Property mockProperty = mock(Property.class);
-		final ComponentDeserializer deserializer = new ComponentDeserializer("");
+		final PacketDeserializer deserializer = new PacketDeserializer("");
 
 		mockCount.obj = 2;
 
@@ -60,11 +60,11 @@ public class ComponentDeserializerTest extends TestHarness {
 			.thenReturn(Optional.empty())
 			.thenReturn(Optional.of(mockProperty));
 
-		final Optional<DeserializedComponents> deserialized = deserializer.deserialize();
+		final Optional<DeserializedPackets> deserialized = deserializer.deserialize();
 
 		assertTrue(deserialized.isPresent());
 		assertSame(mockCount, deserialized.get().getCount());
-		assertEquals(1, deserialized.get().getComponents().size());
-		assertSame(mockProperty, deserialized.get().getComponents().get(0));
+		assertEquals(1, deserialized.get().getPackets().size());
+		assertSame(mockProperty, deserialized.get().getPackets().get(0));
 	}
 }
