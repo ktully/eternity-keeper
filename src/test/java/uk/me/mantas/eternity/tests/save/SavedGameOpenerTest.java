@@ -22,6 +22,7 @@ package uk.me.mantas.eternity.tests.save;
 import com.google.common.primitives.UnsignedInteger;
 import org.apache.commons.io.FileUtils;
 import org.cef.callback.CefQueryCallback;
+import org.jooq.lambda.tuple.Tuple2;
 import org.json.JSONObject;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -31,6 +32,7 @@ import uk.me.mantas.eternity.Logger;
 import uk.me.mantas.eternity.Settings;
 import uk.me.mantas.eternity.factory.PacketDeserializerFactory;
 import uk.me.mantas.eternity.game.ComponentPersistencePacket;
+import uk.me.mantas.eternity.game.CurrencyValue;
 import uk.me.mantas.eternity.game.ObjectPersistencePacket;
 import uk.me.mantas.eternity.save.SavedGameOpener;
 import uk.me.mantas.eternity.serializer.PacketDeserializer;
@@ -440,5 +442,91 @@ public class SavedGameOpenerTest extends TestHarness {
 		packet.ObjectName = "Player_Fyorl";
 		result = (boolean) exposedOpener.call("detectCompanion", packet);
 		assertFalse(result);
+	}
+
+	private Tuple2<Logger, ExposedClass> setupExtractCurrency () {
+		final CefQueryCallback mockCallback = mock(CefQueryCallback.class);
+		final Logger mockLogger = interceptLogging(SavedGameOpener.class);
+		final SavedGameOpener opener = new SavedGameOpener("", mockCallback);
+		final ExposedClass exposedOpener = expose(opener);
+		return new Tuple2<>(mockLogger, exposedOpener);
+	}
+
+	@Test
+	public void extractCurrencyTestNoPlayerPacket () {
+		final Tuple2<Logger, ExposedClass> setup = setupExtractCurrency();
+		final Map<Object, Class> argMap = new HashMap<Object, Class>() {{
+			put(new ArrayList<Property>(), List.class);
+		}};
+
+		assertEquals(0f, (float) setup.v2().call("extractCurrency", argMap), 0f);
+		verify(setup.v1()).error("Unable to find player mobile object.%n");
+	}
+
+	@Test
+	public void extractCurrencyTestNoPlayerInventoryComponent () {
+		final Tuple2<Logger, ExposedClass> setup = setupExtractCurrency();
+		final Property property = mock(Property.class);
+		final ObjectPersistencePacket playerPacket = mock(ObjectPersistencePacket.class);
+		final List<Property> gameObjects = new ArrayList<Property>() {{add(property);}};
+		final Map<Object, Class> argMap = new HashMap<Object, Class>() {{
+			put(gameObjects, List.class);
+		}};
+
+		property.obj = playerPacket;
+		playerPacket.ObjectName = "Player_Elenor";
+		playerPacket.ComponentPackets = new ComponentPersistencePacket[0];
+
+		assertEquals(0f, (float) setup.v2().call("extractCurrency", argMap), 0f);
+		verify(setup.v1()).error("Unable to find PlayerInventory component.");
+	}
+
+	@Test
+	public void extractCurrencyTestNoCurrencyTotalValue () {
+		final Tuple2<Logger, ExposedClass> setup = setupExtractCurrency();
+		final Property property = mock(Property.class);
+		final ObjectPersistencePacket playerPacket = mock(ObjectPersistencePacket.class);
+		final ComponentPersistencePacket inventoryComponent =
+			mock(ComponentPersistencePacket.class);
+
+		final List<Property> gameObjects = new ArrayList<Property>() {{add(property);}};
+		final Map<Object, Class> argMap = new HashMap<Object, Class>() {{
+			put(gameObjects, List.class);
+		}};
+
+		property.obj = playerPacket;
+		playerPacket.ObjectName = "Player_Elenor";
+		playerPacket.ComponentPackets = new ComponentPersistencePacket[] {inventoryComponent};
+		inventoryComponent.TypeString = "PlayerInventory";
+		inventoryComponent.Variables = new HashMap<>();
+
+		assertEquals(0f, (float) setup.v2().call("extractCurrency", argMap), 0f);
+		verify(setup.v1()).error("Unable to find currencyTotalValue in PlayerInventory component.");
+	}
+
+	@Test
+	public void extractCurrencyTest () {
+		final Tuple2<Logger, ExposedClass> setup = setupExtractCurrency();
+		final Property property = mock(Property.class);
+		final ObjectPersistencePacket playerPacket = mock(ObjectPersistencePacket.class);
+		final CurrencyValue currencyValue = new CurrencyValue();
+		final ComponentPersistencePacket inventoryComponent =
+			mock(ComponentPersistencePacket.class);
+
+		final List<Property> gameObjects = new ArrayList<Property>() {{add(property);}};
+		final Map<Object, Class> argMap = new HashMap<Object, Class>() {{
+			put(gameObjects, List.class);
+		}};
+
+		currencyValue.v = 3.14159f;
+		property.obj = playerPacket;
+		playerPacket.ObjectName = "Player_Elenor";
+		playerPacket.ComponentPackets = new ComponentPersistencePacket[] {inventoryComponent};
+		inventoryComponent.TypeString = "PlayerInventory";
+		inventoryComponent.Variables = new HashMap<String, Object>() {{
+			put("currencyTotalValue", currencyValue);
+		}};
+
+		assertEquals(3.14159f, (float) setup.v2().call("extractCurrency", argMap), 1e-6);
 	}
 }
