@@ -86,7 +86,7 @@ var SaveModifications = function () {
 			savedYet: self.savedYet
 			, saveName: saveName
 			, absolutePath: savesManager.currentSavedGame.info.absolutePath
-			, characterData: savesManager.currentSavedGame.characterData
+			, saveData: savesManager.currentSavedGame.saveData
 		};
 
 		saving();

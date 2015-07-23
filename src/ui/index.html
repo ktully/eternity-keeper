@@ -167,6 +167,25 @@
 		</div>
 	</div>
 
+	<div class="modal fade" id="currencyEditor" role="dialog">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="modal-body">
+					<form>
+						<div class="form-group form-group-sm">
+							<label for="currency">Copper Pands</label>
+							<input id="currency" type="number" class="form-control">
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger btn-sm" id="currencyEditorCancel">Cancel</button>
+					<button type="button" class="btn btn-primary btn-sm" id="currencyEditorSet">Done</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<nav class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container-fluid">
 			<div class="row">
@@ -188,6 +207,7 @@
 								<li class="divider"></li>
 								<li class="disabled"><a href="javascript:void(0);" id="menu-import-character">Import character</a></li>
 								<li class="disabled"><a href="javascript:void(0);" id="menu-edit-global">Edit globals</a></li>
+								<li class="disabled"><a href="javascript:void(0);" id="menu-edit-currency">Edit currency</a></li>
 							</ul>
 						</li>
 						<li class="dropdown">
@@ -312,6 +332,7 @@
 	<script src="js/Errors.js"></script>
 	<script src="js/Settings.js"></script>
 	<script src="js/SavedGame.js"></script>
+	<script src="js/CurrencyEditor.js"></script>
 	<script src="js/SavesManager.js"></script>
 	<script src="js/SaveModifications.js"></script>
 	<script src="js/CheckUpdates.js"></script>

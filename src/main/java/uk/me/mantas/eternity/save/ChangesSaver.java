@@ -33,10 +33,12 @@ import uk.me.mantas.eternity.EKUtils;
 import uk.me.mantas.eternity.Environment;
 import uk.me.mantas.eternity.Logger;
 import uk.me.mantas.eternity.Settings;
+import uk.me.mantas.eternity.factory.PacketDeserializerFactory;
 import uk.me.mantas.eternity.game.ComponentPersistencePacket;
 import uk.me.mantas.eternity.game.ObjectPersistencePacket;
 import uk.me.mantas.eternity.handlers.SaveChanges;
-import uk.me.mantas.eternity.serializer.SharpSerializer;
+import uk.me.mantas.eternity.serializer.DeserializedPackets;
+import uk.me.mantas.eternity.serializer.PacketDeserializer;
 import uk.me.mantas.eternity.serializer.properties.*;
 
 import java.io.ByteArrayOutputStream;
@@ -48,25 +50,28 @@ import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 import static org.joox.JOOX.$;
+import static uk.me.mantas.eternity.EKUtils.*;
 
 public class ChangesSaver implements Runnable {
 	private static final Logger logger = Logger.getLogger(ChangesSaver.class);
 	private final CefQueryCallback callback;
 	private final JSONObject request;
+	private final PacketDeserializerFactory packetDeserializer;
 
 	public ChangesSaver (String request, CefQueryCallback callback) {
 		this.callback = callback;
 		this.request = new JSONObject(request);
+		packetDeserializer = Environment.getInstance().packetDeserializer();
 	}
 
 	@Override
 	public void run () {
-		Environment environment = Environment.getInstance();
+		final Environment environment = Environment.getInstance();
 		try {
 			boolean savedYet = request.getBoolean("savedYet");
-			String saveName = request.getString("saveName");
-			String absolutePath = request.getString("absolutePath");
-			JSONArray characterData = request.getJSONArray("characterData");
+			final String saveName = request.getString("saveName");
+			final String absolutePath = request.getString("absolutePath");
+			final JSONObject saveData = request.getJSONObject("saveData");
 
 			File saveDirectory = environment.getPreviousSaveDirectory();
 			if (savedYet && saveDirectory == null) {
@@ -83,7 +88,7 @@ public class ChangesSaver implements Runnable {
 			}
 
 			updateSaveInfo(saveDirectory, saveName);
-			updateMobileObjects(saveDirectory, characterData);
+			updateMobileObjects(saveDirectory, saveData);
 			packageSaveGame(saveDirectory);
 			callback.success("{\"success\":true}");
 		} catch (JSONException e) {
@@ -91,6 +96,9 @@ public class ChangesSaver implements Runnable {
 		} catch (IOException | ZipException e) {
 			logger.error("%s%n", e.getMessage());
 			callback.failure(-1, SaveChanges.ioError());
+		} catch (DeserializationException e) {
+			logger.error("Unable to deserialize new save.%n");
+			callback.failure(-1, SaveChanges.deserializationError());
 		}
 	}
 
@@ -102,7 +110,7 @@ public class ChangesSaver implements Runnable {
 		} catch (JSONException e) {
 			logger.error(
 				"Unable to determine Pillars of Eternity "
-				+ "save game location!%n");
+					+ "save game location!%n");
 
 			return;
 		}
@@ -131,35 +139,23 @@ public class ChangesSaver implements Runnable {
 			, new ZipParameters());
 	}
 
-	private void updateMobileObjects (
-		File saveDirectory
-		, JSONArray characterData)
-		throws IOException {
+	private void updateMobileObjects (final File saveDirectory, final JSONObject saveData)
+		throws IOException, DeserializationException {
 
-		List<Property> mobileObjects = new ArrayList<>();
-		File mobileObjectsFile = new File(saveDirectory, "MobileObjects.save");
-		SharpSerializer deserializer =
-			new SharpSerializer(mobileObjectsFile.getAbsolutePath());
+		final File mobileObjectsFile = new File(saveDirectory, "MobileObjects.save");
+		final PacketDeserializer deserializer = packetDeserializer.forFile(mobileObjectsFile);
+		final Optional<DeserializedPackets> deserialized = deserializer.deserialize();
 
-		SimpleProperty objectCount =
-			(SimpleProperty) deserializer.deserialize().get();
-
-		int count = (int) objectCount.value;
-		for (int i = 0; i < count; i++) {
-			Optional<Property> potentialProperty = deserializer.deserialize();
-			if (!potentialProperty.isPresent()
-				|| !(potentialProperty.get().obj
-					instanceof ObjectPersistencePacket)) {
-
-				logger.error("Deserialization error!%n");
-				continue;
-			}
-
-			Property property =
-				updateMobileObject(potentialProperty.get(), characterData);
-
-			mobileObjects.add(property);
+		if (!deserialized.isPresent()) {
+			throw new DeserializationException();
 		}
+
+		final List<Property> updatedMobileObjects =
+			deserialized.get().getPackets().stream().map(
+				packet -> updateMobileObject(packet, saveData))
+			.collect(Collectors.toList());
+
+		deserialized.get().setPackets(updatedMobileObjects);
 
 		if (!mobileObjectsFile.delete()) {
 			logger.error(
@@ -170,32 +166,60 @@ public class ChangesSaver implements Runnable {
 		}
 
 		Files.createFile(mobileObjectsFile.toPath());
-		SharpSerializer serializer =
-			new SharpSerializer(mobileObjectsFile.getAbsolutePath());
-
-		serializer.serialize(objectCount);
-		for (Property obj : mobileObjects) {
-			serializer.serialize(obj);
-		}
+		deserialized.get().reserialize(mobileObjectsFile);
 	}
 
-	private Property updateMobileObject (
-		Property property
-		, JSONArray characterData) {
+	private Property updateMobileObject (final Property property, final JSONObject saveData) {
+		final ObjectPersistencePacket packet = unwrapPacket(property);
+		final JSONArray characters = saveData.getJSONArray("characters");
+		final float currency = saveData.getInt("currency");
 
-		ObjectPersistencePacket packet = (ObjectPersistencePacket) property.obj;
-		for (int i = 0; i < characterData.length(); i++) {
-			JSONObject character = characterData.getJSONObject(i);
+		// TODO: Refactor out this check for the 'player' object.
+		if (packet.ObjectName.startsWith("Player_")) {
+			updateCurrency((ComplexProperty) property, currency);
+		}
+
+		for (int i = 0; i < characters.length(); i++) {
+			final JSONObject character = characters.getJSONObject(i);
 			if (character.getString("GUID").equals(packet.ObjectID)) {
-				updateCharacter(
-					(ComplexProperty) property
-					, character.getJSONObject("stats"));
-
+				updateCharacter((ComplexProperty) property, character.getJSONObject("stats"));
 				break;
 			}
 		}
 
 		return property;
+	}
+
+	private void updateCurrency (final ComplexProperty root, final float currency) {
+		final Optional<SingleDimensionalArrayProperty> componentPackets =
+			findSubProperty(root, "ComponentPackets");
+
+		if (!componentPackets.isPresent()) {
+			return;
+		}
+
+		final Optional<ComplexProperty> playerInventory =
+			findSubComponent(componentPackets.get(), "PlayerInventory");
+
+		if (!playerInventory.isPresent()) {
+			return;
+		}
+
+		final Optional<DictionaryProperty> variables =
+			findSubProperty(playerInventory.get(), "Variables");
+
+		if (!variables.isPresent()) {
+			return;
+		}
+
+		final Optional<ComplexProperty> currencyValue =
+			findDictionaryEntry(variables.get(), "currencyTotalValue");
+
+		if (!currencyValue.isPresent()) {
+			return;
+		}
+
+		Property.update(currencyValue.get(), "v", currency);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -392,5 +416,11 @@ public class ChangesSaver implements Runnable {
 		}
 
 		return candidateID;
+	}
+
+	private static class DeserializationException extends Exception {
+		DeserializationException () {
+			super();
+		}
 	}
 }

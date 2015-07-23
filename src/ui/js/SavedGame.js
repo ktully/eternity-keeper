@@ -20,12 +20,12 @@
 var SavedGame = function (info) {
 	var self = this;
 	self.info = info;
-	self.characterData = null;
+	self.saveData = null;
 	self.modifications = false;
 
 	var getSelectedCharacter = function () {
 		var guid = $('.characters .active').attr('data-guid');
-		return self.characterData.filter(function (c) {
+		return self.saveData.characters.filter(function (c) {
 			return c.GUID === guid;
 		}).shift();
 	};
@@ -34,7 +34,7 @@ var SavedGame = function (info) {
 		var guid = $(e.currentTarget).attr('data-guid');
 		$('.characters li').removeClass('active');
 		$(e.currentTarget).addClass('active');
-		var character = self.characterData.filter(function (c) {
+		var character = self.saveData.characters.filter(function (c) {
 			return c.GUID === guid;
 		}).shift();
 
@@ -42,7 +42,7 @@ var SavedGame = function (info) {
 	};
 
 	var populateCharacterList = function () {
-		var items = self.characterData.map(function (character) {
+		var items = self.saveData.characters.map(function (character) {
 			return $('<li>')
 				.attr('data-guid', character.GUID)
 				.html('<i class="fa fa-heartbeat"></i> ' + character.name)
@@ -112,16 +112,22 @@ var SavedGame = function (info) {
 		$('.raw tr > td:last-child').keyup(updateData);
 	};
 
+	var populateCurrency = function (amount) {
+		amount = parseInt(amount);
+		$('#currency').val(amount);
+	};
+
 	self.loadUI = function (response) {
 		savesManager.notOpening();
-		var characters = JSON.parse(response);
+		var saveData = JSON.parse(response);
 
-		if (characters.length < 1) {
+		if (saveData.characters.length < 1) {
 			errorShow('No characters found in save game.');
 			return;
 		}
 
-		self.characterData = characters.map(function (character) {
+		self.saveData = saveData;
+		self.saveData.characters = self.saveData.characters.map(function (character) {
 			// Hate to lose type information here but HTML forms won't preserve it for us anyway.
 			for (stat in character.stats) {
 				if (!character.stats.hasOwnProperty(stat)) {
@@ -139,7 +145,8 @@ var SavedGame = function (info) {
 		$('.character').show();
 		populateCharacterList();
 		$('.characters li').first().addClass('active');
-		populateCharacter(characters[0]);
+		populateCharacter(self.saveData.characters[0]);
+		populateCurrency(self.saveData.currency);
 	};
 
 	window.openSavedGame({

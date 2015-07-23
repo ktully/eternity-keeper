@@ -65,4 +65,12 @@ public class SaveChanges extends CefMessageRouterHandlerAdapter {
 			.endObject()
 			.toString();
 	}
+
+	public static String deserializationError () {
+		return new JSONStringer()
+			.object()
+				.key("error").value("Unable to deserialize new save file.")
+			.endObject()
+			.toString();
+	}
 }

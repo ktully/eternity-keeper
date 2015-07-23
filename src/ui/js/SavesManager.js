@@ -188,15 +188,13 @@ var SavesManager = function () {
 		$('.character').hide();
 		$('.characters').empty();
 
-		$('#menu-save-modification'
+		var disabled = $('#menu-save-modification'
 			+ ', #menu-export-character'
-			+ ', #menu-import-character')
-			.parent().addClass('disabled');
+			+ ', #menu-import-character'
+			+ ', #menu-edit-currency');
 
-		$('#menu-save-modification'
-			+ ', #menu-export-character'
-			+ ', #menu-import-character')
-			.off();
+		disabled.parent().addClass('disabled');
+		disabled.off();
 
 		$('.saved-game-locator, .save-blocks').show();
 		self.currentSavedGame = null;
@@ -208,12 +206,13 @@ var SavesManager = function () {
 		errorHide();
 		$('.saved-game-locator').hide();
 		$('.save-blocks').hide();
-		$('#menu-save-modification')
+		$('#menu-save-modification, #menu-edit-currency')
 			//+ ', #menu-export-character'
 			//+ ', #menu-import-character')
 			.parent().removeClass('disabled');
 
 		$('#menu-save-modification').click(saveModifications.saveChanges);
+		$('#menu-edit-currency').click(currencyEditor.open);
 	};
 
 	$(document).keyup(function (e) {

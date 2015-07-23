@@ -70,7 +70,7 @@ var ExportCharacter = function () {
 			return;
 		}
 
-		var lis = savesManager.currentSavedGame.characterData.map(function (character) {
+		var lis = savesManager.currentSavedGame.saveData.characters.map(function (character) {
 			return $('<li>')
 				.text(character.name)
 				.append($('<i>').addClass('fa fa-spinner fa-pulse'))
