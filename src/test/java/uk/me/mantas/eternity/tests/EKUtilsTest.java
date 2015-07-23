@@ -20,45 +20,50 @@
 package uk.me.mantas.eternity.tests;
 
 import org.junit.Test;
-import uk.me.mantas.eternity.EKUtils;
+import uk.me.mantas.eternity.game.ComponentPersistencePacket;
+import uk.me.mantas.eternity.game.ObjectPersistencePacket;
+import uk.me.mantas.eternity.serializer.properties.Property;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static uk.me.mantas.eternity.EKUtils.*;
 
 public class EKUtilsTest {
 	@Test
 	public void removeBOMTest () {
 		byte[] data = new byte[]{-17, -69, -65, 100, 97, 116, 97};
-		byte[] actual = EKUtils.removeBOM(data);
+		byte[] actual = removeBOM(data);
 		byte[] expected = new byte[]{100, 97, 116, 97};
 		assertArrayEquals(expected, actual);
 	}
 
 	@Test
 	public void addBOMTest () {
-		byte[] actual = EKUtils.addBOM(new byte[]{});
+		byte[] actual = addBOM(new byte[]{});
 		byte[] expected = new byte[]{-17, -69, -65};
 		assertArrayEquals(expected, actual);
 	}
 
 	@Test
 	public void removeExtensionTest () {
-		assertNull(EKUtils.removeExtension(null));
-		assertEquals("", EKUtils.removeExtension(""));
-		assertEquals("noextension", EKUtils.removeExtension("noextension"));
-		assertEquals("noextension", EKUtils.removeExtension("noextension.extension"));
+		assertNull(removeExtension(null));
+		assertEquals("", removeExtension(""));
+		assertEquals("noextension", removeExtension("noextension"));
+		assertEquals("noextension", removeExtension("noextension.extension"));
 	}
 
 	@Test
 	public void getExtensionTest () {
-		assertFalse(EKUtils.getExtension(null).isPresent());
-		assertFalse(EKUtils.getExtension("").isPresent());
-		assertFalse(EKUtils.getExtension("noextension").isPresent());
-		assertEquals("ext", EKUtils.getExtension("file.ext").get());
-		assertEquals("ext", EKUtils.getExtension("file.part.ext").get());
+		assertFalse(getExtension(null).isPresent());
+		assertFalse(getExtension("").isPresent());
+		assertFalse(getExtension("noextension").isPresent());
+		assertEquals("ext", getExtension("file.ext").get());
+		assertEquals("ext", getExtension("file.part.ext").get());
 	}
 
 	public File mockJar (final String name) {
@@ -76,6 +81,41 @@ public class EKUtilsTest {
 			, mockJar("2")
 		};
 
-		assertEquals(2, EKUtils.getTimestampOfLatestJar(jars));
+		assertEquals(2, getTimestampOfLatestJar(jars));
+	}
+
+	@Test
+	public void findPropertyTest () {
+		final Property needle = mock(Property.class);
+		final Property needle2 = mock(Property.class);
+		final ObjectPersistencePacket packet = mock(ObjectPersistencePacket.class);
+		final List<Property> haystack = new ArrayList<Property>() {{
+			add(needle);
+			add(needle2);
+		}};
+
+		packet.ObjectName = "FindMe";
+		needle.obj = packet;
+		needle2.obj = packet;
+
+		assertFalse(findProperty(haystack, "404").isPresent());
+		assertSame(needle, findProperty(haystack, "FINDME").get());
+	}
+
+	@Test
+	public void findComponentTest () {
+		final ComponentPersistencePacket needle = mock(ComponentPersistencePacket.class);
+		final ComponentPersistencePacket needle2 = mock(ComponentPersistencePacket.class);
+		final ComponentPersistencePacket[] haystack = new ComponentPersistencePacket[] {
+			null
+			, needle
+			, needle2
+		};
+
+		needle.TypeString = "FindMe";
+		needle2.TypeString = "FindMe";
+
+		assertFalse(findComponent(haystack, "404").isPresent());
+		assertSame(needle, findComponent(haystack, "FINDME").get());
 	}
 }

@@ -141,7 +141,7 @@ public class EKUtils {
 				continue;
 			}
 
-			final ObjectPersistencePacket packet = (ObjectPersistencePacket) property.obj;
+			final ObjectPersistencePacket packet = unwrapPacket(property);
 			if (packet.ObjectName == null) {
 				continue;
 			}
