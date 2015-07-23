@@ -183,11 +183,10 @@ public class SavedGameOpener implements Runnable {
 			&& !packet.ObjectName.startsWith("Companion_Generic");
 	}
 
-	private Optional<Map<String, Object>> extractCharacterStats (ObjectPersistencePacket packet) {
-		return Arrays.stream(packet.ComponentPackets)
-			.filter(c -> c != null)
-			.filter(c -> c.TypeString.equals("CharacterStats"))
-			.findFirst()
+	private Optional<Map<String, Object>> extractCharacterStats (
+		final ObjectPersistencePacket packet) {
+
+		return findComponent(packet.ComponentPackets, "CharacterStats")
 			.map(c ->
 				c.Variables.entrySet().stream()
 					.filter(entry -> isSupportedType(entry.getValue()))
@@ -215,27 +214,25 @@ public class SavedGameOpener implements Runnable {
 		return name;
 	}
 
-	private boolean detectDead (ObjectPersistencePacket packet) {
-		Optional<Float> currentHealth =
-			Arrays.stream(packet.ComponentPackets)
-				.filter(c -> c.TypeString.equals("Health"))
-				.findFirst()
+	private boolean detectDead (final ObjectPersistencePacket packet) {
+		final Optional<Float> currentHealth =
+			findComponent(packet.ComponentPackets, "Health")
 				.map(c -> (Float) c.Variables.get("CurrentHealth"));
 
 		return currentHealth.isPresent() && currentHealth.get() == 0f;
 	}
 
-	private String extractPortrait (ObjectPersistencePacket packet, boolean isCompanion) {
-		JSONObject settings = Settings.getInstance().json;
+	private String extractPortrait (
+		final ObjectPersistencePacket packet
+		, final boolean isCompanion) {
+
+		final JSONObject settings = Settings.getInstance().json;
 		Optional<String> portraitSubPath =
-			Arrays.stream(packet.ComponentPackets)
-				.filter(c -> c != null)
-				.filter(c -> c.TypeString.equals("Portrait"))
-				.findFirst()
-				.map(c -> (String) c.Variables.get("m_textureLargePath"));
+			findComponent(packet.ComponentPackets, "Portrait")
+			.map(c -> (String) c.Variables.get("m_textureLargePath"));
 
 		if (isCompanion) {
-			String name = extractName(packet);
+			final String name = extractName(packet);
 			String mappedName = Environment.companionNameMap.get(name);
 			mappedName = (mappedName == null) ? null : mappedName.toLowerCase().replace(" ", "_");
 
@@ -249,14 +246,14 @@ public class SavedGameOpener implements Runnable {
 			return "";
 		}
 
-		String installationPath;
+		final String installationPath;
 		try {
 			installationPath = settings.getString("gameLocation");
 		} catch (JSONException e) {
 			return "";
 		}
 
-		Path portraitPath =
+		final Path portraitPath =
 			Paths.get(installationPath)
 				.resolve(Environment.PILLARS_DATA_DIR)
 				.resolve(portraitSubPath.get())
@@ -271,7 +268,7 @@ public class SavedGameOpener implements Runnable {
 		}
 
 		try {
-			byte[] portraitData = FileUtils.readFileToByteArray(portraitPath.toFile());
+			final byte[] portraitData = FileUtils.readFileToByteArray(portraitPath.toFile());
 			return Base64.getEncoder().encodeToString(portraitData);
 		} catch (IOException e) {
 			logger.error(

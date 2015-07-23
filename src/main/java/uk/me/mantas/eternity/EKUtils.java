@@ -164,6 +164,8 @@ public class EKUtils {
 		, final String needle) {
 
 		return Arrays.stream(haystack)
-			.filter(component -> component.TypeString.equalsIgnoreCase(needle)).findFirst();
+			.filter(component -> component != null)
+			.filter(component -> component.TypeString.equalsIgnoreCase(needle))
+			.findFirst();
 	}
 }
