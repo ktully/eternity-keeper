@@ -24,6 +24,7 @@ import uk.me.mantas.eternity.serializer.TypePair;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class ComplexProperty extends ReferenceTargetProperty {
 	private static final Logger logger = Logger.getLogger(ComplexProperty.class);
@@ -48,5 +49,20 @@ public class ComplexProperty extends ReferenceTargetProperty {
 				"Tried to make ComplexProperty flat copy of %s!%n"
 				, source.getClass().getSimpleName());
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public <T extends Property> Optional<T> findProperty (final String needle) {
+		final Optional<Property> found =
+			((List<Property>) properties).stream()
+				.filter(property -> property != null)
+				.filter(property -> property.name.equalsIgnoreCase(needle))
+				.findFirst();
+
+		if (!found.isPresent()) {
+			return Optional.<T>empty();
+		}
+
+		return Optional.of((T) found.get());
 	}
 }

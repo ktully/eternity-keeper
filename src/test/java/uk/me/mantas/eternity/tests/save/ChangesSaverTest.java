@@ -28,7 +28,10 @@ import org.junit.Test;
 import uk.me.mantas.eternity.EKUtils;
 import uk.me.mantas.eternity.Environment;
 import uk.me.mantas.eternity.Settings;
+import uk.me.mantas.eternity.factory.PacketDeserializerFactory;
+import uk.me.mantas.eternity.factory.SharpSerializerFactory;
 import uk.me.mantas.eternity.game.ComponentPersistencePacket;
+import uk.me.mantas.eternity.game.CurrencyValue;
 import uk.me.mantas.eternity.game.ObjectPersistencePacket;
 import uk.me.mantas.eternity.save.ChangesSaver;
 import uk.me.mantas.eternity.serializer.SharpSerializer;
@@ -38,7 +41,6 @@ import uk.me.mantas.eternity.tests.TestHarness;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.Arrays;
 import java.util.Map;
 import java.util.Optional;
 
@@ -46,6 +48,8 @@ import static org.joox.JOOX.$;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
+import static uk.me.mantas.eternity.EKUtils.findComponent;
+import static uk.me.mantas.eternity.EKUtils.unwrapPacket;
 
 public class ChangesSaverTest extends TestHarness {
 	@Test
@@ -70,7 +74,10 @@ public class ChangesSaverTest extends TestHarness {
 			+ "\"savedYet\":true"
 			+ ",\"saveName\":\"\""
 			+ ",\"absolutePath\":\"/. \""
-			+ ",\"characterData\":[]"
+			+ ",\"saveData\":{"
+				+ "\"characters\":[]"
+				+ ",\"currency\":0"
+			+ "}"
 		+ "}";
 
 		ChangesSaver cls = new ChangesSaver(request, mockCallback);
@@ -91,30 +98,33 @@ public class ChangesSaverTest extends TestHarness {
 		, URISyntaxException
 		, IOException {
 
-		Environment mockEnvironment = mockEnvironment();
+		final Environment mockEnvironment = mockEnvironment();
+		final File workingDirectory = EKUtils.createTempDir(PREFIX).get();
+		final File settingsFile = new File(workingDirectory, "settings.json");
 
-		File workingDirectory = EKUtils.createTempDir(PREFIX).get();
-		File settingsFile = new File(workingDirectory, "settings.json");
 		FileUtils.writeStringToFile(settingsFile, "{}");
 		when(mockEnvironment.getSettingsFile()).thenReturn(settingsFile);
+		when(mockEnvironment.packetDeserializer()).thenReturn(new PacketDeserializerFactory());
+		when(mockEnvironment.sharpSerializer()).thenReturn(new SharpSerializerFactory());
 
-		Settings mockSettings = mockSettings();
-		JSONObject mockJSON = mock(JSONObject.class);
-		CefQueryCallback mockCallback = mock(CefQueryCallback.class);
+		final Settings mockSettings = mockSettings();
+		final JSONObject mockJSON = mock(JSONObject.class);
+		final CefQueryCallback mockCallback = mock(CefQueryCallback.class);
 		String request = "{"
 			+ "\"savedYet\":false"
 			+ ",\"saveName\":\"TEST\""
 			+ ",\"absolutePath\":\"%s\""
-			+ ",\"characterData\":[{"
-				+ "\"GUID\":\"b1a7e809-0000-0000-0000-000000000000\""
-				+ ", \"stats\":{\"BaseMight\":\"30\"}}, {"
-				+ "\"GUID\":\"09517a0d-4fec-407c-a749-a531f3be64e0\""
-				+ ", \"stats\":{\"BaseResolve\":\"50\"}}]}";
+			+ ",\"saveData\":{"
+				+ "\"characters\":[{"
+					+ "\"GUID\":\"b1a7e809-0000-0000-0000-000000000000\""
+					+ ", \"stats\":{\"BaseMight\":\"30\"}}, {"
+					+ "\"GUID\":\"09517a0d-4fec-407c-a749-a531f3be64e0\""
+					+ ", \"stats\":{\"BaseResolve\":\"50\"}}]"
+				+ ", \"currency\":3.14159}}";
 
-		String absolutePath = new File(
-			getClass()
-				.getResource("/ChangesSaverTest/id 0 Encampment.savegame")
-				.toURI())
+		final String absolutePath =
+			new File(
+				getClass().getResource("/ChangesSaverTest/id 0 Encampment.savegame").toURI())
 			.getAbsolutePath();
 
 		mockSettings.json = mockJSON;
@@ -123,35 +133,34 @@ public class ChangesSaverTest extends TestHarness {
 
 		doThrow(new JSONException("")).when(mockJSON).getString(anyString());
 
-		File saveDirectory = new File(workingDirectory, "id 0 Encampment.savegame");
-		ChangesSaver cls = new ChangesSaver(request, mockCallback);
+		final File saveDirectory = new File(workingDirectory, "id 0 Encampment.savegame");
+		final ChangesSaver cls = new ChangesSaver(request, mockCallback);
 
 		cls.run();
 		verify(mockCallback).success("{\"success\":true}");
 		verify(mockEnvironment).setPreviousSaveDirectory(saveDirectory);
 
-		byte[] saveinfoBytes =
-			FileUtils.readFileToByteArray(
-				new File(saveDirectory, "saveinfo.xml"));
+		final byte[] saveinfoBytes =
+			FileUtils.readFileToByteArray(new File(saveDirectory, "saveinfo.xml"));
 
 		assertEquals(-17, saveinfoBytes[0]);
-		Match xml = $(new String(EKUtils.removeBOM(saveinfoBytes), "UTF-8"));
+		final Match xml = $(new String(EKUtils.removeBOM(saveinfoBytes), "UTF-8"));
 		assertEquals("TEST", xml.find("Simple[name='UserSaveName']").attr("value"));
 
-		File mobileObjectsFile = new File(saveDirectory, "MobileObjects.save");
-		SharpSerializer deserializer = new SharpSerializer(mobileObjectsFile.getAbsolutePath());
-		Optional<Property> objectCountProp = deserializer.deserialize();
+		final File mobileObjectsFile = new File(saveDirectory, "MobileObjects.save");
+		final SharpSerializer deserializer = new SharpSerializer(mobileObjectsFile.getAbsolutePath());
+		final Optional<Property> objectCountProp = deserializer.deserialize();
 		assertTrue(objectCountProp.isPresent());
 
-		int objectCount = (int) objectCountProp.get().obj;
+		final int objectCount = (int) objectCountProp.get().obj;
 		boolean mightUpdated = false;
 		boolean resolveUpdated = false;
+		boolean currencyUpdated = false;
 
 		for (int i = 0; i < objectCount; i++) {
-			Optional<Property> property = deserializer.deserialize();
+			final Optional<Property> property = deserializer.deserialize();
 			assertTrue(property.isPresent());
-			ObjectPersistencePacket packet =
-				(ObjectPersistencePacket) property.get().obj;
+			final ObjectPersistencePacket packet = unwrapPacket(property.get());
 
 			if (!packet.ObjectID.equals("b1a7e809-0000-0000-0000-000000000000")
 				&& !packet.ObjectID.equals("09517a0d-4fec-407c-a749-a531f3be64e0")) {
@@ -159,13 +168,10 @@ public class ChangesSaverTest extends TestHarness {
 				continue;
 			}
 
-			ComponentPersistencePacket stats =
-				Arrays.stream(packet.ComponentPackets)
-					.filter(c -> c.TypeString.equals("CharacterStats"))
-					.findFirst()
-					.get();
+			final ComponentPersistencePacket stats =
+				findComponent(packet.ComponentPackets, "CharacterStats").get();
 
-			Map<String, Object> vars = stats.Variables;
+			final Map<String, Object> vars = stats.Variables;
 
 			if (packet.ObjectID.equals("b1a7e809-0000-0000-0000-000000000000")) {
 				mightUpdated = (int) vars.get("BaseMight") == 30;
@@ -173,9 +179,17 @@ public class ChangesSaverTest extends TestHarness {
 
 			if (packet.ObjectID.equals("09517a0d-4fec-407c-a749-a531f3be64e0")) {
 				resolveUpdated = (int) vars.get("BaseResolve") == 50;
+
+				final ComponentPersistencePacket inventory =
+					findComponent(packet.ComponentPackets, "PlayerInventory").get();
+
+				final CurrencyValue currency =
+					(CurrencyValue) inventory.Variables.get("currencyTotalValue");
+
+				currencyUpdated = currency.v == 3.14159f;
 			}
 		}
 
-		assertTrue(mightUpdated && resolveUpdated);
+		assertTrue(mightUpdated && resolveUpdated && currencyUpdated);
 	}
 }

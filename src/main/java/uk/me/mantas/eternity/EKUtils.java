@@ -23,7 +23,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import uk.me.mantas.eternity.game.ComponentPersistencePacket;
 import uk.me.mantas.eternity.game.ObjectPersistencePacket;
-import uk.me.mantas.eternity.serializer.properties.*;
+import uk.me.mantas.eternity.serializer.properties.ComplexProperty;
+import uk.me.mantas.eternity.serializer.properties.Property;
+import uk.me.mantas.eternity.serializer.properties.SingleDimensionalArrayProperty;
 
 import java.awt.*;
 import java.io.File;
@@ -32,7 +34,6 @@ import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
@@ -171,24 +172,6 @@ public class EKUtils {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static <T extends Property> Optional<T> findSubProperty (
-		final ComplexProperty haystack
-		, final String needle) {
-
-		final Optional<Property> found =
-			((List<Property>) haystack.properties).stream()
-				.filter(property -> property != null)
-				.filter(property -> property.name.equalsIgnoreCase(needle))
-				.findFirst();
-
-		if (!found.isPresent()) {
-			return Optional.<T>empty();
-		}
-
-		return Optional.of((T) found.get());
-	}
-
-	@SuppressWarnings("unchecked")
 	public static Optional<ComplexProperty> findSubComponent (
 		final SingleDimensionalArrayProperty haystack
 		, final String needle) {
@@ -198,25 +181,5 @@ public class EKUtils {
 			.filter(component ->
 				((ComponentPersistencePacket) component.obj).TypeString.equalsIgnoreCase(needle))
 			.findFirst();
-	}
-
-	@SuppressWarnings("unchecked")
-	public static <T extends Property> Optional<T> findDictionaryEntry (
-		final DictionaryProperty haystack
-		, final String needle) {
-
-		final Optional<Entry<Property, Property>> found = haystack.items.stream()
-			.filter(entry -> entry != null)
-			.filter(entry -> entry.getKey() instanceof SimpleProperty)
-			.filter(entry -> {
-				final SimpleProperty key = (SimpleProperty) entry.getKey();
-				return key.value.equals(needle);
-			}).findFirst();
-
-		if (!found.isPresent()) {
-			return Optional.<T>empty();
-		}
-
-		return Optional.of((T) found.get().getValue());
 	}
 }

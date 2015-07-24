@@ -22,7 +22,9 @@ package uk.me.mantas.eternity.tests;
 import org.junit.Test;
 import uk.me.mantas.eternity.game.ComponentPersistencePacket;
 import uk.me.mantas.eternity.game.ObjectPersistencePacket;
+import uk.me.mantas.eternity.serializer.properties.ComplexProperty;
 import uk.me.mantas.eternity.serializer.properties.Property;
+import uk.me.mantas.eternity.serializer.properties.SingleDimensionalArrayProperty;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -117,5 +119,29 @@ public class EKUtilsTest {
 
 		assertFalse(findComponent(haystack, "404").isPresent());
 		assertSame(needle, findComponent(haystack, "FINDME").get());
+	}
+
+	@Test
+	public void findSubComponentTest () {
+		final SingleDimensionalArrayProperty haystack = mock(SingleDimensionalArrayProperty.class);
+		final ComplexProperty needleProperty = mock(ComplexProperty.class);
+		final ComplexProperty needleProperty2 = mock(ComplexProperty.class);
+		final ComponentPersistencePacket needle = mock(ComponentPersistencePacket.class);
+		final ComponentPersistencePacket needle2 = mock(ComponentPersistencePacket.class);
+
+		needle.TypeString = "FindMe";
+		needle2.TypeString = "FindMe";
+
+		needleProperty.obj = needle;
+		needleProperty2.obj = needle2;
+
+		haystack.items = new ArrayList<ComplexProperty>() {{
+			add(null);
+			add(needleProperty);
+			add(needleProperty2);
+		}};
+
+		assertFalse(findSubComponent(haystack, "404").isPresent());
+		assertSame(needleProperty, findSubComponent(haystack, "FINDME").get());
 	}
 }

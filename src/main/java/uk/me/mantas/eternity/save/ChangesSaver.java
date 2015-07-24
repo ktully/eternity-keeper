@@ -34,7 +34,6 @@ import uk.me.mantas.eternity.Environment;
 import uk.me.mantas.eternity.Logger;
 import uk.me.mantas.eternity.Settings;
 import uk.me.mantas.eternity.factory.PacketDeserializerFactory;
-import uk.me.mantas.eternity.game.ComponentPersistencePacket;
 import uk.me.mantas.eternity.game.ObjectPersistencePacket;
 import uk.me.mantas.eternity.handlers.SaveChanges;
 import uk.me.mantas.eternity.serializer.DeserializedPackets;
@@ -46,11 +45,11 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.*;
-import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 import static org.joox.JOOX.$;
-import static uk.me.mantas.eternity.EKUtils.*;
+import static uk.me.mantas.eternity.EKUtils.findSubComponent;
+import static uk.me.mantas.eternity.EKUtils.unwrapPacket;
 
 public class ChangesSaver implements Runnable {
 	private static final Logger logger = Logger.getLogger(ChangesSaver.class);
@@ -172,7 +171,7 @@ public class ChangesSaver implements Runnable {
 	private Property updateMobileObject (final Property property, final JSONObject saveData) {
 		final ObjectPersistencePacket packet = unwrapPacket(property);
 		final JSONArray characters = saveData.getJSONArray("characters");
-		final float currency = saveData.getInt("currency");
+		final float currency = (float) saveData.getDouble("currency");
 
 		// TODO: Refactor out this check for the 'player' object.
 		if (packet.ObjectName.startsWith("Player_")) {
@@ -191,112 +190,53 @@ public class ChangesSaver implements Runnable {
 	}
 
 	private void updateCurrency (final ComplexProperty root, final float currency) {
-		final Optional<SingleDimensionalArrayProperty> componentPackets =
-			findSubProperty(root, "ComponentPackets");
-
-		if (!componentPackets.isPresent()) {
-			return;
-		}
-
-		final Optional<ComplexProperty> playerInventory =
-			findSubComponent(componentPackets.get(), "PlayerInventory");
-
-		if (!playerInventory.isPresent()) {
-			return;
-		}
-
-		final Optional<DictionaryProperty> variables =
-			findSubProperty(playerInventory.get(), "Variables");
-
-		if (!variables.isPresent()) {
-			return;
-		}
-
 		final Optional<ComplexProperty> currencyValue =
-			findDictionaryEntry(variables.get(), "currencyTotalValue");
+			root.<SingleDimensionalArrayProperty>findProperty("ComponentPackets")
+			.flatMap(components -> findSubComponent(components, "PlayerInventory"))
+			.flatMap(playerInventory ->
+				playerInventory.<DictionaryProperty>findProperty("Variables"))
+			.flatMap(variables -> variables.<ComplexProperty>findEntry("currencyTotalValue"));
 
 		if (!currencyValue.isPresent()) {
+			logger.error("Unable to navigate property structure when updating currency!%n");
 			return;
 		}
 
 		Property.update(currencyValue.get(), "v", currency);
 	}
 
-	@SuppressWarnings("unchecked")
-	private void updateCharacter (
-		ComplexProperty property
-		, JSONObject character) {
-
+	private void updateCharacter (final ComplexProperty root, final JSONObject character) {
 		// Having to do linear searches through everything multiple times
 		// sucks for performance efficiency however that's our only option as
 		// we have to use Property-first serialization. If profiling later shows
 		// that this is taking too long then we may need to do some optimising.
 
-		SingleDimensionalArrayProperty componentPackets = null;
-		for (Property subProperty : (List<Property>) property.properties) {
-			if (subProperty.name.equals("ComponentPackets")) {
-				componentPackets = (SingleDimensionalArrayProperty) subProperty;
-				break;
-			}
-		}
+		final Optional<DictionaryProperty> variables =
+			root.<SingleDimensionalArrayProperty>findProperty("ComponentPackets")
+			.flatMap(components -> findSubComponent(components, "CharacterStats"))
+			.flatMap(characterStats ->
+				characterStats.<DictionaryProperty>findProperty("Variables"));
 
-		if (componentPackets == null) {
-			logger.error("No ComponentPackets property found!%n");
+		if (!variables.isPresent()) {
+			logger.error("Unable to navigate property structure when updating character!%n");
 			return;
 		}
 
-		ComplexProperty characterStats = null;
-		for (Property subProperty : (List<Property>) componentPackets.items) {
-			ComponentPersistencePacket packet =	(ComponentPersistencePacket) subProperty.obj;
+		for (final String updateKey : character.keySet()) {
+			final String updateValue = character.getString(updateKey);
+			final Optional<SimpleProperty> savedValue =
+				variables.get().<SimpleProperty>findEntry(updateKey);
 
-			if (packet == null) {
+			if (!savedValue.isPresent()) {
+				logger.error(
+					"Wanted to update character stat %s but could not find it in saved data!%n"
+					, updateKey);
+
 				continue;
 			}
 
-			if (packet.TypeString.equals("CharacterStats")) {
-				characterStats = (ComplexProperty) subProperty;
-				break;
-			}
-		}
-
-		if (characterStats == null) {
-			logger.error("Unable to find CharacterStats!%n");
-			return;
-		}
-
-		DictionaryProperty variables = null;
-		for (Property subProperty
-			: (List<Property>) characterStats.properties) {
-
-			if (subProperty.name.equals("Variables")) {
-				variables = (DictionaryProperty) subProperty;
-				break;
-			}
-		}
-
-		if (variables == null) {
-			logger.error("No Variables property found!%n");
-			return;
-		}
-
-		for (String updateKey : character.keySet()) {
-			String updateValue = character.getString(updateKey);
-			for (Entry<Property, Property> item : variables.items) {
-				if (item.getKey() instanceof SimpleProperty) {
-					SimpleProperty keyProperty = (SimpleProperty) item.getKey();
-					if (keyProperty.value.equals(updateKey)) {
-						SimpleProperty valueProperty =
-							(SimpleProperty) item.getValue();
-
-						Object typedValue =
-							castValue(valueProperty.obj, updateValue);
-
-						valueProperty.value = typedValue;
-						valueProperty.obj = typedValue;
-						break;
-					}
-				}
-			}
+			final Object typedValue = castValue(savedValue.get().obj, updateValue);
+			Property.update(savedValue.get(), typedValue);
 		}
 	}
 
