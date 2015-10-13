@@ -30,5 +30,6 @@ public class StrongholdHireling {
 	public boolean Paid;
 	public boolean IsLeaving;
 	public String SerializedName;
+	public int SerializedNameId;
 	public String Name;
 }

@@ -40,6 +40,7 @@ public class StatusEffectParams {
 	public boolean LastsUntilCombatEnds;
 	public boolean LastsUntilRest;
 	public StatusEffectParams.IntervalRateType IntervalRate;
+	public boolean HideFromUi;
 	public boolean OneHitUse;
 	public boolean ChecksReligion;
 	public GameObject OnStartVisualEffect;
@@ -66,6 +67,7 @@ public class StatusEffectParams {
 	// TODO: Check this.
 	//public Affliction AfflictionPrefabSerialized;
 	public String AfflictionPrefabSerialized;
+	public float UnadjustedDurationAdd;
 	public UUID OnDamageCallbackAbilitySerialized;
 	public String Description;
 	public boolean IsCleanedUp;

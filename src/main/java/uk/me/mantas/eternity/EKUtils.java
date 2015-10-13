@@ -176,8 +176,10 @@ public class EKUtils {
 		final SingleDimensionalArrayProperty haystack
 		, final String needle) {
 
-		return ((List<ComplexProperty>) haystack.items).stream()
+		return ((List<Property>) haystack.items).stream()
 			.filter(component -> component != null)
+			.filter(component -> component instanceof ComplexProperty)
+			.map(ComplexProperty.class::cast)
 			.filter(component ->
 				((ComponentPersistencePacket) component.obj).TypeString.equalsIgnoreCase(needle))
 			.findFirst();

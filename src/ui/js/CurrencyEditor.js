@@ -11,6 +11,7 @@ var CurrencyEditor = function () {
 
 	var updateCurrency = function () {
 		savesManager.currentSavedGame.saveData.currency = parseInt($('#currency').val());
+		$('#currencyEditor').modal('hide');
 	};
 
 	$('#currencyEditorCancel').click(cancel);

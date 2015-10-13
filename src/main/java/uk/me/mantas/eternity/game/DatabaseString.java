@@ -24,6 +24,7 @@ import com.google.common.primitives.UnsignedInteger;
 public class DatabaseString {
 	public UnsignedInteger PackageSerialized;
 	public int StringIDSerialized;
+	public int StringTableID;
 	public StringTableType StringTableSerialized;
 
 	public enum StringTableType {

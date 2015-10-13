@@ -32,4 +32,5 @@ public enum FactionName {
 	, EthikNol
 	, OvatesOfTheGoldenGrove
 	, TheFangs
+	, Stalwart
 }

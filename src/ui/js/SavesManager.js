@@ -91,7 +91,7 @@ var SavesManager = function () {
 	var updateProgress = function (responseText) {
 		var response = JSON.parse(responseText);
 		if (response.update) {
-			$('#progress div').css('width', response.update + 'px');
+			$('#progress').find('div').css('width', response.update + '%');
 		}
 	};
 
@@ -99,9 +99,7 @@ var SavesManager = function () {
 		window.checkExtractionProgress({
 			request: "true"
 			, onSuccess: updateProgress
-			, onFailure: console.error.bind(
-				console
-				, "Error checking for extraction progress")
+			, onFailure: console.error.bind(console, "Error checking for extraction progress")
 		});
 	};
 
@@ -144,7 +142,7 @@ var SavesManager = function () {
 	};
 
 	var resetProgress = function () {
-		$('#progress div').css('width', '0px');
+		$('#progress').find('div').css('width', '0px');
 	};
 
 	var listSavedGames = function () {

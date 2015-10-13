@@ -40,7 +40,6 @@ public class SharpSerializer {
 	private static final Logger logger = Logger.getLogger(SharpSerializer.class);
 
 	public static final Map<String, Class> typeMap = TypeMap.map;
-	public static final Map<Class, String> stringMap = TypeMap.reverseMap;
 	private Map<Integer, Property> propertyCache = new HashMap<>();
 
 	public static class Elements {
