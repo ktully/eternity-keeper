@@ -78,6 +78,7 @@ public class ImportCharacter extends CefMessageRouterHandlerAdapter {
 				, "Choose a character"
 				, ""
 				, new Vector<String>(){{add(".chr");}}
+				, 0
 				, new FileCallback(request, callback));
 		}
 	}
@@ -96,8 +97,8 @@ public class ImportCharacter extends CefMessageRouterHandlerAdapter {
 
 		@Override
 		public void onFileDialogDismissed (
-			CefBrowser browser
-			, Vector<String> filenames) {
+			final int selectedAcceptFilter
+			, final Vector<String> filenames) {
 
 			if (filenames.size() < 1 || filenames.get(0).length() < 1) {
 				callback.failure(-1, "NO_SAVE");

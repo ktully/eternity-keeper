@@ -81,6 +81,7 @@ public class ExportCharacter extends CefMessageRouterHandlerAdapter {
 				, "Save Character"
 				, ""
 				, new Vector<String>(){{add(".chr");}}
+				, 0
 				, new FileCallback(request, callback));
 		}
 	}
@@ -96,7 +97,7 @@ public class ExportCharacter extends CefMessageRouterHandlerAdapter {
 
 		@Override
 		public void onFileDialogDismissed (
-			final CefBrowser browser
+			final int selectedAcceptFilter
 			, final Vector<String> filenames) {
 
 			if (filenames.size() < 1 || filenames.get(0).length() < 1) {
