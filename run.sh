@@ -5,7 +5,9 @@ lib=$(readlink -f "./lib/native/linux64")
 snapshot="snapshot_blob.bin"
 natives="natives_blob.bin"
 icudtl="icudtl.dat"
-cp=`find ./lib/dependencies/ -iname "*.jar" ! -iname "*windows*" -exec readlink -f "{}" \; | tr "\n" ":"`
+cp=`find ./lib/dependencies/ -iname "*.jar" ! -iname "*windows*" -print0 \
+	| xargs -0 readlink -f \
+	| tr "\n" ":"`
 
 if [ ! -h "$jre_dir/$snapshot" -o ! -h "$jre_dir/$natives" -o ! -h "$jre_dir/$icudtl" ]; then
 	echo "Symbolic links need to be set up before running this script."
@@ -18,4 +20,7 @@ fi
 
 export LD_LIBRARY_PATH=$lib
 
-LD_PRELOAD="$lib/libcef.so" java -Djava.library.path="$lib" -cp "$cp" -jar target/eternity-0.1.jar
+LD_PRELOAD="$lib/libcef.so" java \
+	-Djava.library.path="$lib" \
+	-cp "${cp}target/eternity-0.1.jar" \
+	uk.me.mantas.eternity.EternityKeeper

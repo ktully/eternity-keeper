@@ -182,6 +182,7 @@ public class Environment {
 		USERPROFILE
 		, HOME
 		, SYSTEMDRIVE
+		, XDG_DATA_HOME
 	}
 
 	private Environment () {
@@ -190,13 +191,7 @@ public class Environment {
 	}
 
 	private void mapEnvironmentVariables () {
-		// A list of all the environment variables we care about:
-		EnvKey[] variables = new EnvKey[]{
-			EnvKey.USERPROFILE
-			, EnvKey.HOME
-			, EnvKey.SYSTEMDRIVE};
-
-		Arrays.stream(variables).forEach((variable) -> {
+		Arrays.stream(EnvKey.class.getEnumConstants()).forEach((variable) -> {
 			String value = System.getenv(variable.name());
 			if (value == null || value.equals("")) {
 				value = null;

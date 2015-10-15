@@ -39,42 +39,12 @@
 		</dependency>
 		<dependency>
 			<groupId>dependencies</groupId>
-			<artifactId>gluegen-rt-natives-windows-amd64</artifactId>
-			<version>1.0</version>
-		</dependency>
-		<dependency>
-			<groupId>dependencies</groupId>
-			<artifactId>gluegen-rt-natives-linux-amd64</artifactId>
-			<version>1.0</version>
-		</dependency>
-		<dependency>
-			<groupId>dependencies</groupId>
-			<artifactId>gluegen-rt-natives-windows-i586</artifactId>
-			<version>1.0</version>
-		</dependency>
-		<dependency>
-			<groupId>dependencies</groupId>
 			<artifactId>jcef</artifactId>
 			<version>1.0</version>
 		</dependency>
 		<dependency>
 			<groupId>dependencies</groupId>
 			<artifactId>jogl-all</artifactId>
-			<version>1.0</version>
-		</dependency>
-		<dependency>
-			<groupId>dependencies</groupId>
-			<artifactId>jogl-all-natives-windows-amd64</artifactId>
-			<version>1.0</version>
-		</dependency>
-		<dependency>
-			<groupId>dependencies</groupId>
-			<artifactId>jogl-all-natives-linux-amd64</artifactId>
-			<version>1.0</version>
-		</dependency>
-		<dependency>
-			<groupId>dependencies</groupId>
-			<artifactId>jogl-all-natives-windows-i586</artifactId>
 			<version>1.0</version>
 		</dependency>
 
@@ -148,12 +118,24 @@
 
 	<profiles>
 		<profile>
-			<id>Linux</id>
+			<id>linux64</id>
 			<activation>
 				<os>
 					<family>unix</family>
 				</os>
 			</activation>
+			<dependencies>
+				<dependency>
+					<groupId>dependencies</groupId>
+					<artifactId>gluegen-rt-natives-linux-amd64</artifactId>
+					<version>1.0</version>
+				</dependency>
+				<dependency>
+					<groupId>dependencies</groupId>
+					<artifactId>jogl-all-natives-linux-amd64</artifactId>
+					<version>1.0</version>
+				</dependency>
+			</dependencies>
 			<build>
 				<plugins>
 					<plugin>
@@ -188,12 +170,70 @@
 			</build>
 		</profile>
 		<profile>
-			<id>Windows</id>
+			<id>win64</id>
 			<activation>
 				<os>
-					<family>windows</family>
+					<family>dos</family>
+					<arch>amd64</arch>
 				</os>
 			</activation>
+			<dependencies>
+				<dependency>
+					<groupId>dependencies</groupId>
+					<artifactId>gluegen-rt-natives-windows-amd64</artifactId>
+					<version>1.0</version>
+				</dependency>
+				<dependency>
+					<groupId>dependencies</groupId>
+					<artifactId>jogl-all-natives-windows-amd64</artifactId>
+					<version>1.0</version>
+				</dependency>
+			</dependencies>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-shade-plugin</artifactId>
+						<version>2.3</version>
+						<configuration>
+							<transformers>
+								<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+									<mainClass>uk.me.mantas.eternity.EternityKeeper</mainClass>
+								</transformer>
+							</transformers>
+						</configuration>
+						<executions>
+							<execution>
+								<phase>package</phase>
+								<goals>
+									<goal>shade</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>win32</id>
+			<activation>
+				<os>
+					<family>dos</family>
+					<arch>x86</arch>
+				</os>
+			</activation>
+			<dependencies>
+				<dependency>
+					<groupId>dependencies</groupId>
+					<artifactId>gluegen-rt-natives-windows-i586</artifactId>
+					<version>1.0</version>
+				</dependency>
+				<dependency>
+					<groupId>dependencies</groupId>
+					<artifactId>jogl-all-natives-windows-i586</artifactId>
+					<version>1.0</version>
+				</dependency>
+			</dependencies>
 			<build>
 				<plugins>
 					<plugin>

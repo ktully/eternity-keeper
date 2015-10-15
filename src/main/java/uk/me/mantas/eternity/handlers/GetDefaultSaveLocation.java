@@ -41,31 +41,46 @@ public class GetDefaultSaveLocation extends CefMessageRouterHandlerAdapter {
 
 	@Override
 	public boolean onQuery (
-		CefBrowser browser
-		, long id
-		, String request
-		, boolean persistent
-		, CefQueryCallback callback) {
+		final CefBrowser browser
+		, final long id
+		, final String request
+		, final boolean persistent
+		, final CefQueryCallback callback) {
 
-		Environment environment = Environment.getInstance();
-		JSONObject settings = Settings.getInstance().json;
+		final Environment environment = Environment.getInstance();
+		final JSONObject settings = Settings.getInstance().json;
 		String defaultSaveLocation = null;
 		String defaultGameLocation = null;
 
 		try {
 			defaultSaveLocation = settings.getString("savesLocation");
-		} catch (JSONException ignored) {}
+		} catch (final JSONException ignored) {}
 
 		try {
 			defaultGameLocation = settings.getString("gameLocation");
-		} catch (JSONException ignored) {}
+		} catch (final JSONException ignored) {}
 
 		if (defaultSaveLocation == null || defaultSaveLocation.length() < 1) {
-			Optional<String> userProfile = environment.getEnvVar(EnvKey.USERPROFILE);
+			final Optional<String> userProfile = environment.getEnvVar(EnvKey.USERPROFILE);
+			final Optional<String> xdgDataHome = environment.getEnvVar(EnvKey.XDG_DATA_HOME);
+			final Optional<String> home = environment.getEnvVar(EnvKey.HOME);
+			final String linuxSaves = "PillarsOfEternity/SavedGames";
 
 			if (userProfile.isPresent()) {
-				Path defaultLocation = Paths.get(userProfile.get())
-					.resolve("Saved Games\\Pillars of Eternity");
+				final Path defaultLocation =
+					Paths.get(userProfile.get()).resolve("Saved Games\\Pillars of Eternity");
+
+				if (defaultLocation.toFile().exists()) {
+					defaultSaveLocation = defaultLocation.toString();
+				}
+			} else if (xdgDataHome.isPresent()) {
+				final Path defaultLocation = Paths.get(xdgDataHome.get()).resolve(linuxSaves);
+				if (defaultLocation.toFile().exists()) {
+					defaultSaveLocation = defaultLocation.toString();
+				}
+			} else if (home.isPresent()) {
+				final Path defaultLocation =
+					Paths.get(home.get()).resolve(".local/share").resolve(linuxSaves);
 
 				if (defaultLocation.toFile().exists()) {
 					defaultSaveLocation = defaultLocation.toString();
@@ -78,12 +93,21 @@ public class GetDefaultSaveLocation extends CefMessageRouterHandlerAdapter {
 		}
 
 		if (defaultGameLocation == null || defaultGameLocation.length() < 1) {
+			final Optional<String> systemDrive = environment.getEnvVar(EnvKey.SYSTEMDRIVE);
+			final Optional<String> home = environment.getEnvVar(EnvKey.HOME);
 			Optional<File> foundLocation = Optional.empty();
-			Optional<String> systemDrive = environment.getEnvVar(EnvKey.SYSTEMDRIVE);
 
 			if (systemDrive.isPresent()) {
-				Path root = Paths.get(systemDrive.get());
+				final Path root = Paths.get(systemDrive.get());
 				foundLocation = searchLikelyLocations(root.toFile());
+			} else if (home.isPresent()) {
+				final Path defaultLocation =
+					Paths.get(home.get())
+						.resolve(".steam/steam/SteamApps/common/Pillars of Eternity");
+
+				if (defaultLocation.toFile().exists()) {
+					foundLocation = Optional.of(defaultLocation.toFile());
+				}
 			}
 
 			if (foundLocation.isPresent()) {

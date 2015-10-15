@@ -64,8 +64,13 @@ public class EternityKeeper extends JFrame {
 		cefClient = cefApp.createClient();
 		addJSHandlers();
 
+		String index = "/src/ui/index.html";
+		if (OS.isLinux()) {
+			index = new File("src/ui/index.html").getAbsolutePath();
+		}
+
 		browser = cefClient.createBrowser(
-			"file:///src/ui/index.html"
+			String.format("file://%s", index)
 			, OS.isLinux()
 			, false);
 
