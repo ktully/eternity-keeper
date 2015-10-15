@@ -119,11 +119,6 @@
 	<profiles>
 		<profile>
 			<id>linux64</id>
-			<activation>
-				<os>
-					<family>unix</family>
-				</os>
-			</activation>
 			<dependencies>
 				<dependency>
 					<groupId>dependencies</groupId>
@@ -171,12 +166,6 @@
 		</profile>
 		<profile>
 			<id>win64</id>
-			<activation>
-				<os>
-					<family>dos</family>
-					<arch>amd64</arch>
-				</os>
-			</activation>
 			<dependencies>
 				<dependency>
 					<groupId>dependencies</groupId>
@@ -216,12 +205,6 @@
 		</profile>
 		<profile>
 			<id>win32</id>
-			<activation>
-				<os>
-					<family>dos</family>
-					<arch>x86</arch>
-				</os>
-			</activation>
 			<dependencies>
 				<dependency>
 					<groupId>dependencies</groupId>
