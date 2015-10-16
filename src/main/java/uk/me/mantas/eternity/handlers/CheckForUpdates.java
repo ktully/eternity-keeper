@@ -32,6 +32,7 @@ import uk.me.mantas.eternity.Logger;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.util.Arrays;
 import java.util.Optional;
 
 public class CheckForUpdates extends CefMessageRouterHandlerAdapter {
@@ -39,27 +40,25 @@ public class CheckForUpdates extends CefMessageRouterHandlerAdapter {
 
 	@Override
 	public boolean onQuery (
-		CefBrowser browser
-		, long id
-		, String request
-		, boolean persistent
-		, CefQueryCallback callback) {
+		final CefBrowser browser
+		, final long id
+		, final String request
+		, final boolean persistent
+		, final CefQueryCallback callback) {
 
-		Environment.getInstance().getWorkers().execute(
-			new UpdateChecker(callback));
-
+		Environment.getInstance().getWorkers().execute(new UpdateChecker(callback));
 		return true;
 	}
 
 	@Override
-	public void onQueryCanceled (CefBrowser browser, long id) {
+	public void onQueryCanceled (final CefBrowser browser, final long id) {
 		logger.error("Query #%d cancelled.%n", id);
 	}
 
 	private class UpdateChecker implements Runnable {
 		private final CefQueryCallback callback;
 
-		public UpdateChecker (CefQueryCallback callback) {
+		public UpdateChecker (final CefQueryCallback callback) {
 			this.callback = callback;
 		}
 
@@ -72,30 +71,63 @@ public class CheckForUpdates extends CefMessageRouterHandlerAdapter {
 					.toString());
 		}
 
-		private void update (String update) {
+		private void update (final String update) {
 			callback.success(
 				new JSONStringer()
 					.object()
-					.key("available").value(true)
-					.key("jar").value(update)
+						.key("available").value(true)
+						.key("timestamp").value(update)
 					.endObject()
 					.toString());
 		}
 
-		private Optional<String> isUpdate (String latest) {
-			File jarDirectory = Environment.getInstance().getJarDirectory();
-			if (!jarDirectory.exists()) {
+		private long getJarTimestamp (final File jarDirectory) {
+			final File[] jars = jarDirectory.listFiles();
+			if (jars == null) {
+				logger.error("Jar directory '%s' was empty.", jarDirectory.getAbsolutePath());
+				return 0L;
+			}
+
+			final Optional<File> timestampedJar =
+				Arrays.stream(jars)
+					// Matches a filename with 14 digits only.
+					.filter(jar -> jar.getName().matches("\\d{14}\\.jar"))
+					.findFirst();
+
+			if (!timestampedJar.isPresent()) {
+				logger.error("No timestamped jar in '%s'.", jarDirectory.getAbsolutePath());
+				return 0L;
+			}
+
+			final String timestamp = EKUtils.removeExtension(timestampedJar.get().getName());
+			try {
+				return Long.parseLong(timestamp);
+			} catch (final NumberFormatException e) {
+				logger.error("Unable to convert timestamp '%s' to long.", timestamp);
+			}
+
+			return 0L;
+		}
+
+		private Optional<String> isUpdate (final String latest) {
+			final File jarDirectory = Environment.getInstance().getJarDirectory();
+			if (latest.equals("false") || !jarDirectory.exists()) {
 				return Optional.empty();
 			}
 
-			File[] jars = jarDirectory.listFiles();
+			final File[] jars = jarDirectory.listFiles();
 			if (jars == null || jars.length < 1) {
 				return Optional.empty();
 			}
 
-			long currentTimestamp = EKUtils.getTimestampOfLatestJar(jars);
-			if (Long.parseLong(latest) > currentTimestamp) {
-				return Optional.of(latest + ".jar");
+			final long currentTimestamp = getJarTimestamp(jarDirectory);
+
+			try {
+				if (Long.parseLong(latest) > currentTimestamp) {
+					return Optional.of(latest);
+				}
+			} catch (final NumberFormatException e) {
+				return Optional.empty();
 			}
 
 			return Optional.empty();
@@ -104,20 +136,21 @@ public class CheckForUpdates extends CefMessageRouterHandlerAdapter {
 		@Override
 		public void run () {
 			try {
-				Content response =
-					Request.Get("http://eternity.mantas.me.uk/latest.php")
-						.execute().returnContent();
+				final String url = String.format(
+					"http://eternity.mantas.me.uk/updates/?platform=%s"
+					, Environment.detectPlatform());
 
-				Optional<String> updateAvailable =
-					isUpdate(
-						response.asString(Charset.forName("UTF-8")).trim());
+				final Content response = Request.Get(url).execute().returnContent();
+
+				final Optional<String> updateAvailable =
+					isUpdate(response.asString(Charset.forName("UTF-8")).trim());
 
 				if (updateAvailable.isPresent()) {
 					update(updateAvailable.get());
 				} else {
 					noUpdate();
 				}
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				callback.failure(-1, "HTTP_ERR");
 			}
 		}

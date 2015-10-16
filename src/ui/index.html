@@ -3,22 +3,22 @@
 <head>
 
 	<!--
-	  Eternity Keeper, a Pillars of Eternity save game editor.
-	  Copyright (C) 2015 Kim Mantas
-
-	  Eternity Keeper is free software: you can redistribute it and/or
-	  modify it under the terms of the GNU General Public License as
-	  published by the Free Software Foundation, either version 3 of the
-	  License, or (at your option) any later version.
-
-	  Eternity Keeper is distributed in the hope that it will be useful,
-	  but WITHOUT ANY WARRANTY; without even the implied warranty of
-	  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	  GNU General Public License for more details.
-
-	  You should have received a copy of the GNU General Public License
-	  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-	-->
+   | Eternity Keeper, a Pillars of Eternity save game editor.
+   | Copyright (C) 2015 Kim Mantas
+	 |
+   | Eternity Keeper is free software: you can redistribute it and/or
+   | modify it under the terms of the GNU General Public License as
+   | published by the Free Software Foundation, either version 3 of the
+   | License, or (at your option) any later version.
+	 |
+   | Eternity Keeper is distributed in the hope that it will be useful,
+   | but WITHOUT ANY WARRANTY; without even the implied warranty of
+   | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   | GNU General Public License for more details.
+	 |
+   | You should have received a copy of the GNU General Public License
+   | along with this program.  If not, see <http://www.gnu.org/licenses/>.
+	 -->
 
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -109,14 +109,12 @@
 	<div class="modal fade" id="checkUpdatesDialog" role="dialog">
 		<div class="modal-dialog modal-sm">
 			<div class="modal-content">
-				<div class="modal-header">
+				<div class="modal-body">
 					<button type="button" class="close" data-dismiss="modal">
 						<span>&times;</span>
 					</button>
-					<h4 class="modal-title">Check for updates</h4>
-				</div>
-				<div class="modal-body">
-					<div class="alert alert-danger" id="checkUpdatesError">
+					<div id="checkUpdatesContents"></div>
+					<!--<div class="alert alert-danger" id="checkUpdatesError">
 						There was an error checking for updates...
 					</div>
 					<div class="alert alert-danger" id="checkUpdatesDownloadFailed">
@@ -132,10 +130,8 @@
 						There is an update available!
 					</div>
 					<div id="checkUpdatesProgress" class="progress">
-						<div class="progress-bar progress-bar-success" role="progressbar">
-							Checking...
-						</div>
-					</div>
+						Checking... <span>0%</span>
+					</div>-->
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-primary btn-sm" id="checkUpdatesTryAgain">Check again</button>

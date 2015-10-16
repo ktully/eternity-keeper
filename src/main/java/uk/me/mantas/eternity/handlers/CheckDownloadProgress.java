@@ -51,7 +51,7 @@ public class CheckDownloadProgress extends CefMessageRouterHandlerAdapter {
 				percentage = 100;
 			}
 
-			respond(callback, percentage, downloader.jarDownloaded.get());
+			respond(callback, percentage);
 		}
 
 		return true;
@@ -62,11 +62,10 @@ public class CheckDownloadProgress extends CefMessageRouterHandlerAdapter {
 		logger.error("Query #%d cancelled.%n", id);
 	}
 
-	private void respond (CefQueryCallback callback, double percentage, boolean jarDownloaded) {
+	private void respond (CefQueryCallback callback, double percentage) {
 		callback.success(
 			new JSONStringer()
 				.object()
-					.key("jarDownloaded").value(jarDownloaded)
 					.key("percentage").value(percentage)
 				.endObject()
 				.toString());

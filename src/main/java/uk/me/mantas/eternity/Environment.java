@@ -20,6 +20,7 @@
 package uk.me.mantas.eternity;
 
 import org.apache.commons.io.FileUtils;
+import org.cef.OS;
 import uk.me.mantas.eternity.factory.FileFactory;
 import uk.me.mantas.eternity.factory.PacketDeserializerFactory;
 import uk.me.mantas.eternity.factory.SharpSerializerFactory;
@@ -58,20 +59,19 @@ public class Environment {
 	private static Environment instance = null;
 	private static final long SHUTDOWN_TIMEOUT_SECONDS = 20;
 	private ExecutorService workers =
-		Executors.newFixedThreadPool(
-			Runtime.getRuntime().availableProcessors());
+		Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 
 	private String companionPortraitPath = "data/art/gui/portraits/companion/portrait_%s_lg.png";
 	private SaveInfoLister currentSaveLister = null;
 	private UpdateDownloader currentUpdateDownloader = null;
 	private Map<EnvKey, String> environmentVariables = new HashMap<>();
 	private File previousSaveDirectory = null;
+	private File rootDirectory = new File(".");
 	private File settingsFile = new File(".", "settings.json");
 	private File jarDirectory = new File("jar");
 	private File uiDirectory = new File("src");
-	private File workingDirectory = new File(
-		System.getProperty("java.io.tmpdir")
-		, "EK-unpacked-saves");
+	private File workingDirectory =
+		new File(System.getProperty("java.io.tmpdir"), "EK-unpacked-saves");
 
 	public List<String> possibleInstallationLocations =
 		new ArrayList<String>()	{{
@@ -96,6 +96,14 @@ public class Environment {
 
 	public File getJarDirectory () {
 		return jarDirectory;
+	}
+
+	public File getRootDirectory () {
+		return rootDirectory;
+	}
+
+	public void setRootDirectory (File rootDirectory) {
+		this.rootDirectory = rootDirectory;
 	}
 
 	public void setJarDirectory (File jarDirectory) {
@@ -144,6 +152,18 @@ public class Environment {
 
 	public void setCurrentUpdateDownloader (UpdateDownloader currentUpdateDownloader) {
 		this.currentUpdateDownloader = currentUpdateDownloader;
+	}
+
+	public static String detectPlatform () {
+		if (OS.isWindows()) {
+			if (System.getenv("ProgramFiles(x86)") == null) {
+				return "win32";
+			} else {
+				return "win64";
+			}
+		} else {
+			return "linux64";
+		}
 	}
 
 	public void deleteWorkingDirectory () {

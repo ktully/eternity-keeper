@@ -32,12 +32,10 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 public class EKUtils {
 	private static final Logger logger = Logger.getLogger(EKUtils.class);
@@ -109,17 +107,6 @@ public class EKUtils {
 		}
 
 		return Optional.of(s.substring(s.lastIndexOf(".") + 1, s.length()));
-	}
-
-	public static long getTimestampOfLatestJar (File[] jars) {
-		java.util.List<Long> timestamps =
-			Arrays.stream(jars)
-				.map(File::getName)
-				.map(EKUtils::removeExtension)
-				.map(Long::parseLong)
-				.collect(Collectors.toList());
-
-		return Collections.max(timestamps);
 	}
 
 	public static <T> BinaryOperator<T> throwingMerger() {

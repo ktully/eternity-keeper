@@ -60,74 +60,55 @@ public class DownloadUpdate extends CefMessageRouterHandlerAdapter {
 	}
 
 	/**
-	 * This class is a bit messy because it was retroactively modified to take into account
-	 * updating the UI code as well as the Java code. What we want to do here is fire off one
-	 * request to the server for the new JAR and keep track of its download progress. Then we want
-	 * to signal that the JAR has finished downloading and then download the UI ZIP and keep track
-	 * of its progress too.
+	 * What we want to do here is fire off one request to the server for the new JAR and keep track
+	 * of its download progress. Then we want to signal that the JAR has finished downloading and
+	 * then download the UI ZIP and keep track of its progress too.
 	 */
 
 	public static class UpdateDownloader implements Runnable {
 		public long totalBytes = -1;
-		public AtomicLong currentBytes = new AtomicLong(0L);
-		public AtomicBoolean failed = new AtomicBoolean(false);
-		public AtomicBoolean jarDownloaded = new AtomicBoolean(false);
+		public final AtomicLong currentBytes = new AtomicLong(0L);
+		public final AtomicBoolean failed = new AtomicBoolean(false);
 
-		private final String jarName;
+		private final String updateTimestamp;
 		private final CefQueryCallback callback;
 
-		public UpdateDownloader (String jarName, CefQueryCallback callback) {
-			this.jarName = jarName;
+		public UpdateDownloader (final String updateTimestamp, final CefQueryCallback callback) {
+			this.updateTimestamp = updateTimestamp;
 			this.callback = callback;
 		}
 
 		@Override
 		public void run () {
-			downloadJAR();
-			jarDownloaded.set(true);
-
-			if (!failed.get()) {
-				downloadUI();
-			}
+			final String updateZip = String.format("%s.zip", updateTimestamp);
+			final File destination =
+				new File(Environment.getInstance().getRootDirectory(), updateZip);
+			downloadLatest(destination);
 		}
 
-		private void downloadJAR () {
-			File destination = new File(Environment.getInstance().getJarDirectory(), jarName);
-			downloadLatest("download", destination);
-		}
-
-		private void downloadUI () {
-			String uiName = uiNameFromJARName();
-			File destination = new File(Environment.getInstance().getUiDirectory(), uiName);
-			downloadLatest("ui", destination);
-		}
-
-		private String uiNameFromJARName () {
-			return jarName.replace("jar", "zip");
-		}
-
-		private void downloadLatest (String querystr, File destination) {
-			HttpClient client = HttpClients.createDefault();
-			HttpGet request = new HttpGet("http://eternity.mantas.me.uk/latest.php?" + querystr);
+		private void downloadLatest (final File destination) {
+			final String url = String.format(
+				"http://eternity.mantas.me.uk/updates/?platform=%s&download"
+				, Environment.detectPlatform());
+			final HttpClient client = HttpClients.createDefault();
+			final HttpGet request = new HttpGet(url);
 
 			try {
-				HttpResponse response = client.execute(request);
-				Header[] contentLength =
-					response.getHeaders("X-Content-Length");
+				final HttpResponse response = client.execute(request);
+				final Header[] contentLength = response.getHeaders("X-Content-Length");
 
 				if (contentLength != null && contentLength.length > 0) {
 					totalBytes = Long.parseLong(contentLength[0].getValue());
 				}
 
-				HttpEntity entity = response.getEntity();
-
+				final HttpEntity entity = response.getEntity();
 				if (entity == null) {
 					callback.failure(-1, "HTTP_ERR");
 					return;
 				}
 
-				try (InputStream in = new BufferedInputStream(entity.getContent());
-					OutputStream out =
+				try (final InputStream in = new BufferedInputStream(entity.getContent());
+					final OutputStream out =
 						new BufferedOutputStream(new FileOutputStream(destination))) {
 
 					signalStarted();
@@ -145,11 +126,8 @@ public class DownloadUpdate extends CefMessageRouterHandlerAdapter {
 
 					currentBytes.set(totalBytes);
 				}
-			} catch (IOException e) {
-				logger.error(
-					"Error downloading update: %s%n"
-					, e.getMessage());
-
+			} catch (final IOException e) {
+				logger.error("Error downloading update: %s%n", e.getMessage());
 				callback.failure(-1, "IO_EXCEPTION");
 				failed.set(true);
 			}
@@ -158,10 +136,7 @@ public class DownloadUpdate extends CefMessageRouterHandlerAdapter {
 		private void signalStarted () {
 			// We only want to signal that we've started downloading once. The download progress
 			// checker will take care of the rest.
-
-			if (!jarDownloaded.get()) {
-				callback.success("true");
-			}
+			callback.success("true");
 		}
 	}
 }

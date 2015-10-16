@@ -145,9 +145,11 @@
 							</transformers>
 							<artifactSet>
 								<excludes>
-									<!-- We exclude the native dependencies from the UberJAR on linux because this
-									  |  causes weird crashes for some reason. These need to be packaged separately
-									  |  and specified on the java classpath when the linux version is run. -->
+									<!--
+									 | We exclude the native dependencies from the UberJAR on linux because this
+									 | causes weird crashes for some reason. These need to be packaged separately
+									 | and specified on the java classpath when the linux version is run.
+									 -->
 									<exclude>dependencies:*</exclude>
 								</excludes>
 							</artifactSet>

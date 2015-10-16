@@ -26,13 +26,11 @@ import uk.me.mantas.eternity.serializer.properties.ComplexProperty;
 import uk.me.mantas.eternity.serializer.properties.Property;
 import uk.me.mantas.eternity.serializer.properties.SingleDimensionalArrayProperty;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 import static uk.me.mantas.eternity.EKUtils.*;
 
 public class EKUtilsTest {
@@ -66,24 +64,6 @@ public class EKUtilsTest {
 		assertFalse(getExtension("noextension").isPresent());
 		assertEquals("ext", getExtension("file.ext").get());
 		assertEquals("ext", getExtension("file.part.ext").get());
-	}
-
-	public File mockJar (final String name) {
-		final File mockFile = mock(File.class);
-		when(mockFile.getName()).thenReturn(name);
-
-		return mockFile;
-	}
-
-	@Test
-	public void getTimestampOfLatestJarTest () {
-		final File[] jars = new File[]{
-			mockJar("0")
-			, mockJar("1")
-			, mockJar("2")
-		};
-
-		assertEquals(2, getTimestampOfLatestJar(jars));
 	}
 
 	@Test

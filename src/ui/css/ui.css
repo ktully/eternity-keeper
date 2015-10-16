@@ -371,3 +371,6 @@ ul.multi-selector li:hover {
 ul.multi-selector i {
 	float: right;
 }
+span.danger {
+	color: #a94442;
+}
