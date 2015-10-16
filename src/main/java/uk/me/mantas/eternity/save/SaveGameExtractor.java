@@ -105,6 +105,7 @@ public class SaveGameExtractor {
 		totalFiles.set(saveFiles.length);
 		currentCount.set(0);
 
+		Arrays.sort(saveFiles); // Just for determinism in the tests.
 		SaveGameInfo[] info =
 			Arrays.stream(saveFiles)
 				.map(this::unpackSave)

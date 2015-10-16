@@ -40,8 +40,9 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 public class GetDefaultSaveLocationTest extends TestHarness {
-	private static final String NO_DEFAULT =
-		"{\"savesLocation\":\"\",\"gameLocation\":\"\"}";
+	private static final String NO_DEFAULT = "{\"savesLocation\":\"\",\"gameLocation\":\"\"}";
+	private static final String JSON_SKELETON =
+		"{\"savesLocation\":\"%s\",\"gameLocation\":\"%s\"}";
 
 	@Before
 	public void setup () throws NoSuchFieldException, IllegalAccessException {
@@ -51,30 +52,34 @@ public class GetDefaultSaveLocationTest extends TestHarness {
 
 	@Test
 	public void onQueryNoUserProfileTest () {
-		Environment environment = Environment.getInstance();
-		GetDefaultSaveLocation cls = new GetDefaultSaveLocation();
-		CefBrowser mockBrowser = mock(CefBrowser.class);
-		CefQueryCallback mockCallback = mock(CefQueryCallback.class);
+		final Environment environment = Environment.getInstance();
+		final GetDefaultSaveLocation cls = new GetDefaultSaveLocation();
+		final CefBrowser mockBrowser = mock(CefBrowser.class);
+		final CefQueryCallback mockCallback = mock(CefQueryCallback.class);
 
 		// No USERPROFILE environment variable.
 		environment.setEnvVar(EnvKey.USERPROFILE, null);
 		environment.setEnvVar(EnvKey.SYSTEMDRIVE, null);
+		environment.setEnvVar(EnvKey.XDG_DATA_HOME, null);
+		environment.setEnvVar(EnvKey.HOME, null);
 		cls.onQuery(mockBrowser, 0, "", false, mockCallback);
 		verify(mockCallback).success(NO_DEFAULT);
 	}
 
 	@Test
 	public void onQueryNoPillarsSavesTest () {
-		Environment environment = Environment.getInstance();
-		GetDefaultSaveLocation cls = new GetDefaultSaveLocation();
-		CefBrowser mockBrowser = mock(CefBrowser.class);
-		CefQueryCallback mockCallback = mock(CefQueryCallback.class);
+		final Environment environment = Environment.getInstance();
+		final GetDefaultSaveLocation cls = new GetDefaultSaveLocation();
+		final CefBrowser mockBrowser = mock(CefBrowser.class);
+		final CefQueryCallback mockCallback = mock(CefQueryCallback.class);
 
-		Optional<File> saveLocation = EKUtils.createTempDir(PREFIX);
+		final Optional<File> saveLocation = EKUtils.createTempDir(PREFIX);
 		assertTrue(saveLocation.isPresent());
 
 		environment.setEnvVar(EnvKey.USERPROFILE, saveLocation.get().getAbsolutePath());
 		environment.setEnvVar(EnvKey.SYSTEMDRIVE, "404");
+		environment.setEnvVar(EnvKey.XDG_DATA_HOME, null);
+		environment.setEnvVar(EnvKey.HOME, null);
 
 		// USERPROFILE environment variable is set but no Pillars directory.
 		cls.onQuery(mockBrowser, 0, "", false, mockCallback);
@@ -83,49 +88,51 @@ public class GetDefaultSaveLocationTest extends TestHarness {
 
 	@Test
 	public void onQueryFoundSaves () {
-		Environment environment = Environment.getInstance();
-		GetDefaultSaveLocation cls = new GetDefaultSaveLocation();
-		CefBrowser mockBrowser = mock(CefBrowser.class);
-		CefQueryCallback mockCallback = mock(CefQueryCallback.class);
+		final Environment environment = Environment.getInstance();
+		final GetDefaultSaveLocation cls = new GetDefaultSaveLocation();
+		final CefBrowser mockBrowser = mock(CefBrowser.class);
+		final CefQueryCallback mockCallback = mock(CefQueryCallback.class);
 
-		Optional<File> saveLocation = EKUtils.createTempDir(PREFIX);
+		final Optional<File> saveLocation = EKUtils.createTempDir(PREFIX);
 		assertTrue(saveLocation.isPresent());
 
 		environment.setEnvVar(EnvKey.USERPROFILE, saveLocation.get().getAbsolutePath());
 		environment.setEnvVar(EnvKey.SYSTEMDRIVE, "404");
+		environment.setEnvVar(EnvKey.XDG_DATA_HOME, null);
+		environment.setEnvVar(EnvKey.HOME, null);
 
-		File pillarsSaves = saveLocation.get().toPath()
-			.resolve("Saved Games\\Pillars of Eternity").toFile();
+		final File pillarsSaves =
+			saveLocation.get().toPath().resolve("Saved Games\\Pillars of Eternity").toFile();
 
 		assertTrue(pillarsSaves.mkdirs());
 
 		// We actually have a default save directory.
 		cls.onQuery(mockBrowser, 0, "", false, mockCallback);
 		verify(mockCallback).success(
-			String.format(
-				"{\"savesLocation\":\"%s\",\"gameLocation\":\"\"}"
-				, pillarsSaves.getAbsolutePath().replace("\\", "\\\\")));
+			String.format(JSON_SKELETON, pillarsSaves.getAbsolutePath().replace("\\", "\\\\"), ""));
 	}
 
 	@Test
 	public void onQueryFoundGameInstallation () {
-		Environment environment = Environment.getInstance();
-		GetDefaultSaveLocation cls = new GetDefaultSaveLocation();
-		CefBrowser mockBrowser = mock(CefBrowser.class);
-		CefQueryCallback mockCallback = mock(CefQueryCallback.class);
+		final Environment environment = Environment.getInstance();
+		final GetDefaultSaveLocation cls = new GetDefaultSaveLocation();
+		final CefBrowser mockBrowser = mock(CefBrowser.class);
+		final CefQueryCallback mockCallback = mock(CefQueryCallback.class);
 
-		Optional<File> gameLocation = EKUtils.createTempDir(PREFIX);
+		final Optional<File> gameLocation = EKUtils.createTempDir(PREFIX);
 		assertTrue(gameLocation.isPresent());
 
 		environment.setEnvVar(EnvKey.USERPROFILE, "404");
 		environment.setEnvVar(EnvKey.SYSTEMDRIVE, gameLocation.get().getAbsolutePath());
+		environment.setEnvVar(EnvKey.XDG_DATA_HOME, null);
+		environment.setEnvVar(EnvKey.HOME, null);
 
 		environment.possibleInstallationLocations = new ArrayList<>();
 		environment.possibleInstallationLocations.add("first");
 		environment.possibleInstallationLocations.add("second");
 
-		File firstLocation = new File(gameLocation.get(), "first");
-		File secondLocation = new File(gameLocation.get(), "second");
+		final File firstLocation = new File(gameLocation.get(), "first");
+		final File secondLocation = new File(gameLocation.get(), "second");
 
 		assertTrue(firstLocation.mkdirs());
 		assertTrue(secondLocation.mkdirs());
@@ -133,7 +140,65 @@ public class GetDefaultSaveLocationTest extends TestHarness {
 		cls.onQuery(mockBrowser, 0, "", false, mockCallback);
 		verify(mockCallback).success(
 			String.format(
-				"{\"savesLocation\":\"\",\"gameLocation\":\"%s\"}"
+				JSON_SKELETON
+				, ""
 				, firstLocation.getAbsolutePath().replace("\\", "\\\\")));
+	}
+
+	@Test
+	public void findsLinuxSaveDirectory () {
+		final Environment environment = Environment.getInstance();
+		final GetDefaultSaveLocation cls = new GetDefaultSaveLocation();
+		final CefBrowser mockBrowser = mock(CefBrowser.class);
+		final CefQueryCallback mockCallback = mock(CefQueryCallback.class);
+
+		final Optional<File> saveLocation = EKUtils.createTempDir(PREFIX);
+		assertTrue(saveLocation.isPresent());
+
+		environment.setEnvVar(EnvKey.USERPROFILE, null);
+		environment.setEnvVar(EnvKey.SYSTEMDRIVE, null);
+		environment.setEnvVar(EnvKey.XDG_DATA_HOME, saveLocation.get().getAbsolutePath());
+
+		final File pillarsSaves =
+			saveLocation.get().toPath().resolve("PillarsOfEternity/SavedGames").toFile();
+
+		assertTrue(pillarsSaves.mkdirs());
+
+		cls.onQuery(mockBrowser, 0, "", false, mockCallback);
+		verify(mockCallback).success(
+			String.format(JSON_SKELETON, pillarsSaves.getAbsolutePath(), ""));
+
+		environment.setEnvVar(EnvKey.XDG_DATA_HOME, null);
+		environment.setEnvVar(EnvKey.HOME, saveLocation.get().getAbsolutePath());
+
+		cls.onQuery(mockBrowser, 0, "", false, mockCallback);
+		verify(mockCallback).success(
+			String.format(JSON_SKELETON, pillarsSaves.getAbsolutePath(), ""));
+	}
+
+	@Test
+	public void findsLinuxGameDirectory () {
+		final Environment environment = Environment.getInstance();
+		final GetDefaultSaveLocation cls = new GetDefaultSaveLocation();
+		final CefBrowser mockBrowser = mock(CefBrowser.class);
+		final CefQueryCallback mockCallback = mock(CefQueryCallback.class);
+
+		final Optional<File> gameLocation = EKUtils.createTempDir(PREFIX);
+		assertTrue(gameLocation.isPresent());
+
+		environment.setEnvVar(EnvKey.USERPROFILE, null);
+		environment.setEnvVar(EnvKey.SYSTEMDRIVE, null);
+		environment.setEnvVar(EnvKey.XDG_DATA_HOME, null);
+		environment.setEnvVar(EnvKey.HOME, gameLocation.get().getAbsolutePath());
+
+		final File pillarsInstall =
+			gameLocation.get().toPath()
+				.resolve(".steam/steam/SteamApps/common/Pillars of Eternity").toFile();
+
+		assertTrue(pillarsInstall.mkdirs());
+
+		cls.onQuery(mockBrowser, 0, "", false, mockCallback);
+		verify(mockCallback).success(
+			String.format(JSON_SKELETON, "", pillarsInstall.getAbsolutePath()));
 	}
 }
