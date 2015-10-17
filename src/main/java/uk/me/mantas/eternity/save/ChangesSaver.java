@@ -30,9 +30,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.DOMException;
 import uk.me.mantas.eternity.EKUtils;
-import uk.me.mantas.eternity.Environment;
 import uk.me.mantas.eternity.Logger;
 import uk.me.mantas.eternity.Settings;
+import uk.me.mantas.eternity.environment.Environment;
 import uk.me.mantas.eternity.factory.PacketDeserializerFactory;
 import uk.me.mantas.eternity.game.ObjectPersistencePacket;
 import uk.me.mantas.eternity.handlers.SaveChanges;
@@ -57,10 +57,10 @@ public class ChangesSaver implements Runnable {
 	private final JSONObject request;
 	private final PacketDeserializerFactory packetDeserializer;
 
-	public ChangesSaver (String request, CefQueryCallback callback) {
+	public ChangesSaver (final String request, final CefQueryCallback callback) {
 		this.callback = callback;
 		this.request = new JSONObject(request);
-		packetDeserializer = Environment.getInstance().packetDeserializer();
+		packetDeserializer = Environment.getInstance().factory().packetDeserializer();
 	}
 
 	@Override
@@ -72,7 +72,7 @@ public class ChangesSaver implements Runnable {
 			final String absolutePath = request.getString("absolutePath");
 			final JSONObject saveData = request.getJSONObject("saveData");
 
-			File saveDirectory = environment.getPreviousSaveDirectory();
+			File saveDirectory = environment.state().previousSaveDirectory();
 			if (savedYet && saveDirectory == null) {
 				logger.error(
 					"Client claimed we had already saved but "
@@ -83,19 +83,19 @@ public class ChangesSaver implements Runnable {
 
 			if (!savedYet) {
 				saveDirectory = createNewSave(absolutePath);
-				environment.setPreviousSaveDirectory(saveDirectory);
+				environment.state().previousSaveDirectory(saveDirectory);
 			}
 
 			updateSaveInfo(saveDirectory, saveName);
 			updateMobileObjects(saveDirectory, saveData);
 			packageSaveGame(saveDirectory);
 			callback.success("{\"success\":true}");
-		} catch (JSONException e) {
+		} catch (final JSONException e) {
 			callback.failure(-1, SaveChanges.jsonError());
-		} catch (IOException | ZipException e) {
+		} catch (final IOException | ZipException e) {
 			logger.error("%s%n", e.getMessage());
 			callback.failure(-1, SaveChanges.ioError());
-		} catch (DeserializationException e) {
+		} catch (final DeserializationException e) {
 			logger.error("Unable to deserialize new save.%n");
 			callback.failure(-1, SaveChanges.deserializationError());
 		}
@@ -291,14 +291,14 @@ public class ChangesSaver implements Runnable {
 		FileUtils.writeByteArrayToFile(saveinfoXML, newContentsBytes, false);
 	}
 
-	private File createNewSave (String absolutePath) throws IOException {
-		Environment environment = Environment.getInstance();
-		File workingDirectory = environment.getWorkingDirectory();
-		File oldSave = new File(absolutePath);
-		String sessionID = oldSave.getName().split(" ")[0].replace("-", "");
+	private File createNewSave (final String absolutePath) throws IOException {
+		final Environment environment = Environment.getInstance();
+		final File workingDirectory = environment.directory().working();
+		final File oldSave = new File(absolutePath);
+		final String sessionID = oldSave.getName().split(" ")[0].replace("-", "");
 
-		int gameID = getAvailableGameID(workingDirectory, sessionID);
-		File newDirectory = createNewSaveDirectory(
+		final int gameID = getAvailableGameID(workingDirectory, sessionID);
+		final File newDirectory = createNewSaveDirectory(
 			workingDirectory
 			, oldSave.getName()
 			, sessionID

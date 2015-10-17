@@ -18,7 +18,7 @@
 
 package uk.me.mantas.eternity.serializer;
 
-import uk.me.mantas.eternity.Environment;
+import uk.me.mantas.eternity.environment.Environment;
 import uk.me.mantas.eternity.factory.SharpSerializerFactory;
 import uk.me.mantas.eternity.serializer.properties.Property;
 import uk.me.mantas.eternity.serializer.properties.SimpleProperty;
@@ -39,7 +39,7 @@ public class PacketDeserializer {
 
 	public PacketDeserializer (final File file) {
 		this.file = file;
-		sharpSerializer = Environment.getInstance().sharpSerializer();
+		sharpSerializer = Environment.getInstance().factory().sharpSerializer();
 	}
 
 	public PacketDeserializer (final String filename) {

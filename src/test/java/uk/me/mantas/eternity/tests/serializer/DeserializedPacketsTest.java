@@ -21,7 +21,7 @@ package uk.me.mantas.eternity.tests.serializer;
 
 import org.junit.Test;
 import org.mockito.InOrder;
-import uk.me.mantas.eternity.Environment;
+import uk.me.mantas.eternity.environment.Environment;
 import uk.me.mantas.eternity.serializer.DeserializedPackets;
 import uk.me.mantas.eternity.serializer.SharpSerializer;
 import uk.me.mantas.eternity.serializer.properties.Property;

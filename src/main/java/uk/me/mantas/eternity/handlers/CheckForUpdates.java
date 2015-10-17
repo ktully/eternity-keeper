@@ -26,8 +26,8 @@ import org.cef.callback.CefQueryCallback;
 import org.cef.handler.CefMessageRouterHandlerAdapter;
 import org.json.JSONStringer;
 import uk.me.mantas.eternity.EKUtils;
-import uk.me.mantas.eternity.Environment;
 import uk.me.mantas.eternity.Logger;
+import uk.me.mantas.eternity.environment.Environment;
 
 import java.io.File;
 import java.io.IOException;
@@ -46,7 +46,7 @@ public class CheckForUpdates extends CefMessageRouterHandlerAdapter {
 		, final boolean persistent
 		, final CefQueryCallback callback) {
 
-		Environment.getInstance().getWorkers().execute(new UpdateChecker(callback));
+		Environment.getInstance().workers().execute(new UpdateChecker(callback));
 		return true;
 	}
 
@@ -84,7 +84,7 @@ public class CheckForUpdates extends CefMessageRouterHandlerAdapter {
 		private long getJarTimestamp (final File jarDirectory) {
 			final File[] jars = jarDirectory.listFiles();
 			if (jars == null) {
-				logger.error("Jar directory '%s' was empty.", jarDirectory.getAbsolutePath());
+				logger.error("Jar directory '%s' was empty.%n", jarDirectory.getAbsolutePath());
 				return 0L;
 			}
 
@@ -95,7 +95,7 @@ public class CheckForUpdates extends CefMessageRouterHandlerAdapter {
 					.findFirst();
 
 			if (!timestampedJar.isPresent()) {
-				logger.error("No timestamped jar in '%s'.", jarDirectory.getAbsolutePath());
+				logger.error("No timestamped jar in '%s'.&n", jarDirectory.getAbsolutePath());
 				return 0L;
 			}
 
@@ -103,14 +103,14 @@ public class CheckForUpdates extends CefMessageRouterHandlerAdapter {
 			try {
 				return Long.parseLong(timestamp);
 			} catch (final NumberFormatException e) {
-				logger.error("Unable to convert timestamp '%s' to long.", timestamp);
+				logger.error("Unable to convert timestamp '%s' to long.%n", timestamp);
 			}
 
 			return 0L;
 		}
 
 		private Optional<String> isUpdate (final String latest) {
-			final File jarDirectory = Environment.getInstance().getJarDirectory();
+			final File jarDirectory = Environment.getInstance().directory().jar();
 			if (latest.equals("false") || !jarDirectory.exists()) {
 				return Optional.empty();
 			}

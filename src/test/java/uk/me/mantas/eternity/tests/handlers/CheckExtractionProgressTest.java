@@ -22,7 +22,7 @@ package uk.me.mantas.eternity.tests.handlers;
 import org.cef.browser.CefBrowser;
 import org.cef.callback.CefQueryCallback;
 import org.junit.Test;
-import uk.me.mantas.eternity.Environment;
+import uk.me.mantas.eternity.environment.Environment;
 import uk.me.mantas.eternity.handlers.CheckExtractionProgress;
 import uk.me.mantas.eternity.save.SaveGameExtractor;
 import uk.me.mantas.eternity.tests.TestHarness;
@@ -54,7 +54,7 @@ public class CheckExtractionProgressTest extends TestHarness {
 		CefQueryCallback mockCallback = mock(CefQueryCallback.class);
 		SaveInfoLister mockLister = mock(SaveInfoLister.class);
 
-		environment.setCurrentSaveLister(mockLister);
+		environment.state().currentSaveLister(mockLister);
 		CheckExtractionProgress cls = new CheckExtractionProgress();
 		cls.onQuery(mockBrowser, 0, "true", false, mockCallback);
 
@@ -69,7 +69,7 @@ public class CheckExtractionProgressTest extends TestHarness {
 		SaveInfoLister mockLister = mock(SaveInfoLister.class);
 		SaveGameExtractor mockExtractor = mock(SaveGameExtractor.class);
 
-		environment.setCurrentSaveLister(mockLister);
+		environment.state().currentSaveLister(mockLister);
 		mockLister.extractor = mockExtractor;
 		mockExtractor.currentCount = new AtomicInteger(1);
 		mockExtractor.totalFiles = new AtomicInteger(3);

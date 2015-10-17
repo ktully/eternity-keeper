@@ -23,8 +23,8 @@ import org.apache.commons.io.FileUtils;
 import org.json.JSONObject;
 import org.junit.Test;
 import uk.me.mantas.eternity.EKUtils;
-import uk.me.mantas.eternity.Environment;
 import uk.me.mantas.eternity.Settings;
+import uk.me.mantas.eternity.environment.Environment;
 
 import java.io.File;
 import java.io.IOException;
@@ -39,7 +39,7 @@ public class SettingsTest extends TestHarness {
 		assertTrue(settingsLocation.isPresent());
 
 		File settingsFile = new File(settingsLocation.get(), "settings.json");
-		Environment.getInstance().setSettingsFile(settingsFile);
+		Environment.getInstance().directory().settingsFile(settingsFile);
 		assertFalse(settingsFile.exists());
 
 		Settings.initialise();
@@ -57,7 +57,7 @@ public class SettingsTest extends TestHarness {
 		assertTrue(settingsLocation.isPresent());
 
 		File settingsFile = new File(settingsLocation.get(), "settings.json");
-		Environment.getInstance().setSettingsFile(settingsFile);
+		Environment.getInstance().directory().settingsFile(settingsFile);
 		assertTrue(settingsFile.createNewFile());
 
 		FileUtils.writeStringToFile(settingsFile, SETTINGS_JSON, "UTF-8");

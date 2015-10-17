@@ -22,9 +22,9 @@ package uk.me.mantas.eternity.tests;
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
-import uk.me.mantas.eternity.Environment;
 import uk.me.mantas.eternity.Logger;
 import uk.me.mantas.eternity.Settings;
+import uk.me.mantas.eternity.environment.*;
 import uk.me.mantas.eternity.factory.SharpSerializerFactory;
 import uk.me.mantas.eternity.serializer.SharpSerializer;
 
@@ -96,7 +96,19 @@ public abstract class TestHarness {
 			assertNull(e);
 		}
 
-		when(mockEnvironment.getWorkers()).thenReturn(environment.getWorkers());
+		final Configuration mockConfiguration = mock(Configuration.class);
+		final Directories mockDirectories = mock(Directories.class);
+		final Factories mockFactory = mock(Factories.class);
+		final State mockState = mock(State.class);
+		final Variables mockVariables = mock(Variables.class);
+
+		when(mockEnvironment.config()).thenReturn(mockConfiguration);
+		when(mockEnvironment.directory()).thenReturn(mockDirectories);
+		when(mockEnvironment.factory()).thenReturn(mockFactory);
+		when(mockEnvironment.state()).thenReturn(mockState);
+		when(mockEnvironment.variables()).thenReturn(mockVariables);
+		when(mockEnvironment.workers()).thenReturn(environment.workers());
+
 		return mockEnvironment;
 	}
 
@@ -145,7 +157,7 @@ public abstract class TestHarness {
 		final SharpSerializerFactory mockSerializerFactory = mock(SharpSerializerFactory.class);
 		final SharpSerializer mockSerializer = mock(SharpSerializer.class);
 
-		when(mockEnvironment.sharpSerializer()).thenReturn(mockSerializerFactory);
+		when(mockEnvironment.factory().sharpSerializer()).thenReturn(mockSerializerFactory);
 		when(mockSerializerFactory.forFile(anyString())).thenReturn(mockSerializer);
 
 		return mockSerializer;

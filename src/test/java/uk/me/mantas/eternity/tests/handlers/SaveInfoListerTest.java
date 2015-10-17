@@ -22,7 +22,7 @@ package uk.me.mantas.eternity.tests.handlers;
 import org.cef.callback.CefQueryCallback;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
-import uk.me.mantas.eternity.Environment;
+import uk.me.mantas.eternity.environment.Environment;
 import uk.me.mantas.eternity.handlers.ListSavedGames.SaveInfoLister;
 import uk.me.mantas.eternity.save.SaveGameExtractor;
 import uk.me.mantas.eternity.save.SaveGameInfo;
@@ -74,7 +74,7 @@ public class SaveInfoListerTest extends TestHarness {
 	public void noSaveFilesFound () throws IOException {
 		CefQueryCallback mockCallback = mock(CefQueryCallback.class);
 		File workingDirectory = Files.createTempDirectory(PREFIX).toFile();
-		Environment.getInstance().setWorkingDirectory(workingDirectory);
+		Environment.getInstance().directory().working(workingDirectory);
 
 		new SaveInfoLister("404", mockCallback).run();
 		verify(mockCallback).success(NO_RESULTS);
@@ -84,7 +84,7 @@ public class SaveInfoListerTest extends TestHarness {
 	public void saveFilesListedSuccessfully () throws IOException, URISyntaxException {
 		CefQueryCallback mockCallback = mock(CefQueryCallback.class);
 		File workingDirectory = Files.createTempDirectory(PREFIX).toFile();
-		Environment.getInstance().setWorkingDirectory(workingDirectory);
+		Environment.getInstance().directory().working(workingDirectory);
 
 		String save1 = new File(workingDirectory, "guid systemname.savegame")
 			.getAbsolutePath().replace("\\", "\\\\");

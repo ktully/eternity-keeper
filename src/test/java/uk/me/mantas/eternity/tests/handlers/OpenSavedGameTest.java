@@ -22,7 +22,7 @@ package uk.me.mantas.eternity.tests.handlers;
 import org.cef.browser.CefBrowser;
 import org.cef.callback.CefQueryCallback;
 import org.junit.Test;
-import uk.me.mantas.eternity.Environment;
+import uk.me.mantas.eternity.environment.Environment;
 import uk.me.mantas.eternity.handlers.OpenSavedGame;
 import uk.me.mantas.eternity.tests.TestHarness;
 
@@ -52,7 +52,7 @@ public class OpenSavedGameTest extends TestHarness {
 		ExecutorService mockWorkers = mock(ExecutorService.class);
 		OpenSavedGame cls = new OpenSavedGame();
 
-		when(mockEnvironment.getWorkers()).thenReturn(mockWorkers);
+		when(mockEnvironment.workers()).thenReturn(mockWorkers);
 
 		File tmp = File.createTempFile(PREFIX, "OpenSavedGameTest");
 		cls.onQuery(mockBrowser, 0, tmp.getAbsolutePath(), false, mockCallback);

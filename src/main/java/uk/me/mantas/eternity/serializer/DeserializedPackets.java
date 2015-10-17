@@ -19,7 +19,7 @@
 
 package uk.me.mantas.eternity.serializer;
 
-import uk.me.mantas.eternity.Environment;
+import uk.me.mantas.eternity.environment.Environment;
 import uk.me.mantas.eternity.factory.SharpSerializerFactory;
 import uk.me.mantas.eternity.serializer.properties.Property;
 import uk.me.mantas.eternity.serializer.properties.SimpleProperty;
@@ -36,7 +36,7 @@ public class DeserializedPackets {
 	public DeserializedPackets (final List<Property> packets, final SimpleProperty count) {
 		this.packets = packets;
 		this.count = count;
-		sharpSerializer = Environment.getInstance().sharpSerializer();
+		sharpSerializer = Environment.getInstance().factory().sharpSerializer();
 	}
 
 	public List<Property> getPackets () {

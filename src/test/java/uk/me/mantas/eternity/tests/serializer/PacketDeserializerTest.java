@@ -19,7 +19,7 @@
 package uk.me.mantas.eternity.tests.serializer;
 
 import org.junit.Test;
-import uk.me.mantas.eternity.Environment;
+import uk.me.mantas.eternity.environment.Environment;
 import uk.me.mantas.eternity.serializer.DeserializedPackets;
 import uk.me.mantas.eternity.serializer.PacketDeserializer;
 import uk.me.mantas.eternity.serializer.SharpSerializer;

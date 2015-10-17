@@ -19,7 +19,7 @@
 
 package uk.me.mantas.eternity.save;
 
-import uk.me.mantas.eternity.Environment;
+import uk.me.mantas.eternity.environment.Environment;
 import uk.me.mantas.eternity.factory.PacketDeserializerFactory;
 import uk.me.mantas.eternity.factory.SharpSerializerFactory;
 import uk.me.mantas.eternity.game.ObjectPersistencePacket;
@@ -68,8 +68,8 @@ public class CharacterExporter {
 		this.guid = guid;
 
 		final Environment environment = Environment.getInstance();
-		packetDeserializer = environment.packetDeserializer();
-		sharpSerializer = environment.sharpSerializer();
+		packetDeserializer = environment.factory().packetDeserializer();
+		sharpSerializer = environment.factory().sharpSerializer();
 	}
 
 	public boolean export () throws FileNotFoundException {

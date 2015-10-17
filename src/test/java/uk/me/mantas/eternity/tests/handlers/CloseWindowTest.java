@@ -23,8 +23,8 @@ import org.cef.browser.CefBrowser;
 import org.cef.callback.CefQueryCallback;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
-import uk.me.mantas.eternity.Environment;
 import uk.me.mantas.eternity.WindowCloser;
+import uk.me.mantas.eternity.environment.Environment;
 import uk.me.mantas.eternity.handlers.CloseWindow;
 import uk.me.mantas.eternity.tests.TestHarness;
 
@@ -38,31 +38,27 @@ import static org.mockito.Mockito.verify;
 
 public class CloseWindowTest extends TestHarness {
 	@Test
-	public void closesWindow ()
-		throws NoSuchFieldException
-		, IllegalAccessException {
+	public void closesWindow () throws NoSuchFieldException, IllegalAccessException {
+		final Environment environment = Environment.getInstance();
+		final ExecutorService mockWorkers = mock(ExecutorService.class);
+		final CefBrowser mockBrowser = mock(CefBrowser.class);
+		final CefQueryCallback mockCallback = mock(CefQueryCallback.class);
+		final JFrame mockFrame = mock(JFrame.class);
 
-		Environment environment = Environment.getInstance();
-		ExecutorService mockWorkers = mock(ExecutorService.class);
-		CefBrowser mockBrowser = mock(CefBrowser.class);
-		CefQueryCallback mockCallback = mock(CefQueryCallback.class);
-		JFrame mockFrame = mock(JFrame.class);
+		final ArgumentCaptor<WindowCloser> executeArg = ArgumentCaptor.forClass(WindowCloser.class);
 
-		ArgumentCaptor<WindowCloser> executeArg =
-			ArgumentCaptor.forClass(WindowCloser.class);
-
-		Field frameField = WindowCloser.class.getDeclaredField("frame");
-		Field workersField = Environment.class.getDeclaredField("workers");
+		final Field frameField = WindowCloser.class.getDeclaredField("frame");
+		final Field workersField = Environment.class.getDeclaredField("workers");
 		frameField.setAccessible(true);
 		workersField.setAccessible(true);
 		workersField.set(environment, mockWorkers);
 
-		assertFalse(environment.closing);
+		assertFalse(environment.state().closing);
 
-		CloseWindow cls = new CloseWindow(mockFrame);
+		final CloseWindow cls = new CloseWindow(mockFrame);
 		cls.onQuery(mockBrowser, 0, "true", false, mockCallback);
 
-		assertTrue(environment.closing);
+		assertTrue(environment.state().closing);
 		verify(mockCallback).success("true");
 		verify(mockWorkers).execute(executeArg.capture());
 

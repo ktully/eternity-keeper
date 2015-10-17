@@ -24,8 +24,8 @@ import org.cef.callback.CefQueryCallback;
 import org.json.JSONObject;
 import org.junit.Test;
 import uk.me.mantas.eternity.EKUtils;
-import uk.me.mantas.eternity.Environment;
 import uk.me.mantas.eternity.Settings;
+import uk.me.mantas.eternity.environment.Environment;
 import uk.me.mantas.eternity.handlers.ListSavedGames;
 import uk.me.mantas.eternity.tests.TestHarness;
 
@@ -46,8 +46,8 @@ public class ListSavedGamesTest extends TestHarness {
 		final File settingsFile = new File(workingDirectory, "settings.json");
 		FileUtils.writeStringToFile(settingsFile, "{}");
 
-		when(mockEnvironment.getSettingsFile()).thenReturn(settingsFile);
-		when(mockEnvironment.getWorkers()).thenReturn(mockWorkers);
+		when(mockEnvironment.directory().settingsFile()).thenReturn(settingsFile);
+		when(mockEnvironment.workers()).thenReturn(mockWorkers);
 
 		final Settings mockSettings = mockSettings();
 		final CefBrowser mockBrowser = mock(CefBrowser.class);

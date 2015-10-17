@@ -27,6 +27,7 @@ import org.cef.OS;
 import org.cef.browser.CefBrowser;
 import org.cef.handler.CefAppHandlerAdapter;
 import org.json.JSONObject;
+import uk.me.mantas.eternity.environment.Environment;
 
 import javax.swing.*;
 import java.awt.*;
@@ -74,7 +75,7 @@ public class EternityKeeper extends JFrame {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing (WindowEvent e) {
-				if (Environment.getInstance().closing) {
+				if (Environment.getInstance().state().closing) {
 					cefApp.dispose();
 					dispose();
 				} else {
@@ -100,7 +101,7 @@ public class EternityKeeper extends JFrame {
 	}
 
 	private void cleanupTempDirs () {
-		Environment.getInstance().deleteWorkingDirectory();
+		Environment.getInstance().directory().deleteWorking();
 	}
 
 	private void saveWindowState () {

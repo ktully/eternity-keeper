@@ -21,6 +21,7 @@ package uk.me.mantas.eternity;
 
 import org.json.JSONObject;
 import org.json.JSONTokener;
+import uk.me.mantas.eternity.environment.Environment;
 
 import java.io.*;
 
@@ -31,7 +32,7 @@ public class Settings {
 	public JSONObject json = new JSONObject();
 
 	private Settings () {
-		settingsFile = Environment.getInstance().getSettingsFile();
+		settingsFile = Environment.getInstance().directory().settingsFile();
 
 		try {
 			boolean fileCreated = settingsFile.createNewFile();

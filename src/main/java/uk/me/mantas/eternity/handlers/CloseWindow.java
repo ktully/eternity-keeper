@@ -22,9 +22,9 @@ package uk.me.mantas.eternity.handlers;
 import org.cef.browser.CefBrowser;
 import org.cef.callback.CefQueryCallback;
 import org.cef.handler.CefMessageRouterHandlerAdapter;
-import uk.me.mantas.eternity.Environment;
 import uk.me.mantas.eternity.Logger;
 import uk.me.mantas.eternity.WindowCloser;
+import uk.me.mantas.eternity.environment.Environment;
 
 import javax.swing.*;
 
@@ -32,29 +32,29 @@ public class CloseWindow extends CefMessageRouterHandlerAdapter {
 	private static final Logger logger = Logger.getLogger(CloseWindow.class);
 	private final JFrame frame;
 
-	public CloseWindow (JFrame frame) {
+	public CloseWindow (final JFrame frame) {
 		super();
 		this.frame = frame;
 	}
 
 	@Override
 	public boolean onQuery (
-		CefBrowser browser
-		, long id
-		, String request
-		, boolean persistent
-		, CefQueryCallback callback) {
+		final CefBrowser browser
+		, final long id
+		, final String request
+		, final boolean persistent
+		, final CefQueryCallback callback) {
 
 		// Need to close the window in a separate thread otherwise we deadlock.
 		callback.success("true");
-		Environment.getInstance().closing = true;
-		Environment.getInstance().getWorkers().execute(new WindowCloser(frame));
+		Environment.getInstance().state().closing = true;
+		Environment.getInstance().workers().execute(new WindowCloser(frame));
 
 		return true;
 	}
 
 	@Override
-	public void onQueryCanceled (CefBrowser browser, long id) {
+	public void onQueryCanceled (final CefBrowser browser, final long id) {
 		logger.error("Query #%d cancelled.%n", id);
 	}
 }

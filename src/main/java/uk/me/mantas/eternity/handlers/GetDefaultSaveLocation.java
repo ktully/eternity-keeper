@@ -25,16 +25,16 @@ import org.cef.handler.CefMessageRouterHandlerAdapter;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONStringer;
-import uk.me.mantas.eternity.Environment;
 import uk.me.mantas.eternity.Logger;
 import uk.me.mantas.eternity.Settings;
+import uk.me.mantas.eternity.environment.Environment;
 
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
 
-import static uk.me.mantas.eternity.Environment.EnvKey;
+import static uk.me.mantas.eternity.environment.Variables.Key.*;
 
 public class GetDefaultSaveLocation extends CefMessageRouterHandlerAdapter {
 	private static final Logger logger = Logger.getLogger(GetDefaultSaveLocation.class);
@@ -61,9 +61,9 @@ public class GetDefaultSaveLocation extends CefMessageRouterHandlerAdapter {
 		} catch (final JSONException ignored) {}
 
 		if (defaultSaveLocation == null || defaultSaveLocation.length() < 1) {
-			final Optional<String> userProfile = environment.getEnvVar(EnvKey.USERPROFILE);
-			final Optional<String> xdgDataHome = environment.getEnvVar(EnvKey.XDG_DATA_HOME);
-			final Optional<String> home = environment.getEnvVar(EnvKey.HOME);
+			final Optional<String> userProfile = environment.variables().get(USERPROFILE);
+			final Optional<String> xdgDataHome = environment.variables().get(XDG_DATA_HOME);
+			final Optional<String> home = environment.variables().get(HOME);
 			final String linuxSaves = "PillarsOfEternity/SavedGames";
 
 			if (userProfile.isPresent()) {
@@ -93,8 +93,8 @@ public class GetDefaultSaveLocation extends CefMessageRouterHandlerAdapter {
 		}
 
 		if (defaultGameLocation == null || defaultGameLocation.length() < 1) {
-			final Optional<String> systemDrive = environment.getEnvVar(EnvKey.SYSTEMDRIVE);
-			final Optional<String> home = environment.getEnvVar(EnvKey.HOME);
+			final Optional<String> systemDrive = environment.variables().get(SYSTEMDRIVE);
+			final Optional<String> home = environment.variables().get(HOME);
 			Optional<File> foundLocation = Optional.empty();
 
 			if (systemDrive.isPresent()) {
@@ -127,8 +127,8 @@ public class GetDefaultSaveLocation extends CefMessageRouterHandlerAdapter {
 
 	private Optional<File> searchLikelyLocations (final File systemDrive) {
 		final Environment environment = Environment.getInstance();
-		for (String possibleLocation : environment.possibleInstallationLocations) {
-			File resolvedLocation = new File(systemDrive, possibleLocation);
+		for (final String possibleLocation : environment.config().possibleInstallationLocations()) {
+			final File resolvedLocation = new File(systemDrive, possibleLocation);
 			if (resolvedLocation.exists()) {
 				return Optional.of(resolvedLocation);
 			}
@@ -137,7 +137,7 @@ public class GetDefaultSaveLocation extends CefMessageRouterHandlerAdapter {
 		return Optional.empty();
 	}
 
-	private String foundDefault (String savesLocation, String gameLocation) {
+	private String foundDefault (final String savesLocation, final String gameLocation) {
 		return new JSONStringer()
 			.object()
 				.key("savesLocation").value(savesLocation)
@@ -147,7 +147,7 @@ public class GetDefaultSaveLocation extends CefMessageRouterHandlerAdapter {
 	}
 
 	@Override
-	public void onQueryCanceled (CefBrowser browser, long id) {
+	public void onQueryCanceled (final CefBrowser browser, final long id) {
 		// Not really sure what this means yet so log it for now.
 		logger.error("Query #%d was cancelled.%n", id);
 	}

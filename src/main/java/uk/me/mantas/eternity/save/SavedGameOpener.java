@@ -24,9 +24,9 @@ import org.cef.callback.CefQueryCallback;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import uk.me.mantas.eternity.Environment;
 import uk.me.mantas.eternity.Logger;
 import uk.me.mantas.eternity.Settings;
+import uk.me.mantas.eternity.environment.Environment;
 import uk.me.mantas.eternity.factory.PacketDeserializerFactory;
 import uk.me.mantas.eternity.game.ComponentPersistencePacket;
 import uk.me.mantas.eternity.game.CurrencyValue;
@@ -56,7 +56,7 @@ public class SavedGameOpener implements Runnable {
 	public SavedGameOpener (final String saveGameLocation, final CefQueryCallback callback) {
 		this.saveGameLocation = saveGameLocation;
 		this.callback = callback;
-		packetDeserializer = Environment.getInstance().packetDeserializer();
+		packetDeserializer = Environment.getInstance().factory().packetDeserializer();
 	}
 
 	@Override
@@ -139,7 +139,9 @@ public class SavedGameOpener implements Runnable {
 
 			name = (String) stats.get().get("OverrideName");
 		} else if (isCompanion) {
-			final String mappedName = Environment.companionNameMap.get(name);
+			final String mappedName =
+				Environment.getInstance().config().companionNameMap().get(name);
+
 			if (mappedName != null) {
 				name = mappedName;
 			}
@@ -233,12 +235,12 @@ public class SavedGameOpener implements Runnable {
 
 		if (isCompanion) {
 			final String name = extractName(packet);
-			String mappedName = Environment.companionNameMap.get(name);
+			String mappedName = Environment.getInstance().config().companionNameMap().get(name);
 			mappedName = (mappedName == null) ? null : mappedName.toLowerCase().replace(" ", "_");
 
 			portraitSubPath = Optional.of(
 				String.format(
-					Environment.getInstance().getCompanionPortraitPath()
+					Environment.getInstance().config().companionPortraitPath()
 					, (mappedName == null) ? name.toLowerCase() : mappedName));
 		}
 
@@ -255,7 +257,7 @@ public class SavedGameOpener implements Runnable {
 
 		final Path portraitPath =
 			Paths.get(installationPath)
-				.resolve(Environment.PILLARS_DATA_DIR)
+				.resolve(Environment.getInstance().config().pillarsDataDirectory())
 				.resolve(portraitSubPath.get())
 				.normalize();
 
@@ -270,7 +272,7 @@ public class SavedGameOpener implements Runnable {
 		try {
 			final byte[] portraitData = FileUtils.readFileToByteArray(portraitPath.toFile());
 			return Base64.getEncoder().encodeToString(portraitData);
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			logger.error(
 				"Unable to open portrait file '%s': %s%n"
 				, portraitPath.toString()

@@ -28,8 +28,8 @@ import org.apache.http.impl.client.HttpClients;
 import org.cef.browser.CefBrowser;
 import org.cef.callback.CefQueryCallback;
 import org.cef.handler.CefMessageRouterHandlerAdapter;
-import uk.me.mantas.eternity.Environment;
 import uk.me.mantas.eternity.Logger;
+import uk.me.mantas.eternity.environment.Environment;
 
 import java.io.*;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -40,22 +40,22 @@ public class DownloadUpdate extends CefMessageRouterHandlerAdapter {
 
 	@Override
 	public boolean onQuery (
-		CefBrowser browser
-		, long id
-		, String request
-		, boolean persistent
-		, CefQueryCallback callback) {
+		final CefBrowser browser
+		, final long id
+		, final String request
+		, final boolean persistent
+		, final CefQueryCallback callback) {
 
-		Environment environment = Environment.getInstance();
-		UpdateDownloader downloader = new UpdateDownloader(request, callback);
-		environment.setCurrentUpdateDownloader(downloader);
-		environment.getWorkers().execute(downloader);
+		final Environment environment = Environment.getInstance();
+		final UpdateDownloader downloader = new UpdateDownloader(request, callback);
+		environment.state().currentUpdateDownloader(downloader);
+		environment.workers().execute(downloader);
 
 		return true;
 	}
 
 	@Override
-	public void onQueryCanceled (CefBrowser browser, long id) {
+	public void onQueryCanceled (final CefBrowser browser, final long id) {
 		logger.error("Query #%d cancelled.%n", id);
 	}
 
@@ -82,7 +82,7 @@ public class DownloadUpdate extends CefMessageRouterHandlerAdapter {
 		public void run () {
 			final String updateZip = String.format("%s.zip", updateTimestamp);
 			final File destination =
-				new File(Environment.getInstance().getRootDirectory(), updateZip);
+				new File(Environment.getInstance().directory().root(), updateZip);
 			downloadLatest(destination);
 		}
 

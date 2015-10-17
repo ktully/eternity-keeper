@@ -25,8 +25,8 @@ import org.cef.callback.CefRunFileDialogCallback;
 import org.cef.handler.CefDialogHandler.FileDialogMode;
 import org.cef.handler.CefMessageRouterHandlerAdapter;
 import org.json.JSONException;
-import uk.me.mantas.eternity.Environment;
 import uk.me.mantas.eternity.Logger;
+import uk.me.mantas.eternity.environment.Environment;
 import uk.me.mantas.eternity.save.CharacterImporter;
 import uk.me.mantas.eternity.save.SavedGameOpener;
 
@@ -45,7 +45,7 @@ public class ImportCharacter extends CefMessageRouterHandlerAdapter {
 		, boolean persistent
 		, CefQueryCallback callback) {
 
-		Environment.getInstance().getWorkers().execute(
+		Environment.getInstance().workers().execute(
 			new SelectChrFile(browser, request, callback));
 
 		return true;

@@ -27,9 +27,9 @@ import org.joda.time.format.DateTimeFormatter;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONStringer;
-import uk.me.mantas.eternity.Environment;
 import uk.me.mantas.eternity.Logger;
 import uk.me.mantas.eternity.Settings;
+import uk.me.mantas.eternity.environment.Environment;
 import uk.me.mantas.eternity.save.SaveGameExtractor;
 import uk.me.mantas.eternity.save.SaveGameInfo;
 
@@ -44,46 +44,46 @@ public class ListSavedGames extends CefMessageRouterHandlerAdapter {
 
 	@Override
 	public boolean onQuery (
-		CefBrowser browser
-		, long id
-		, String request
-		, boolean persistent
-		, CefQueryCallback callback) {
+		final CefBrowser browser
+		, final long id
+		, final String request
+		, final boolean persistent
+		, final CefQueryCallback callback) {
 
 		Settings.getInstance().json.put("savesLocation", request);
-		Environment environment = Environment.getInstance();
+		final Environment environment = Environment.getInstance();
 
 		// Spawn a separate thread to handle all the file stuff so we don't
 		// lock up the UI.
-		SaveInfoLister lister = new SaveInfoLister(request, callback);
-		environment.setCurrentSaveLister(lister);
-		environment.getWorkers().execute(lister);
+		final SaveInfoLister lister = new SaveInfoLister(request, callback);
+		environment.state().currentSaveLister(lister);
+		environment.workers().execute(lister);
 
 		return true;
 	}
 
 	@Override
-	public void onQueryCanceled (CefBrowser browser, long id) {
+	public void onQueryCanceled (final CefBrowser browser, final long id) {
 		logger.error("Query #%d was cancelled.%n", id);
 		Environment.joinAllWorkers();
 	}
 
 	public static class SaveInfoLister implements Runnable {
-		private String savesLocation;
-		private CefQueryCallback callback;
+		private final String savesLocation;
+		private final CefQueryCallback callback;
 		public SaveGameExtractor extractor = null;
 
-		public SaveInfoLister (String savesLocation, CefQueryCallback callback) {
+		public SaveInfoLister (final String savesLocation, final CefQueryCallback callback) {
 			this.savesLocation = savesLocation;
 			this.callback = callback;
 		}
 
 		@Override
 		public void run () {
-			Environment.getInstance().emptyWorkingDirectory();
+			Environment.getInstance().directory().emptyWorking();
 			extractor = new SaveGameExtractor(
 				savesLocation
-				, Environment.getInstance().getWorkingDirectory());
+				, Environment.getInstance().directory().working());
 
 			unpackAllSaves(extractor);
 		}
@@ -99,8 +99,8 @@ public class ListSavedGames extends CefMessageRouterHandlerAdapter {
 		}
 	}
 
-	private static String saveInfoToJSON (SaveGameInfo[] info) {
-		JSONObject[] infoJSONObjects = Arrays.stream(info).map(
+	private static String saveInfoToJSON (final SaveGameInfo[] info) {
+		final JSONObject[] infoJSONObjects = Arrays.stream(info).map(
 			saveInfo -> new JSONObject()
 				.put("guid", saveInfo.guid)
 				.put("systemName", saveInfo.systemName)
@@ -119,8 +119,8 @@ public class ListSavedGames extends CefMessageRouterHandlerAdapter {
 		return new JSONArray(infoJSONObjects).toString();
 	}
 
-	private static void notFound (CefQueryCallback callback) {
-		String json = new JSONStringer()
+	private static void notFound (final CefQueryCallback callback) {
+		final String json = new JSONStringer()
 			.object()
 				.key("error").value("NO_RESULTS")
 			.endObject()

@@ -31,7 +31,6 @@ public class WindowCloser implements Runnable {
 
 	@Override
 	public void run () {
-		frame.dispatchEvent(
-			new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+		frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
 	}
 }

@@ -25,9 +25,8 @@ import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import uk.me.mantas.eternity.EKUtils;
-import uk.me.mantas.eternity.Environment;
-import uk.me.mantas.eternity.Environment.EnvKey;
 import uk.me.mantas.eternity.Settings;
+import uk.me.mantas.eternity.environment.Environment;
 import uk.me.mantas.eternity.handlers.GetDefaultSaveLocation;
 import uk.me.mantas.eternity.tests.TestHarness;
 
@@ -38,6 +37,7 @@ import java.util.Optional;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static uk.me.mantas.eternity.environment.Variables.Key.*;
 
 public class GetDefaultSaveLocationTest extends TestHarness {
 	private static final String NO_DEFAULT = "{\"savesLocation\":\"\",\"gameLocation\":\"\"}";
@@ -58,10 +58,10 @@ public class GetDefaultSaveLocationTest extends TestHarness {
 		final CefQueryCallback mockCallback = mock(CefQueryCallback.class);
 
 		// No USERPROFILE environment variable.
-		environment.setEnvVar(EnvKey.USERPROFILE, null);
-		environment.setEnvVar(EnvKey.SYSTEMDRIVE, null);
-		environment.setEnvVar(EnvKey.XDG_DATA_HOME, null);
-		environment.setEnvVar(EnvKey.HOME, null);
+		environment.variables().set(USERPROFILE, null);
+		environment.variables().set(SYSTEMDRIVE, null);
+		environment.variables().set(XDG_DATA_HOME, null);
+		environment.variables().set(HOME, null);
 		cls.onQuery(mockBrowser, 0, "", false, mockCallback);
 		verify(mockCallback).success(NO_DEFAULT);
 	}
@@ -76,10 +76,10 @@ public class GetDefaultSaveLocationTest extends TestHarness {
 		final Optional<File> saveLocation = EKUtils.createTempDir(PREFIX);
 		assertTrue(saveLocation.isPresent());
 
-		environment.setEnvVar(EnvKey.USERPROFILE, saveLocation.get().getAbsolutePath());
-		environment.setEnvVar(EnvKey.SYSTEMDRIVE, "404");
-		environment.setEnvVar(EnvKey.XDG_DATA_HOME, null);
-		environment.setEnvVar(EnvKey.HOME, null);
+		environment.variables().set(USERPROFILE, saveLocation.get().getAbsolutePath());
+		environment.variables().set(SYSTEMDRIVE, "404");
+		environment.variables().set(XDG_DATA_HOME, null);
+		environment.variables().set(HOME, null);
 
 		// USERPROFILE environment variable is set but no Pillars directory.
 		cls.onQuery(mockBrowser, 0, "", false, mockCallback);
@@ -96,10 +96,10 @@ public class GetDefaultSaveLocationTest extends TestHarness {
 		final Optional<File> saveLocation = EKUtils.createTempDir(PREFIX);
 		assertTrue(saveLocation.isPresent());
 
-		environment.setEnvVar(EnvKey.USERPROFILE, saveLocation.get().getAbsolutePath());
-		environment.setEnvVar(EnvKey.SYSTEMDRIVE, "404");
-		environment.setEnvVar(EnvKey.XDG_DATA_HOME, null);
-		environment.setEnvVar(EnvKey.HOME, null);
+		environment.variables().set(USERPROFILE, saveLocation.get().getAbsolutePath());
+		environment.variables().set(SYSTEMDRIVE, "404");
+		environment.variables().set(XDG_DATA_HOME, null);
+		environment.variables().set(HOME, null);
 
 		final File pillarsSaves =
 			saveLocation.get().toPath().resolve("Saved Games\\Pillars of Eternity").toFile();
@@ -122,14 +122,14 @@ public class GetDefaultSaveLocationTest extends TestHarness {
 		final Optional<File> gameLocation = EKUtils.createTempDir(PREFIX);
 		assertTrue(gameLocation.isPresent());
 
-		environment.setEnvVar(EnvKey.USERPROFILE, "404");
-		environment.setEnvVar(EnvKey.SYSTEMDRIVE, gameLocation.get().getAbsolutePath());
-		environment.setEnvVar(EnvKey.XDG_DATA_HOME, null);
-		environment.setEnvVar(EnvKey.HOME, null);
+		environment.variables().set(USERPROFILE, "404");
+		environment.variables().set(SYSTEMDRIVE, gameLocation.get().getAbsolutePath());
+		environment.variables().set(XDG_DATA_HOME, null);
+		environment.variables().set(HOME, null);
 
-		environment.possibleInstallationLocations = new ArrayList<>();
-		environment.possibleInstallationLocations.add("first");
-		environment.possibleInstallationLocations.add("second");
+		environment.config().possibleInstallationLocations(new ArrayList<>());
+		environment.config().possibleInstallationLocations().add("first");
+		environment.config().possibleInstallationLocations().add("second");
 
 		final File firstLocation = new File(gameLocation.get(), "first");
 		final File secondLocation = new File(gameLocation.get(), "second");
@@ -155,9 +155,9 @@ public class GetDefaultSaveLocationTest extends TestHarness {
 		final Optional<File> saveLocation = EKUtils.createTempDir(PREFIX);
 		assertTrue(saveLocation.isPresent());
 
-		environment.setEnvVar(EnvKey.USERPROFILE, null);
-		environment.setEnvVar(EnvKey.SYSTEMDRIVE, null);
-		environment.setEnvVar(EnvKey.XDG_DATA_HOME, saveLocation.get().getAbsolutePath());
+		environment.variables().set(USERPROFILE, null);
+		environment.variables().set(SYSTEMDRIVE, null);
+		environment.variables().set(XDG_DATA_HOME, saveLocation.get().getAbsolutePath());
 
 		final File pillarsSaves =
 			saveLocation.get().toPath().resolve("PillarsOfEternity/SavedGames").toFile();
@@ -166,14 +166,24 @@ public class GetDefaultSaveLocationTest extends TestHarness {
 
 		cls.onQuery(mockBrowser, 0, "", false, mockCallback);
 		verify(mockCallback).success(
-			String.format(JSON_SKELETON, pillarsSaves.getAbsolutePath(), ""));
+			String.format(JSON_SKELETON, pillarsSaves.getAbsolutePath().replace("\\", "\\\\"), ""));
 
-		environment.setEnvVar(EnvKey.XDG_DATA_HOME, null);
-		environment.setEnvVar(EnvKey.HOME, saveLocation.get().getAbsolutePath());
+		final File localPillarsSaves =
+			saveLocation.get().toPath()
+				.resolve(".local/share/PillarsOfEternity/SavedGames")
+				.toFile();
+
+		assertTrue(localPillarsSaves.mkdirs());
+
+		environment.variables().set(XDG_DATA_HOME, null);
+		environment.variables().set(HOME, saveLocation.get().getAbsolutePath());
 
 		cls.onQuery(mockBrowser, 0, "", false, mockCallback);
 		verify(mockCallback).success(
-			String.format(JSON_SKELETON, pillarsSaves.getAbsolutePath(), ""));
+			String.format(
+				JSON_SKELETON
+				, localPillarsSaves.getAbsolutePath().replace("\\", "\\\\")
+				, ""));
 	}
 
 	@Test
@@ -186,10 +196,10 @@ public class GetDefaultSaveLocationTest extends TestHarness {
 		final Optional<File> gameLocation = EKUtils.createTempDir(PREFIX);
 		assertTrue(gameLocation.isPresent());
 
-		environment.setEnvVar(EnvKey.USERPROFILE, null);
-		environment.setEnvVar(EnvKey.SYSTEMDRIVE, null);
-		environment.setEnvVar(EnvKey.XDG_DATA_HOME, null);
-		environment.setEnvVar(EnvKey.HOME, gameLocation.get().getAbsolutePath());
+		environment.variables().set(USERPROFILE, null);
+		environment.variables().set(SYSTEMDRIVE, null);
+		environment.variables().set(XDG_DATA_HOME, null);
+		environment.variables().set(HOME, gameLocation.get().getAbsolutePath());
 
 		final File pillarsInstall =
 			gameLocation.get().toPath()
@@ -199,6 +209,9 @@ public class GetDefaultSaveLocationTest extends TestHarness {
 
 		cls.onQuery(mockBrowser, 0, "", false, mockCallback);
 		verify(mockCallback).success(
-			String.format(JSON_SKELETON, "", pillarsInstall.getAbsolutePath()));
+			String.format(
+				JSON_SKELETON
+				, ""
+				, pillarsInstall.getAbsolutePath().replace("\\", "\\\\")));
 	}
 }

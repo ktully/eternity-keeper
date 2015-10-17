@@ -23,8 +23,8 @@ import org.cef.browser.CefBrowser;
 import org.cef.callback.CefQueryCallback;
 import org.cef.handler.CefMessageRouterHandlerAdapter;
 import org.json.JSONStringer;
-import uk.me.mantas.eternity.Environment;
 import uk.me.mantas.eternity.Logger;
+import uk.me.mantas.eternity.environment.Environment;
 import uk.me.mantas.eternity.save.SaveGameExtractor;
 
 import static uk.me.mantas.eternity.handlers.ListSavedGames.SaveInfoLister;
@@ -34,35 +34,35 @@ public class CheckExtractionProgress extends CefMessageRouterHandlerAdapter {
 
 	@Override
 	public boolean onQuery (
-		CefBrowser browser
-		, long id
-		, String request
-		, boolean persistent
-		, CefQueryCallback callback) {
+		final CefBrowser browser
+		, final long id
+		, final String request
+		, final boolean persistent
+		, final CefQueryCallback callback) {
 
-		Environment environment = Environment.getInstance();
-		SaveInfoLister lister = environment.getCurrentSaveLister();
+		final Environment environment = Environment.getInstance();
+		final SaveInfoLister lister = environment.state().currentSaveLister();
 
 		if (lister == null) {
 			callback.success(response(0d));
 			return true;
 		}
 
-		SaveGameExtractor extractor = lister.extractor;
+		final SaveGameExtractor extractor = lister.extractor;
 		if (extractor == null) {
 			callback.success(response(0d));
 			return true;
 		}
 
-		int total = extractor.totalFiles.get();
-		int count = extractor.currentCount.get();
-		double percentage = ((double) count / (double) total) * 100;
+		final int total = extractor.totalFiles.get();
+		final int count = extractor.currentCount.get();
+		final double percentage = ((double) count / (double) total) * 100;
 
 		callback.success(response(percentage));
 		return true;
 	}
 
-	private String response (double val) {
+	private String response (final double val) {
 		return new JSONStringer()
 			.object()
 				.key("update").value(val)
@@ -71,7 +71,7 @@ public class CheckExtractionProgress extends CefMessageRouterHandlerAdapter {
 	}
 
 	@Override
-	public void onQueryCanceled (CefBrowser browser, long id) {
+	public void onQueryCanceled (final CefBrowser browser, final long id) {
 		logger.error("Query #%d was cancelled.%n", id);
 	}
 }

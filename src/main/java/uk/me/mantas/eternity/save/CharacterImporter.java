@@ -20,8 +20,8 @@
 package uk.me.mantas.eternity.save;
 
 import org.json.JSONObject;
-import uk.me.mantas.eternity.Environment;
 import uk.me.mantas.eternity.Logger;
+import uk.me.mantas.eternity.environment.Environment;
 import uk.me.mantas.eternity.factory.PacketDeserializerFactory;
 import uk.me.mantas.eternity.game.ObjectPersistencePacket;
 import uk.me.mantas.eternity.serializer.DeserializedPackets;
@@ -55,7 +55,7 @@ public class CharacterImporter {
 
 		File saveFile = new File(oldSavePath);
 		if (savedYet) {
-			final File previouslySaved = environment.getPreviousSaveDirectory();
+			final File previouslySaved = environment.state().previousSaveDirectory();
 
 			if (previouslySaved == null) {
 				logger.error("Client reported we had already saved but directory didn't exist!%n");
@@ -76,7 +76,7 @@ public class CharacterImporter {
 		this.saveFile = saveFile;
 		this.chrFile = chrFile;
 
-		packetDeserializer = environment.packetDeserializer();
+		packetDeserializer = environment.factory().packetDeserializer();
 	}
 
 	public boolean importCharacter () throws IOException {

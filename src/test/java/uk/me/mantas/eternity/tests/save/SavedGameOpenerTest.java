@@ -27,9 +27,9 @@ import org.json.JSONObject;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import uk.me.mantas.eternity.EKUtils;
-import uk.me.mantas.eternity.Environment;
 import uk.me.mantas.eternity.Logger;
 import uk.me.mantas.eternity.Settings;
+import uk.me.mantas.eternity.environment.Environment;
 import uk.me.mantas.eternity.factory.PacketDeserializerFactory;
 import uk.me.mantas.eternity.game.ComponentPersistencePacket;
 import uk.me.mantas.eternity.game.CurrencyValue;
@@ -107,7 +107,7 @@ public class SavedGameOpenerTest extends TestHarness {
 		final PacketDeserializerFactory mockFactory = mock(PacketDeserializerFactory.class);
 		final PacketDeserializer mockDeserializer = mock(PacketDeserializer.class);
 
-		when(mockEnvironment.packetDeserializer()).thenReturn(mockFactory);
+		when(mockEnvironment.factory().packetDeserializer()).thenReturn(mockFactory);
 		when(mockFactory.forFile(any(File.class))).thenReturn(mockDeserializer);
 
 		return mockDeserializer;
@@ -276,11 +276,12 @@ public class SavedGameOpenerTest extends TestHarness {
 		final ObjectPersistencePacket packet = new ObjectPersistencePacket();
 		final ComponentPersistencePacket component = new ComponentPersistencePacket();
 		final File testResources = new File(getClass().getResource("/").toURI());
-		final String companionPortraitPath = Environment.getInstance().getCompanionPortraitPath();
+		final String companionPortraitPath =
+			Environment.getInstance().config().companionPortraitPath();
 		final String substitutedPath = String.format(companionPortraitPath, "unmapped");
 		final File portraitFile =
 			Paths.get(testResources.toURI())
-				.resolve(Environment.PILLARS_DATA_DIR)
+				.resolve(Environment.getInstance().config().pillarsDataDirectory())
 				.resolve(substitutedPath)
 				.toFile();
 
@@ -308,11 +309,12 @@ public class SavedGameOpenerTest extends TestHarness {
 		final ObjectPersistencePacket packet = new ObjectPersistencePacket();
 		final ComponentPersistencePacket component = new ComponentPersistencePacket();
 		final File testResources = new File(getClass().getResource("/").toURI());
-		final String companionPortraitPath = Environment.getInstance().getCompanionPortraitPath();
+		final String companionPortraitPath =
+			Environment.getInstance().config().companionPortraitPath();
 		final String substitutedPath = String.format(companionPortraitPath, "grieving_mother");
 		final File portraitFile =
 			Paths.get(testResources.toURI())
-				.resolve(Environment.PILLARS_DATA_DIR)
+				.resolve(Environment.getInstance().config().pillarsDataDirectory())
 				.resolve(substitutedPath)
 				.toFile();
 

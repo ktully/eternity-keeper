@@ -26,8 +26,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Test;
 import uk.me.mantas.eternity.EKUtils;
-import uk.me.mantas.eternity.Environment;
 import uk.me.mantas.eternity.Settings;
+import uk.me.mantas.eternity.environment.Environment;
 import uk.me.mantas.eternity.factory.PacketDeserializerFactory;
 import uk.me.mantas.eternity.factory.SharpSerializerFactory;
 import uk.me.mantas.eternity.game.ComponentPersistencePacket;
@@ -81,8 +81,8 @@ public class ChangesSaverTest extends TestHarness {
 		+ "}";
 
 		ChangesSaver cls = new ChangesSaver(request, mockCallback);
-		when(mockEnvironment.getPreviousSaveDirectory()).thenReturn(null);
-		when(mockEnvironment.getWorkingDirectory())
+		when(mockEnvironment.state().previousSaveDirectory()).thenReturn(null);
+		when(mockEnvironment.state().previousSaveDirectory())
 			.thenReturn(new File("/404"));
 
 		cls.run();
@@ -103,9 +103,10 @@ public class ChangesSaverTest extends TestHarness {
 		final File settingsFile = new File(workingDirectory, "settings.json");
 
 		FileUtils.writeStringToFile(settingsFile, "{}");
-		when(mockEnvironment.getSettingsFile()).thenReturn(settingsFile);
-		when(mockEnvironment.packetDeserializer()).thenReturn(new PacketDeserializerFactory());
-		when(mockEnvironment.sharpSerializer()).thenReturn(new SharpSerializerFactory());
+		when(mockEnvironment.directory().settingsFile()).thenReturn(settingsFile);
+		when(mockEnvironment.factory().packetDeserializer())
+			.thenReturn(new PacketDeserializerFactory());
+		when(mockEnvironment.factory().sharpSerializer()).thenReturn(new SharpSerializerFactory());
 
 		final Settings mockSettings = mockSettings();
 		final JSONObject mockJSON = mock(JSONObject.class);
@@ -129,7 +130,7 @@ public class ChangesSaverTest extends TestHarness {
 
 		mockSettings.json = mockJSON;
 		request = String.format(request, absolutePath.replace("\\", "\\\\"));
-		when(mockEnvironment.getWorkingDirectory()).thenReturn(workingDirectory);
+		when(mockEnvironment.directory().working()).thenReturn(workingDirectory);
 
 		doThrow(new JSONException("")).when(mockJSON).getString(anyString());
 
@@ -138,7 +139,7 @@ public class ChangesSaverTest extends TestHarness {
 
 		cls.run();
 		verify(mockCallback).success("{\"success\":true}");
-		verify(mockEnvironment).setPreviousSaveDirectory(saveDirectory);
+		verify(mockEnvironment.state()).previousSaveDirectory(saveDirectory);
 
 		final byte[] saveinfoBytes =
 			FileUtils.readFileToByteArray(new File(saveDirectory, "saveinfo.xml"));

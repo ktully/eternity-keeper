@@ -23,8 +23,8 @@ import org.cef.browser.CefBrowser;
 import org.cef.callback.CefQueryCallback;
 import org.cef.handler.CefMessageRouterHandlerAdapter;
 import org.json.JSONStringer;
-import uk.me.mantas.eternity.Environment;
 import uk.me.mantas.eternity.Logger;
+import uk.me.mantas.eternity.environment.Environment;
 
 import static uk.me.mantas.eternity.handlers.DownloadUpdate.UpdateDownloader;
 
@@ -33,18 +33,19 @@ public class CheckDownloadProgress extends CefMessageRouterHandlerAdapter {
 
 	@Override
 	public boolean onQuery (
-		CefBrowser browser
-		, long id
-		, String request
-		, boolean persistent
-		, CefQueryCallback callback) {
+		final CefBrowser browser
+		, final long id
+		, final String request
+		, final boolean persistent
+		, final CefQueryCallback callback) {
 
-		UpdateDownloader downloader = Environment.getInstance().getCurrentUpdateDownloader();
+		final UpdateDownloader downloader =
+			Environment.getInstance().state().currentUpdateDownloader();
 
 		if (downloader.failed.get()) {
 			callback.failure(-1, "true");
 		} else {
-			long currentBytes = downloader.currentBytes.get();
+			final long currentBytes = downloader.currentBytes.get();
 			double percentage = (double) currentBytes / (double) downloader.totalBytes * 100;
 
 			if (percentage > 100) {
@@ -58,11 +59,11 @@ public class CheckDownloadProgress extends CefMessageRouterHandlerAdapter {
 	}
 
 	@Override
-	public void onQueryCanceled (CefBrowser browser, long id) {
+	public void onQueryCanceled (final CefBrowser browser, final long id) {
 		logger.error("Query #%d cancelled.%n", id);
 	}
 
-	private void respond (CefQueryCallback callback, double percentage) {
+	private void respond (final CefQueryCallback callback, final double percentage) {
 		callback.success(
 			new JSONStringer()
 				.object()

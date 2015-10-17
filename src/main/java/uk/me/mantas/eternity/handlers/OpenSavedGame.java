@@ -23,8 +23,8 @@ import org.cef.browser.CefBrowser;
 import org.cef.callback.CefQueryCallback;
 import org.cef.handler.CefMessageRouterHandlerAdapter;
 import org.json.JSONStringer;
-import uk.me.mantas.eternity.Environment;
 import uk.me.mantas.eternity.Logger;
+import uk.me.mantas.eternity.environment.Environment;
 import uk.me.mantas.eternity.save.SavedGameOpener;
 
 import java.io.File;
@@ -45,7 +45,7 @@ public class OpenSavedGame extends CefMessageRouterHandlerAdapter {
 			return true;
 		}
 
-		Environment.getInstance().getWorkers().execute(
+		Environment.getInstance().workers().execute(
 			new SavedGameOpener(request, callback));
 
 		return true;

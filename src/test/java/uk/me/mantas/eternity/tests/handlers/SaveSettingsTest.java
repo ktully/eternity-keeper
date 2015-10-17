@@ -24,8 +24,8 @@ import org.cef.callback.CefQueryCallback;
 import org.json.JSONObject;
 import org.junit.Test;
 import uk.me.mantas.eternity.EKUtils;
-import uk.me.mantas.eternity.Environment;
 import uk.me.mantas.eternity.Settings;
+import uk.me.mantas.eternity.environment.Environment;
 import uk.me.mantas.eternity.handlers.SaveSettings;
 import uk.me.mantas.eternity.tests.TestHarness;
 
@@ -47,7 +47,7 @@ public class SaveSettingsTest extends TestHarness {
 		assertTrue(settingsDirectory.isPresent());
 
 		File settingsFile = new File(settingsDirectory.get(), "settings.json");
-		environment.setSettingsFile(settingsFile);
+		environment.directory().settingsFile(settingsFile);
 
 		JSONObject settings = Settings.getInstance().json;
 		String request = "{\"a\":\"b\",\"c\":\"d\"}";
