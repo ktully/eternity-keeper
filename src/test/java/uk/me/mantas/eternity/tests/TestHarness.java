@@ -75,7 +75,7 @@ public abstract class TestHarness {
 		}
 	}
 
-	protected Environment mockEnvironment () {
+	protected static Environment mockEnvironment () {
 		Environment environment = Environment.getInstance();
 		Environment mockEnvironment = mock(Environment.class);
 
@@ -112,7 +112,7 @@ public abstract class TestHarness {
 		return mockEnvironment;
 	}
 
-	protected Settings mockSettings () {
+	protected static Settings mockSettings () {
 		Settings settings = Settings.getInstance();
 		Settings mockSettings = mock(Settings.class);
 
@@ -136,22 +136,22 @@ public abstract class TestHarness {
 		return mockSettings;
 	}
 
-	protected ExposedClass expose (final Class<?> cls) {
+	protected static ExposedClass expose (final Class<?> cls) {
 		return new ExposedClass(cls);
 	}
 
-	protected ExposedClass expose (final Object instance) {
+	protected static ExposedClass expose (final Object instance) {
 		return new ExposedClass(instance);
 	}
 
-	protected Logger interceptLogging (final Class cls) {
+	protected static Logger interceptLogging (final Class cls) {
 		final ExposedClass exposedClass = expose(cls);
 		final Logger mockLogger = mock(Logger.class);
 		exposedClass.set("logger", mockLogger);
 		return mockLogger;
 	}
 
-	protected SharpSerializer mockSerializer (final Environment mockEnvironment)
+	protected static SharpSerializer mockSerializer (final Environment mockEnvironment)
 		throws FileNotFoundException {
 
 		final SharpSerializerFactory mockSerializerFactory = mock(SharpSerializerFactory.class);

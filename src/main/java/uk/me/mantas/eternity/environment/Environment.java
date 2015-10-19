@@ -22,6 +22,8 @@ package uk.me.mantas.eternity.environment;
 import org.cef.OS;
 import uk.me.mantas.eternity.Logger;
 
+import java.io.File;
+import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -70,6 +72,11 @@ public class Environment {
 		return workers;
 	}
 
+	public boolean isWindows () {
+		// This method just exists so we can mock it in tests.
+		return OS.isWindows();
+	}
+
 	public static String detectPlatform () {
 		if (OS.isWindows()) {
 			if (System.getenv("ProgramFiles(x86)") == null) {
@@ -80,6 +87,15 @@ public class Environment {
 		} else {
 			return "linux64";
 		}
+	}
+
+	public Optional<Long> detectExeSize () {
+		final File exe = new File("eternity.exe");
+		if (!exe.exists() || !exe.isFile()) {
+			return Optional.empty();
+		}
+
+		return Optional.of(exe.length());
 	}
 
 	public static void joinAllWorkers () {

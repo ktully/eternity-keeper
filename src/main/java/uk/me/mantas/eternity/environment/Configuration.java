@@ -26,6 +26,8 @@ import java.util.Map;
 public class Configuration {
 	Configuration () {}
 
+	public static final int LEGACY_EXE_SIZE = 0x17400;
+
 	private List<String> installationLocations = new ArrayList<String>() {{
 		add("Program Files\\GOG Games\\Pillars of Eternity");
 		add("Program Files (x86)\\GOG Games\\Pillars of Eternity");

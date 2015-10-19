@@ -27,6 +27,7 @@ import org.cef.handler.CefMessageRouterHandlerAdapter;
 import org.json.JSONStringer;
 import uk.me.mantas.eternity.EKUtils;
 import uk.me.mantas.eternity.Logger;
+import uk.me.mantas.eternity.environment.Configuration;
 import uk.me.mantas.eternity.environment.Environment;
 
 import java.io.File;
@@ -55,7 +56,7 @@ public class CheckForUpdates extends CefMessageRouterHandlerAdapter {
 		logger.error("Query #%d cancelled.%n", id);
 	}
 
-	private class UpdateChecker implements Runnable {
+	public static class UpdateChecker implements Runnable {
 		private final CefQueryCallback callback;
 
 		public UpdateChecker (final CefQueryCallback callback) {
@@ -77,6 +78,15 @@ public class CheckForUpdates extends CefMessageRouterHandlerAdapter {
 					.object()
 						.key("available").value(true)
 						.key("timestamp").value(update)
+					.endObject()
+					.toString());
+		}
+
+		private void legacy () {
+			callback.success(
+				new JSONStringer()
+					.object()
+						.key("legacy").value(true)
 					.endObject()
 					.toString());
 		}
@@ -115,11 +125,6 @@ public class CheckForUpdates extends CefMessageRouterHandlerAdapter {
 				return Optional.empty();
 			}
 
-			final File[] jars = jarDirectory.listFiles();
-			if (jars == null || jars.length < 1) {
-				return Optional.empty();
-			}
-
 			final long currentTimestamp = getJarTimestamp(jarDirectory);
 
 			try {
@@ -133,20 +138,39 @@ public class CheckForUpdates extends CefMessageRouterHandlerAdapter {
 			return Optional.empty();
 		}
 
+		private boolean isLegacyCode () {
+			final Environment environment = Environment.getInstance();
+
+			if (environment.isWindows()) {
+				final Optional<Long> exeSize = environment.detectExeSize();
+				if (exeSize.isPresent()) {
+					return exeSize.get() == Configuration.LEGACY_EXE_SIZE;
+				} else {
+					logger.error(
+						"CEF reported this is a Windows system but eternity.exe was not found.%n");
+				}
+			}
+
+			return false;
+		}
+
 		@Override
 		public void run () {
+			final String url = String.format(
+				"http://eternity.mantas.me.uk/updates/?platform=%s"
+				, Environment.detectPlatform());
+
 			try {
-				final String url = String.format(
-					"http://eternity.mantas.me.uk/updates/?platform=%s"
-					, Environment.detectPlatform());
-
 				final Content response = Request.Get(url).execute().returnContent();
-
 				final Optional<String> updateAvailable =
 					isUpdate(response.asString(Charset.forName("UTF-8")).trim());
 
 				if (updateAvailable.isPresent()) {
-					update(updateAvailable.get());
+					if (isLegacyCode()) {
+						legacy();
+					} else {
+						update(updateAvailable.get());
+					}
 				} else {
 					noUpdate();
 				}

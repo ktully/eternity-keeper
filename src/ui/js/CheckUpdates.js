@@ -111,7 +111,7 @@ var CheckUpdates = function () {
 	};
 
 	var startChecking = function (responseText) {
-		downloadingInterval = setInterval(downloadCheck, 4000);
+		downloadingInterval = setInterval(downloadCheck, 1000);
 	};
 
 	var download = function (timestamp, e) {
@@ -137,14 +137,26 @@ var CheckUpdates = function () {
 
 	var alreadyUpToDate = function () {
 		buttons.show();
-		$('#checkUpdatesTryAgain').show();
+		btnTryAgain.show();
+		btnDownload.hide();
 		contents.html('Eternity Keeper is up to date!');
+	};
+
+	var legacy = function () {
+		buttons.();
+		btnTryAgain.show();
+		btnDownload.hide();
+		contents.html('This update requires a manual download and reinstall of Eternity Keeper. '
+			+ 'Please make sure you completely delete the old Eternity Keeper directory.');
 	};
 
 	var doneChecking = function (responseText) {
 		notChecking();
 		var response = JSON.parse(responseText);
-		if (response.available === true) {
+
+		if (response.legacy === true) {
+			legacy();
+		} else if (response.available === true) {
 			updatesAvailable(response.timestamp);
 		} else {
 			alreadyUpToDate();
