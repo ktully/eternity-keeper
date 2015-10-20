@@ -1,2 +1,0 @@
-C:\Users\Kim\Documents\workspace\deployer\bootstrapper\EternityBootstrapper\EternityBootstrapper\bin\Debug\EternityBootstrapper.exe.config
-C:\Users\Kim\Documents\workspace\deployer\EternityBootstrapper\EternityBootstrapper\bin\Debug\EternityBootstrapper.exe.config
