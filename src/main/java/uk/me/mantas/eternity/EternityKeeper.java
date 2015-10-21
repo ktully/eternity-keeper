@@ -19,6 +19,7 @@
 
 package uk.me.mantas.eternity;
 
+import org.apache.commons.io.FileUtils;
 import org.cef.CefApp;
 import org.cef.CefApp.CefAppState;
 import org.cef.CefClient;
@@ -33,7 +34,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.File;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EternityKeeper extends JFrame {
 	private CefApp cefApp;
@@ -50,7 +53,7 @@ public class EternityKeeper extends JFrame {
 			}
 		});
 
-		CefSettings settings = new CefSettings();
+		final CefSettings settings = new CefSettings();
 		settings.windowless_rendering_enabled = OS.isLinux();
 		settings.remote_debugging_port = 13002;
 
@@ -90,23 +93,44 @@ public class EternityKeeper extends JFrame {
 
 	private void shutdown () {
 		saveWindowState();
-		cleanupTempDirs();
+		Environment.getInstance().directory().deleteWorking();
 		Environment.joinAllWorkers();
 		System.exit(0);
 	}
 
-	private static void cleanupOldLogFile () {
-		//noinspection ResultOfMethodCallIgnored
-		new File("eternity.log").delete();
-	}
+	private static void rolloverLogFile (final File log) {
+		final long maxSize = Environment.getInstance().config().maxLogSize();
+		if (!log.exists() || !log.isFile() || log.length() < maxSize) {
+			return;
+		}
 
-	private void cleanupTempDirs () {
-		Environment.getInstance().directory().deleteWorking();
+		// We want to delete the first half of the file's lines.
+		final long halfMax = maxSize / 2;
+		final List<String> storedLines = new ArrayList<>();
+		String line;
+		long currentByteCount = 0L;
+
+		try (final BufferedReader reader =
+			new BufferedReader(new InputStreamReader(new FileInputStream(log), "UTF-8"))) {
+
+			while ((line = reader.readLine()) != null) {
+				currentByteCount += line.length();
+				if (currentByteCount >= halfMax) {
+					storedLines.add(line);
+				}
+			}
+
+			FileUtils.writeLines(log, "UTF-8", storedLines, "\n");
+		} catch (final IOException e) {
+			// We obviously don't have access to the log file to write to here so the best we can
+			// do is to output to the console.
+			System.err.printf("Error rolling over log file: %s%n", e.getMessage());
+		}
 	}
 
 	private void saveWindowState () {
-		Rectangle windowBounds = getBounds();
-		JSONObject settings = Settings.getInstance().json;
+		final Rectangle windowBounds = getBounds();
+		final JSONObject settings = Settings.getInstance().json;
 
 		settings.put("width", windowBounds.width);
 		settings.put("height", windowBounds.height);
@@ -115,17 +139,19 @@ public class EternityKeeper extends JFrame {
 		Settings.getInstance().save();
 	}
 
-	public static void main (String[] args) {
-		cleanupOldLogFile();
-		ImageIcon icon = new ImageIcon(EternityKeeper.class.getResource("/icon.png"));
+	public static void main (final String[] args) {
+		final ImageIcon icon = new ImageIcon(EternityKeeper.class.getResource("/icon.png"));
+		final File log = new File("eternity.log");
+
 
 		// We set up various environment properties and dependency injections
 		// here in order to make it easier to test classes later.
 		Environment.initialise();
 		Settings.initialise();
-		Rectangle windowBounds = EKUtils.getDefaultWindowBounds();
+		rolloverLogFile(log);
 
-		Frame frame = new EternityKeeper();
+		final Rectangle windowBounds = EKUtils.getDefaultWindowBounds();
+		final Frame frame = new EternityKeeper();
 		frame.setTitle("Eternity Keeper");
 		frame.setBounds(windowBounds);
 		frame.setVisible(true);

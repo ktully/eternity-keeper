@@ -35,6 +35,8 @@ public class Configuration {
 		add("Program Files (x86)\\Steam\\SteamApps\\common\\Pillars of Eternity");
 	}};
 
+
+	public long maxLogSize () { return 0x20000; }
 	public String pillarsDataDirectory () {	return "PillarsOfEternity_Data"; }
 
 	public String companionPortraitPath () {
