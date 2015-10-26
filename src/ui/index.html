@@ -31,7 +31,7 @@
 
 </head>
 <body>
-	<div class="modal fade" id="settings" role="dialog">
+	<div class="modal fade" id="SettingsDialog" role="dialog" data-bound="Settings">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -57,7 +57,7 @@
 		</div>
 	</div>
 
-	<div class="modal fade" id="saveFileDialog" role="dialog">
+	<div class="modal fade" id="FileDialogSave" role="dialog" data-bound="File">
 		<div class="modal-dialog modal-sm">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -82,7 +82,7 @@
 		</div>
 	</div>
 
-	<div class="modal fade" id="saveChangesDialog" role="dialog">
+	<div class="modal fade" id="FileDialogSaveChanges" role="dialog" data-bound="File">
 		<div class="modal-dialog modal-sm">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -106,7 +106,7 @@
 		</div>
 	</div>
 
-	<div class="modal fade" id="checkUpdatesDialog" role="dialog">
+	<div class="modal fade" id="UpdatesDialog" role="dialog" data-bound="Updates">
 		<div class="modal-dialog modal-sm">
 			<div class="modal-content">
 				<div class="modal-body">
@@ -114,24 +114,6 @@
 						<span>&times;</span>
 					</button>
 					<div id="checkUpdatesContents"></div>
-					<!--<div class="alert alert-danger" id="checkUpdatesError">
-						There was an error checking for updates...
-					</div>
-					<div class="alert alert-danger" id="checkUpdatesDownloadFailed">
-						<strong>Error!</strong> Download failed, please download manually.
-					</div>
-					<div class="alert alert-success" id="checkUpdatesNoUpdates">
-						Eternity Keeper is up to date!
-					</div>
-					<div class="alert alert-success" id="checkUpdatesDownloadSuccess">
-						Eternity Keeper was successfully updated, please restart it when ready.
-					</div>
-					<div class="alert alert-warning" id="checkUpdatesAvailable">
-						There is an update available!
-					</div>
-					<div id="checkUpdatesProgress" class="progress">
-						Checking... <span>0%</span>
-					</div>-->
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-primary btn-sm" id="checkUpdatesTryAgain">Check again</button>
@@ -141,7 +123,7 @@
 		</div>
 	</div>
 
-	<div class="modal fade" id="exportCharacterDialog" role="dialog">
+	<div class="modal fade" id="ExportCharacterDialog" role="dialog" data-bound="ExportCharacter">
 		<div class="modal-dialog modal-sm">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -163,7 +145,7 @@
 		</div>
 	</div>
 
-	<div class="modal fade" id="currencyEditor" role="dialog">
+	<div class="modal fade" id="FileCurrencyDialog" role="dialog" data-bound="File">
 		<div class="modal-dialog modal-sm">
 			<div class="modal-content">
 				<div class="modal-body">
@@ -323,9 +305,17 @@
 		<div></div>
 	</div>
 
+	<div id="clones">
+
+	</div>
+
 	<script src="js/jquery-2.1.4.min.js"></script>
 	<script src="bootstrap/js/bootstrap.min.js"></script>
-	<script src="js/Errors.js"></script>
+
+	<script src="js/SaveSearch.js"></script>
+	<script src="js/Editor.js"></script>
+
+	<!--<script src="js/Errors.js"></script>
 	<script src="js/Settings.js"></script>
 	<script src="js/SavedGame.js"></script>
 	<script src="js/CurrencyEditor.js"></script>
@@ -334,7 +324,7 @@
 	<script src="js/CheckUpdates.js"></script>
 	<script src="js/ExportCharacter.js"></script>
 	<script src="js/ImportCharacter.js"></script>
-	<script src="js/TabActivator.js"></script>
+	<script src="js/TabActivator.js"></script>-->
 
 </body>
 </html>
