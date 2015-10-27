@@ -22,7 +22,7 @@ var Editor = function () {
 	var bindDOM = function () {
 		// Do one pass over the DOM at startup to bind all the UI elements that we need.
 		$('[data-bound]').each(function (element) {
-			var boundTo = element.attr('data-bound');
+			var boundTo = element.data('bound');
 			var id = element.attr('id');
 
 			if (boundTo == null || boundTo.length < 1 || id == null || id.length < 1) {

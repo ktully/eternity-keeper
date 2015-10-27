@@ -31,7 +31,7 @@
 
 </head>
 <body>
-	<div class="modal fade" id="SettingsDialog" role="dialog" data-bound="Settings">
+	<div class="modal fade" id="settingsDialog" role="dialog" data-bound="Settings">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -57,7 +57,7 @@
 		</div>
 	</div>
 
-	<div class="modal fade" id="FileDialogSave" role="dialog" data-bound="File">
+	<div class="modal fade" id="fileDialogSave" role="dialog" data-bound="File">
 		<div class="modal-dialog modal-sm">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -82,7 +82,7 @@
 		</div>
 	</div>
 
-	<div class="modal fade" id="FileDialogSaveChanges" role="dialog" data-bound="File">
+	<div class="modal fade" id="fileDialogSaveChanges" role="dialog" data-bound="File">
 		<div class="modal-dialog modal-sm">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -106,7 +106,7 @@
 		</div>
 	</div>
 
-	<div class="modal fade" id="UpdatesDialog" role="dialog" data-bound="Updates">
+	<div class="modal fade" id="updatesDialog" role="dialog" data-bound="Updates">
 		<div class="modal-dialog modal-sm">
 			<div class="modal-content">
 				<div class="modal-body">
@@ -123,7 +123,7 @@
 		</div>
 	</div>
 
-	<div class="modal fade" id="ExportCharacterDialog" role="dialog" data-bound="ExportCharacter">
+	<div class="modal fade" id="exportCharacterDialog" role="dialog" data-bound="ExportCharacter">
 		<div class="modal-dialog modal-sm">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -145,7 +145,7 @@
 		</div>
 	</div>
 
-	<div class="modal fade" id="FileCurrencyDialog" role="dialog" data-bound="File">
+	<div class="modal fade" id="fileCurrencyDialog" role="dialog" data-bound="File">
 		<div class="modal-dialog modal-sm">
 			<div class="modal-content">
 				<div class="modal-body">
@@ -215,14 +215,14 @@
 					<form class="form-inline">
 						<div class="form-group form-group-sm">
 							<label for="savedGameLocation">Saves Folder</label>
-							<input type="text" id="savedGameLocation" name="savedGameLocation" class="form-control">
+							<input type="text" id="savedGameLocation" name="savedGameLocation" class="form-control" data-bound="SaveSearch">
 						</div>
 						<button type="submit" class="btn btn-primary btn-sm" id="searchForSavedGames">
 							<i class="fa fa-spinner fa-pulse"></i> Search
 						</button>
 					</form>
 				</div>
-				<div class="row save-blocks"></div>
+				<div class="row save-blocks" id="saveBlocks" data-bound="SaveSearch"></div>
 				<div class="row character">
 					<div class="col-sm-4 portrait"></div>
 					<div class="col-sm-8 stats">
@@ -254,43 +254,37 @@
 								<div class="row form-group form-group-sm">
 									<label class="col-sm-2 control-label">Might</label>
 									<div class="col-sm-2">
-										<input type="number" class="form-control"
-											data-key="BaseMight"/>
+										<input type="number" class="form-control"	data-key="BaseMight"/>
 									</div>
 								</div>
 								<div class="row form-group form-group-sm">
 									<label class="col-sm-2 control-label">Constitution</label>
 									<div class="col-sm-2">
-										<input type="number" class="form-control"
-											data-key="BaseConstitution"/>
+										<input type="number" class="form-control"	data-key="BaseConstitution"/>
 									</div>
 								</div>
 								<div class="row form-group form-group-sm">
 									<label class="col-sm-2 control-label">Dexterity</label>
 									<div class="col-sm-2">
-										<input type="number" class="form-control"
-											data-key="BaseDexterity"/>
+										<input type="number" class="form-control"	data-key="BaseDexterity"/>
 									</div>
 								</div>
 								<div class="row form-group form-group-sm">
 									<label class="col-sm-2 control-label">Intellect</label>
 									<div class="col-sm-2">
-										<input type="number" class="form-control"
-											data-key="BaseIntellect"/>
+										<input type="number" class="form-control"	data-key="BaseIntellect"/>
 									</div>
 								</div>
 								<div class="row form-group form-group-sm">
 									<label class="col-sm-2 control-label">Perception</label>
 									<div class="col-sm-2">
-										<input type="number" class="form-control"
-											data-key="BasePerception"/>
+										<input type="number" class="form-control"	data-key="BasePerception"/>
 									</div>
 								</div>
 								<div class="row form-group form-group-sm">
 									<label class="col-sm-2 control-label">Resolve</label>
 									<div class="col-sm-2">
-										<input type="number" class="form-control"
-											data-key="BaseResolve"/>
+										<input type="number" class="form-control"	data-key="BaseResolve"/>
 									</div>
 								</div>
 							</form>
@@ -306,12 +300,29 @@
 	</div>
 
 	<div id="clones">
-
+		<div class="save-info" id="saveBlockClone" data-bound="SaveSearch">
+			<table>
+				<tbody>
+					<tr>
+						<td rowspan="2" class="screenshot">
+							<img src="">
+						</td>
+						<td colspan="2" class="name"></td>
+					</tr>
+					<tr>
+						<td class="portraits"></td>
+						<td class="date"></td>
+					</tr>
+				</tbody>
+			</table>
+			<i class="fa fa-spinner fa-pulse"></i>
+		</div>
 	</div>
 
 	<script src="js/jquery-2.1.4.min.js"></script>
 	<script src="bootstrap/js/bootstrap.min.js"></script>
 
+	<script src="js/CloneFactory.js"></script>
 	<script src="js/SaveSearch.js"></script>
 	<script src="js/Editor.js"></script>
 

@@ -16,23 +16,16 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-var SaveSearch = function () {
-	var self = this;
-
-	var defaultState = {
-		searchPath: ''
-		, saves: []
-	};
-
-	var populateSaveBlocks = function (container, template, data) {
-
-	};
-
-	self.html = {};
-	self.render = function (newState) {
-		var state = $.extend({}, defaultState, newState);
-		self.html.savedGameLocation.val(state.searchPath);
-		self.html.saveBlocks.show();
-		populateSaveBlocks(self.html.saveBlocks, self.html.saveBlockClone, state.saves);
+var CloneFactory = {};
+CloneFactory.clone = function (element) {
+	if (element == null || !element.clone) {
+		console.error('Tried to clone something which was not an HTML element.');
+		return;
 	}
+
+	var spawn = element.clone();
+	spawn.attr('id', null);
+	spawn.data('bound', null);
+	
+	return spawn;
 };
