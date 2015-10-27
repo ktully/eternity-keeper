@@ -62,6 +62,25 @@ public class CheckExtractionProgressTest extends TestHarness {
 	}
 
 	@Test
+	public void percentageNonFinite () {
+		final Environment environment = Environment.getInstance();
+		final CefBrowser mockBrowser = mock(CefBrowser.class);
+		final CefQueryCallback mockCallback = mock(CefQueryCallback.class);
+		final SaveInfoLister mockLister = mock(SaveInfoLister.class);
+		final SaveGameExtractor mockExtractor = mock(SaveGameExtractor.class);
+
+		environment.state().currentSaveLister(mockLister);
+		mockLister.extractor = mockExtractor;
+		mockExtractor.currentCount = new AtomicInteger(1);
+		mockExtractor.totalFiles = new AtomicInteger(0);
+
+		final CheckExtractionProgress cls = new CheckExtractionProgress();
+		cls.onQuery(mockBrowser, 0, "true", false, mockCallback);
+
+		verify(mockCallback).success(String.format(RESPONSE, "0"));
+	}
+
+	@Test
 	public void calculatesPercentage () {
 		Environment environment = Environment.getInstance();
 		CefBrowser mockBrowser = mock(CefBrowser.class);
@@ -78,7 +97,6 @@ public class CheckExtractionProgressTest extends TestHarness {
 		cls.onQuery(mockBrowser, 0, "true", false, mockCallback);
 
 		double percentage = (1d / 3d) * 100;
-		verify(mockCallback).success(
-			String.format(RESPONSE, String.format("%.14f", percentage)));
+		verify(mockCallback).success(String.format(RESPONSE, String.format("%.14f", percentage)));
 	}
 }

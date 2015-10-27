@@ -58,7 +58,12 @@ public class CheckExtractionProgress extends CefMessageRouterHandlerAdapter {
 		final int count = extractor.currentCount.get();
 		final double percentage = ((double) count / (double) total) * 100;
 
-		callback.success(response(percentage));
+		if (total < 1 || count < 1) {
+			callback.success(response(0d));
+		} else {
+			callback.success(response(percentage));
+		}
+
 		return true;
 	}
 
