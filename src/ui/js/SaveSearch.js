@@ -16,7 +16,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-var SaveSearch = function () {
+var SaveSearch = () => {
 	var self = this;
 
 	var defaultState = {
@@ -24,15 +24,25 @@ var SaveSearch = function () {
 		, saves: []
 	};
 
-	var populateSaveBlocks = function (container, template, data) {
-
+	var populateSaveBlocks = (container, template, data) => {
+		data.forEach(info => {
+			var tile = CloneFactory.clone(template);
+			var userSaveName = info.userName ? '(' + info.userName + ')' : '';
+			var portraits = info.portraits.map(
+					portrait => '<img src="data:image/png;base64,' + portrait + '">');
+			tile.find('.screenshot img').attr('src', 'data:image/png;base64,' + info.screenshot);
+			tile.find('.name').text(info.playerName + ' - ' + info.systemName + userSaveName);
+			tile.find('.date').text(info.date);
+			tile.find('.portraits').html(portraits.join(' '));
+			container.append(tile);
+		});
 	};
 
 	self.html = {};
-	self.render = function (newState) {
+	self.render = newState => {
 		var state = $.extend({}, defaultState, newState);
 		self.html.savedGameLocation.val(state.searchPath);
 		self.html.saveBlocks.show();
 		populateSaveBlocks(self.html.saveBlocks, self.html.saveBlockClone, state.saves);
-	}
+	};
 };

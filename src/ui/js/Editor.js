@@ -16,12 +16,12 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-var Editor = function () {
+var Editor = () => {
 	var self = this;
 
-	var bindDOM = function () {
+	var bindDOM = () => {
 		// Do one pass over the DOM at startup to bind all the UI elements that we need.
-		$('[data-bound]').each(function (element) {
+		$('[data-bound]').each(element => {
 			var boundTo = element.data('bound');
 			var id = element.attr('id');
 
@@ -46,13 +46,26 @@ var Editor = function () {
 		});
 	};
 
+	var initialise = () => {
+		// Call the init method on all of our components to allow them to set up their internal
+		// state now that the editor has started up.
+		for (var component in self) {
+			if (!self.hasOwnProperty(component)	|| typeof self[component].init !== 'function') {
+				continue;
+			}
+
+			self[component].init.call(self[component]);
+		}
+	};
+
 	self.state = {};
 
-	// Component initialisation goes here:
+	// Component instantiation goes here:
 	self.SaveSearch = new SaveSearch();
 
 	// Client startup tasks go here:
 	bindDOM();
+	initialise();
 };
 
 var Eternity = new Editor();

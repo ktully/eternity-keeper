@@ -17,7 +17,7 @@
  */
 
 var CloneFactory = {};
-CloneFactory.clone = function (element) {
+CloneFactory.clone = element => {
 	if (element == null || !element.clone) {
 		console.error('Tried to clone something which was not an HTML element.');
 		return;
@@ -26,6 +26,6 @@ CloneFactory.clone = function (element) {
 	var spawn = element.clone();
 	spawn.attr('id', null);
 	spawn.data('bound', null);
-	
+
 	return spawn;
 };
