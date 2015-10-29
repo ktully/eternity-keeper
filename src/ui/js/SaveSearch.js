@@ -22,6 +22,7 @@ var SaveSearch = () => {
 	var defaultState = {
 		searchPath: ''
 		, saves: []
+		, searching: false
 	};
 
 	var populateSaveBlocks = (container, template, data) => {
@@ -38,11 +39,20 @@ var SaveSearch = () => {
 		});
 	};
 
+	self.state = defaultState;
 	self.html = {};
 	self.render = newState => {
-		var state = $.extend({}, defaultState, newState);
-		self.html.savedGameLocation.val(state.searchPath);
+		self.state = $.extend({}, defaultState, newState);
+		self.html.savedGameLocation.val(self.state.searchPath);
+		self.html.saveBlocks.empty();
 		self.html.saveBlocks.show();
-		populateSaveBlocks(self.html.saveBlocks, self.html.saveBlockClone, state.saves);
+		populateSaveBlocks(self.html.saveBlocks, self.html.saveBlockClone, self.state.saves);
 	};
 };
+
+SaveSearch.prototype.search = () => {
+	var self = this;
+	self.transition({searching: true});
+};
+
+$.extend(SaveSearch.prototype, Renderer.prototype);

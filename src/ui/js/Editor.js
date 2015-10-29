@@ -58,6 +58,32 @@ var Editor = () => {
 		}
 	};
 
+	var getDirectoryPaths = () => {
+		var updateDirectoryPaths = response => {
+			var searchPath = '';
+			var gameLocation = '';
+			response = JSON.parse(response);
+
+			if (response.savesLocation && response.savesLocation.length > 0) {
+				searchPath = response.savesLocation;
+			}
+
+			if (response.gameLocation && response.gameLocation.length > 0) {
+				gameLocation = response.gameLocation;
+			}
+
+			self.SaveSearch.render({searchPath: searchPath});
+			self.Settings.render({gameLocation: gameLocation});
+			self.SaveSearch.search();
+		};
+
+		window.getDefaultSaveLocation({
+			request: 'default'
+			, onSuccess: updateDirectoryPaths
+			, onFailure: console.error.bind(console, 'Error detecting directory paths.')
+		});
+	};
+
 	self.state = {};
 
 	// Component instantiation goes here:
@@ -66,6 +92,7 @@ var Editor = () => {
 	// Client startup tasks go here:
 	bindDOM();
 	initialise();
+	getDirectoryPaths();
 };
 
 var Eternity = new Editor();
