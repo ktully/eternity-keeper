@@ -16,12 +16,19 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+var Progress = function () {
+	var self = this;
 
-var errorShow = function (msg) {
-	$('#error div').html(msg);
-	$('#error').show();
+	var defaultState = {
+		percentage: 0
+	};
+
+	self.state = defaultState;
+	self.html = {};
+	self.render = newState => {
+		self.state = $.extend({}, defaultState, newState);
+		self.html.progress.find('div').css('width', self.state.percentage + '%');
+	};
 };
 
-var errorHide = function () {
-	$('#error').hide();
-};
+$.extend(Progress.prototype, Renderer.prototype);

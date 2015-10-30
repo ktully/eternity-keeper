@@ -16,16 +16,24 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-var CloneFactory = {};
-CloneFactory.clone = function (element) {
-	if (element == null || !element.clone) {
-		console.error('Tried to clone something which was not an HTML element.');
-		return;
-	}
+var GenericError = function () {
+	var self = this;
 
-	var spawn = element.clone();
-	spawn.attr('id', null);
-	spawn.data('bound', null);
+	var defaultState = {
+		msg: ''
+	};
 
-	return spawn;
+	self.state = defaultState;
+	self.html = {};
+	self.render = newState => {
+		self.state = $.extend({}, defaultState, newState);
+		if (self.state.msg.length > 0) {
+			self.html.error.show();
+			self.html.error.find('div').text(self.state.msg);
+		} else {
+			self.html.error.hide();
+		}
+	};
 };
+
+$.extend(GenericError.prototype, Renderer.prototype);

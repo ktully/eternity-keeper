@@ -16,14 +16,14 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-var Editor = () => {
+var Editor = function () {
 	var self = this;
 
 	var bindDOM = () => {
 		// Do one pass over the DOM at startup to bind all the UI elements that we need.
-		$('[data-bound]').each(element => {
-			var boundTo = element.data('bound');
-			var id = element.attr('id');
+		$('[data-bound]').each((i, element) => {
+			var boundTo = $(element).data('bound');
+			var id = $(element).attr('id');
 
 			if (boundTo == null || boundTo.length < 1 || id == null || id.length < 1) {
 				console.error('Element ', element, ' was incorrectly bound.');
@@ -87,6 +87,9 @@ var Editor = () => {
 	self.state = {};
 
 	// Component instantiation goes here:
+	self.GenericError = new GenericError();
+	self.Progress = new Progress();
+	self.Settings = new Settings();
 	self.SaveSearch = new SaveSearch();
 
 	// Client startup tasks go here:

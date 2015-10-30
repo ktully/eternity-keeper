@@ -16,5 +16,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-var Renderer = () => {};
-Renderer.prototype.transition = newState => this.render($.extend({}, this.state, newState));
+var Renderer = function () {};
+Renderer.prototype.transition = function (newState) {
+	this.render($.extend({}, this.state, newState));
+};

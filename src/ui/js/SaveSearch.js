@@ -16,7 +16,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-var SaveSearch = () => {
+var SaveSearch = function () {
 	var self = this;
 
 	var defaultState = {
@@ -41,18 +41,76 @@ var SaveSearch = () => {
 
 	self.state = defaultState;
 	self.html = {};
+
+	self.init = () => {
+		self.html.searchForSavedGames.click(self.search.bind(self));
+	};
+
 	self.render = newState => {
 		self.state = $.extend({}, defaultState, newState);
 		self.html.savedGameLocation.val(self.state.searchPath);
 		self.html.saveBlocks.empty();
 		self.html.saveBlocks.show();
 		populateSaveBlocks(self.html.saveBlocks, self.html.saveBlockClone, self.state.saves);
+
+		if (self.state.searching) {
+			self.html.searchForSavedGames.prop('disabled', true);
+			self.html.searchForSavedGames.find('i').css('display', 'inline-block');
+			self.html.searchForSavedGames.find('span').text('Searching...');
+		} else {
+			self.html.searchForSavedGames.prop('disabled', false);
+			self.html.searchForSavedGames.find('i').hide();
+			self.html.searchForSavedGames.find('span').text('Search');
+		}
 	};
 };
 
-SaveSearch.prototype.search = () => {
+SaveSearch.prototype.search = function () {
 	var self = this;
-	self.transition({searching: true});
+	var interval = null;
+	var searchPath = self.html.savedGameLocation.val();
+
+	var success = response => {
+		clearInterval(interval);
+		Eternity.Progress.render({});
+		self.transition({searching: false});
+
+		var saves = JSON.parse(response);
+		if (saves.error) {
+			Eternity.GenericError.render({msg: 'No saves found.'});
+			return;
+		}
+
+		self.transition({saves: saves});
+	};
+
+	var failure = () => {
+		clearInterval(interval);
+		Eternity.Progress.render({});
+		self.transition({searching: false});
+		console.error('Listing saved games failed.');
+	};
+
+	var pollForUpdate = () => {
+		window.checkExtractionProgress({
+			request: "true"
+			, onSuccess: response =>
+				Eternity.Progress.render({percentage: JSON.parse(response).update})
+			, onFailure: console.error.bind(console, 'Error checking for extraction progress.')
+		});
+	};
+
+	if (searchPath.length < 1 || self.state.searching) {
+		return;
+	}
+
+	self.transition({searchPath: searchPath, searching: true});
+	interval = setInterval(pollForUpdate, 1000);
+	window.listSavedGames({
+		request: searchPath
+		, onSuccess: success
+		, onFailure: failure
+	});
 };
 
 $.extend(SaveSearch.prototype, Renderer.prototype);

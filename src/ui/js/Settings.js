@@ -16,52 +16,68 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 var Settings = function () {
 	var self = this;
-	var inProgress = false;
 
-	var saving = function () {
-		inProgress = true;
-		$('#saveSettings i').show();
-		$('#saveSettings').prop('disabled', true);
+	var defaultState = {
+		gameLocation: ''
+		, saving: false
 	};
 
-	var notSaving = function () {
-		inProgress = false;
-		$('#saveSettings i').hide();
-		$('#saveSettings').prop('disabled', false);
+	self.state = defaultState;
+	self.html = {};
+
+	self.init = () => {
+		self.html.saveSettings.click(self.save.bind(self));
 	};
 
-	var settingsSaved = function () {
-		notSaving();
-		$('#settings').modal('hide');
-	};
+	self.render = newState => {
+		self.state = $.extend({}, defaultState, newState);
+		self.html.gameLocation.val(self.state.gameLocation);
 
-	var settingsNotSaved = function () {
-		notSaving();
-		console.error('Error saving settings');
-	};
-
-	var saveSettings = function () {
-		if (inProgress) {
-			return;
+		if (self.state.saving) {
+			self.html.saveSettings.prop('disabled', true);
+			self.html.saveSettings.find('i').show();
+			self.html.saveSettings.find('span').text('Saving...');
+		} else {
+			self.html.saveSettings.prop('disabled', false);
+			self.html.saveSettings.find('i').hide();
+			self.html.saveSettings.find('span').text('Save');
 		}
 
-		saving();
-
-		var data = {
-			gameLocation: $('#gameLocation').val()
-		};
-
-		window.saveSettings({
-			request: JSON.stringify(data)
-			, onSuccess: settingsSaved
-			, onFailure: settingsNotSaved
-		});
+		if (self.state.gameLocation.length < 1) {
+			self.html.settingsDialog.modal('show');
+		}
 	};
-
-	$('#saveSettings').click(saveSettings);
 };
 
-var settings = new Settings();
+Settings.prototype.save = function () {
+	var self = this;
+
+	var data = {
+		gameLocation: self.html.gameLocation.val()
+	};
+
+	var success = () => {
+		self.transition({saving: false});
+		self.html.settingsDialog.modal('hide');
+	};
+
+	var failure = () => {
+		self.transition({saving: false});
+		console.error('Error saving settings.');
+	};
+
+	if (self.state.saving) {
+		return;
+	}
+
+	self.transition({gameLocation: data.gameLocation, saving: true});
+	window.saveSettings({
+		request: JSON.stringify(data)
+		, onSuccess: success
+		, onFailure: failure
+	});
+};
+
+$.extend(Settings.prototype, Renderer.prototype);

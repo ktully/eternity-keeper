@@ -25,8 +25,7 @@
 	<title>Eternity Keeper</title>
 
 	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
-	<!-- <link href="bootstrap/css/bootstrap-theme.min.css" rel="stylesheet"> -->
-	<link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
+	<link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">
 	<link href="css/ui.css" rel="stylesheet">
 
 </head>
@@ -44,13 +43,15 @@
 					<form>
 						<div class="form-group form-group-sm">
 							<label for="gameLocation">Pillars of Eternity Installation Folder</label>
-							<input id="gameLocation" type="text" class="form-control">
+							<input id="gameLocation" type="text" class="form-control" data-bound="Settings"
+							       placeholder="Unable to locate installation folder">
 						</div>
 					</form>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-primary btn-sm" id="saveSettings">
-						<i class="fa fa-spinner fa-pulse"></i> Save settings
+					<button type="button" class="btn btn-primary btn-sm" id="saveSettings"
+					        data-bound="Settings">
+						<i class="fa fa-spinner fa-pulse"></i> <span></span>
 					</button>
 				</div>
 			</div>
@@ -180,7 +181,7 @@
 								<li><a href="javascript:void(0);" id="menu-open-saved-game">Open saved game</a></li>
 								<li class="disabled"><a href="javascript:void(0);" id="menu-save-modification">Save modifications</a></li>
 								<li class="divider"></li>
-								<li><a data-toggle="modal" href="#settings" id="menu-settings">Settings</a></li>
+								<li><a data-toggle="modal" href="#settingsDialog" id="menu-settings">Settings</a></li>
 								<li><a href="javascript:void(0);" id="menu-check-updates">Check for updates</a></li>
 								<li class="divider"></li>
 								<li class="disabled"><a href="javascript:void(0);" id="menu-import-character">Import character</a></li>
@@ -208,7 +209,7 @@
 				<ul class="characters"></ul>
 			</div>
 			<div class="main-panel">
-				<div class="row" id="error">
+				<div class="row" id="error" data-bound="GenericError">
 					<div class="alert alert-danger alert-dismissable"></div>
 				</div>
 				<div class="row saved-game-locator">
@@ -219,8 +220,9 @@
 							       placeholder="Unable to locate save folder" class="form-control"
 							       data-bound="SaveSearch">
 						</div>
-						<button type="submit" class="btn btn-primary btn-sm" id="searchForSavedGames">
-							<i class="fa fa-spinner fa-pulse"></i> Search
+						<button type="submit" class="btn btn-primary btn-sm" id="searchForSavedGames"
+						        data-bound="SaveSearch">
+							<i class="fa fa-spinner fa-pulse"></i> <span></span>
 						</button>
 					</form>
 				</div>
@@ -296,7 +298,7 @@
 		</div>
 	</div>
 
-	<div id="progress">
+	<div id="progress" data-bound="Progress">
 		<div></div>
 	</div>
 
@@ -325,6 +327,9 @@
 
 	<script src="js/Renderer.js"></script>
 	<script src="js/CloneFactory.js"></script>
+	<script src="js/GenericError.js"></script>
+	<script src="js/Progress.js"></script>
+	<script src="js/Settings.js"></script>
 	<script src="js/SaveSearch.js"></script>
 	<script src="js/Editor.js"></script>
 
