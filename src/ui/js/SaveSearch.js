@@ -23,18 +23,25 @@ var SaveSearch = function () {
 		searchPath: ''
 		, saves: []
 		, searching: false
+		, opening: false
 	};
 
-	var populateSaveBlocks = (container, template, data) => {
-		data.forEach(info => {
+	var populateSaveBlocks = (container, template, data, opening) => {
+		data.forEach((info, i) => {
 			var tile = CloneFactory.clone(template);
 			var userSaveName = info.userName ? '(' + info.userName + ')' : '';
 			var portraits = info.portraits.map(
 					portrait => '<img src="data:image/png;base64,' + portrait + '">');
+
+			if (opening === i) {
+				tile.find('i').show();
+			}
+
 			tile.find('.screenshot img').attr('src', 'data:image/png;base64,' + info.screenshot);
 			tile.find('.name').text(info.playerName + ' - ' + info.systemName + userSaveName);
 			tile.find('.date').text(info.date);
 			tile.find('.portraits').html(portraits.join(' '));
+			tile.click(self.open.bind(self, info, i));
 			container.append(tile);
 		});
 	};
@@ -51,7 +58,12 @@ var SaveSearch = function () {
 		self.html.savedGameLocation.val(self.state.searchPath);
 		self.html.saveBlocks.empty();
 		self.html.saveBlocks.show();
-		populateSaveBlocks(self.html.saveBlocks, self.html.saveBlockClone, self.state.saves);
+		Eternity.render({listView: true});
+		populateSaveBlocks(
+			self.html.saveBlocks
+			, self.html.saveBlockClone
+			, self.state.saves
+			, self.state.opening);
 
 		if (self.state.searching) {
 			self.html.searchForSavedGames.prop('disabled', true);
@@ -108,6 +120,37 @@ SaveSearch.prototype.search = function () {
 	interval = setInterval(pollForUpdate, 1000);
 	window.listSavedGames({
 		request: searchPath
+		, onSuccess: success
+		, onFailure: failure
+	});
+};
+
+SaveSearch.prototype.open = function (info, i) {
+	var self = this;
+
+	var success = response => {
+		self.transition({opening: false});
+		response = JSON.parse(response);
+
+		if (response.characters.length < 1) {
+			Eternity.GenericError.render({msg: 'No characters found in save game.'});
+		} else {
+			Eternity.SavedGame.render({saveData: response});
+		}
+	};
+
+	var failure = () => {
+		self.transition({opening: false});
+		Eternity.GenericError.render({msg: 'Error opening saved game file: ' + info.absolutePath});
+	};
+
+	if (self.state.opening !== false) {
+		return;
+	}
+
+	self.transition({opening: i});
+	window.openSavedGame({
+		request: info.absolutePath
 		, onSuccess: success
 		, onFailure: failure
 	});

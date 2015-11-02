@@ -114,11 +114,17 @@
 					<button type="button" class="close" data-dismiss="modal">
 						<span>&times;</span>
 					</button>
-					<div id="checkUpdatesContents"></div>
+					<div id="updatesDialogContents" data-bound="Updates"></div>
 				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-primary btn-sm" id="checkUpdatesTryAgain">Check again</button>
-					<button type="button" class="btn btn-success btn-sm" id="checkUpdatesDownload">Download</button>
+				<div class="modal-footer" id="updatesDialogButtons" data-bound="Updates">
+					<button type="button" class="btn btn-primary btn-sm" id="updatesTryAgain"
+					        data-bound="Updates">
+						Check again
+					</button>
+					<button type="button" class="btn btn-success btn-sm" id="updatesDownload"
+					        data-bound="Updates">
+						Download
+					</button>
 				</div>
 			</div>
 		</div>
@@ -146,20 +152,26 @@
 		</div>
 	</div>
 
-	<div class="modal fade" id="fileCurrencyDialog" role="dialog" data-bound="File">
+	<div class="modal fade" id="currencyDialog" role="dialog" data-bound="CurrencyEditor">
 		<div class="modal-dialog modal-sm">
 			<div class="modal-content">
 				<div class="modal-body">
 					<form>
 						<div class="form-group form-group-sm">
 							<label for="currency">Copper Pands</label>
-							<input id="currency" type="number" class="form-control">
+							<input id="currency" type="number" class="form-control" data-bound="CurrencyEditor">
 						</div>
 					</form>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-danger btn-sm" id="currencyEditorCancel">Cancel</button>
-					<button type="button" class="btn btn-primary btn-sm" id="currencyEditorSet">Done</button>
+					<button type="button" class="btn btn-danger btn-sm" id="currencyEditorCancel"
+					        data-bound="CurrencyEditor">
+						Cancel
+					</button>
+					<button type="button" class="btn btn-primary btn-sm" id="currencyEditorSet"
+					        data-bound="CurrencyEditor">
+						Done
+					</button>
 				</div>
 			</div>
 		</div>
@@ -178,15 +190,40 @@
 								File <span class="caret"></span>
 							</a>
 							<ul class="dropdown-menu">
-								<li><a href="javascript:void(0);" id="menu-open-saved-game">Open saved game</a></li>
-								<li class="disabled"><a href="javascript:void(0);" id="menu-save-modification">Save modifications</a></li>
+								<li>
+									<a href="javascript:void(0);" id="menu-open-saved-game">Open saved game</a>
+								</li>
+								<li class="disabled">
+									<a href="javascript:void(0);" id="menu-save-modification">
+										Save modifications
+									</a>
+								</li>
 								<li class="divider"></li>
-								<li><a data-toggle="modal" href="#settingsDialog" id="menu-settings">Settings</a></li>
-								<li><a href="javascript:void(0);" id="menu-check-updates">Check for updates</a></li>
+								<li>
+									<a data-toggle="modal" href="#settingsDialog" id="menu-settings">
+										Settings</a>
+								</li>
+								<li>
+									<a href="javascript:void(0);" id="menuCheckUpdates" data-bound="Updates">
+										Check for updates
+									</a>
+								</li>
 								<li class="divider"></li>
-								<li class="disabled"><a href="javascript:void(0);" id="menu-import-character">Import character</a></li>
-								<li class="disabled"><a href="javascript:void(0);" id="menu-edit-global">Edit globals</a></li>
-								<li class="disabled"><a href="javascript:void(0);" id="menu-edit-currency">Edit currency</a></li>
+								<li class="disabled">
+									<a href="javascript:void(0);" id="menu-import-character">
+										Import character
+									</a>
+								</li>
+								<li class="disabled">
+									<a href="javascript:void(0);" id="menu-edit-global">
+										Edit globals
+									</a>
+								</li>
+								<li class="disabled">
+									<a href="javascript:void(0);" id="menuCurrencyEditor" data-bound="CurrencyEditor">
+										Edit currency
+									</a>
+								</li>
 							</ul>
 						</li>
 						<li class="dropdown">
@@ -194,7 +231,11 @@
 								Character <span class="caret"></span>
 							</a>
 							<ul class="dropdown-menu">
-								<li class="disabled"><a href="javascript:void(0);" id="menu-export-character">Export</a></li>
+								<li class="disabled">
+									<a href="javascript:void(0);" id="menu-export-character">
+										Export
+									</a>
+								</li>
 							</ul>
 						</li>
 					</ul>
@@ -206,13 +247,13 @@
 	<div class="container-fluid">
 		<div class="row">
 			<div class="sidebar sidebar-width">
-				<ul class="characters"></ul>
+				<ul class="characters" id="characterList" data-bound="SavedGame"></ul>
 			</div>
 			<div class="main-panel">
 				<div class="row" id="error" data-bound="GenericError">
 					<div class="alert alert-danger alert-dismissable"></div>
 				</div>
-				<div class="row saved-game-locator">
+				<div class="row saved-game-locator" id="searchContainer" data-bound="SaveSearch">
 					<form class="form-inline">
 						<div class="form-group form-group-sm">
 							<label for="savedGameLocation">Saves Folder</label>
@@ -227,7 +268,7 @@
 					</form>
 				</div>
 				<div class="row save-blocks" id="saveBlocks" data-bound="SaveSearch"></div>
-				<div class="row character">
+				<div class="row character" id="character" data-bound="SavedGame">
 					<div class="col-sm-4 portrait"></div>
 					<div class="col-sm-8 stats">
 						<div class="row">
@@ -236,12 +277,16 @@
 									<input type="text" class="form-control"	data-key="OverrideName">
 								</div>
 							</form>
-							<ul class="nav nav-tabs">
-								<li role="presentation" class="active"><a target=".attributes" href="javascript:void(0);">Attributes</a></li>
-								<li role="presentation"><a target=".raw" href="javascript:void(0);">Raw</a></li>
+							<ul class="nav nav-tabs" id="characterTabs" data-bound="SavedGame">
+								<li role="presentation">
+									<a target="characterAttributes" href="javascript:void(0);">Attributes</a>
+								</li>
+								<li role="presentation">
+									<a target="rawTable" href="javascript:void(0);">Raw</a>
+								</li>
 							</ul>
 						</div>
-						<div class="row section raw">
+						<div class="row section raw" id="rawTable" data-bound="SavedGame">
 							<table class="table table-striped table-bordered">
 								<thead>
 									<tr>
@@ -252,7 +297,7 @@
 								<tbody></tbody>
 							</table>
 						</div>
-						<div class="row section attributes">
+						<div class="row section attributes" id="characterAttributes" data-bound="SavedGame">
 							<form class="form-horizontal">
 								<div class="row form-group form-group-sm">
 									<label class="col-sm-2 control-label">Might</label>
@@ -327,22 +372,20 @@
 
 	<script src="js/Renderer.js"></script>
 	<script src="js/CloneFactory.js"></script>
+
 	<script src="js/GenericError.js"></script>
 	<script src="js/Progress.js"></script>
 	<script src="js/Settings.js"></script>
+	<script src="js/Updates.js"></script>
 	<script src="js/SaveSearch.js"></script>
-	<script src="js/Editor.js"></script>
-
-	<!--<script src="js/Errors.js"></script>
-	<script src="js/Settings.js"></script>
 	<script src="js/SavedGame.js"></script>
 	<script src="js/CurrencyEditor.js"></script>
+	<script src="js/Editor.js"></script>
+
+	<!--
 	<script src="js/SavesManager.js"></script>
 	<script src="js/SaveModifications.js"></script>
-	<script src="js/CheckUpdates.js"></script>
-	<script src="js/ExportCharacter.js"></script>
-	<script src="js/ImportCharacter.js"></script>
-	<script src="js/TabActivator.js"></script>-->
+	-->
 
 </body>
 </html>

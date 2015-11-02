@@ -16,145 +16,123 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-var SavedGame = function (info) {
+var SavedGame = function () {
 	var self = this;
-	self.info = info;
-	self.saveData = null;
-	self.modifications = false;
 
-	var getSelectedCharacter = function () {
-		var guid = $('.characters .active').attr('data-guid');
-		return self.saveData.characters.filter(function (c) {
-			return c.GUID === guid;
-		}).shift();
+	var defaultState = {
+		saveData: {}
+		, modifications: false
+		, activeCharacter: false
+		, activeTab: 'characterAttributes'
 	};
 
-	var switchCharacter = function (e) {
-		var guid = $(e.currentTarget).attr('data-guid');
-		$('.characters li').removeClass('active');
-		$(e.currentTarget).addClass('active');
-		var character = self.saveData.characters.filter(function (c) {
-			return c.GUID === guid;
-		}).shift();
-
-		populateCharacter(character);
+	var populateCharacterList = (container, characters) => {
+		container.append(
+			characters.map(
+				character =>
+					$('<li>')
+					.data('guid', character.GUID)
+					.html('<i class="fa fa-heartbeat"></i> ' + character.name)
+					.addClass(character.isDead ? 'dead' : '')
+					.click(self.switchCharacter.bind(self, character.GUID))));
 	};
 
-	var populateCharacterList = function () {
-		var items = self.saveData.characters.map(function (character) {
-			return $('<li>')
-				.attr('data-guid', character.GUID)
-				.html('<i class="fa fa-heartbeat"></i> ' + character.name)
-				.addClass(character.isDead ? 'dead' : '');
-		});
-
-		$('.characters').empty().append(items);
-		$('.characters li').click(switchCharacter);
-	};
-
-	var updateData = function (e) {
-		var el = $(e.currentTarget);
-		var key = el.attr('data-key');
-		var value = (el.prop('nodeName') === 'TD') ? el.text() : el.val();
-
-		if (key === null || key.length < 1) {
-			return;
-		}
-
-		var character = getSelectedCharacter();
-		character.stats[key] = value.toString();
-		self.modifications = true;
-	};
-
-	self.tabSwitch = function () {
-		// We need to refresh values between tabs since they both modify the same source data.
-		var character = getSelectedCharacter();
-		populateCharacter(character);
-	};
-
-	var populateCharacter = function (character) {
-		var portrait = $('.character .portrait');
-		portrait
+	var populateCharacter = (container, data) => {
+		container.find('.portrait')
 			.empty()
-			.css('background-image', 'url(data:image/png;base64,' + character.portrait + ')')
-			.css('background-repeat', 'no-repeat');
-
-		if (character.isDead) {
-			portrait.append($('<div>DEAD</div>'));
-		}
+			.css('background-image', 'url(data:image/png;base64,' + data.portrait + ')')
+			.css('background-repeat', 'no-repeat')
+			.html((data.isDead) ? '<div>DEAD</div>' : '');
 
 		var row = $('<tr><td></td><td contenteditable></td></tr>');
-		var rawTable = $('.raw').find('tbody');
+		var rawTable = self.html.rawTable.find('tbody');
 		rawTable.empty();
 
-		for (var stat in character.stats) {
-			if (!character.stats.hasOwnProperty(stat)) {
+		for (var stat in data.stats) {
+			if (!data.stats.hasOwnProperty(stat)) {
 				continue;
 			}
 
-			$('.character .stats')
+			container
+				.find('.stats')
 				.find('input[data-key="' + stat + '"]')
-				.val(character.stats[stat]);
+				.val(data.stats[stat].toString());
 
 			var rawRow = row.clone();
 			rawRow.find('td:first-child').text(stat);
 			rawRow.find('td:last-child')
-				.text(character.stats[stat])
-				.attr('data-key', stat);
+				.text(data.stats[stat])
+				.data('key', stat);
 
 			rawTable.append(rawRow);
 		}
 
-		var formInputs = $('.stats').find('input');
-		formInputs.change(updateData);
-		formInputs.keyup(updateData);
-		$('.raw tr > td:last-child').keyup(updateData);
+		container
+			.find('.stats')
+			.find('input')
+			.change(update.bind(self))
+			.keyup(update.bind(self));
+
+		self.html.rawTable.find('tr > td:last-child').keyup(update.bind(self));
 	};
 
-	var populateCurrency = function (amount) {
-		amount = parseInt(amount);
-		$('#currency').val(amount);
+	self.state = defaultState;
+	self.html = {};
+
+	self.init = () => {
+		self.html.characterTabs.find('li').click(self.switchTab.bind(self));
 	};
 
-	self.loadUI = function (response) {
-		savesManager.notOpening();
-		var saveData = JSON.parse(response);
+	self.render = newState => {
+		self.state = $.extend({}, defaultState, newState);
+		self.html.characterList.empty();
+		self.html.characterAttributes.hide();
+		self.html.rawTable.hide();
+		self.html[self.state.activeTab].show();
+		Eternity.CurrencyEditor.render({enabled: true, amount: self.saveData.currency});
+		populateCharacterList(self.html.characterList, self.state.saveData.characters);
 
-		if (saveData.characters.length < 1) {
-			errorShow('No characters found in save game.');
-			return;
-		}
-
-		self.saveData = saveData;
-		self.saveData.characters = self.saveData.characters.map(function (character) {
-			// Hate to lose type information here but HTML forms won't preserve it for us anyway.
-			for (stat in character.stats) {
-				if (!character.stats.hasOwnProperty(stat)) {
-					continue;
-				}
-
-				character.stats[stat] = character.stats[stat].toString();
+		if (self.state.activeCharacter) {
+			self.html.characterList.find('li')
+				.removeClass('active')
+				.filter((i, li) => $(li).data('guid') === self.state.activeCharacter)
+				.addClass('active');
+			var character =
+				self.state.saveData.characters.filter(c => c.GUID == self.state.activeCharacter);
+			if (character.length > 0) {
+				populateCharacter(self.html.character, character[0]);
 			}
-
-			return character;
-		});
-
-		savesManager.switchToSavedGameContext();
-
-		$('.character').show();
-		populateCharacterList();
-		$('.characters li').first().addClass('active');
-		populateCharacter(self.saveData.characters[0]);
-		populateCurrency(self.saveData.currency);
+		} else {
+			self.switchCharacter(self.state.saveData.characters[0].GUID);
+		}
 	};
-
-	window.openSavedGame({
-		request: info.absolutePath
-		, onSuccess: self.loadUI
-		, onFailure: console.error.bind(
-			console
-			, 'Error opening saved game %s.'
-			, info.absolutePath)
-	});
 };
+
+SavedGame.prototype.switchCharacter = function (guid) {
+	var self = this;
+	self.transition({activeCharacter: guid});
+};
+
+SavedGame.prototype.update = function (e) {
+	var self = this;
+	var element = $(e.currentTarget);
+	var key = element.data('key');
+	var value = (element.prop('nodeName') === 'TD') ? element.text() : element.val();
+
+	if (key === null || key.length < 1) {
+		return;
+	}
+
+	var character =
+		self.state.saveData.characters.filter(c => c.GUID === self.state.activeCharacter)[0];
+	character.stats[key] = value.toString();
+	self.state.modifications = true;
+};
+
+SavedGame.prototype.switchTab = function (e) {
+	var self = this;
+	var tab = $(e.currentTarget);
+	self.transition({activeTab: tab.find('a').attr('target')});
+};
+
+$.extend(SavedGame.prototype, Renderer.prototype);

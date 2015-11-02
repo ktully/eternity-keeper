@@ -19,6 +19,11 @@
 var Editor = function () {
 	var self = this;
 
+	var defaultState = {
+		listView: false
+		, saveView: false
+	};
+
 	var bindDOM = () => {
 		// Do one pass over the DOM at startup to bind all the UI elements that we need.
 		$('[data-bound]').each((i, element) => {
@@ -84,13 +89,31 @@ var Editor = function () {
 		});
 	};
 
-	self.state = {};
+	self.state = defaultState;
+	self.render = newState => {
+		self.state = $.extend({}, defaultState, newState);
+		self.SaveSearch.html.searchContainer.hide();
+		self.SaveSearch.html.saveBlocks.hide();
+		self.SavedGame.html.character.hide();
+
+		if (self.state.listView) {
+			self.SaveSearch.html.searchContainer.show();
+			self.SaveSearch.html.saveBlocks.show();
+		}
+
+		if (self.state.saveView) {
+			self.SavedGame.html.character.show();
+		}
+	};
 
 	// Component instantiation goes here:
 	self.GenericError = new GenericError();
 	self.Progress = new Progress();
 	self.Settings = new Settings();
+	self.Updates = new Updates();
 	self.SaveSearch = new SaveSearch();
+	self.SavedGame = new SavedGame();
+	self.CurrencyEditor = new CurrencyEditor();
 
 	// Client startup tasks go here:
 	bindDOM();
