@@ -2,7 +2,7 @@
 *.iml
 target
 debug.log
-eternity.log
+/eternity.log
 dependency-reduced-pom.xml
 settings.json
 **/maven-metadata*
