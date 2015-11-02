@@ -40,6 +40,7 @@ public class StatusEffect {
 	public float m_durationOverride;
 	public boolean m_needsDurationCalculated;
 	public float m_timeActive;
+	public boolean RemovingEffect;
 	public float m_intervalTimer;
 	public UnsignedInteger m_intervalCount;
 	public GameObject Target;
@@ -56,7 +57,7 @@ public class StatusEffect {
 	public boolean m_suppressed;
 	public float m_timeApplied;
 	public int m_numRestCycles;
-	public GenericSpell Spell;
+	public CSharpCollection Spells;
 	public Team CachedTeam;
 	public UUID ExtraObjectSerialized;
 	public GenericAbility.AbilityType AbilityType;

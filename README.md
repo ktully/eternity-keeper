@@ -19,7 +19,9 @@ Currently this has only been tested on Windows. Mac OSX and Linux support, howev
 # Building
 This project uses maven so building it should be relatively straightforward.
 
-	mvn install
+	mvn install -P <platform>
+
+Where *&lt;platform&gt;* is one of `win32`, `win64`, or `linux64`.
 
 # Running
 Assuming you've already built the project and have a `target` directory now and have your Java 8 executable in your `PATH`, you can use `run.bat` to run the project.

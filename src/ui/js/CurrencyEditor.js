@@ -58,7 +58,8 @@ CurrencyEditor.prototype.close = function () {
 
 CurrencyEditor.prototype.update = function () {
 	var self = this;
-	Eternity.SavedGame.state.saveData.currency = parseInt(self.html.currency.val());
+	self.state.amount = parseInt(self.html.currency.val());
+	Eternity.SavedGame.state.saveData.currency = self.state.amount;
 	self.close();
 };
 

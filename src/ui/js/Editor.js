@@ -95,6 +95,7 @@ var Editor = function () {
 		self.SaveSearch.html.searchContainer.hide();
 		self.SaveSearch.html.saveBlocks.hide();
 		self.SavedGame.html.character.hide();
+		self.SavedGame.html.characterList.empty();
 
 		if (self.state.listView) {
 			self.SaveSearch.html.searchContainer.show();

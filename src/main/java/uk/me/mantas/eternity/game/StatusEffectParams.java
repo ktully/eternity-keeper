@@ -28,7 +28,9 @@ public class StatusEffectParams {
 	public boolean IsHostile;
 	public int MaxRestCycles;
 	public AttackBase.EffectAttachType VisualEffectAttach;
+	public float DestroyVFXDelay = 5f;
 	public StatusEffectTrigger TriggerAdjustment;
+	public StatusEffectLevelScaling LevelScaling;
 	public String Tag;
 	public PrerequisiteData[] ApplicationPrerequisites;
 	public StatusEffect.ApplyType Apply;
@@ -58,6 +60,13 @@ public class StatusEffectParams {
 	public boolean m_deserializeInitialized;
 	public GenericAbility OnDamagedCallbackAbility;
 	public boolean IsOverTime;
+	public boolean IsInstantApplication;
+	public int LevelScalingBaseLevel;
+	public int LevelScalingLevelIncrement;
+	public int LevelScalingMaxLevel;
+	public float LevelScalingValueAdjustment;
+	public float LevelScalingExtraValueAdjustment;
+	public float LevelScalingDurationAdjustment;
 	public UUID TrapPrefabSerialized;
 	public Trap TrapSerialized2;
 	public UUID EquippablePrefabSerialized;

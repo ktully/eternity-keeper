@@ -141,6 +141,7 @@ public class TypeMap {
 		put("StrongholdGuestHireling", StrongholdGuestHireling.class);
 		put("StrongholdPrisonerData", StrongholdPrisonerData.class);
 		put("StrongholdUpgrade+Type", StrongholdUpgrade.Type.class);
+		put("StrongholdVisitorArrival", StrongholdVisitorArrival.class);
 		put("StrongholdVisitorSerializeData", StrongholdVisitorSerializeData.class);
 	}};
 }

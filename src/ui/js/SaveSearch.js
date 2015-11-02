@@ -29,7 +29,7 @@ var SaveSearch = function () {
 	var populateSaveBlocks = (container, template, data, opening) => {
 		data.forEach((info, i) => {
 			var tile = CloneFactory.clone(template);
-			var userSaveName = info.userName ? '(' + info.userName + ')' : '';
+			var userSaveName = info.userSaveName ? '(' + info.userSaveName + ')' : '';
 			var portraits = info.portraits.map(
 					portrait => '<img src="data:image/png;base64,' + portrait + '">');
 

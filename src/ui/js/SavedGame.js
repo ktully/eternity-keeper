@@ -70,10 +70,10 @@ var SavedGame = function () {
 		container
 			.find('.stats')
 			.find('input')
-			.change(update.bind(self))
-			.keyup(update.bind(self));
+			.change(self.update.bind(self))
+			.keyup(self.update.bind(self));
 
-		self.html.rawTable.find('tr > td:last-child').keyup(update.bind(self));
+		self.html.rawTable.find('tr > td:last-child').keyup(self.update.bind(self));
 	};
 
 	self.state = defaultState;
@@ -89,8 +89,13 @@ var SavedGame = function () {
 		self.html.characterAttributes.hide();
 		self.html.rawTable.hide();
 		self.html[self.state.activeTab].show();
+		self.html.characterTabs.find('li').removeClass('active');
+		self.html.characterTabs.find('a[target=' + self.state.activeTab + ']')
+			.parent().addClass('active');
 		Eternity.render({saveView: true});
-		Eternity.CurrencyEditor.render({enabled: true, amount: self.saveData.currency});
+		Eternity.CurrencyEditor.render({enabled: true, amount: self.state.saveData.currency});
+		Eternity.Modifications.html.newSaveName.val(
+			Eternity.Modifications.suggestSaveName(self.state.info));
 		populateCharacterList(self.html.characterList, self.state.saveData.characters);
 
 		if (self.state.activeCharacter) {

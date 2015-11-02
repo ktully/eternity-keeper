@@ -36,7 +36,6 @@ var Modifications = function () {
 		self.html.saveChanges.click(self.save.bind(self));
 		self.html.dontSaveChanges.click(self.discardChanges.bind(self));
 		self.html.saveNameBtn.click(self.saveName.bind(self));
-		self.html.newSaveName.val(self.suggestSaveName());
 		self.html.saveNameDialog.on('shown.bs.modal', () => self.html.newSaveName[0].select());
 		self.html.menuOpen.click(self.switchPrompt.bind(self));
 
@@ -64,9 +63,8 @@ var Modifications = function () {
 	};
 };
 
-Modifications.prototype.suggestSaveName = function () {
-	var info = Eternity.SavedGame.state.info;
-	return (info.userSaveName) ? info.userSaveName : info.systemName + ' (edited)';
+Modifications.prototype.suggestSaveName = function (info) {
+	return ((info.userSaveName) ? info.userSaveName : info.systemName) + ' (edited)';
 };
 
 Modifications.prototype.saveName = function () {
@@ -116,6 +114,8 @@ Modifications.prototype.save = function () {
 
 		return newData;
 	};
+
+	self.html.saveChangesDialog.modal('hide');
 
 	if (self.state.saving) {
 		return;
@@ -169,6 +169,7 @@ Modifications.prototype.discardChanges = function () {
 	if (self.state.switching) {
 		Eternity.SaveSearch.transition({});
 		self.render({});
+		self.html.saveChangesDialog.modal('hide');
 	} else if (self.state.closing) {
 		window.closeWindow({
 			request: 'true'
