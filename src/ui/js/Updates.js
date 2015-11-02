@@ -63,7 +63,7 @@ var Updates = function () {
 			|| self.state.downloadError) {
 
 			self.html.updatesDialogButtons.show();
-			self.html.updatestryAgain.show();
+			self.html.updatesTryAgain.show();
 		}
 
 		if (self.state.checkingError) {
