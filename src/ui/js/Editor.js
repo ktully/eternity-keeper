@@ -114,6 +114,7 @@ var Editor = function () {
 	self.SaveSearch = new SaveSearch();
 	self.SavedGame = new SavedGame();
 	self.CurrencyEditor = new CurrencyEditor();
+	self.Modifications = new Modifications();
 
 	// Client startup tasks go here:
 	bindDOM();

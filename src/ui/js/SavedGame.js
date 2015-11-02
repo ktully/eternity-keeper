@@ -21,7 +21,7 @@ var SavedGame = function () {
 
 	var defaultState = {
 		saveData: {}
-		, modifications: false
+		, info: {}
 		, activeCharacter: false
 		, activeTab: 'characterAttributes'
 	};
@@ -89,6 +89,7 @@ var SavedGame = function () {
 		self.html.characterAttributes.hide();
 		self.html.rawTable.hide();
 		self.html[self.state.activeTab].show();
+		Eternity.render({saveView: true});
 		Eternity.CurrencyEditor.render({enabled: true, amount: self.saveData.currency});
 		populateCharacterList(self.html.characterList, self.state.saveData.characters);
 
@@ -125,8 +126,8 @@ SavedGame.prototype.update = function (e) {
 
 	var character =
 		self.state.saveData.characters.filter(c => c.GUID === self.state.activeCharacter)[0];
-	character.stats[key] = value.toString();
-	self.state.modifications = true;
+	character.stats[key] = value;
+	Eternity.Modifications.transition({modifications: true});
 };
 
 SavedGame.prototype.switchTab = function (e) {

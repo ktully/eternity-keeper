@@ -3,21 +3,21 @@
 <head>
 
 	<!--
-   | Eternity Keeper, a Pillars of Eternity save game editor.
-   | Copyright (C) 2015 Kim Mantas
+	 | Eternity Keeper, a Pillars of Eternity save game editor.
+	 | Copyright (C) 2015 Kim Mantas
 	 |
-   | Eternity Keeper is free software: you can redistribute it and/or
-   | modify it under the terms of the GNU General Public License as
-   | published by the Free Software Foundation, either version 3 of the
-   | License, or (at your option) any later version.
+	 | Eternity Keeper is free software: you can redistribute it and/or
+	 | modify it under the terms of the GNU General Public License as
+	 | published by the Free Software Foundation, either version 3 of the
+	 | License, or (at your option) any later version.
 	 |
-   | Eternity Keeper is distributed in the hope that it will be useful,
-   | but WITHOUT ANY WARRANTY; without even the implied warranty of
-   | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   | GNU General Public License for more details.
+	 | Eternity Keeper is distributed in the hope that it will be useful,
+	 | but WITHOUT ANY WARRANTY; without even the implied warranty of
+	 | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	 | GNU General Public License for more details.
 	 |
-   | You should have received a copy of the GNU General Public License
-   | along with this program.  If not, see <http://www.gnu.org/licenses/>.
+	 | You should have received a copy of the GNU General Public License
+	 | along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	 -->
 
 	<meta charset="UTF-8">
@@ -58,7 +58,7 @@
 		</div>
 	</div>
 
-	<div class="modal fade" id="fileDialogSave" role="dialog" data-bound="File">
+	<div class="modal fade" id="saveNameDialog" role="dialog" data-bound="Modifications">
 		<div class="modal-dialog modal-sm">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -70,12 +70,13 @@
 				<div class="modal-body">
 					<form>
 						<div class="form-group form-group-sm">
-							<input id="newSaveName" type="text" class="form-control">
+							<input id="newSaveName" type="text" class="form-control" data-bound="Modifications">
 						</div>
 					</form>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-primary btn-sm" id="saveFile">
+					<button type="button" class="btn btn-primary btn-sm" id="saveNameBtn"
+					        data-bound="Modifications">
 						<i class="fa fa-spinner fa-pulse"></i> Save changes
 					</button>
 				</div>
@@ -83,7 +84,7 @@
 		</div>
 	</div>
 
-	<div class="modal fade" id="fileDialogSaveChanges" role="dialog" data-bound="File">
+	<div class="modal fade" id="saveChangesDialog" role="dialog" data-bound="Modifications">
 		<div class="modal-dialog modal-sm">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -98,8 +99,14 @@
 							<p>Do you want to save your changes to the current saved game?</p>
 						</div>
 						<div class="row">
-							<button type="button" class="btn btn-danger btn-sm" id="dontSaveChanges">No</button>
-							<button type="button" class="btn btn-success btn-sm" id="saveChanges">Yes</button>
+							<button type="button" class="btn btn-danger btn-sm" id="dontSaveChanges"
+							        data-bound="Modifications">
+								No
+							</button>
+							<button type="button" class="btn btn-success btn-sm" id="saveChanges"
+							        data-bound="Modifications">
+								Yes
+							</button>
 						</div>
 					</div>
 				</div>
@@ -191,10 +198,13 @@
 							</a>
 							<ul class="dropdown-menu">
 								<li>
-									<a href="javascript:void(0);" id="menu-open-saved-game">Open saved game</a>
+									<a href="javascript:void(0);" id="menuOpen" data-bound="Modifications">
+										Open saved game
+									</a>
 								</li>
 								<li class="disabled">
-									<a href="javascript:void(0);" id="menu-save-modification">
+									<a href="javascript:void(0);" id="menuSaveModifications"
+									   data-bound="Modifications">
 										Save modifications
 									</a>
 								</li>
@@ -380,12 +390,8 @@
 	<script src="js/SaveSearch.js"></script>
 	<script src="js/SavedGame.js"></script>
 	<script src="js/CurrencyEditor.js"></script>
+	<script src="js/Modifications.js"></script>
 	<script src="js/Editor.js"></script>
-
-	<!--
-	<script src="js/SavesManager.js"></script>
-	<script src="js/SaveModifications.js"></script>
-	-->
 
 </body>
 </html>

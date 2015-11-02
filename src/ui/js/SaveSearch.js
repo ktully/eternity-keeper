@@ -135,7 +135,7 @@ SaveSearch.prototype.open = function (info, i) {
 		if (response.characters.length < 1) {
 			Eternity.GenericError.render({msg: 'No characters found in save game.'});
 		} else {
-			Eternity.SavedGame.render({saveData: response});
+			Eternity.SavedGame.render({saveData: response, info: info});
 		}
 	};
 
