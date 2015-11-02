@@ -56,7 +56,7 @@ if [ $max -gt -1 ]; then
 	rm -f "$ROOT/*.zip"
 fi
 
-LIB="$ROOT/lib/native/linux64"
+LIB="$ROOT/lib"
 export LD_LIBRARY_PATH=$LIB
 
 LD_PRELOAD="$LIB/libcef.so" "$JRE" \
