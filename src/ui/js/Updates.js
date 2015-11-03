@@ -187,7 +187,7 @@ Updates.prototype.download = function () {
 
 	self.render({downloading: true});
 	window.downloadUpdate({
-		request: self.state.updateTimestamp
+		request: self.state.updateTimestamp.toString()
 		, onSuccess: success
 		, onFailure: failure
 	});
