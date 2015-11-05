@@ -51,5 +51,7 @@ public class NPCAppearance {
 		, Wild_Orlan
 		, Coastal_Aumaua
 		, Island_Aumaua
+		, Avian_Godlike
+		, Advanced_Construct
 	}
 }

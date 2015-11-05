@@ -26,6 +26,7 @@ public class StrongholdEvent {
 	public Type EventType;
 	public int RandomValue1;
 	public int RandomValue2;
+	public int EventDataInt;
 	public StrongholdUpgrade.Type EventUpgradeTypeSerialized;
 	public StrongholdVisitorSerializeData EventVisitorNameSerialized;
 	public String EventAttackNameSerialized;

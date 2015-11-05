@@ -31,6 +31,7 @@ public class StrongholdAdventure {
 	public int SerializedDuration;
 	public int SerializedNumRewards;
 	public Reward[] SerializedRewardList;
+	public int PremadeAdventureIndex;
 	public UUID SerializedAdventurer;
 	public int DeferredXP;
 
@@ -38,9 +39,11 @@ public class StrongholdAdventure {
 		public RewardType m_type = StrongholdAdventure.RewardType.AverageItem;
 		public int m_minValue;
 		public int m_maxValue;
+		public String SpecificItem;
 		public RewardType RewardType;
 		public int MinValue;
 		public int MaxValue;
+		public String SpecificItemName;
 	}
 
 	public enum Type {
@@ -64,5 +67,6 @@ public class StrongholdAdventure {
 		, AverageRepBonus
 		, MajorRepBonus
 		, GrandRepBonus
+		, SpecificItem
 	}
 }

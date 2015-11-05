@@ -20,6 +20,13 @@
 package uk.me.mantas.eternity.game;
 
 public class CharacterStats {
+	public enum FatigueLevel {
+		None
+		, Minor
+		, Major
+		, Critical
+	}
+
 	public enum Race {
 		Undefined
 		, Human
@@ -57,6 +64,7 @@ public class CharacterStats {
 		, Coastal_Aumaua
 		, Island_Aumaua
 		, Avian_Godlike
+		, Advanced_Construct
 	}
 
 	public enum Culture {
@@ -125,6 +133,8 @@ public class CharacterStats {
 		, WeakEnemy
 		, HeraldOfWoedica
 		, PriestOfWoedica
+		, Lagufaeth
+		, Lich
 		, Count
 	}
 
@@ -151,12 +161,64 @@ public class CharacterStats {
 		, Soldier
 		, Midwife
 		, Gentry
+		, Trapper
 		, Count
+	}
+
+	public enum AttributeScoreType {
+		Resolve
+		, Might
+		, Dexterity
+		, Intellect
+		, Constitution
+		, Perception
+		, Count
+	}
+
+	public enum DefenseType {
+		Deflect
+		, Fortitude
+		, Reflex
+		, Will
+		, Count
+		, None
+	}
+
+	public enum PerceptionAdjustment {
+		Supernatural
+		, Keen
+		, Normal
+		, Poor
+		, Oblivious
 	}
 
 	public enum NoiseLevelType {
 		Quiet
 		, Loud
 		, ExtremelyLoud
+	}
+
+	public enum SkillType {
+		Stealth
+		, Athletics
+		, Lore
+		, Mechanics
+		, Survival
+		, Crafting
+		, Count
+	}
+
+	public enum LoreRevealStatus {
+		Nothing
+		, Health
+		, HealthDefense
+		, HealthDefenseDT
+		, Count
+	}
+
+	public enum EffectType {
+		Beneficial
+		, Hostile
+		, All
 	}
 }

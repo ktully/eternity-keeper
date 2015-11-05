@@ -310,7 +310,7 @@ public class SavedGameOpener implements Runnable {
 			}
 
 			objects = deserialized.get().getPackets();
-		} catch (FileNotFoundException e) {
+		} catch (final FileNotFoundException | IndexOutOfBoundsException e) {
 			OpenSavedGame.deserializationError(callback);
 		}
 

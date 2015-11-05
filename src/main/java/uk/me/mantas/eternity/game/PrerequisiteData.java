@@ -21,8 +21,10 @@ package uk.me.mantas.eternity.game;
 
 public class PrerequisiteData {
 	public CharacterStats.Race RaceValue = CharacterStats.Race.Human;
+	public CharacterStats.SkillType SkillValue = CharacterStats.SkillType.Count;
 	public PrerequisiteType Type;
 	public String Tag;
 	public float Value;
+	public CharacterStats.Class ClassValue;
 	public boolean IsConsumed;
 }

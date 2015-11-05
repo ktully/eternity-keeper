@@ -132,7 +132,18 @@ SaveSearch.prototype.open = function (info, i) {
 		self.transition({opening: false});
 		response = JSON.parse(response);
 
-		if (response.characters.length < 1) {
+		if (response.error) {
+			var msg;
+			if (response.error === 'DESERIALIZATION_ERR') {
+				msg = 'Error deserializing save file, please report your eternity.log file.';
+			} else if (response.error === 'NOT_EXISTS') {
+				msg = 'Save file "' + info.absolutePath + '" does not exist.';
+			} else {
+				msg = 'Unknown error when opening save file, please report your eternity.log file.';
+			}
+
+			Eternity.GenericError.render({msg: msg});
+		} else if (response.characters.length < 1) {
 			Eternity.GenericError.render({msg: 'No characters found in save game.'});
 		} else {
 			Eternity.SavedGame.render({saveData: response, info: info});
