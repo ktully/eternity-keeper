@@ -1,6 +1,6 @@
 /**
  * Eternity Keeper, a Pillars of Eternity save game editor.
- * Copyright (C) 2015 Kim Mantas
+ * Copyright (C) 2015 the authors.
  * <p>
  * Eternity Keeper is free software: you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
