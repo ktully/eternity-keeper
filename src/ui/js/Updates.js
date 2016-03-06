@@ -33,7 +33,7 @@ var Updates = function () {
 		, updateTimestamp: -1
 	};
 
-	self.state = defaultState;
+	self.state = $.extend({}, defaultState);
 	self.html = {};
 
 	self.init = () => {

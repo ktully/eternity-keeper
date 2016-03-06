@@ -46,7 +46,7 @@ var SaveSearch = function () {
 		});
 	};
 
-	self.state = defaultState;
+	self.state = $.extend({}, defaultState);
 	self.html = {};
 
 	self.init = () => {
@@ -116,6 +116,7 @@ SaveSearch.prototype.search = function () {
 		return;
 	}
 
+	Eternity.GenericError.render({});
 	self.transition({searchPath: searchPath, searching: true});
 	interval = setInterval(pollForUpdate, 1000);
 	window.listSavedGames({
@@ -159,6 +160,7 @@ SaveSearch.prototype.open = function (info, i) {
 		return;
 	}
 
+	Eternity.GenericError.render({});
 	self.transition({opening: i});
 	window.openSavedGame({
 		request: info.absolutePath

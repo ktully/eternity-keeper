@@ -76,7 +76,7 @@ var SavedGame = function () {
 		self.html.rawTable.find('tr > td:last-child').keyup(self.update.bind(self));
 	};
 
-	self.state = defaultState;
+	self.state = $.extend({}, defaultState);
 	self.html = {};
 
 	self.init = () => {

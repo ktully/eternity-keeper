@@ -66,11 +66,7 @@ public class EternityKeeper extends JFrame {
 			index = new File("src/ui/index.html").getAbsolutePath();
 		}
 
-		browser = cefClient.createBrowser(
-			String.format("file://%s", index)
-			, OS.isLinux()
-			, false);
-
+		browser = cefClient.createBrowser(String.format("file://%s", index), OS.isLinux(), false);
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		getContentPane().add(browser.getUIComponent(), BorderLayout.CENTER);
 		pack();
@@ -82,10 +78,7 @@ public class EternityKeeper extends JFrame {
 					cefApp.dispose();
 					dispose();
 				} else {
-					browser.executeJavaScript(
-						"checkForModifications();"
-						, browser.getURL()
-						, 0);
+					browser.executeJavaScript("checkForModifications();", browser.getURL(), 0);
 				}
 			}
 		});

@@ -34,31 +34,28 @@ public class OpenSavedGame extends CefMessageRouterHandlerAdapter {
 
 	@Override
 	public boolean onQuery (
-		CefBrowser browser
-		, long id
-		, String request
-		, boolean persistent
-		, CefQueryCallback callback) {
+		final CefBrowser browser
+		, final long id
+		, final String request
+		, final boolean persistent
+		, final CefQueryCallback callback) {
 
 		if (!(new File(request).exists())) {
 			notExists(callback);
 			return true;
 		}
 
-		Environment.getInstance().workers().execute(
-			new SavedGameOpener(request, callback));
-
+		Environment.getInstance().workers().execute(new SavedGameOpener(request, callback));
 		return true;
 	}
 
 	@Override
-	public void onQueryCanceled (CefBrowser browser, long id) {
+	public void onQueryCanceled (final CefBrowser browser, final long id) {
 		logger.error("Query #%d was cancelled.%n", id);
-		Environment.joinAllWorkers();
 	}
 
-	public static void notExists (CefQueryCallback callback) {
-		String json = new JSONStringer()
+	public static void notExists (final CefQueryCallback callback) {
+		final String json = new JSONStringer()
 			.object()
 				.key("error").value("NOT_EXISTS")
 			.endObject()
@@ -67,8 +64,8 @@ public class OpenSavedGame extends CefMessageRouterHandlerAdapter {
 		callback.success(json);
 	}
 
-	public static void deserializationError (CefQueryCallback callback) {
-		String json = new JSONStringer()
+	public static void deserializationError (final CefQueryCallback callback) {
+		final String json = new JSONStringer()
 			.object()
 				.key("error").value("DESERIALIZATION_ERR")
 			.endObject()

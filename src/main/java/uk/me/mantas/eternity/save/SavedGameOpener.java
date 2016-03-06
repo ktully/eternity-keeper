@@ -180,9 +180,9 @@ public class SavedGameOpener implements Runnable {
 		callback.success(json.toString());
 	}
 
-	private boolean detectCompanion (ObjectPersistencePacket packet) {
-		return packet.ObjectName.startsWith("Companion_")
-			&& !packet.ObjectName.startsWith("Companion_Generic");
+	private boolean detectCompanion (final ObjectPersistencePacket packet) {
+		final String objectName = packet.ObjectName.toLowerCase();
+		return objectName.startsWith("companion_") && !objectName.startsWith("companion_generic");
 	}
 
 	private Optional<Map<String, Object>> extractCharacterStats (
@@ -251,7 +251,7 @@ public class SavedGameOpener implements Runnable {
 		final String installationPath;
 		try {
 			installationPath = settings.getString("gameLocation");
-		} catch (JSONException e) {
+		} catch (final JSONException e) {
 			return "";
 		}
 
@@ -286,10 +286,11 @@ public class SavedGameOpener implements Runnable {
 		final Map<String, Property> characters = new HashMap<>();
 		for (final Property property : gameObjects) {
 			final ObjectPersistencePacket packet = (ObjectPersistencePacket) property.obj;
+			final String objectName = packet.ObjectName.toLowerCase();
 
 			if (packet.ObjectID != null
-				&& (packet.ObjectName.startsWith("Player_")
-				|| packet.ObjectName.startsWith("Companion_"))) {
+				&& (objectName.startsWith("player_")
+					|| objectName.startsWith("companion_"))) {
 
 				characters.put(packet.ObjectID, property);
 			}

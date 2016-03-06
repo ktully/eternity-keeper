@@ -24,7 +24,7 @@ var CurrencyEditor = function () {
 		, amount: -1
 	};
 
-	self.state = defaultState;
+	self.state = $.extend({}, defaultState);
 	self.html = {};
 
 	self.init = () => {

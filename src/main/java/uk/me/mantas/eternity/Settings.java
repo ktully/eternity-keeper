@@ -35,42 +35,36 @@ public class Settings {
 		settingsFile = Environment.getInstance().directory().settingsFile();
 
 		try {
-			boolean fileCreated = settingsFile.createNewFile();
+			final boolean fileCreated = settingsFile.createNewFile();
 			if (fileCreated) {
 				writeBlankJSON();
 			} else {
 				readSettingsJSON();
 			}
-		} catch (IOException e) {
-			logger.error(
-				"Error processing settings file: %s%n"
-				, e.getMessage());
+		} catch (final IOException e) {
+			logger.error("Error processing settings file: %s%n", e.getMessage());
 		}
 	}
 
 	private void readSettingsJSON () {
-		try (Reader reader =
-			     new BufferedReader(
-				     new InputStreamReader(
-					     new FileInputStream(settingsFile), "UTF-8"))) {
+		try (final Reader reader =
+			new BufferedReader(new InputStreamReader(new FileInputStream(settingsFile), "UTF-8"))) {
 
 			json = new JSONObject(new JSONTokener(reader));
-		} catch (IOException e) {
-			logger.error(
-				"Error reading file '%s': %s%n"
+		} catch (final IOException e) {
+			logger.error("Error reading file '%s': %s%n"
 				, settingsFile.getAbsolutePath()
 				, e.getMessage());
 		}
 	}
 
 	private void writeBlankJSON () {
-		try (Writer writer =
-			     new BufferedWriter(
-				     new OutputStreamWriter(
-					     new FileOutputStream(settingsFile), "UTF-8"))) {
+		try (final Writer writer =
+			new BufferedWriter(
+				new OutputStreamWriter(new FileOutputStream(settingsFile), "UTF-8"))) {
 
 			writer.write("{}");
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			logger.error(
 				"Unable to write to '%s': %s%n"
 				, settingsFile.getAbsolutePath()
@@ -79,16 +73,13 @@ public class Settings {
 	}
 
 	public void save () {
-		try (Writer writer =
-			     new BufferedWriter(
-				     new OutputStreamWriter(
-					     new FileOutputStream(settingsFile), "UTF-8"))) {
+		try (final Writer writer =
+			new BufferedWriter(
+				new OutputStreamWriter(new FileOutputStream(settingsFile), "UTF-8"))) {
 
 			writer.write(json.toString());
-		} catch (IOException e) {
-			logger.error(
-				"Unable to save settings file: %s%n"
-				, e.getMessage());
+		} catch (final IOException e) {
+			logger.error("Unable to save settings file: %s%n", e.getMessage());
 		}
 	}
 

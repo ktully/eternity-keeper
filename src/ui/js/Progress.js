@@ -23,7 +23,7 @@ var Progress = function () {
 		percentage: 0
 	};
 
-	self.state = defaultState;
+	self.state = $.extend({}, defaultState);
 	self.html = {};
 	self.render = newState => {
 		self.state = $.extend({}, defaultState, newState);

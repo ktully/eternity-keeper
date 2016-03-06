@@ -47,7 +47,6 @@ public class SaveChanges extends CefMessageRouterHandlerAdapter {
 	@Override
 	public void onQueryCanceled (CefBrowser browser, long id) {
 		logger.error("Query #%d was cancelled.%n", id);
-		Environment.joinAllWorkers();
 	}
 
 	public static String jsonError () {

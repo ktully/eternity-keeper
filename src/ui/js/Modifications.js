@@ -28,7 +28,7 @@ var Modifications = function () {
 		, closing: false
 	};
 
-	self.state = defaultState;
+	self.state = $.extend({}, defaultState);
 	self.html = {};
 
 	self.init = () => {

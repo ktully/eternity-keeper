@@ -148,16 +148,17 @@ public class SavedGameOpenerTest extends TestHarness {
 	}
 
 	@Test
-	@SuppressWarnings("unchecked")
 	public void extractCharactersTest () {
 		final CefQueryCallback mockCallback = mock(CefQueryCallback.class);
 		final Property noObjectID = mock(Property.class);
 		final Property startsWithCompanion = mock(Property.class);
+		final Property startsWithLowercaseCompanion = mock(Property.class);
 		final Property startsWithPlayer = mock(Property.class);
 
 		final List<Property> gameObjects = new ArrayList<Property>(){{
 			add(noObjectID);
 			add(startsWithCompanion);
+			add(startsWithLowercaseCompanion);
 			add(startsWithPlayer);
 		}};
 
@@ -171,6 +172,12 @@ public class SavedGameOpenerTest extends TestHarness {
 		startsWithCompanionPacket.ObjectID = "Key_A";
 		startsWithCompanion.obj = startsWithCompanionPacket;
 
+		final ObjectPersistencePacket startsWithLowercaseCompanionPacket =
+			new ObjectPersistencePacket();
+		startsWithLowercaseCompanionPacket.ObjectName = "companion_C";
+		startsWithLowercaseCompanionPacket.ObjectID = "Key_C";
+		startsWithLowercaseCompanion.obj = startsWithLowercaseCompanionPacket;
+
 		final ObjectPersistencePacket startsWithPlayerPacket = new ObjectPersistencePacket();
 		startsWithPlayerPacket.ObjectName = "Player_B";
 		startsWithPlayerPacket.ObjectID = "Key_B";
@@ -183,11 +190,10 @@ public class SavedGameOpenerTest extends TestHarness {
 			put(gameObjects, List.class);
 		}};
 
-		final Map<String, Property> characters =
-			(Map<String, Property>) exposedOpener.call("extractCharacters", argMap);
-
-		assertEquals(2, characters.size());
+		final Map<String, Property> characters = exposedOpener.call("extractCharacters", argMap);
+		assertEquals(3, characters.size());
 		assertSame(startsWithCompanion, characters.get("Key_A"));
+		assertSame(startsWithLowercaseCompanion, characters.get("Key_C"));
 		assertSame(startsWithPlayer, characters.get("Key_B"));
 	}
 
@@ -214,7 +220,7 @@ public class SavedGameOpenerTest extends TestHarness {
 
 		final SavedGameOpener savedGameOpener = new SavedGameOpener("404", mockCallback);
 		final ExposedClass exposedOpener = expose(savedGameOpener);
-		final String result = (String) exposedOpener.call("extractPortrait", packet, false);
+		final String result = exposedOpener.call("extractPortrait", packet, false);
 
 		assertEquals("", result);
 	}
@@ -236,7 +242,7 @@ public class SavedGameOpenerTest extends TestHarness {
 
 		final SavedGameOpener savedGameOpener = new SavedGameOpener("404", mockCallback);
 		final ExposedClass exposedOpener = expose(savedGameOpener);
-		final String result = (String) exposedOpener.call("extractPortrait", packet, false);
+		final String result = exposedOpener.call("extractPortrait", packet, false);
 
 		assertEquals("", result);
 	}
@@ -260,7 +266,7 @@ public class SavedGameOpenerTest extends TestHarness {
 
 		final SavedGameOpener savedGameOpener = new SavedGameOpener("404", mockCallback);
 		final ExposedClass exposedOpener = expose(savedGameOpener);
-		final String result = (String) exposedOpener.call("extractPortrait", packet, false);
+		final String result = exposedOpener.call("extractPortrait", packet, false);
 
 		final ArgumentCaptor<String> argument = ArgumentCaptor.forClass(String.class);
 		verify(mockLogger).error(anyString(), argument.capture());
@@ -293,7 +299,7 @@ public class SavedGameOpenerTest extends TestHarness {
 
 		final SavedGameOpener savedGameOpener = new SavedGameOpener("404", mockCallback);
 		final ExposedClass exposedOpener = expose(savedGameOpener);
-		final String result = (String) exposedOpener.call("extractPortrait", packet, true);
+		final String result = exposedOpener.call("extractPortrait", packet, true);
 
 		final ArgumentCaptor<String> argument = ArgumentCaptor.forClass(String.class);
 		verify(mockLogger).error(anyString(), argument.capture());
@@ -326,7 +332,7 @@ public class SavedGameOpenerTest extends TestHarness {
 
 		final SavedGameOpener savedGameOpener = new SavedGameOpener("404", mockCallback);
 		final ExposedClass exposedOpener = expose(savedGameOpener);
-		final String result = (String) exposedOpener.call("extractPortrait", packet, true);
+		final String result = exposedOpener.call("extractPortrait", packet, true);
 
 		final ArgumentCaptor<String> argument = ArgumentCaptor.forClass(String.class);
 		verify(mockLogger).error(anyString(), argument.capture());
@@ -346,21 +352,21 @@ public class SavedGameOpenerTest extends TestHarness {
 
 		final SavedGameOpener savedGameOpener = new SavedGameOpener("404", mockCallback);
 		final ExposedClass exposedOpener = expose(savedGameOpener);
-		boolean result = (boolean) exposedOpener.call("detectDead", packet);
+		boolean result = exposedOpener.call("detectDead", packet);
 		assertFalse(result);
 
 		component.Variables = new HashMap<String, Object>(){{
 			put("CurrentHealth", 1f);
 		}};
 
-		result = (boolean) exposedOpener.call("detectDead", packet);
+		result = exposedOpener.call("detectDead", packet);
 		assertFalse(result);
 
 		component.Variables = new HashMap<String, Object>(){{
 			put("CurrentHealth", 0f);
 		}};
 
-		result = (boolean) exposedOpener.call("detectDead", packet);
+		result = exposedOpener.call("detectDead", packet);
 		assertTrue(result);
 	}
 
@@ -372,20 +378,19 @@ public class SavedGameOpenerTest extends TestHarness {
 		final ExposedClass exposedOpener = expose(savedGameOpener);
 
 		packet.ObjectName = "NoUnderscore";
-		String result = (String) exposedOpener.call("extractName", packet);
+		String result = exposedOpener.call("extractName", packet);
 		assertEquals("", result);
 
 		packet.ObjectName = "Player_HasUnderscore";
-		result = (String) exposedOpener.call("extractName", packet);
+		result = exposedOpener.call("extractName", packet);
 		assertEquals("HasUnderscore", result);
 
 		packet.ObjectName = "Player_HasBracket(Clone)_1";
-		result = (String) exposedOpener.call("extractName", packet);
+		result = exposedOpener.call("extractName", packet);
 		assertEquals("HasBracket", result);
 	}
 
 	@Test
-	@SuppressWarnings("unchecked")
 	public void extractCharacterStatsTest () {
 		final CefQueryCallback mockCallback = mock(CefQueryCallback.class);
 		final ObjectPersistencePacket packet = new ObjectPersistencePacket();
@@ -404,21 +409,15 @@ public class SavedGameOpenerTest extends TestHarness {
 		}};
 
 		packet.ComponentPackets = new ComponentPersistencePacket[]{ notStatsComponent };
-
-		Optional<Map<String, Object>> result =
-			(Optional<Map<String, Object>>) exposedOpener.call("extractCharacterStats", packet);
-
+		Optional<Map<String, Object>> result = exposedOpener.call("extractCharacterStats", packet);
 		assertFalse(result.isPresent());
-
 		packet.ComponentPackets = new ComponentPersistencePacket[]{
 			notStatsComponent
 			, null
 			, statsComponent
 		};
 
-		result =
-			(Optional<Map<String, Object>>) exposedOpener.call("extractCharacterStats", packet);
-
+		result = exposedOpener.call("extractCharacterStats", packet);
 		assertTrue(result.isPresent());
 		assertEquals(1, result.get().get("Integer"));
 		assertEquals(1f, (float) result.get().get("Float"), 1e-6);
@@ -434,15 +433,19 @@ public class SavedGameOpenerTest extends TestHarness {
 		final ExposedClass exposedOpener = expose(savedGameOpener);
 
 		packet.ObjectName = "Companion_Calisca";
-		boolean result = (boolean) exposedOpener.call("detectCompanion", packet);
+		boolean result = exposedOpener.call("detectCompanion", packet);
+		assertTrue(result);
+
+		packet.ObjectName = "companion_Heodan";
+		result = exposedOpener.call("detectCompanion", packet);
 		assertTrue(result);
 
 		packet.ObjectName = "Companion_Generic_(Clone)_1";
-		result = (boolean) exposedOpener.call("detectCompanion", packet);
+		result = exposedOpener.call("detectCompanion", packet);
 		assertFalse(result);
 
 		packet.ObjectName = "Player_Fyorl";
-		result = (boolean) exposedOpener.call("detectCompanion", packet);
+		result = exposedOpener.call("detectCompanion", packet);
 		assertFalse(result);
 	}
 
@@ -461,7 +464,7 @@ public class SavedGameOpenerTest extends TestHarness {
 			put(new ArrayList<Property>(), List.class);
 		}};
 
-		assertEquals(0f, (float) setup.v2().call("extractCurrency", argMap), 0f);
+		assertEquals(0f, setup.v2().call("extractCurrency", argMap), 0f);
 		verify(setup.v1()).error("Unable to find player mobile object.%n");
 	}
 
@@ -479,7 +482,7 @@ public class SavedGameOpenerTest extends TestHarness {
 		playerPacket.ObjectName = "Player_Elenor";
 		playerPacket.ComponentPackets = new ComponentPersistencePacket[0];
 
-		assertEquals(0f, (float) setup.v2().call("extractCurrency", argMap), 0f);
+		assertEquals(0f, setup.v2().call("extractCurrency", argMap), 0f);
 		verify(setup.v1()).error("Unable to find PlayerInventory component.");
 	}
 
@@ -502,7 +505,7 @@ public class SavedGameOpenerTest extends TestHarness {
 		inventoryComponent.TypeString = "PlayerInventory";
 		inventoryComponent.Variables = new HashMap<>();
 
-		assertEquals(0f, (float) setup.v2().call("extractCurrency", argMap), 0f);
+		assertEquals(0f, setup.v2().call("extractCurrency", argMap), 0f);
 		verify(setup.v1()).error("Unable to find currencyTotalValue in PlayerInventory component.");
 	}
 
@@ -529,6 +532,6 @@ public class SavedGameOpenerTest extends TestHarness {
 			put("currencyTotalValue", currencyValue);
 		}};
 
-		assertEquals(3.14159f, (float) setup.v2().call("extractCurrency", argMap), 1e-6);
+		assertEquals(3.14159f, setup.v2().call("extractCurrency", argMap), 1e-6f);
 	}
 }

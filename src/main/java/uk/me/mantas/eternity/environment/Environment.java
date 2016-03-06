@@ -99,7 +99,7 @@ public class Environment {
 	}
 
 	public static void joinAllWorkers () {
-		ExecutorService workers = getInstance().workers();
+		final ExecutorService workers = getInstance().workers();
 		workers.shutdown();
 
 		try {
@@ -109,7 +109,7 @@ public class Environment {
 					logger.error("Thread pool did not terminate!%n");
 				}
 			}
-		} catch (InterruptedException e) {
+		} catch (final InterruptedException e) {
 			workers.shutdownNow();
 			Thread.currentThread().interrupt();
 		}

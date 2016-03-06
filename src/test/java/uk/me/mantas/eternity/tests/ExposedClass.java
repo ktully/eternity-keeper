@@ -76,7 +76,7 @@ public class ExposedClass {
 		return cls;
 	}
 
-	public Object call (final String methodName, final Object... args) {
+	public <T> T call (final String methodName, final Object... args) {
 		final Class[] argsClasses = extractClasses(args);
 		final Map<Object, Class> argMap =
 			IntStream.range(0, args.length)
@@ -91,14 +91,14 @@ public class ExposedClass {
 		return call(methodName, argMap);
 	}
 
-	public Object call (final String methodName, final Map<Object, Class> args) {
+	public <T> T call (final String methodName, final Map<Object, Class> args) {
 		Method method = null;
 		final Class[] argsClasses =
 			args.entrySet().stream().map(Entry::getValue).toArray(Class[]::new);
 
 		try {
 			method = cls.getDeclaredMethod(methodName, argsClasses);
-		} catch (NoSuchMethodException e) {
+		} catch (final NoSuchMethodException e) {
 			e.printStackTrace();
 			assertNull(e);
 		}
@@ -108,8 +108,9 @@ public class ExposedClass {
 			args.entrySet().stream().map(Entry::getKey).toArray(Object[]::new);
 
 		try {
-			return method.invoke(instance, argsInstances);
-		} catch (IllegalAccessException | InvocationTargetException e) {
+			//noinspection unchecked
+			return (T) method.invoke(instance, argsInstances);
+		} catch (final IllegalAccessException | InvocationTargetException e) {
 			e.printStackTrace();
 			assertNull(e);
 		}

@@ -24,7 +24,7 @@ var Settings = function () {
 		, saving: false
 	};
 
-	self.state = defaultState;
+	self.state = $.extend({}, defaultState);
 	self.html = {};
 
 	self.init = () => {

@@ -51,6 +51,7 @@ public class ListSavedGames extends CefMessageRouterHandlerAdapter {
 		, final CefQueryCallback callback) {
 
 		Settings.getInstance().json.put("savesLocation", request);
+		Settings.getInstance().save();
 		final Environment environment = Environment.getInstance();
 
 		// Spawn a separate thread to handle all the file stuff so we don't
@@ -65,7 +66,6 @@ public class ListSavedGames extends CefMessageRouterHandlerAdapter {
 	@Override
 	public void onQueryCanceled (final CefBrowser browser, final long id) {
 		logger.error("Query #%d was cancelled.%n", id);
-		Environment.joinAllWorkers();
 	}
 
 	public static class SaveInfoLister implements Runnable {

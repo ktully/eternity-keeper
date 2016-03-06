@@ -89,7 +89,7 @@ var Editor = function () {
 		});
 	};
 
-	self.state = defaultState;
+	self.state = $.extend({}, defaultState);
 	self.render = newState => {
 		self.state = $.extend({}, defaultState, newState);
 		self.SaveSearch.html.searchContainer.hide();

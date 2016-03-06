@@ -41,7 +41,7 @@ public class CheckForUpdatesTest extends TestHarness {
 		final CefQueryCallback mockCallback = mock(CefQueryCallback.class);
 		final ExposedClass cls = expose(new UpdateChecker(mockCallback));
 
-		final long timestamp = (long) cls.call("getJarTimestamp", notExists);
+		final long timestamp = cls.call("getJarTimestamp", notExists);
 		verify(mockLogger).error("Jar directory '%s' was empty.%n", notExists.getAbsolutePath());
 		assertEquals(0L, timestamp);
 	}
@@ -64,7 +64,7 @@ public class CheckForUpdatesTest extends TestHarness {
 		when(mockDirectory.getAbsolutePath()).thenReturn("N/A");
 		when(mockDirectory.listFiles()).thenReturn(files);
 
-		final long timestamp = (long) cls.call("getJarTimestamp", mockDirectory);
+		final long timestamp = cls.call("getJarTimestamp", mockDirectory);
 		verify(mockLogger).error("No timestamped jar in '%s'.&n", "N/A");
 		assertEquals(0L, timestamp);
 	}
@@ -82,7 +82,7 @@ public class CheckForUpdatesTest extends TestHarness {
 
 		when(mockDirectory.listFiles()).thenReturn(files);
 
-		final long timestamp = (long) cls.call("getJarTimestamp", mockDirectory);
+		final long timestamp = cls.call("getJarTimestamp", mockDirectory);
 		assertEquals(12345678901234L, timestamp);
 	}
 
@@ -91,7 +91,7 @@ public class CheckForUpdatesTest extends TestHarness {
 		final CefQueryCallback mockCallback = mock(CefQueryCallback.class);
 		final ExposedClass cls = expose(new UpdateChecker(mockCallback));
 
-		final Optional<?> latest = (Optional<?>) cls.call("isUpdate", "false");
+		final Optional<?> latest = cls.call("isUpdate", "false");
 		assertFalse(latest.isPresent());
 	}
 
@@ -105,7 +105,7 @@ public class CheckForUpdatesTest extends TestHarness {
 		when(mockEnvironment.directory().jar()).thenReturn(mockDirectory);
 		when(mockDirectory.exists()).thenReturn(false);
 
-		final Optional<?> latest = (Optional<?>) cls.call("isUpdate", "0");
+		final Optional<?> latest = cls.call("isUpdate", "0");
 		assertFalse(latest.isPresent());
 	}
 
@@ -122,10 +122,10 @@ public class CheckForUpdatesTest extends TestHarness {
 		when(mockDirectory.exists()).thenReturn(true);
 		when(mockDirectory.listFiles()).thenReturn(files);
 
-		final Optional<?> lessThan = (Optional<?>) cls.call("isUpdate", "0");
+		final Optional<?> lessThan = cls.call("isUpdate", "0");
 		assertFalse(lessThan.isPresent());
 
-		final Optional<?> greaterThan = (Optional<?>) cls.call("isUpdate", "12345678901235");
+		final Optional<String> greaterThan = cls.call("isUpdate", "12345678901235");
 		assertTrue(greaterThan.isPresent());
 		assertEquals("12345678901235", greaterThan.get());
 	}
@@ -137,7 +137,7 @@ public class CheckForUpdatesTest extends TestHarness {
 		final ExposedClass cls = expose(new UpdateChecker(mockCallback));
 
 		when(mockEnvironment.isWindows()).thenReturn(false);
-		assertFalse((boolean) cls.call("isLegacyCode"));
+		assertFalse(cls.call("isLegacyCode"));
 	}
 
 	@Test
@@ -150,7 +150,7 @@ public class CheckForUpdatesTest extends TestHarness {
 		when(mockEnvironment.isWindows()).thenReturn(true);
 		when(mockEnvironment.detectExeSize()).thenReturn(Optional.empty());
 
-		assertFalse((boolean) cls.call("isLegacyCode"));
+		assertFalse(cls.call("isLegacyCode"));
 		verify(mockLogger).error(
 			"CEF reported this is a Windows system but eternity.exe was not found.%n");
 	}
@@ -163,7 +163,7 @@ public class CheckForUpdatesTest extends TestHarness {
 
 		when(mockEnvironment.isWindows()).thenReturn(true);
 		when(mockEnvironment.detectExeSize()).thenReturn(Optional.of(0L));
-		assertFalse((boolean) cls.call("isLegacyCode"));
+		assertFalse(cls.call("isLegacyCode"));
 	}
 
 	@Test
@@ -174,6 +174,6 @@ public class CheckForUpdatesTest extends TestHarness {
 
 		when(mockEnvironment.isWindows()).thenReturn(true);
 		when(mockEnvironment.detectExeSize()).thenReturn(Optional.of(0x17400L));
-		assertTrue((boolean) cls.call("isLegacyCode"));
+		assertTrue(cls.call("isLegacyCode"));
 	}
 }
