@@ -37,42 +37,32 @@ import static org.junit.Assert.assertTrue;
 
 public class SerializerTest {
 	@Test
-	public void serializesSaveFile ()
-		throws URISyntaxException, IOException {
-
-		File saveFile =
-			new File(
-				this.getClass().getResource("/MobileObjects.save").toURI());
-
-		SharpSerializer deserializer =
-			new SharpSerializer(saveFile.getAbsolutePath());
-
-		List<Property> deserialized = new ArrayList<>();
-
-		Optional<Property> objectCount = deserializer.deserialize();
-		int count = (int) objectCount.get().obj;
+	public void serializesSaveFile () throws URISyntaxException, IOException {
+		final File saveFile = new File(getClass().getResource("/MobileObjects.save").toURI());
+		final SharpSerializer deserializer = new SharpSerializer(saveFile.getAbsolutePath());
+		final List<Property> deserialized = new ArrayList<>();
+		final Optional<Property> objectCount = deserializer.deserialize();
+		final int count = (int) objectCount.get().obj;
 
 		for (int i = 0; i < count; i++) {
-			Optional<Property> obj = deserializer.deserialize();
+			final Optional<Property> obj = deserializer.deserialize();
 			deserialized.add(obj.get());
 		}
 
-		File saveOutputFile = Files.createTempFile(null, null).toFile();
-
+		final File saveOutputFile = Files.createTempFile(null, null).toFile();
 		try {
-			SharpSerializer serializer = new SharpSerializer(
-				saveOutputFile.getAbsolutePath());
+			final SharpSerializer serializer =
+				new SharpSerializer(saveOutputFile.getAbsolutePath());
 
 			serializer.serialize(objectCount.get());
-			for (Property obj : deserialized) {
+			for (final Property obj : deserialized) {
 				serializer.serialize(obj);
 			}
 
-			byte[] actual = FileUtils.readFileToByteArray(saveOutputFile);
-			byte[] expected = FileUtils.readFileToByteArray(saveFile);
-
+			final byte[] actual = FileUtils.readFileToByteArray(saveOutputFile);
+			final byte[] expected = FileUtils.readFileToByteArray(saveFile);
 			assertArrayEquals(expected, actual);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			e.printStackTrace();
 		} finally {
 			assertTrue(saveOutputFile.delete());

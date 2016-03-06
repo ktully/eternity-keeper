@@ -33,8 +33,11 @@ public class StatusEffectParams {
 	public StatusEffectLevelScaling LevelScaling;
 	public String Tag;
 	public PrerequisiteData[] ApplicationPrerequisites;
+	public boolean KeepOnDeath;
 	public StatusEffect.ApplyType Apply;
 	public StatusEffect.ModifiedStat AffectsStat;
+	public CharacterStats.AttributeScoreType AttributeType;
+	public CharacterStats.DefenseType DefenseType;
 	public DamagePacket.DamageType DmgType;
 	public float Value;
 	public float ExtraValue;
@@ -54,9 +57,11 @@ public class StatusEffectParams {
 	public Equippable EquippablePrefab;
 	public AttackBase AttackPrefab;
 	public CharacterStats.Race RaceType;
+	public CharacterStats.Class ClassType;
 	public String Keyword;
 	public boolean DontHideFromLog;
 	public boolean IgnoreAbilityDeactivation;
+	public boolean DoNotScalePlayer;
 	public boolean m_deserializeInitialized;
 	public GenericAbility OnDamagedCallbackAbility;
 	public boolean IsOverTime;

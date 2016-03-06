@@ -58,6 +58,8 @@ public class StatusEffect {
 	public float m_timeApplied;
 	public int m_numRestCycles;
 	public CSharpCollection Spells;
+	public CSharpCollection AbilitiesGrantedToTarget;
+	public CSharpCollection Traps;
 	public Team CachedTeam;
 	public UUID ExtraObjectSerialized;
 	public GenericAbility.AbilityType AbilityType;

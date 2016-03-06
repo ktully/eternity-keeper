@@ -35,30 +35,22 @@ import static org.junit.Assert.assertTrue;
 
 public class DeserializerTest {
 	@Test
-	public void deserializesSaveFile ()
-		throws URISyntaxException, FileNotFoundException {
-
-		File saveFile =
-			new File(
-				this.getClass().getResource("/MobileObjects.save").toURI());
-
-		SharpSerializer deserializer =
-			new SharpSerializer(saveFile.getAbsolutePath());
-
-		List<Property> deserialized = new ArrayList<>();
-
-		Optional<Property> objectCount = deserializer.deserialize();
+	public void deserializesSaveFile ()	throws URISyntaxException, FileNotFoundException {
+		final File saveFile = new File(getClass().getResource("/MobileObjects.save").toURI());
+		final SharpSerializer deserializer = new SharpSerializer(saveFile.getAbsolutePath());
+		final List<Property> deserialized = new ArrayList<>();
+		final Optional<Property> objectCount = deserializer.deserialize();
 		assertTrue(objectCount.isPresent());
 
-		int count = (int) objectCount.get().obj;
-		assertEquals(17, count);
+		final int count = (int) objectCount.get().obj;
+		assertEquals(23, count);
 
 		for (int i = 0; i < count; i++) {
-			Optional<Property> obj = deserializer.deserialize();
+			final Optional<Property> obj = deserializer.deserialize();
 			assertTrue(obj.isPresent());
 			deserialized.add(obj.get());
 		}
 
-		assertEquals(17, deserialized.size());
+		assertEquals(23, deserialized.size());
 	}
 }

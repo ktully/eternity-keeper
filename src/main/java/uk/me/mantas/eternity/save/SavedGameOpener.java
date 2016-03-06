@@ -282,14 +282,14 @@ public class SavedGameOpener implements Runnable {
 		return "";
 	}
 
-	private Map<String, Property> extractCharacters (List<Property> gameObjects) {
-		Map<String, Property> characters = new HashMap<>();
-		for (Property property : gameObjects) {
-			ObjectPersistencePacket packet = (ObjectPersistencePacket) property.obj;
+	private Map<String, Property> extractCharacters (final List<Property> gameObjects) {
+		final Map<String, Property> characters = new HashMap<>();
+		for (final Property property : gameObjects) {
+			final ObjectPersistencePacket packet = (ObjectPersistencePacket) property.obj;
 
 			if (packet.ObjectID != null
 				&& (packet.ObjectName.startsWith("Player_")
-					|| packet.ObjectName.startsWith("Companion_"))) {
+				|| packet.ObjectName.startsWith("Companion_"))) {
 
 				characters.put(packet.ObjectID, property);
 			}

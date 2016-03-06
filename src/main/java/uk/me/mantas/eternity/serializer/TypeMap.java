@@ -89,12 +89,13 @@ public class TypeMap {
 		put("AIController+AISummonType", AIController.AISummonType.class);
 		put("AIController+AggressionType", AIController.AggressionType.class);
 
+		put("CharacterStats+Background", CharacterStats.Background.class);
+		put("CharacterStats+Class", CharacterStats.Class.class);
+		put("CharacterStats+Culture", CharacterStats.Culture.class);
+		put("CharacterStats+FatigueLevel", CharacterStats.FatigueLevel.class);
+		put("CharacterStats+NoiseLevelType", CharacterStats.NoiseLevelType.class);
 		put("CharacterStats+Race", CharacterStats.Race.class);
 		put("CharacterStats+Subrace", CharacterStats.Subrace.class);
-		put("CharacterStats+Culture", CharacterStats.Culture.class);
-		put("CharacterStats+Class", CharacterStats.Class.class);
-		put("CharacterStats+Background", CharacterStats.Background.class);
-		put("CharacterStats+NoiseLevelType", CharacterStats.NoiseLevelType.class);
 
 		put("CompanionNames+Companions", CompanionNames.Companions.class);
 
@@ -137,6 +138,7 @@ public class TypeMap {
 		put("StrongholdEvent", StrongholdEvent.class);
 		put("StrongholdAdventure", StrongholdAdventure.class);
 		put("StrongholdAdventure+Reward", StrongholdAdventure.Reward.class);
+		put("StrongholdAdventureCompletion", StrongholdAdventureCompletion.class);
 		put("StrongholdHireling", StrongholdHireling.class);
 		put("StrongholdGuestHireling", StrongholdGuestHireling.class);
 		put("StrongholdPrisonerData", StrongholdPrisonerData.class);

@@ -1,6 +1,6 @@
 /**
  * Eternity Keeper, a Pillars of Eternity save game editor.
- * Copyright (C) 2015 the authors.
+ * Copyright (C) 2016 the authors.
  * <p>
  * Eternity Keeper is free software: you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -18,17 +18,14 @@
 
 package uk.me.mantas.eternity.game;
 
-public class DifficultyScaling {
-	public enum Scaler {
-		NONE(0)
-		, PX1_HIGH_LEVEL(1)
-		, ACT4_HIGH_LEVEL(2)
-		, ELMSHORE_HIGH_LEVEL(4)
-		, PX2_HIGH_LEVEL(8);
+import uk.me.mantas.eternity.serializer.CSharpCollection;
 
-		public int n;
-		Scaler (int n) {
-			this.n = n;
-		}
-	}
+import java.util.UUID;
+
+public class StrongholdAdventureCompletion {
+	public StrongholdAdventure.Type Type;
+	public String AdventureName;
+	public UUID AdventurerGuid;
+	public CSharpCollection RewardStrings;
+	public int PremadeAdventureIndex;
 }

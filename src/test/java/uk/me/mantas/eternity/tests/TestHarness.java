@@ -113,14 +113,13 @@ public abstract class TestHarness {
 	}
 
 	protected static Settings mockSettings () {
-		Settings settings = Settings.getInstance();
-		Settings mockSettings = mock(Settings.class);
+		final Settings settings = Settings.getInstance();
+		final Settings mockSettings = mock(Settings.class);
 
 		Field instanceField = null;
 		try {
 			instanceField = Settings.class.getDeclaredField("instance");
-		} catch (NoSuchFieldException e) {
-			e.printStackTrace();
+		} catch (final NoSuchFieldException e) {
 			assertNull(e);
 		}
 
@@ -128,8 +127,7 @@ public abstract class TestHarness {
 
 		try {
 			instanceField.set(settings, mockSettings);
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
+		} catch (final IllegalAccessException e) {
 			assertNull(e);
 		}
 
