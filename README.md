@@ -7,7 +7,7 @@ Several dependencies are already bundled with the project. In order to build and
 * [JDK 1.8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) or above
 
 # Support
-Currently this has only been tested on Windows. Mac OSX and Linux support, however, is currently blocked by issues with the Chromium Embedded Framework.
+Currently there is support for Windows and Linux versions. It should run on OSX too, however I do not have a Macbook to compile the JCEF libraries with.
 
 # Contributing
 1. Fork this repository.
