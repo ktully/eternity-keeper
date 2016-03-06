@@ -24,7 +24,7 @@ import java.util.UUID;
 
 public class StrongholdAdventureCompletion {
 	public StrongholdAdventure.Type Type;
-	public String AdventureName;
+	public String AdventurerName;
 	public UUID AdventurerGuid;
 	public CSharpCollection RewardStrings;
 	public int PremadeAdventureIndex;

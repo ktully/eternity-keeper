@@ -45,6 +45,21 @@ public class AchievementTracker {
 		, NumGodsAppeased
 		, BackedGame
 		, NumLevelsOfOdNua
+		, NumUniquePX1MapsVisited
+		, NumPX1BountysCompleted
+		, NumPX1PrimaryCompanionsGained
+		, NumPX1DragonsKilled
+		, NumSoulboundWeaponsFullyUnlocked
+		, PX1DoorOfDurgansBatteryOpened
+		, PX1RestartedWhiteForge
+		, PX1CompletedSiegeofCragholdt
+		, NumUniqueStrongholdAdventureTypesCompleted
+		, DefendedPositionAsStrongholdMaster
+		, NumPX2PrimaryCompanionsGained
+		, NumWeaponOrShieldsLegendaryEnchanted
+		, PX2DefeatedMenaceOfMowrghekIen
+		, PX2ReachedReliquaryInAbbey
+		, PX2StoppedThreatSeenInDreams
 		, Count
 	}
 }
