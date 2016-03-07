@@ -46,9 +46,6 @@ namespace EternityBootstrapper {
 				Directory.Move(jar, jarBackup);
 				Directory.Move(src, srcBackup);
 
-				Directory.Delete(jar, true);
-				Directory.Delete(src, true);
-
 				Directory.CreateDirectory(jar);
 				Directory.CreateDirectory(src);
 

@@ -173,7 +173,7 @@ Updates.prototype.download = function () {
 	var progress = response => {
 		response = JSON.parse(response);
 
-		if (response == 100) {
+		if (response.percentage == 100) {
 			clearInterval(interval);
 			self.render({downloadComplete: true});
 		} else {
@@ -185,7 +185,7 @@ Updates.prototype.download = function () {
 		return;
 	}
 
-	self.render({downloading: true});
+	self.transition({updateAvailable: false, downloading: true});
 	window.downloadUpdate({
 		request: self.state.updateTimestamp.toString()
 		, onSuccess: success

@@ -59,12 +59,6 @@ public class DownloadUpdate extends CefMessageRouterHandlerAdapter {
 		logger.error("Query #%d cancelled.%n", id);
 	}
 
-	/**
-	 * What we want to do here is fire off one request to the server for the new JAR and keep track
-	 * of its download progress. Then we want to signal that the JAR has finished downloading and
-	 * then download the UI ZIP and keep track of its progress too.
-	 */
-
 	public static class UpdateDownloader implements Runnable {
 		public long totalBytes = -1;
 		public final AtomicLong currentBytes = new AtomicLong(0L);
