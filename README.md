@@ -24,7 +24,8 @@ This project uses maven so building it should be relatively straightforward.
 Where *<platform>* is one of `win32`, `win64`, or `linux64`.
 
 # Running
-Assuming you've already built the project and have a `target` directory now and have your Java 8 executable in your `PATH`, you can use `run.bat` to run the project.
+Assuming you've already built the project and have a `target` directory now and have your Java 8 executable in your `PATH`, you can use `run.bat` or `run.sh` to run the project.
+**Note:** Some users have reported segmentation faults when attempting to run Eternity Keeper using the OpenJDK. If you experience the same issue, switching to the Oracle JDK may resolve it.
 
 # Acknowledgements
 The icon used by Eternity Keeper was created by [Alexander Loginov](http://alexanderloginov.deviantart.com/).
