@@ -19,6 +19,7 @@
 
 package uk.me.mantas.eternity.tests;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 import uk.me.mantas.eternity.game.ComponentPersistencePacket;
 import uk.me.mantas.eternity.game.ObjectPersistencePacket;
@@ -28,12 +29,18 @@ import uk.me.mantas.eternity.serializer.properties.SingleDimensionalArrayPropert
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static uk.me.mantas.eternity.EKUtils.*;
 
 public class EKUtilsTest {
+	@BeforeClass
+	public static void setDefaultLocale () {
+		Locale.setDefault(Locale.UK);
+	}
+
 	@Test
 	public void removeBOMTest () {
 		byte[] data = new byte[]{-17, -69, -65, 100, 97, 116, 97};

@@ -22,6 +22,7 @@ package uk.me.mantas.eternity.tests;
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import uk.me.mantas.eternity.Logger;
 import uk.me.mantas.eternity.Settings;
 import uk.me.mantas.eternity.environment.*;
@@ -33,6 +34,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.Arrays;
+import java.util.Locale;
 
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -42,6 +44,11 @@ import static org.mockito.Mockito.when;
 
 public abstract class TestHarness {
 	protected static String PREFIX = "EK-";
+
+	@BeforeClass
+	public static void setDefaultLocale () {
+		Locale.setDefault(Locale.UK);
+	}
 
 	@Before
 	public void setup () throws NoSuchFieldException, IllegalAccessException {

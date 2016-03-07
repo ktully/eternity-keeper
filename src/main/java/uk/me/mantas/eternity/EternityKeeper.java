@@ -37,6 +37,7 @@ import java.awt.event.WindowEvent;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class EternityKeeper extends JFrame {
 	private CefApp cefApp;
@@ -133,9 +134,9 @@ public class EternityKeeper extends JFrame {
 	}
 
 	public static void main (final String[] args) {
+		Locale.setDefault(Locale.UK);
 		final ImageIcon icon = new ImageIcon(EternityKeeper.class.getResource("/icon.png"));
 		final File log = new File("eternity.log");
-
 
 		// We set up various environment properties and dependency injections
 		// here in order to make it easier to test classes later.
