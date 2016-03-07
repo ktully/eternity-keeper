@@ -19,7 +19,7 @@ Currently there is support for Windows and Linux versions. It should run on OSX 
 # Building
 This project uses maven so building it should be relatively straightforward.
 
-	mvn install -P <platform>
+	mvn install -P<platform>
 
 Where *<platform>* is one of `win32`, `win64`, or `linux64`.
 
