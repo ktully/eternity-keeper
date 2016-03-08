@@ -57,9 +57,10 @@ if [ $max -gt -1 ]; then
 fi
 
 LIB="$ROOT/lib"
-export LD_LIBRARY_PATH=$LIB
+export LD_LIBRARY_PATH="$LIB:$LD_LIBRARY_PATH"
+export LD_PRELOAD="libcef.so"
 
-LD_PRELOAD="$LIB/libcef.so" "$JRE" \
-	-Djava.library.path="$LIB" \
-	-cp "$JARS/*" \
-	uk.me.mantas.eternity.EternityKeeper
+"$JRE" \
+-Djava.library.path="$LIB" \
+-cp "$JARS/*" \
+uk.me.mantas.eternity.EternityKeeper
