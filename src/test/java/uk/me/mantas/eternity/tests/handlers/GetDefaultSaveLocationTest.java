@@ -45,7 +45,7 @@ public class GetDefaultSaveLocationTest extends TestHarness {
 		"{\"savesLocation\":\"%s\",\"gameLocation\":\"%s\"}";
 
 	@Before
-	public void setup () throws NoSuchFieldException, IllegalAccessException {
+	public void setup () {
 		super.setup();
 		Settings.getInstance().json = new JSONObject();
 	}

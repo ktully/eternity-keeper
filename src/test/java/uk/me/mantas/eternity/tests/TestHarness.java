@@ -51,7 +51,7 @@ public abstract class TestHarness {
 	}
 
 	@Before
-	public void setup () throws NoSuchFieldException, IllegalAccessException {
+	public void setup () {
 		Environment.initialise();
 		Settings.clear();
 	}

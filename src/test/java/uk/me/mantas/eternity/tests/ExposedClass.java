@@ -118,6 +118,29 @@ public class ExposedClass {
 		return null;
 	}
 
+	public <T> T get (final String fieldName) {
+		Field field = null;
+
+		try {
+			field = cls.getDeclaredField(fieldName);
+		} catch (final NoSuchFieldException e) {
+			e.printStackTrace();
+			assertNull(e);
+		}
+
+		field.setAccessible(true);
+
+		try {
+			//noinspection unchecked
+			return (T) field.get(instance);
+		} catch (final IllegalAccessException e) {
+			e.printStackTrace();
+			assertNull(e);
+		}
+
+		return null;
+	}
+
 	public void set (final String fieldName, final Object value) {
 		Field field = null;
 		Field modifiersField = null;
@@ -125,7 +148,7 @@ public class ExposedClass {
 		try {
 			field = cls.getDeclaredField(fieldName);
 			modifiersField = Field.class.getDeclaredField("modifiers");
-		} catch (NoSuchFieldException e) {
+		} catch (final NoSuchFieldException e) {
 			e.printStackTrace();
 			assertNull(e);
 		}
@@ -136,7 +159,7 @@ public class ExposedClass {
 		try {
 			modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
 			field.set(instance, value);
-		} catch (IllegalAccessException e) {
+		} catch (final IllegalAccessException e) {
 			e.printStackTrace();
 			assertNull(e);
 		}

@@ -33,45 +33,42 @@ import static uk.me.mantas.eternity.save.SaveGameInfo.*;
 
 public class SaveGameExtractor {
 	private static final Logger logger = Logger.getLogger(SaveGameExtractor.class);
-	private String savesLocation;
-	private File workingDirectory;
-	public AtomicInteger totalFiles = new AtomicInteger(0);
-	public AtomicInteger currentCount = new AtomicInteger(0);
+	private final String savesLocation;
+	private final File workingDirectory;
+	public final AtomicInteger totalFiles = new AtomicInteger(0);
+	public final AtomicInteger currentCount = new AtomicInteger(0);
 
-	public SaveGameExtractor (String savesLocation, File workingDirectory) {
+	public SaveGameExtractor (final String savesLocation, final File workingDirectory) {
 		this.savesLocation = savesLocation;
 		this.workingDirectory = workingDirectory;
 	}
 
-	private File unpackSave (File save) {
-		String destinationPath = new File(workingDirectory, save.getName()).getAbsolutePath();
+	private File unpackSave (final File save) {
+		final String destinationPath = new File(workingDirectory, save.getName()).getAbsolutePath();
 
 		try {
-			ZipFile archive = new ZipFile(save);
+			final ZipFile archive = new ZipFile(save);
 			archive.extractAll(destinationPath);
 			currentCount.getAndIncrement();
 			return new File(destinationPath);
-		} catch (ZipException e) {
-			logger.error(
-				"Unable to unzip '%s': %s%n"
-				, save.getAbsolutePath()
-				, e.getMessage());
+		} catch (final ZipException e) {
+			logger.error("Unable to unzip '%s': %s%n", save.getAbsolutePath(), e.getMessage());
 		}
 
 		return null;
 	}
 
-	private Optional<SaveGameInfo> extractInfo (File saveFolder) {
-		File[] contents = saveFolder.listFiles();
+	private Optional<SaveGameInfo> extractInfo (final File saveFolder) {
+		final File[] contents = saveFolder.listFiles();
 
 		if (contents == null) {
 			logger.error("Unzip resulted in 0 files for '%s'.%n", saveFolder.getAbsolutePath());
 			return Optional.empty();
 		}
 
-		Set<String> requiredFiles =	new HashSet<>(Arrays.asList(REQUIRED_FILES));
-		Set<String> optionalFiles = new HashSet<>(Arrays.asList(OPTIONAL_FILES));
-		Map<String, File> importantFiles = Arrays.stream(contents)
+		final Set<String> requiredFiles =	new HashSet<>(Arrays.asList(REQUIRED_FILES));
+		final Set<String> optionalFiles = new HashSet<>(Arrays.asList(OPTIONAL_FILES));
+		final Map<String, File> importantFiles = Arrays.stream(contents)
 			.filter(f -> requiredFiles.contains(f.getName()) || optionalFiles.contains(f.getName()))
 			.collect(Collectors.toMap(File::getName, Function.identity()));
 
@@ -85,28 +82,28 @@ public class SaveGameExtractor {
 
 		try {
 			return Optional.of(new SaveGameInfo(saveFolder, importantFiles));
-		} catch (SaveFileInfoException e) {
+		} catch (final SaveFileInfoException e) {
 			return Optional.empty();
 		}
 	}
 
 	public Optional<SaveGameInfo[]> unpackAllSaves () {
-		File savesDirectory = new File(savesLocation);
+		final File savesDirectory = new File(savesLocation);
 		if (!savesDirectory.exists()) {
 			return Optional.empty();
 		}
 
-		File[] saves = savesDirectory.listFiles();
+		final File[] saves = savesDirectory.listFiles();
 		if (saves == null) {
 			return Optional.empty();
 		}
 
-		File[] saveFiles = Arrays.stream(saves).filter(File::isFile).toArray(File[]::new);
+		final File[] saveFiles = Arrays.stream(saves).filter(File::isFile).toArray(File[]::new);
 		totalFiles.set(saveFiles.length);
 		currentCount.set(0);
 
 		Arrays.sort(saveFiles); // Just for determinism in the tests.
-		SaveGameInfo[] info =
+		final SaveGameInfo[] info =
 			Arrays.stream(saveFiles)
 				.map(this::unpackSave)
 				.filter(a -> a != null)
