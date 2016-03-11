@@ -99,6 +99,11 @@
 			<artifactId>logback-classic</artifactId>
 			<version>1.0.13</version>
 		</dependency>
+		<dependency>
+			<groupId>se.softhouse</groupId>
+			<artifactId>jargo</artifactId>
+			<version>0.1.1</version>
+		</dependency>
 
 		<!-- Test Dependencies -->
 		<dependency>

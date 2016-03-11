@@ -27,6 +27,15 @@ Where *<platform>* is one of `win32`, `win64`, or `linux64`.
 Assuming you've already built the project and have a `target` directory now and have your Java 8 executable in your `PATH`, you can use `run.bat` or `run.sh` to run the project.
 **Note:** Some users have reported segmentation faults when attempting to run Eternity Keeper using the OpenJDK. If you experience the same issue, switching to the Oracle JDK may resolve it.
 
+# Testing
+You may run the TestEnvironment tool to automatically copy a small number of saves as well as any necessary game data to a temporary directory on your filesystem and then modify your settings file to point to these. This should make UI testing a bit easier and less destructive. You can run the tool after building the whole project with:
+
+	java -cp target/eternity-0.1.-shaded.jar uk.me.mantas.eternity.TestEnvironment <game location> <save location>
+
+Where *<game location>* is the path to your Pillars of Eternity install and *<save location>* is the path to your save file directory.
+
+You may also provide the `--help` flag to see advanced options.
+
 # Acknowledgements
 The icon used by Eternity Keeper was created by [Alexander Loginov](http://alexanderloginov.deviantart.com/).
 

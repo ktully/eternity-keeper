@@ -25,6 +25,7 @@ import org.junit.Test;
 import uk.me.mantas.eternity.environment.Environment;
 import uk.me.mantas.eternity.handlers.CheckExtractionProgress;
 import uk.me.mantas.eternity.save.SaveGameExtractor;
+import uk.me.mantas.eternity.tests.ExposedClass;
 import uk.me.mantas.eternity.tests.TestHarness;
 
 import java.util.concurrent.atomic.AtomicInteger;
@@ -67,12 +68,13 @@ public class CheckExtractionProgressTest extends TestHarness {
 		final CefBrowser mockBrowser = mock(CefBrowser.class);
 		final CefQueryCallback mockCallback = mock(CefQueryCallback.class);
 		final SaveInfoLister mockLister = mock(SaveInfoLister.class);
-		final SaveGameExtractor mockExtractor = mock(SaveGameExtractor.class);
+		final SaveGameExtractor extractor = new SaveGameExtractor("", null);
+		final ExposedClass exposedExtractor = expose(extractor);
 
 		environment.state().currentSaveLister(mockLister);
-		mockLister.extractor = mockExtractor;
-		mockExtractor.currentCount = new AtomicInteger(1);
-		mockExtractor.totalFiles = new AtomicInteger(0);
+		mockLister.extractor = extractor;
+		exposedExtractor.set("currentCount", new AtomicInteger(1));
+		exposedExtractor.set("totalFiles", new AtomicInteger(0));
 
 		final CheckExtractionProgress cls = new CheckExtractionProgress();
 		cls.onQuery(mockBrowser, 0, "true", false, mockCallback);
@@ -82,21 +84,22 @@ public class CheckExtractionProgressTest extends TestHarness {
 
 	@Test
 	public void calculatesPercentage () {
-		Environment environment = Environment.getInstance();
-		CefBrowser mockBrowser = mock(CefBrowser.class);
-		CefQueryCallback mockCallback = mock(CefQueryCallback.class);
-		SaveInfoLister mockLister = mock(SaveInfoLister.class);
-		SaveGameExtractor mockExtractor = mock(SaveGameExtractor.class);
+		final Environment environment = Environment.getInstance();
+		final CefBrowser mockBrowser = mock(CefBrowser.class);
+		final CefQueryCallback mockCallback = mock(CefQueryCallback.class);
+		final SaveInfoLister mockLister = mock(SaveInfoLister.class);
+		final SaveGameExtractor extractor = new SaveGameExtractor("", null);
+		final ExposedClass exposedExtractor = expose(extractor);
 
 		environment.state().currentSaveLister(mockLister);
-		mockLister.extractor = mockExtractor;
-		mockExtractor.currentCount = new AtomicInteger(1);
-		mockExtractor.totalFiles = new AtomicInteger(3);
+		mockLister.extractor = extractor;
+		exposedExtractor.set("currentCount", new AtomicInteger(1));
+		exposedExtractor.set("totalFiles", new AtomicInteger(3));
 
-		CheckExtractionProgress cls = new CheckExtractionProgress();
+		final CheckExtractionProgress cls = new CheckExtractionProgress();
 		cls.onQuery(mockBrowser, 0, "true", false, mockCallback);
 
-		double percentage = (1d / 3d) * 100;
+		final double percentage = (1d / 3d) * 100;
 		verify(mockCallback).success(String.format(RESPONSE, String.format("%.14f", percentage)));
 	}
 }
