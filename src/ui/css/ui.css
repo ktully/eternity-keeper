@@ -64,9 +64,94 @@ html, * {
 	font-family: proxima-nova, sans-serif;
 }
 
+body {
+	background-color: #252830;
+}
+
+.container-fluid {
+	color: #cfd2da;
+}
+
+.navbar-inverse {
+	background-color: #1a1c22;
+	border-bottom: 1px solid #1a1c22;
+}
+
+.navbar-inverse .navbar-nav>.open>a,
+.navbar-inverse .navbar-nav>.open>a:focus,
+.navbar-inverse .navbar-nav>.open>a:hover {
+	color: #252830;
+	background-color: white;
+}
+
+.navbar-inverse .navbar-brand {
+	color: white;
+}
+
+.navbar-inverse .navbar-nav>li>a {
+	color: #cfd2da;
+}
+
+.container-fluid .dropdown-menu {
+	border: 1px solid white;
+}
+
+.container-fluid .form-control {
+	color: white;
+	background-color: #434857;
+	border: 1px solid #434857;
+	border-radius: 4px;
+	transition: none;
+}
+
+.container-fluid .form-control::-moz-placeholder {
+	color: #cfd2da;
+	opacity: 1;
+}
+
+.container-fluid .form-control:-ms-input-placeholder {
+	color: #cfd2da;
+}
+
+.container-fluid .form-control::-webkit-input-placeholder {
+	color: #cfd2da;
+}
+
+.container-fluid .form-control:focus {
+	color: #252830;
+	background-color: white;
+	box-shadow: none;
+	border-color: white;
+}
+
+.container-fluid label {
+	font-weight: normal;
+}
+
+.container-fluid .btn-primary {
+	color: #1997c6;
+	background-color: transparent;
+	border: 1px solid #1997c6;
+	transition: none;
+}
+
+.container-fluid .btn-primary:hover {
+	color: white;
+	background-color: #1997c6;
+	box-shadow: none;
+}
+
+.container-fluid .alert-danger {
+	padding: .125rem .5em;
+	background-color: #e64759;
+	color: #252830;
+	font-weight: bold;
+	border: none;
+}
+
 #progress {
 	position: fixed;
-	top: 47px;
+	top: 50px;
 	left: 0;
 	width: 100%;
 	height: 4px;
@@ -98,7 +183,7 @@ html, * {
 
 .sidebar {
 	position: fixed;
-	top: 51px;
+	top: 50px;
 	bottom: 0;
 	left: 0;
 	z-index: 10;
@@ -106,8 +191,7 @@ html, * {
 	padding: 10px 0;
 	overflow-x: hidden;
 	overflow-y: auto;
-	background-color: #F5F5F5;
-	border-right: 1px solid #EEE;
+	background-color: transparent;
 }
 
 .main-panel {
@@ -125,6 +209,7 @@ html, * {
 
 #error {
 	display: none;
+	max-width: 600px;
 }
 
 label[for="savedGameLocation"] {
@@ -150,21 +235,22 @@ button#searchForSavedGames {
 }
 
 .save-blocks {
-	margin-top: 30px;
+	margin-top: 20px;
 }
 
 .save-info {
 	position: relative;
 	display: inline-block;
 	width: 600px;
-	box-shadow: 0 0 2px rgba(0,0,0,.1);
 	cursor: pointer;
-	border: 1px solid #eee;
-	margin-right: 30px;
+	border: 1px solid #434857;
+	margin: 0 20px 20px 0;
+	border-radius: 4px;
+	color: #cfd2da;
 }
 
 .save-info:hover {
-	border-color: #ccc;
+	background-color: #434857;
 }
 
 .save-info > * {
@@ -176,7 +262,7 @@ button#searchForSavedGames {
 }
 
 .save-info .name {
-	font-weight: bold;
+	color: white;
 }
 
 .save-info .portraits {
@@ -185,7 +271,6 @@ button#searchForSavedGames {
 
 .save-info .date {
 	font-size: 10px;
-	color: #ccc;
 	vertical-align: bottom;
 }
 
@@ -198,13 +283,23 @@ button#searchForSavedGames {
 
 ul.characters {
 	list-style: none;
-	padding: 0;
+	padding: 0 0 0 12px;
 }
 
 .characters li {
-	padding: 10px 20px;
-	font-size: 16px;
+	padding: 7px 15px;
+	font-size: 14px;
+	color: #cfd2da;
 	cursor: pointer;
+	border-radius: 4px;
+	margin-top: 2px;
+}
+
+.characters li.active,
+.characters li.active:hover {
+	font-weight: 600;
+	color: #252830;
+	background-color: #1ca8dd;
 }
 
 .characters li i {
@@ -215,14 +310,13 @@ ul.characters {
 	display: inline-block;
 }
 
-.characters li:hover
-, .characters li.active {
-	background-color: #222;
-	color: #9d9d9d;
+.characters li:hover {
+	background-color: #434857;
+	color: white;
 }
 
 .character {
-	margin-top: 10px;
+	margin: -7px 0 0 -32px;
 	display: none;
 }
 
@@ -375,6 +469,7 @@ ul.multi-selector li:hover {
 ul.multi-selector i {
 	float: right;
 }
+
 span.danger {
 	color: #a94442;
 }
