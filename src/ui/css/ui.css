@@ -104,15 +104,6 @@ body {
 	transition: none;
 }
 
-.container-fluid.dark-theme .form-control::-moz-placeholder {
-	color: #cfd2da;
-	opacity: 1;
-}
-
-.container-fluid.dark-theme .form-control:-ms-input-placeholder {
-	color: #cfd2da;
-}
-
 .container-fluid.dark-theme .form-control::-webkit-input-placeholder {
 	color: #cfd2da;
 }
@@ -126,6 +117,18 @@ body {
 
 .container-fluid.dark-theme label {
 	font-weight: normal;
+}
+
+.form-control.icon-left {
+	padding-left: 30px;
+}
+
+.input-group span.icon-left {
+	position: absolute;
+	top: 7px;
+	left: 10px;
+	color: #cfd2da;
+	z-index: 2;
 }
 
 .container-fluid.dark-theme .btn-primary {
@@ -415,4 +418,12 @@ table.dark-theme>tbody>tr>td {
 	border-top: 1px solid #434857;
 	color: #cfd2da;
 	padding: 8px;
+}
+
+#rawTable {
+	margin-top: -8px;
+}
+
+#searchRaw {
+	width: 240px;
 }

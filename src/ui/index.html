@@ -340,12 +340,21 @@
 					</div>
 				</div>
 				<div class="row view raw" id="rawTable" data-bound="SavedGame">
+					<form>
+						<div class="form-group">
+							<div class="input-group">
+								<input type="text" class="form-control icon-left" id="searchRaw" data-bound="SavedGame"
+								       placeholder="Search..." />
+								<span class="icon-left"><i class="fa fa-search"></i></span>
+							</div>
+						</div>
+					</form>
 					<table class="table dark-theme">
 						<thead>
-						<tr>
-							<th>Key</th>
-							<th>Value</th>
-						</tr>
+							<tr>
+								<th>Key</th>
+								<th>Value</th>
+							</tr>
 						</thead>
 						<tbody></tbody>
 					</table>

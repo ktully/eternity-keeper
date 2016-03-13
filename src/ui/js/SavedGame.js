@@ -92,9 +92,34 @@ var SavedGame = function () {
 		self.html.rawTable.find('tr > td:last-child').keyup(self.update.bind(self));
 	};
 
+	var lastSearch = 0;
+	var filterRaw = () => {
+		var thisSearch = new Date().valueOf();
+		lastSearch = thisSearch;
+
+		var searchString = self.html.searchRaw.val().toLowerCase();
+		if (searchString.length < 1) {
+			return;
+		}
+
+		var matches =
+			self.html.rawTable.find('td:last-child')
+				.filter((i, el) => $(el).data('key').toLowerCase().includes(searchString));
+
+		if (thisSearch < lastSearch) {
+			// There has been another keypress since we calculated the matches, the new keypress
+			// takes priority.
+			return;
+		}
+
+		self.html.rawTable.find('tbody tr').hide();
+		matches.each((i, el) => $(el).parent().show());
+	};
+
 	self.init = () => {
 		self.html.menuCharacterAttributes.click(self.switchView.bind(self, self.views.ATTR));
 		self.html.menuCharacterRaw.click(self.switchView.bind(self, self.views.RAW));
+		self.html.searchRaw.keyup(filterRaw);
 	};
 
 	self.state = $.extend({}, defaultState);
@@ -109,16 +134,6 @@ var SavedGame = function () {
 			Eternity.Modifications.suggestSaveName(self.state.info));
 		populateCharacterList(self.html.characterList, self.state.saveData.characters);
 
-		$('.view').hide();
-		switch(self.state.view) {
-			case self.views.RAW:
-				self.html.rawTable.show();
-				break;
-
-			default:
-				self.html.character.show();
-		}
-
 		if (self.state.activeCharacter) {
 			self.html.characterList.find('li')
 				.removeClass('active')
@@ -131,6 +146,17 @@ var SavedGame = function () {
 			}
 		} else {
 			self.switchCharacter(self.state.saveData.characters[0].GUID);
+		}
+
+		$('.view').hide();
+		switch(self.state.view) {
+			case self.views.RAW:
+				self.html.rawTable.show();
+				filterRaw();
+				break;
+
+			default:
+				self.html.character.show();
 		}
 	};
 };
