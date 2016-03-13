@@ -89,21 +89,29 @@ var Editor = function () {
 		});
 	};
 
+	var disableMenu = menuID => $('#' + menuID).find('li').addClass('disabled');
+	var enableMenu = menuID => $('#' + menuID).find('li').removeClass('disabled');
+
 	self.state = $.extend({}, defaultState);
 	self.render = newState => {
 		self.state = $.extend({}, defaultState, newState);
 		self.SaveSearch.html.searchContainer.hide();
 		self.SaveSearch.html.saveBlocks.hide();
 		self.SavedGame.html.character.hide();
+		self.SavedGame.html.rawTable.hide();
 		self.SavedGame.html.characterList.empty();
 
 		if (self.state.listView) {
 			self.SaveSearch.html.searchContainer.show();
 			self.SaveSearch.html.saveBlocks.show();
+			self.CurrencyEditor.transition({enabled: false});
+			disableMenu('menuCharacter');
 		}
 
 		if (self.state.saveView) {
 			self.SavedGame.html.character.show();
+			self.SavedGame.html.rawTable.show();
+			enableMenu('menuCharacter');
 		}
 	};
 

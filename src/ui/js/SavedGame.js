@@ -19,11 +19,13 @@
 var SavedGame = function () {
 	var self = this;
 
+	self.views = Object.freeze({ATTR: 0, RAW: 1});
+
 	var defaultState = {
 		saveData: {}
 		, info: {}
 		, activeCharacter: false
-		, activeTab: 'characterAttributes'
+		, view: self.views.ATTR
 	};
 
 	var populateCharacterList = (container, characters) => {
@@ -37,6 +39,20 @@ var SavedGame = function () {
 					.click(self.switchCharacter.bind(self, character.GUID))));
 	};
 
+	var sortData = unsorted => {
+		var sortable = [];
+		for (var k in unsorted) {
+			if (!unsorted.hasOwnProperty(k)) {
+				continue;
+			}
+
+			sortable.push([k, unsorted[k]]);
+		}
+
+		sortable.sort((a, b) => a[0].toLowerCase() > b[0].toLowerCase() ? 1 : -1);
+		return sortable;
+	};
+
 	var populateCharacter = (container, data) => {
 		container.find('.portrait')
 			.empty()
@@ -44,28 +60,28 @@ var SavedGame = function () {
 			.css('background-repeat', 'no-repeat')
 			.html((data.isDead) ? '<div>DEAD</div>' : '');
 
+		var sortedData = sortData(data.stats);
 		var row = $('<tr><td></td><td contenteditable></td></tr>');
 		var rawTable = self.html.rawTable.find('tbody');
 		rawTable.empty();
 
-		for (var stat in data.stats) {
-			if (!data.stats.hasOwnProperty(stat)) {
-				continue;
-			}
+		sortedData.forEach(tuple => {
+			var stat = tuple[0];
+			var value = tuple[1];
 
 			container
 				.find('.stats')
 				.find('input[data-key="' + stat + '"]')
-				.val(data.stats[stat].toString());
+				.val(value.toString());
 
 			var rawRow = row.clone();
 			rawRow.find('td:first-child').text(stat);
 			rawRow.find('td:last-child')
-				.text(data.stats[stat])
+				.text(value)
 				.data('key', stat);
 
 			rawTable.append(rawRow);
-		}
+		});
 
 		container
 			.find('.stats')
@@ -76,27 +92,32 @@ var SavedGame = function () {
 		self.html.rawTable.find('tr > td:last-child').keyup(self.update.bind(self));
 	};
 
+	self.init = () => {
+		self.html.menuCharacterAttributes.click(self.switchView.bind(self, self.views.ATTR));
+		self.html.menuCharacterRaw.click(self.switchView.bind(self, self.views.RAW));
+	};
+
 	self.state = $.extend({}, defaultState);
 	self.html = {};
-
-	self.init = () => {
-		self.html.characterTabs.find('li').click(self.switchTab.bind(self));
-	};
 
 	self.render = newState => {
 		self.state = $.extend({}, defaultState, newState);
 		self.html.characterList.empty();
-		self.html.characterAttributes.hide();
-		self.html.rawTable.hide();
-		self.html[self.state.activeTab].show();
-		self.html.characterTabs.find('li').removeClass('active');
-		self.html.characterTabs.find('a[target=' + self.state.activeTab + ']')
-			.parent().addClass('active');
 		Eternity.render({saveView: true});
 		Eternity.CurrencyEditor.render({enabled: true, amount: self.state.saveData.currency});
 		Eternity.Modifications.html.newSaveName.val(
 			Eternity.Modifications.suggestSaveName(self.state.info));
 		populateCharacterList(self.html.characterList, self.state.saveData.characters);
+
+		$('.view').hide();
+		switch(self.state.view) {
+			case self.views.RAW:
+				self.html.rawTable.show();
+				break;
+
+			default:
+				self.html.character.show();
+		}
 
 		if (self.state.activeCharacter) {
 			self.html.characterList.find('li')
@@ -119,6 +140,11 @@ SavedGame.prototype.switchCharacter = function (guid) {
 	self.transition({activeCharacter: guid});
 };
 
+SavedGame.prototype.switchView = function (view) {
+	var self = this;
+	self.transition({view: view});
+};
+
 SavedGame.prototype.update = function (e) {
 	var self = this;
 	var element = $(e.currentTarget);
@@ -133,12 +159,6 @@ SavedGame.prototype.update = function (e) {
 		self.state.saveData.characters.filter(c => c.GUID === self.state.activeCharacter)[0];
 	character.stats[key] = value;
 	Eternity.Modifications.transition({modifications: true});
-};
-
-SavedGame.prototype.switchTab = function (e) {
-	var self = this;
-	var tab = $(e.currentTarget);
-	self.transition({activeTab: tab.find('a').attr('target')});
 };
 
 $.extend(SavedGame.prototype, Renderer.prototype);
