@@ -76,10 +76,9 @@ public class SavedGameOpener implements Runnable {
 				.collect(Collectors.toList());
 
 		final Map<String, Property> characters = extractCharacters(gameObjects);
-		//final Map<String, Integer> globals = extractGlobals(gameObjects);
+		final Map<String, Integer> globals = extractGlobals(gameObjects);
 		final float currency = extractCurrency(gameObjects);
-		//sendJSON(currency, globals, characters);
-		sendJSON(currency, characters);
+		sendJSON(currency, globals, characters);
 	}
 
 	private boolean isObjectPersistencePacket (final Property property) {
@@ -93,7 +92,7 @@ public class SavedGameOpener implements Runnable {
 
 	private float extractCurrency (final List<Property> gameObjects) {
 		final Optional<Property> playerProperty =
-			findProperty(gameObjects, objectName -> objectName.startsWith("Player_"));
+			findProperty(gameObjects, objectName -> objectName.toLowerCase().startsWith("player_"));
 
 		if (!playerProperty.isPresent()) {
 			logger.error("Unable to find player mobile object.%n");
@@ -116,6 +115,15 @@ public class SavedGameOpener implements Runnable {
 		}
 
 		return ((CurrencyValue) currencyValue).v;
+	}
+
+	private Map<String, Integer> extractGlobals (final List<Property> gameObjects) {
+		final Map<String, Integer> globals = new HashMap<>();
+		return globals;
+	}
+
+	private Optional<JSONObject> globalsToJSON (final Entry<String, Integer> entry) {
+		return Optional.empty();
 	}
 
 	private Optional<JSONObject> charactersToJSON (final Entry<String, Property> entry) {
@@ -160,14 +168,19 @@ public class SavedGameOpener implements Runnable {
 
 	private void sendJSON (
 		final float currency
-		//, final Map<String, Integer> globals
+		, final Map<String, Integer> globals
 		, final Map<String, Property> characters) {
 
 		final JSONObject json = new JSONObject();
 		json.put("currency", currency);
 
-//		final JSONObject[] jsonGlobals = globals.entrySet().stream().map(this::globalsToJSON);
-//		json.put("globals", new JSONArray(jsonGlobals));
+		final JSONObject[] jsonGlobals =
+			globals.entrySet().stream()
+				.map(this::globalsToJSON)
+				.filter(Optional::isPresent)
+				.map(Optional::get)
+				.toArray(JSONObject[]::new);
+		json.put("globals", new JSONArray(jsonGlobals));
 
 		final JSONObject[] jsonCharacters =
 			characters.entrySet().stream()
@@ -175,8 +188,8 @@ public class SavedGameOpener implements Runnable {
 				.filter(Optional::isPresent)
 				.map(Optional::get)
 				.toArray(JSONObject[]::new);
-
 		json.put("characters", new JSONArray(jsonCharacters));
+
 		callback.success(json.toString());
 	}
 
