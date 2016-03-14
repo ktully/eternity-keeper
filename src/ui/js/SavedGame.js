@@ -99,6 +99,7 @@ var SavedGame = function () {
 
 		var searchString = self.html.searchRaw.val().toLowerCase();
 		if (searchString.length < 1) {
+			self.html.rawTable.find('tbody tr').show();
 			return;
 		}
 
