@@ -39,7 +39,7 @@ import static se.softhouse.jargo.Arguments.*;
 public class TestEnvironment {
 	private static final class Args {
 		private static final int DEFAULT_NUM_SAVES = 3;
-		private static final String DEFAULT_WORKSPACE = "EK-TEST-ENV";
+		private static final String DEFAULT_WORKSPACE = "EK_TEST_ENV";
 
 		private static final Argument<?> helpArgument = helpArgument("-h", "--help");
 		private static final Argument<File> gameLocation =
