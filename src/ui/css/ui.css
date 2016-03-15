@@ -115,6 +115,10 @@ body {
 	border-color: white;
 }
 
+.container-fluid.dark-theme .form-control[disabled] {
+	background-color: #30343e;
+}
+
 .container-fluid.dark-theme label {
 	font-weight: normal;
 }

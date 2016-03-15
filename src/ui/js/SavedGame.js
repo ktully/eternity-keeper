@@ -18,6 +18,9 @@
 
 var SavedGame = function () {
 	var self = this;
+	var disabledForCompanions = [
+		'BaseMight', 'BaseConstitution', 'BaseDexterity', 'BaseIntellect', 'BasePerception'
+		, 'BaseResolve'];
 
 	self.views = Object.freeze({ATTR: 0, RAW: 1});
 
@@ -72,7 +75,8 @@ var SavedGame = function () {
 			container
 				.find('.stats')
 				.find('input[data-key="' + stat + '"]')
-				.val(value.toString());
+				.val(value.toString())
+				.prop('disabled', data.isCompanion && disabledForCompanions.indexOf(stat) > -1);
 
 			var rawRow = row.clone();
 			rawRow.find('td:first-child').text(stat);
