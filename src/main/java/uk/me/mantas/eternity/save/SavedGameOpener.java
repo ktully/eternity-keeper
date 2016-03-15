@@ -180,7 +180,7 @@ public class SavedGameOpener implements Runnable {
 				.filter(Optional::isPresent)
 				.map(Optional::get)
 				.toArray(JSONObject[]::new);
-		json.put("globals", new JSONArray(jsonGlobals));
+		//json.put("globals", new JSONArray(jsonGlobals));
 
 		final JSONObject[] jsonCharacters =
 			characters.entrySet().stream()
