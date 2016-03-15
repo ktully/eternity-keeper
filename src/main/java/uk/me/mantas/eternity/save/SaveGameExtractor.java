@@ -66,7 +66,7 @@ public class SaveGameExtractor {
 			return Optional.empty();
 		}
 
-		final Set<String> requiredFiles =	new HashSet<>(Arrays.asList(REQUIRED_FILES));
+		final Set<String> requiredFiles = new HashSet<>(Arrays.asList(REQUIRED_FILES));
 		final Set<String> optionalFiles = new HashSet<>(Arrays.asList(OPTIONAL_FILES));
 		final Map<String, File> importantFiles = Arrays.stream(contents)
 			.filter(f -> requiredFiles.contains(f.getName()) || optionalFiles.contains(f.getName()))

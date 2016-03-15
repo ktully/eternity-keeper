@@ -58,4 +58,17 @@ public class UnityEngine {
 	public static class MonoBehaviour {
 
 	}
+
+	public static class Texture2D {
+
+	}
+
+	public static class MaterialReplacement {
+
+	}
+
+	public static class TextAsset {
+		public String text;
+		public byte[] bytes;
+	}
 }

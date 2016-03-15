@@ -19,5 +19,22 @@
 
 package uk.me.mantas.eternity.game;
 
+import uk.me.mantas.eternity.game.UnityEngine.GameObject;
+
 public class Usable {
+	public GameObject[] AdditionalInteractionObjects;
+	public GameObject InteractionObject;
+	public Usable.UseAnimation Animation;
+	public float UsableRadius;
+	public float ArrivalRadius;
+	public boolean IsUsable;
+	public boolean IsVisible;
+	public boolean IsRevealed;
+	public boolean HasInteractionObject;
+
+	public enum UseAnimation {
+		None
+		, High
+		, Low
+	}
 }

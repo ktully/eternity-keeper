@@ -1,6 +1,6 @@
 /**
  * Eternity Keeper, a Pillars of Eternity save game editor.
- * Copyright (C) 2015 the authors.
+ * Copyright (C) 2016 the authors.
  * <p>
  * Eternity Keeper is free software: you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -20,14 +20,30 @@ package uk.me.mantas.eternity.game;
 
 import uk.me.mantas.eternity.game.UnityEngine.GameObject;
 
-import java.util.UUID;
+public class AbilityMod {
+	public AbilityMod.AbilityModType Type;
+	public float Value;
+	public StatusEffectParams[] StatusEffects;
+	public AbilityMod.ReplaceObjectParams[] ReplaceObjects;
+	public GenericAbility.AbilityType SourceType;
+	public Equippable EquipmentOrigin;
 
-public class ActivationTimers {
-	public static class Timer {
-		public GameObject Target;
-		public float Delay;
-		public boolean State;
-		public UUID TargetGuid;
-		public boolean Dead;
+	public enum AbilityModType {
+		AdditionalUse
+		, AddAbilityStatusEffects
+		, AddAttackStatusEffects
+		, AttackAccuracyBonus
+		, WoundThresholdAdjustment
+		, NegativeReligiousTraitMultiplier
+		, FinishingBlowDamagePercentAdjustment
+		, AttackDTBypass
+		, AttackSpeedMultiplier
+		, ReplaceParticleFX
+		, AddAttackStatusEffectOnCasterOnly
+	}
+
+	public static class ReplaceObjectParams {
+		public GameObject Existing;
+		public GameObject ReplaceWith;
 	}
 }

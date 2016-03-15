@@ -33,5 +33,8 @@ public class CompanionNames {
 		, Hiravias
 		, Calisca
 		, Heodan
+		, Monk
+		, Maneha
+		, Px2TalkingItem
 	}
 }

@@ -19,5 +19,18 @@
 
 package uk.me.mantas.eternity.game;
 
+import uk.me.mantas.eternity.game.UnityEngine.MaterialReplacement;
+import uk.me.mantas.eternity.game.UnityEngine.Texture2D;
+
 public class Affliction {
+	public DatabaseString DisplayName;
+	public DatabaseString Description;
+	public String tag;
+	public Texture2D Icon;
+	public boolean Exclusive;
+	public StatusEffectParams[] StatusEffects;
+	public Affliction[] Overrides;
+	public boolean DisengageAll;
+	public MaterialReplacement Material;
+	public boolean ThinUI;
 }

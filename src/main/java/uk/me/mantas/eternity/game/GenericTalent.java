@@ -19,5 +19,33 @@
 
 package uk.me.mantas.eternity.game;
 
+import static uk.me.mantas.eternity.game.UnityEngine.Texture2D;
+
 public class GenericTalent {
+	public DatabaseString DisplayName;
+	public DatabaseString Description;
+	public GenericAbility[] Abilities;
+	public Texture2D Icon;
+	public GenericTalent.TalentCategory Category;
+	public GenericTalent.TalentType Type;
+	public AbilityMod[] AbilityMods;
+	public GenericTalent.SkillBonus[] SkillBonuses;
+
+	public enum TalentType {
+		GrantNewAbility
+		, ModExistingAbility
+	}
+
+	public enum TalentCategory {
+		Undefined
+		, Class
+		, Offense
+		, Defense
+		, MixedOrUtility
+	}
+
+	public static class SkillBonus {
+		public CharacterStats.SkillType Skill;
+		public int Bonus;
+	}
 }

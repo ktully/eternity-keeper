@@ -19,5 +19,37 @@
 
 package uk.me.mantas.eternity.game;
 
+import uk.me.mantas.eternity.game.UnityEngine.GameObject;
+
 public class Trap {
+	public float TriggerDelay;
+	public int MaxHitCount;
+	public int TrapDifficulty;
+	public float DisarmRadius;
+	public boolean DestroyWhenDisarmed;
+	public GenericAbility AbilityOverride;
+	public GenericAbility AbilityOverrides;
+	public boolean OneRandomAbility;
+	public CharacterStats[] SourceOverride;
+	public GameObject[] TargetOverride;
+	public boolean SuppressTriggerBark;
+	public float SelfDestructiveTime;
+	public Item DisarmItem;
+	public boolean AllowMultiple;
+	public InteractablesDatabaseString DisplayName;
+	public boolean FromItem;
+	public boolean TrapCanPulse;
+	public boolean ActivatesForAnyone;
+	public boolean ButNotForCaster;
+	public float TriggerRadius;
+	public GameObject Owner;
+	public boolean Visible;
+	public boolean Disarmed;
+	public boolean CanDisarm;
+	public boolean IsPlayerOwnedTrap;
+	public boolean IsWallTrap;
+	public int TrapID;
+	public float UsableRadius;
+	public float ArrivalRadius;
+	public boolean IsUsable;
 }

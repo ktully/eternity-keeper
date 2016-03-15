@@ -20,5 +20,11 @@
 package uk.me.mantas.eternity.game;
 
 public class GenericSpell extends GenericAbility {
-
+	public int SpellLevel;
+	public CharacterStats.Class SpellClass;
+	public boolean ProhibitFromGrimoire;
+	public int CostToLearn;
+	public boolean IsFree;
+	public boolean NeedsGrimoire;
+	public StatusEffect StatusEffectGrantingSpell;
 }

@@ -54,24 +54,22 @@ public class TypeMap {
 		put("UnityEngine.Vector3[]", UnityEngine.Vector3[].class);
 		put("UnityEngine.Vector3[][]", UnityEngine.Vector3[][].class);
 
+		put("AbilityMod", AbilityMod.class);
 		put("Affliction", Affliction.class);
-		put("AutosaveCycleNumber", AutosaveCycleNumber.class);
 		put("AppearancePiece", AppearancePiece.class);
 		put("CharacterDatabaseString", CharacterDatabaseString.class);
-		put("CheatsEnabled", CheatsEnabled.class);
 		put("ComponentPersistencePacket", ComponentPersistencePacket.class);
+		put("Container", Container.class);
 		put("CurrencyValue", CurrencyValue.class);
 		put("Disposition", Disposition.class);
 		put("EternityDateTime", EternityDateTime.class);
 		put("EternityTimeInterval", EternityTimeInterval.class);
 		put("ExperienceSerializerPacket", ExperienceSerializerPacket.class);
 		put("GameDifficulty", GameDifficulty.class);
+		put("GameState", GameState.class);
 		put("Gender", Gender.class);
 		put("GenericSpell", GenericSpell.class);
 		put("GenericTalent", GenericTalent.class);
-		put("HasEnteredPX1", HasEnteredPX1.class);
-		put("IgnoreInGrimoire", IgnoreInGrimoire.class);
-		put("IgnoreSpellLimits", IgnoreSpellLimits.class);
 		put("InventoryItem", InventoryItem.class);
 		put("Item", Item.class);
 		put("ItemMod", ItemMod.class);

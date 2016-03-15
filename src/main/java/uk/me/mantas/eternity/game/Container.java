@@ -1,6 +1,6 @@
 /**
  * Eternity Keeper, a Pillars of Eternity save game editor.
- * Copyright (C) 2015 the authors.
+ * Copyright (C) 2016 the authors.
  * <p>
  * Eternity Keeper is free software: you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -18,5 +18,24 @@
 
 package uk.me.mantas.eternity.game;
 
-public class IgnoreSpellLimits {
+import uk.me.mantas.eternity.game.UnityEngine.GameObject;
+
+public class Container extends OCL {
+	public DatabaseString LabelName;
+	public String ManualLabelName;
+	public GameObject NotEmptyVFX;
+	public boolean DeleteMeIfEmpty;
+	public boolean AreaLootable;
+	public FactionName StealingFactionID;
+	public Reputation.ChangeStrength StealingFactionAdjustment;
+	public boolean AttackThief;
+	public boolean AlliesAttackThief;
+	public boolean fireItemTakenEventOnlyOnce;
+	public boolean IsEmpty;
+	public boolean HasInteracted;
+	public boolean PlayerHasBeenCaughtStealingFrom;
+	public boolean CanAreaLootContainer;
+	public GameObject User;
+	public boolean IsOwned;
+	public boolean IsUsable;
 }

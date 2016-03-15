@@ -19,5 +19,56 @@
 
 package uk.me.mantas.eternity.game;
 
+import com.google.common.primitives.UnsignedInteger;
+import uk.me.mantas.eternity.game.UnityEngine.GameObject;
+
+import static uk.me.mantas.eternity.game.UnityEngine.Texture2D;
+
 public class Phrase {
+	public DatabaseString DisplayName;
+	public DatabaseString Description;
+	public CharacterStats.DefenseType DefendedBy;
+	public AttackBase.EffectAttachType ChanterVisualEffectAttach;
+	public Texture2D Icon;
+	public String Tag;
+	public int Level;
+	public int VocalizationNumber;
+	public Phrase.PhraseData[] m_phraseData;
+	public StatusEffectParams[] StatusEffects;
+	public Affliction[] Affliction;
+	public GameObject OnChanterVisualEffect;
+	public CharacterStats PhraseOwner;
+	public float Recitation;
+	public float BaseRecitation;
+	public float Linger;
+	public float BaseLinger;
+	public float Duration;
+
+	public static class PhraseData {
+		public boolean IsHostile;
+		public AttackBase.EffectAttachType VisualEffectAttach;
+		public StatusEffect.ApplyType Apply;
+		public StatusEffect.ModifiedStat AffectsStat;
+		public DamagePacket.DamageType DmgType;
+		public float Value;
+		public float ExtraValue;
+		public StatusEffectParams.IntervalRateType IntervalRate;
+		public GameObject OnStartVisualEffect;
+		public GameObject OnAppliedVisualEffect;
+		public GameObject OnStopVisualEffect;
+		public Texture2D Icon;
+		public Trap TrapPrefab;
+		public Affliction AfflictionPrefab;
+	}
+
+	public static class EffectData {
+		public GameObject m_target;
+		public UnsignedInteger m_effectID;
+		public float m_durationMult;
+	}
+
+	public static class HitData {
+		public GameObject m_target;
+		public HitType m_hitResult;
+	}
 }

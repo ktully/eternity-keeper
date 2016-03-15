@@ -1,6 +1,6 @@
 /**
  * Eternity Keeper, a Pillars of Eternity save game editor.
- * Copyright (C) 2015 the authors.
+ * Copyright (C) 2016 the authors.
  * <p>
  * Eternity Keeper is free software: you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -18,13 +18,10 @@
 
 package uk.me.mantas.eternity.game;
 
-import java.util.UUID;
-
-public class Stealth {
-	public static class DetectionObject {
-		public UUID m_obj;
-		public UUID Object;
-		public float m_time;
-		public float Time;
-	}
+public enum HitType {
+	MISS
+	, GRAZE
+	, HIT
+	, CRIT
+	, NONE
 }
