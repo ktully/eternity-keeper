@@ -174,7 +174,7 @@ public class ChangesSaver implements Runnable {
 		final float currency = (float) saveData.getDouble("currency");
 
 		// TODO: Refactor out this check for the 'player' object.
-		if (packet.ObjectName.startsWith("Player_")) {
+		if (packet.ObjectName.toLowerCase().startsWith("player_")) {
 			updateCurrency((ComplexProperty) property, currency);
 		}
 
