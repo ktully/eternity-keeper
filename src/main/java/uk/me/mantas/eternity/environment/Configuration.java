@@ -55,4 +55,6 @@ public class Configuration {
 
 		return map;
 	}
+
+	public String gameStructuresPkg () { return "uk.me.mantas.eternity.game"; }
 }
