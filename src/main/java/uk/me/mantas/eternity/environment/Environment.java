@@ -50,6 +50,9 @@ public class Environment {
 	private final Variables variables = new Variables();
 	public Variables variables () { return variables; }
 
+	private final ClassFinder classFinder = new ClassFinder();
+	public ClassFinder classFinder () { return classFinder; }
+
 	private Environment () {}
 
 	public static Environment getInstance () {
