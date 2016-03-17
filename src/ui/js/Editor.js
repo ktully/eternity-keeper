@@ -89,6 +89,18 @@ var Editor = function () {
 		});
 	};
 
+	var getStructures = () => {
+		var storeStructures = response => {
+			self.structures = JSON.parse(response);
+		};
+
+		window.getGameStructures({
+			request: 'true'
+			, onSuccess: storeStructures
+			, onFailure: console.error.bind(console, 'Error getting game structures.')
+		});
+	};
+
 	var disableMenu = menuID => $('#' + menuID).find('li').addClass('disabled');
 	var enableMenu = menuID => $('#' + menuID).find('li').removeClass('disabled');
 
@@ -129,6 +141,7 @@ var Editor = function () {
 	bindDOM();
 	initialise();
 	getDirectoryPaths();
+	getStructures();
 };
 
 var Eternity = new Editor();

@@ -49,33 +49,6 @@ public class GetGameStructuresTest extends TestHarness {
 	}
 
 	@Test
-	public void enumConstantNameTest () {
-		final ExposedClass exposedGetGameStructures = expose(GetGameStructures.class);
-		final Logger mockLogger = interceptLogging(GetGameStructures.class);
-		final Map<Object, Class> argMap = new HashMap<>();
-
-		argMap.put(Enum.A, Object.class);
-		final Optional<String> testA = exposedGetGameStructures.call("enumConstantName", argMap);
-		assertTrue(testA.isPresent());
-		assertEquals("A", testA.get());
-
-		argMap.clear();
-		argMap.put(Enum.B, Object.class);
-		final Optional<String> testB = exposedGetGameStructures.call("enumConstantName", argMap);
-		assertTrue(testB.isPresent());
-		assertEquals("B", testB.get());
-
-		argMap.clear();
-		argMap.put(new NotAnEnum(), Object.class);
-		final Optional<String> testFail = exposedGetGameStructures.call("enumConstantName", argMap);
-		assertFalse(testFail.isPresent());
-
-		verify(mockLogger).error(
-			"Unable to extract enum constant name for %s."
-			, NotAnEnum.class.getName());
-	}
-
-	@Test
 	public void enumsToJSONTest () {
 		final ExposedClass exposedGetGameStructures = expose(GetGameStructures.class);
 		final Map<Object, Class> argMap = new HashMap<>();

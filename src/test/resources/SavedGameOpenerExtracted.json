@@ -3,302 +3,1271 @@
 		{
 			"isCompanion": true,
 			"stats": {
-				"StaminaRechargeMult": 1,
-				"LoreBonus": 0,
-				"FinishingBlowDamageMult": 1,
-				"HostileAOEDamageMultiplier": 1,
-				"EngagementDistanceBonus": 0,
-				"ConstitutionBonus": 0,
-				"KnockdownDefenseBonus": 0,
-				"RangedAttackSpeedMultiplier": 1,
-				"AthleticsSkill": 0,
-				"BaseMight": 16,
-				"TrapDamageOrDurationMult": 1,
-				"WhileKnockeddownDefenseBonus": 0,
-				"VesselAccuracyBonus": 0,
-				"NearestAllyWithSharedTargetAccuracyBonus": 0,
-				"SurvivalSkill": 0,
-				"EnemyGrazeToMissPercent": 0,
-				"WilderAccuracyBonus": 0,
-				"EnemyCritToHitPercent": 0,
-				"OverrideSurvivalSkillLevel": 0,
-				"AoERadiusMult": 1,
-				"NegMoveTickMult": 1,
-				"MeleeDTBypass": 0,
-				"PoisonDefenseBonus": 0,
-				"HostileEffectDurationMultiplier": 1,
-				"RangedAccuracyBonus": 30,
-				"DexterityBonus": 0,
-				"OverrideName": "Calisca",
-				"MeleeAccuracyBonus": 30,
-				"AttackSpeedMultiplier": 1,
-				"Experience": 0,
-				"WeaponDamageMinMult": 1,
-				"m_LastLevelUpNotified": 0,
-				"MeleeAttackSpeedMultiplier": 1,
-				"MaxStamina": 42,
-				"m_detectTimer": 0.02510511,
-				"Level": 1,
-				"StealthBonus": 0,
-				"DTBypass": 0,
-				"ArmorSpeedFactorAdj": 0,
-				"BaseResolve": 11,
-				"RangedMovingRecoveryReductionPct": 0,
-				"BonusMissToGrazePercent": 0,
-				"AthleticsBonus": 0,
-				"LoreSkill": 0,
-				"TwoHandedDeflectionBonus": 0,
-				"DiseaseDefenseBonus": 0,
-				"MeleeDamageRangePctIncreaseToMin": 0,
-				"BaseFortitude": 20,
-				"EnemyHitToGrazePercent": 0,
-				"IntellectBonus": 0,
-				"HealthStaminaPerLevel": 14,
-				"WoundDelay": 0,
-				"BaseWill": 20,
-				"ChanterPhraseRadiusMult": 1,
-				"EnemiesNeededToFlank": 2,
-				"BonusHitToCritPercent": 0,
-				"ImmuneToEngageStop": false,
-				"m_redirectMeleeAttacks": 0,
-				"CraftingBonus": 0,
-				"BonusShieldDeflection": 0,
-				"PerceptionBonus": 0,
-				"BaseIntellect": 12,
-				"StaminaRechargeBonus": 0,
-				"AttackerToHitRollOverride": -1,
-				"ExtraSimultaneousHitDefenseBonus": 0,
-				"PotionEffectiveness": 1,
-				"BaseDeflection": 30,
-				"UnconsciousnessDelayed": 0,
-				"BonusWeaponSets": 0,
-				"DisengagementAccuracyBonus": 0,
-				"LastSelectedSurvivalSubBonus": 0,
-				"DeathPrevented": 0,
-				"BonusHealMult": 1,
-				"StealthSkill": 0,
-				"SingleWeaponSpeedFactorAdj": 0,
-				"DamageMinBonus": 0,
-				"BonusHitToCritPercentEnemyBelow10Percent": 0,
-				"PrimordialAccuracyBonus": 0,
-				"BonusGrazeToMissPercent": 0,
-				"RateOfFireMultiplier": 1,
-				"ClassHealthMultiplier": 5,
-				"CurrentGrimoireCooldown": 0,
-				"BonusDTFromArmor": 0,
-				"DisengagementDefenseBonus": 0,
-				"FocusGainMult": 1,
-				"DOTTickMult": 1,
-				"WeaponSwitchCooldownBonus": 0,
-				"BaseConstitution": 14,
-				"BonusQuickSlots": 0,
-				"EvadeEverything": false,
-				"FlankedAccuracyBonus": 0,
-				"BasePerception": 12,
-				"TrapAccuracyBonus": 0,
-				"BonusGrazeToHitPercent": 0,
-				"MechanicsBonus": 0,
-				"StalkersLinkDamageMult": 1,
-				"BaseDexterity": 10,
-				"ResolveBonus": 0,
-				"BonusHitToGrazePercent": 0,
-				"CraftingSkill": 0,
-				"MaxHealth": 42,
-				"SpellDefenseBonus": 0,
-				"RangedAttackDistanceMultiplier": 1,
-				"LastKnownVersion": 0,
-				"ImprovedFlanking": 0,
-				"WhileStunnedDefenseBonus": 0,
-				"BeastAccuracyBonus": 0,
-				"RangedDeflectionBonus": 0,
-				"ReloadSpeedMultiplier": 1,
-				"m_NotifiedLevel": 1,
-				"WildstrikeDamageMult": 1,
-				"ShieldDeflectExtendToReflex": 0,
-				"StaminaBonus": 0,
-				"DiseaseTickMult": 1,
-				"GrimoireCooldownBonus": 0,
-				"EnemyReflexGrazeToMissPercent": 0,
-				"BonusGrazeToHitPercentMeleeOneHanded": 0,
-				"EngageableEnemyCount": 1,
-				"BonusRangedWeaponCloseEnemyDamageMult": 1,
-				"StunDefenseBonus": 0,
-				"LastSelectedSurvivalBonus": 0,
-				"ZealousAuraRadiusMult": 1,
-				"VeilDeflectionBonus": 0,
-				"PushDefenseBonus": 0,
-				"BonusCritToHitPercent": 0,
-				"EnemyFortitudeWillHitToGrazePercent": 0,
-				"RemainingSkillPoints": 0,
-				"MeleeAttackDistanceMultiplier": 1,
-				"MechanicsSkill": 0,
-				"MaxStaminaMultiplier": 1,
-				"ExtraStraightBounces": 0,
-				"EnemyDeflectReflexHitToGrazePercent": 0,
-				"CritHitDamageMultiplierBonus": 0,
-				"RangedDTBypass": 0,
-				"BonusUsesPerRestPastThree": 0,
-				"BonusHealingGivenMult": 1,
-				"m_noiseTimer": 0,
-				"PoisonTickMult": 1,
-				"SurvivalBonus": 0,
-				"m_recoveryTimer": 0,
-				"DualWieldAttackSpeedMultiplier": 1,
-				"MightBonus": 0,
-				"BaseReflexes": 20,
-				"CritHitDamageMultiplierBonusEnemyBelow10Percent": 0
+				"StaminaRechargeMult": {
+					"type": "java.lang.Float",
+					"value": 1
+				},
+				"LoreBonus": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"FinishingBlowDamageMult": {
+					"type": "java.lang.Float",
+					"value": 1
+				},
+				"HostileAOEDamageMultiplier": {
+					"type": "java.lang.Float",
+					"value": 1
+				},
+				"EngagementDistanceBonus": {
+					"type": "java.lang.Float",
+					"value": 0
+				},
+				"ConstitutionBonus": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"KnockdownDefenseBonus": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"RangedAttackSpeedMultiplier": {
+					"type": "java.lang.Float",
+					"value": 1
+				},
+				"AthleticsSkill": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"Gender": {
+					"type": "uk.me.mantas.eternity.game.Gender",
+					"value": "Female"
+				},
+				"BaseMight": {
+					"type": "java.lang.Integer",
+					"value": 16
+				},
+				"TrapDamageOrDurationMult": {
+					"type": "java.lang.Float",
+					"value": 1
+				},
+				"WhileKnockeddownDefenseBonus": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"VesselAccuracyBonus": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"NearestAllyWithSharedTargetAccuracyBonus": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"SurvivalSkill": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"EnemyGrazeToMissPercent": {
+					"type": "java.lang.Float",
+					"value": 0
+				},
+				"WilderAccuracyBonus": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"EnemyCritToHitPercent": {
+					"type": "java.lang.Float",
+					"value": 0
+				},
+				"OverrideSurvivalSkillLevel": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"AoERadiusMult": {
+					"type": "java.lang.Float",
+					"value": 1
+				},
+				"NegMoveTickMult": {
+					"type": "java.lang.Float",
+					"value": 1
+				},
+				"MeleeDTBypass": {
+					"type": "java.lang.Float",
+					"value": 0
+				},
+				"PoisonDefenseBonus": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"HostileEffectDurationMultiplier": {
+					"type": "java.lang.Float",
+					"value": 1
+				},
+				"RangedAccuracyBonus": {
+					"type": "java.lang.Integer",
+					"value": 30
+				},
+				"m_availableStatusEffectID": {
+					"type": "com.google.common.primitives.UnsignedInteger",
+					"value": 0
+				},
+				"DexterityBonus": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"OverrideName": {
+					"type": "java.lang.String",
+					"value": "Calisca"
+				},
+				"MeleeAccuracyBonus": {
+					"type": "java.lang.Integer",
+					"value": 30
+				},
+				"CharacterSubrace": {
+					"type": "uk.me.mantas.eternity.game.CharacterStats$Subrace",
+					"value": "Meadow_Human"
+				},
+				"AttackSpeedMultiplier": {
+					"type": "java.lang.Float",
+					"value": 1
+				},
+				"Experience": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"WeaponDamageMinMult": {
+					"type": "java.lang.Float",
+					"value": 1
+				},
+				"m_LastLevelUpNotified": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"MeleeAttackSpeedMultiplier": {
+					"type": "java.lang.Float",
+					"value": 1
+				},
+				"PaladinOrder": {
+					"type": "uk.me.mantas.eternity.game.Religion$PaladinOrder",
+					"value": "None"
+				},
+				"MaxStamina": {
+					"type": "java.lang.Float",
+					"value": 42
+				},
+				"m_detectTimer": {
+					"type": "java.lang.Float",
+					"value": 0.02510511
+				},
+				"Level": {
+					"type": "java.lang.Integer",
+					"value": 1
+				},
+				"StealthBonus": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"DTBypass": {
+					"type": "java.lang.Float",
+					"value": 0
+				},
+				"ArmorSpeedFactorAdj": {
+					"type": "java.lang.Float",
+					"value": 0
+				},
+				"m_CurrentFatigueLevel": {
+					"type": "uk.me.mantas.eternity.game.CharacterStats$FatigueLevel",
+					"value": "None"
+				},
+				"BaseResolve": {
+					"type": "java.lang.Integer",
+					"value": 11
+				},
+				"RangedMovingRecoveryReductionPct": {
+					"type": "java.lang.Float",
+					"value": 0
+				},
+				"BonusMissToGrazePercent": {
+					"type": "java.lang.Float",
+					"value": 0
+				},
+				"AthleticsBonus": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"LoreSkill": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"TwoHandedDeflectionBonus": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"DiseaseDefenseBonus": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"MeleeDamageRangePctIncreaseToMin": {
+					"type": "java.lang.Float",
+					"value": 0
+				},
+				"BaseFortitude": {
+					"type": "java.lang.Integer",
+					"value": 20
+				},
+				"EnemyHitToGrazePercent": {
+					"type": "java.lang.Float",
+					"value": 0
+				},
+				"IntellectBonus": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"HealthStaminaPerLevel": {
+					"type": "java.lang.Integer",
+					"value": 14
+				},
+				"WoundDelay": {
+					"type": "java.lang.Float",
+					"value": 0
+				},
+				"BaseWill": {
+					"type": "java.lang.Integer",
+					"value": 20
+				},
+				"ChanterPhraseRadiusMult": {
+					"type": "java.lang.Float",
+					"value": 1
+				},
+				"EnemiesNeededToFlank": {
+					"type": "java.lang.Integer",
+					"value": 2
+				},
+				"BonusHitToCritPercent": {
+					"type": "java.lang.Float",
+					"value": 0
+				},
+				"ImmuneToEngageStop": {
+					"type": "java.lang.Boolean",
+					"value": false
+				},
+				"m_redirectMeleeAttacks": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"CraftingBonus": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"BonusShieldDeflection": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"PerceptionBonus": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"BaseIntellect": {
+					"type": "java.lang.Integer",
+					"value": 12
+				},
+				"StaminaRechargeBonus": {
+					"type": "java.lang.Float",
+					"value": 0
+				},
+				"AttackerToHitRollOverride": {
+					"type": "java.lang.Integer",
+					"value": -1
+				},
+				"ExtraSimultaneousHitDefenseBonus": {
+					"type": "java.lang.Float",
+					"value": 0
+				},
+				"PotionEffectiveness": {
+					"type": "java.lang.Float",
+					"value": 1
+				},
+				"BaseDeflection": {
+					"type": "java.lang.Integer",
+					"value": 30
+				},
+				"UnconsciousnessDelayed": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"CharacterCulture": {
+					"type": "uk.me.mantas.eternity.game.CharacterStats$Culture",
+					"value": "TheDyrwood"
+				},
+				"BonusWeaponSets": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"DisengagementAccuracyBonus": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"LastSelectedSurvivalSubBonus": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"DeathPrevented": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"BonusHealMult": {
+					"type": "java.lang.Float",
+					"value": 1
+				},
+				"StealthSkill": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"Deity": {
+					"type": "uk.me.mantas.eternity.game.Religion$Deity",
+					"value": "None"
+				},
+				"SingleWeaponSpeedFactorAdj": {
+					"type": "java.lang.Float",
+					"value": 0
+				},
+				"DamageMinBonus": {
+					"type": "java.lang.Float",
+					"value": 0
+				},
+				"BonusHitToCritPercentEnemyBelow10Percent": {
+					"type": "java.lang.Float",
+					"value": 0
+				},
+				"PrimordialAccuracyBonus": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"BonusGrazeToMissPercent": {
+					"type": "java.lang.Float",
+					"value": 0
+				},
+				"RateOfFireMultiplier": {
+					"type": "java.lang.Float",
+					"value": 1
+				},
+				"ClassHealthMultiplier": {
+					"type": "java.lang.Float",
+					"value": 5
+				},
+				"CurrentGrimoireCooldown": {
+					"type": "java.lang.Float",
+					"value": 0
+				},
+				"BonusDTFromArmor": {
+					"type": "java.lang.Float",
+					"value": 0
+				},
+				"m_loreReveal": {
+					"type": "com.google.common.primitives.UnsignedInteger",
+					"value": 0
+				},
+				"DisengagementDefenseBonus": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"FocusGainMult": {
+					"type": "java.lang.Float",
+					"value": 1
+				},
+				"DOTTickMult": {
+					"type": "java.lang.Float",
+					"value": 1
+				},
+				"CharacterRace": {
+					"type": "uk.me.mantas.eternity.game.CharacterStats$Race",
+					"value": "Human"
+				},
+				"WeaponSwitchCooldownBonus": {
+					"type": "java.lang.Float",
+					"value": 0
+				},
+				"BaseConstitution": {
+					"type": "java.lang.Integer",
+					"value": 14
+				},
+				"BonusQuickSlots": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"m_noiseLevel": {
+					"type": "uk.me.mantas.eternity.game.CharacterStats$NoiseLevelType",
+					"value": "Quiet"
+				},
+				"EvadeEverything": {
+					"type": "java.lang.Boolean",
+					"value": false
+				},
+				"FlankedAccuracyBonus": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"BasePerception": {
+					"type": "java.lang.Integer",
+					"value": 12
+				},
+				"TrapAccuracyBonus": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"BonusGrazeToHitPercent": {
+					"type": "java.lang.Float",
+					"value": 0
+				},
+				"MechanicsBonus": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"StalkersLinkDamageMult": {
+					"type": "java.lang.Float",
+					"value": 1
+				},
+				"BaseDexterity": {
+					"type": "java.lang.Integer",
+					"value": 10
+				},
+				"ResolveBonus": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"BonusHitToGrazePercent": {
+					"type": "java.lang.Float",
+					"value": 0
+				},
+				"CraftingSkill": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"MaxHealth": {
+					"type": "java.lang.Float",
+					"value": 42
+				},
+				"SpellDefenseBonus": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"RangedAttackDistanceMultiplier": {
+					"type": "java.lang.Float",
+					"value": 1
+				},
+				"LastKnownVersion": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"ImprovedFlanking": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"WhileStunnedDefenseBonus": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"BeastAccuracyBonus": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"RangedDeflectionBonus": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"ReloadSpeedMultiplier": {
+					"type": "java.lang.Float",
+					"value": 1
+				},
+				"m_NotifiedLevel": {
+					"type": "java.lang.Integer",
+					"value": 1
+				},
+				"WildstrikeDamageMult": {
+					"type": "java.lang.Float",
+					"value": 1
+				},
+				"ShieldDeflectExtendToReflex": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"StaminaBonus": {
+					"type": "java.lang.Float",
+					"value": 0
+				},
+				"RacialBodyType": {
+					"type": "uk.me.mantas.eternity.game.CharacterStats$Race",
+					"value": "Human"
+				},
+				"DiseaseTickMult": {
+					"type": "java.lang.Float",
+					"value": 1
+				},
+				"GrimoireCooldownBonus": {
+					"type": "java.lang.Float",
+					"value": 0
+				},
+				"EnemyReflexGrazeToMissPercent": {
+					"type": "java.lang.Float",
+					"value": 0
+				},
+				"BonusGrazeToHitPercentMeleeOneHanded": {
+					"type": "java.lang.Float",
+					"value": 0
+				},
+				"EngageableEnemyCount": {
+					"type": "java.lang.Integer",
+					"value": 1
+				},
+				"BonusRangedWeaponCloseEnemyDamageMult": {
+					"type": "java.lang.Float",
+					"value": 1
+				},
+				"StunDefenseBonus": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"LastSelectedSurvivalBonus": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"ZealousAuraRadiusMult": {
+					"type": "java.lang.Float",
+					"value": 1
+				},
+				"VeilDeflectionBonus": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"PushDefenseBonus": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"CharacterBackground": {
+					"type": "uk.me.mantas.eternity.game.CharacterStats$Background",
+					"value": "Explorer"
+				},
+				"BonusCritToHitPercent": {
+					"type": "java.lang.Float",
+					"value": 0
+				},
+				"EnemyFortitudeWillHitToGrazePercent": {
+					"type": "java.lang.Float",
+					"value": 0
+				},
+				"RemainingSkillPoints": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"MeleeAttackDistanceMultiplier": {
+					"type": "java.lang.Float",
+					"value": 1
+				},
+				"MechanicsSkill": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"MaxStaminaMultiplier": {
+					"type": "java.lang.Float",
+					"value": 1
+				},
+				"ExtraStraightBounces": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"EnemyDeflectReflexHitToGrazePercent": {
+					"type": "java.lang.Float",
+					"value": 0
+				},
+				"CritHitDamageMultiplierBonus": {
+					"type": "java.lang.Float",
+					"value": 0
+				},
+				"RangedDTBypass": {
+					"type": "java.lang.Float",
+					"value": 0
+				},
+				"BonusUsesPerRestPastThree": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"CharacterClass": {
+					"type": "uk.me.mantas.eternity.game.CharacterStats$Class",
+					"value": "Fighter"
+				},
+				"BonusHealingGivenMult": {
+					"type": "java.lang.Float",
+					"value": 1
+				},
+				"m_noiseTimer": {
+					"type": "java.lang.Float",
+					"value": 0
+				},
+				"PoisonTickMult": {
+					"type": "java.lang.Float",
+					"value": 1
+				},
+				"SurvivalBonus": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"m_recoveryTimer": {
+					"type": "java.lang.Float",
+					"value": 0
+				},
+				"DualWieldAttackSpeedMultiplier": {
+					"type": "java.lang.Float",
+					"value": 1
+				},
+				"MightBonus": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"BaseReflexes": {
+					"type": "java.lang.Integer",
+					"value": 20
+				},
+				"CritHitDamageMultiplierBonusEnemyBelow10Percent": {
+					"type": "java.lang.Float",
+					"value": 0
+				}
 			},
 			"GUID": "b1a7e809-0000-0000-0000-000000000000",
 			"name": "Calisca",
 			"portrait": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAAAAAA6fptVAAAACklEQVQI12P4DwABAQEAG7buVgAAAABJRU5ErkJggg==",
 			"isDead": false
-		}, {
+		},
+		{
 			"isCompanion": false,
 			"stats": {
-				"StaminaRechargeMult": 1,
-				"LoreBonus": 0,
-				"FinishingBlowDamageMult": 1,
-				"HostileAOEDamageMultiplier": 1,
-				"EngagementDistanceBonus": 0,
-				"ConstitutionBonus": 0,
-				"KnockdownDefenseBonus": 0,
-				"RangedAttackSpeedMultiplier": 1,
-				"AthleticsSkill": 0,
-				"BaseMight": 10,
-				"TrapDamageOrDurationMult": 1,
-				"WhileKnockeddownDefenseBonus": 0,
-				"VesselAccuracyBonus": 0,
-				"NearestAllyWithSharedTargetAccuracyBonus": 0,
-				"SurvivalSkill": 0,
-				"EnemyGrazeToMissPercent": 0,
-				"WilderAccuracyBonus": 0,
-				"EnemyCritToHitPercent": 0,
-				"OverrideSurvivalSkillLevel": 0,
-				"AoERadiusMult": 1,
-				"NegMoveTickMult": 1,
-				"MeleeDTBypass": 0,
-				"PoisonDefenseBonus": 0,
-				"HostileEffectDurationMultiplier": 1,
-				"RangedAccuracyBonus": 30,
-				"DexterityBonus": 0,
-				"OverrideName": "Elwyn",
-				"MeleeAccuracyBonus": 30,
-				"AttackSpeedMultiplier": 1,
-				"Experience": 0,
-				"WeaponDamageMinMult": 1,
-				"m_LastLevelUpNotified": 0,
-				"MeleeAttackSpeedMultiplier": 1,
-				"MaxStamina": 42,
-				"m_detectTimer": 0.02510511,
-				"Level": 1,
-				"StealthBonus": 0,
-				"DTBypass": 0,
-				"ArmorSpeedFactorAdj": 0,
-				"BaseResolve": 11,
-				"RangedMovingRecoveryReductionPct": 0,
-				"BonusMissToGrazePercent": 0,
-				"AthleticsBonus": 0,
-				"LoreSkill": 0,
-				"TwoHandedDeflectionBonus": 0,
-				"DiseaseDefenseBonus": 0,
-				"MeleeDamageRangePctIncreaseToMin": 0,
-				"BaseFortitude": 20,
-				"EnemyHitToGrazePercent": 0,
-				"IntellectBonus": 0,
-				"HealthStaminaPerLevel": 14,
-				"WoundDelay": 0,
-				"BaseWill": 20,
-				"ChanterPhraseRadiusMult": 1,
-				"EnemiesNeededToFlank": 2,
-				"BonusHitToCritPercent": 0,
-				"ImmuneToEngageStop": false,
-				"m_redirectMeleeAttacks": 0,
-				"CraftingBonus": 0,
-				"BonusShieldDeflection": 0,
-				"PerceptionBonus": 0,
-				"BaseIntellect": 15,
-				"StaminaRechargeBonus": 0,
-				"AttackerToHitRollOverride": -1,
-				"ExtraSimultaneousHitDefenseBonus": 0,
-				"PotionEffectiveness": 1,
-				"BaseDeflection": 30,
-				"UnconsciousnessDelayed": 0,
-				"BonusWeaponSets": 0,
-				"DisengagementAccuracyBonus": 0,
-				"LastSelectedSurvivalSubBonus": 0,
-				"DeathPrevented": 0,
-				"BonusHealMult": 1,
-				"StealthSkill": 0,
-				"SingleWeaponSpeedFactorAdj": 0,
-				"DamageMinBonus": 0,
-				"BonusHitToCritPercentEnemyBelow10Percent": 0,
-				"PrimordialAccuracyBonus": 0,
-				"BonusGrazeToMissPercent": 0,
-				"RateOfFireMultiplier": 1,
-				"ClassHealthMultiplier": 5,
-				"CurrentGrimoireCooldown": 0,
-				"BonusDTFromArmor": 0,
-				"DisengagementDefenseBonus": 0,
-				"FocusGainMult": 1,
-				"DOTTickMult": 1,
-				"WeaponSwitchCooldownBonus": 0,
-				"BaseConstitution": 12,
-				"BonusQuickSlots": 0,
-				"EvadeEverything": false,
-				"FlankedAccuracyBonus": 0,
-				"BasePerception": 14,
-				"TrapAccuracyBonus": 0,
-				"BonusGrazeToHitPercent": 0,
-				"MechanicsBonus": 0,
-				"StalkersLinkDamageMult": 1,
-				"BaseDexterity": 13,
-				"ResolveBonus": 0,
-				"BonusHitToGrazePercent": 0,
-				"CraftingSkill": 5,
-				"MaxHealth": 42,
-				"SpellDefenseBonus": 0,
-				"RangedAttackDistanceMultiplier": 1,
-				"LastKnownVersion": 0,
-				"ImprovedFlanking": 0,
-				"WhileStunnedDefenseBonus": 0,
-				"BeastAccuracyBonus": 0,
-				"RangedDeflectionBonus": 0,
-				"ReloadSpeedMultiplier": 1,
-				"m_NotifiedLevel": 1,
-				"WildstrikeDamageMult": 1,
-				"ShieldDeflectExtendToReflex": 0,
-				"StaminaBonus": 0,
-				"DiseaseTickMult": 1,
-				"GrimoireCooldownBonus": 0,
-				"EnemyReflexGrazeToMissPercent": 0,
-				"BonusGrazeToHitPercentMeleeOneHanded": 0,
-				"EngageableEnemyCount": 1,
-				"BonusRangedWeaponCloseEnemyDamageMult": 1,
-				"StunDefenseBonus": 0,
-				"LastSelectedSurvivalBonus": 0,
-				"ZealousAuraRadiusMult": 1,
-				"VeilDeflectionBonus": 0,
-				"PushDefenseBonus": 0,
-				"BonusCritToHitPercent": 0,
-				"EnemyFortitudeWillHitToGrazePercent": 0,
-				"RemainingSkillPoints": 0,
-				"MeleeAttackDistanceMultiplier": 1,
-				"MechanicsSkill": 0,
-				"MaxStaminaMultiplier": 1,
-				"ExtraStraightBounces": 0,
-				"EnemyDeflectReflexHitToGrazePercent": 0,
-				"CritHitDamageMultiplierBonus": 0,
-				"RangedDTBypass": 0,
-				"BonusUsesPerRestPastThree": 0,
-				"BonusHealingGivenMult": 1,
-				"m_noiseTimer": 0,
-				"PoisonTickMult": 1,
-				"SurvivalBonus": 0,
-				"m_recoveryTimer": -0.013497878,
-				"DualWieldAttackSpeedMultiplier": 1,
-				"MightBonus": 0,
-				"BaseReflexes": 20,
-				"CritHitDamageMultiplierBonusEnemyBelow10Percent": 0
+				"StaminaRechargeMult": {
+					"type": "java.lang.Float",
+					"value": 1
+				},
+				"LoreBonus": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"FinishingBlowDamageMult": {
+					"type": "java.lang.Float",
+					"value": 1
+				},
+				"HostileAOEDamageMultiplier": {
+					"type": "java.lang.Float",
+					"value": 1
+				},
+				"EngagementDistanceBonus": {
+					"type": "java.lang.Float",
+					"value": 0
+				},
+				"ConstitutionBonus": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"KnockdownDefenseBonus": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"RangedAttackSpeedMultiplier": {
+					"type": "java.lang.Float",
+					"value": 1
+				},
+				"AthleticsSkill": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"Gender": {
+					"type": "uk.me.mantas.eternity.game.Gender",
+					"value": "Female"
+				},
+				"BaseMight": {
+					"type": "java.lang.Integer",
+					"value": 10
+				},
+				"TrapDamageOrDurationMult": {
+					"type": "java.lang.Float",
+					"value": 1
+				},
+				"WhileKnockeddownDefenseBonus": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"VesselAccuracyBonus": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"NearestAllyWithSharedTargetAccuracyBonus": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"SurvivalSkill": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"EnemyGrazeToMissPercent": {
+					"type": "java.lang.Float",
+					"value": 0
+				},
+				"WilderAccuracyBonus": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"EnemyCritToHitPercent": {
+					"type": "java.lang.Float",
+					"value": 0
+				},
+				"OverrideSurvivalSkillLevel": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"AoERadiusMult": {
+					"type": "java.lang.Float",
+					"value": 1
+				},
+				"NegMoveTickMult": {
+					"type": "java.lang.Float",
+					"value": 1
+				},
+				"MeleeDTBypass": {
+					"type": "java.lang.Float",
+					"value": 0
+				},
+				"PoisonDefenseBonus": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"HostileEffectDurationMultiplier": {
+					"type": "java.lang.Float",
+					"value": 1
+				},
+				"RangedAccuracyBonus": {
+					"type": "java.lang.Integer",
+					"value": 30
+				},
+				"m_availableStatusEffectID": {
+					"type": "com.google.common.primitives.UnsignedInteger",
+					"value": 2
+				},
+				"DexterityBonus": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"OverrideName": {
+					"type": "java.lang.String",
+					"value": "Elwyn"
+				},
+				"MeleeAccuracyBonus": {
+					"type": "java.lang.Integer",
+					"value": 30
+				},
+				"CharacterSubrace": {
+					"type": "uk.me.mantas.eternity.game.CharacterStats$Subrace",
+					"value": "Meadow_Human"
+				},
+				"AttackSpeedMultiplier": {
+					"type": "java.lang.Float",
+					"value": 1
+				},
+				"Experience": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"WeaponDamageMinMult": {
+					"type": "java.lang.Float",
+					"value": 1
+				},
+				"m_LastLevelUpNotified": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"MeleeAttackSpeedMultiplier": {
+					"type": "java.lang.Float",
+					"value": 1
+				},
+				"PaladinOrder": {
+					"type": "uk.me.mantas.eternity.game.Religion$PaladinOrder",
+					"value": "None"
+				},
+				"MaxStamina": {
+					"type": "java.lang.Float",
+					"value": 42
+				},
+				"m_detectTimer": {
+					"type": "java.lang.Float",
+					"value": 0.02510511
+				},
+				"Level": {
+					"type": "java.lang.Integer",
+					"value": 1
+				},
+				"StealthBonus": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"DTBypass": {
+					"type": "java.lang.Float",
+					"value": 0
+				},
+				"ArmorSpeedFactorAdj": {
+					"type": "java.lang.Float",
+					"value": 0
+				},
+				"m_CurrentFatigueLevel": {
+					"type": "uk.me.mantas.eternity.game.CharacterStats$FatigueLevel",
+					"value": "None"
+				},
+				"BaseResolve": {
+					"type": "java.lang.Integer",
+					"value": 11
+				},
+				"RangedMovingRecoveryReductionPct": {
+					"type": "java.lang.Float",
+					"value": 0
+				},
+				"BonusMissToGrazePercent": {
+					"type": "java.lang.Float",
+					"value": 0
+				},
+				"AthleticsBonus": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"LoreSkill": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"TwoHandedDeflectionBonus": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"DiseaseDefenseBonus": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"MeleeDamageRangePctIncreaseToMin": {
+					"type": "java.lang.Float",
+					"value": 0
+				},
+				"BaseFortitude": {
+					"type": "java.lang.Integer",
+					"value": 20
+				},
+				"EnemyHitToGrazePercent": {
+					"type": "java.lang.Float",
+					"value": 0
+				},
+				"IntellectBonus": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"HealthStaminaPerLevel": {
+					"type": "java.lang.Integer",
+					"value": 14
+				},
+				"WoundDelay": {
+					"type": "java.lang.Float",
+					"value": 0
+				},
+				"BaseWill": {
+					"type": "java.lang.Integer",
+					"value": 20
+				},
+				"ChanterPhraseRadiusMult": {
+					"type": "java.lang.Float",
+					"value": 1
+				},
+				"EnemiesNeededToFlank": {
+					"type": "java.lang.Integer",
+					"value": 2
+				},
+				"BonusHitToCritPercent": {
+					"type": "java.lang.Float",
+					"value": 0
+				},
+				"ImmuneToEngageStop": {
+					"type": "java.lang.Boolean",
+					"value": false
+				},
+				"m_redirectMeleeAttacks": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"CraftingBonus": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"BonusShieldDeflection": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"PerceptionBonus": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"BaseIntellect": {
+					"type": "java.lang.Integer",
+					"value": 15
+				},
+				"StaminaRechargeBonus": {
+					"type": "java.lang.Float",
+					"value": 0
+				},
+				"AttackerToHitRollOverride": {
+					"type": "java.lang.Integer",
+					"value": -1
+				},
+				"ExtraSimultaneousHitDefenseBonus": {
+					"type": "java.lang.Float",
+					"value": 0
+				},
+				"PotionEffectiveness": {
+					"type": "java.lang.Float",
+					"value": 1
+				},
+				"BaseDeflection": {
+					"type": "java.lang.Integer",
+					"value": 30
+				},
+				"UnconsciousnessDelayed": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"CharacterCulture": {
+					"type": "uk.me.mantas.eternity.game.CharacterStats$Culture",
+					"value": "Aedyr"
+				},
+				"BonusWeaponSets": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"DisengagementAccuracyBonus": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"LastSelectedSurvivalSubBonus": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"DeathPrevented": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"BonusHealMult": {
+					"type": "java.lang.Float",
+					"value": 1
+				},
+				"StealthSkill": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"Deity": {
+					"type": "uk.me.mantas.eternity.game.Religion$Deity",
+					"value": "None"
+				},
+				"SingleWeaponSpeedFactorAdj": {
+					"type": "java.lang.Float",
+					"value": 0
+				},
+				"DamageMinBonus": {
+					"type": "java.lang.Float",
+					"value": 0
+				},
+				"BonusHitToCritPercentEnemyBelow10Percent": {
+					"type": "java.lang.Float",
+					"value": 0
+				},
+				"PrimordialAccuracyBonus": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"BonusGrazeToMissPercent": {
+					"type": "java.lang.Float",
+					"value": 0
+				},
+				"RateOfFireMultiplier": {
+					"type": "java.lang.Float",
+					"value": 1
+				},
+				"ClassHealthMultiplier": {
+					"type": "java.lang.Float",
+					"value": 5
+				},
+				"CurrentGrimoireCooldown": {
+					"type": "java.lang.Float",
+					"value": 0
+				},
+				"BonusDTFromArmor": {
+					"type": "java.lang.Float",
+					"value": 0
+				},
+				"m_loreReveal": {
+					"type": "com.google.common.primitives.UnsignedInteger",
+					"value": 0
+				},
+				"DisengagementDefenseBonus": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"FocusGainMult": {
+					"type": "java.lang.Float",
+					"value": 1
+				},
+				"DOTTickMult": {
+					"type": "java.lang.Float",
+					"value": 1
+				},
+				"CharacterRace": {
+					"type": "uk.me.mantas.eternity.game.CharacterStats$Race",
+					"value": "Human"
+				},
+				"WeaponSwitchCooldownBonus": {
+					"type": "java.lang.Float",
+					"value": 0
+				},
+				"BaseConstitution": {
+					"type": "java.lang.Integer",
+					"value": 12
+				},
+				"BonusQuickSlots": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"m_noiseLevel": {
+					"type": "uk.me.mantas.eternity.game.CharacterStats$NoiseLevelType",
+					"value": "Quiet"
+				},
+				"EvadeEverything": {
+					"type": "java.lang.Boolean",
+					"value": false
+				},
+				"FlankedAccuracyBonus": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"BasePerception": {
+					"type": "java.lang.Integer",
+					"value": 14
+				},
+				"TrapAccuracyBonus": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"BonusGrazeToHitPercent": {
+					"type": "java.lang.Float",
+					"value": 0
+				},
+				"MechanicsBonus": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"StalkersLinkDamageMult": {
+					"type": "java.lang.Float",
+					"value": 1
+				},
+				"BaseDexterity": {
+					"type": "java.lang.Integer",
+					"value": 13
+				},
+				"ResolveBonus": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"BonusHitToGrazePercent": {
+					"type": "java.lang.Float",
+					"value": 0
+				},
+				"CraftingSkill": {
+					"type": "java.lang.Integer",
+					"value": 5
+				},
+				"MaxHealth": {
+					"type": "java.lang.Float",
+					"value": 42
+				},
+				"SpellDefenseBonus": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"RangedAttackDistanceMultiplier": {
+					"type": "java.lang.Float",
+					"value": 1
+				},
+				"LastKnownVersion": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"ImprovedFlanking": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"WhileStunnedDefenseBonus": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"BeastAccuracyBonus": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"RangedDeflectionBonus": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"ReloadSpeedMultiplier": {
+					"type": "java.lang.Float",
+					"value": 1
+				},
+				"m_NotifiedLevel": {
+					"type": "java.lang.Integer",
+					"value": 1
+				},
+				"WildstrikeDamageMult": {
+					"type": "java.lang.Float",
+					"value": 1
+				},
+				"ShieldDeflectExtendToReflex": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"StaminaBonus": {
+					"type": "java.lang.Float",
+					"value": 0
+				},
+				"RacialBodyType": {
+					"type": "uk.me.mantas.eternity.game.CharacterStats$Race",
+					"value": "Human"
+				},
+				"DiseaseTickMult": {
+					"type": "java.lang.Float",
+					"value": 1
+				},
+				"GrimoireCooldownBonus": {
+					"type": "java.lang.Float",
+					"value": 0
+				},
+				"EnemyReflexGrazeToMissPercent": {
+					"type": "java.lang.Float",
+					"value": 0
+				},
+				"BonusGrazeToHitPercentMeleeOneHanded": {
+					"type": "java.lang.Float",
+					"value": 0
+				},
+				"EngageableEnemyCount": {
+					"type": "java.lang.Integer",
+					"value": 1
+				},
+				"BonusRangedWeaponCloseEnemyDamageMult": {
+					"type": "java.lang.Float",
+					"value": 1
+				},
+				"StunDefenseBonus": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"LastSelectedSurvivalBonus": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"ZealousAuraRadiusMult": {
+					"type": "java.lang.Float",
+					"value": 1
+				},
+				"VeilDeflectionBonus": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"PushDefenseBonus": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"CharacterBackground": {
+					"type": "uk.me.mantas.eternity.game.CharacterStats$Background",
+					"value": "Aristocrat"
+				},
+				"BonusCritToHitPercent": {
+					"type": "java.lang.Float",
+					"value": 0
+				},
+				"EnemyFortitudeWillHitToGrazePercent": {
+					"type": "java.lang.Float",
+					"value": 0
+				},
+				"RemainingSkillPoints": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"MeleeAttackDistanceMultiplier": {
+					"type": "java.lang.Float",
+					"value": 1
+				},
+				"MechanicsSkill": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"MaxStaminaMultiplier": {
+					"type": "java.lang.Float",
+					"value": 1
+				},
+				"ExtraStraightBounces": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"EnemyDeflectReflexHitToGrazePercent": {
+					"type": "java.lang.Float",
+					"value": 0
+				},
+				"CritHitDamageMultiplierBonus": {
+					"type": "java.lang.Float",
+					"value": 0
+				},
+				"RangedDTBypass": {
+					"type": "java.lang.Float",
+					"value": 0
+				},
+				"BonusUsesPerRestPastThree": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"CharacterClass": {
+					"type": "uk.me.mantas.eternity.game.CharacterStats$Class",
+					"value": "Fighter"
+				},
+				"BonusHealingGivenMult": {
+					"type": "java.lang.Float",
+					"value": 1
+				},
+				"m_noiseTimer": {
+					"type": "java.lang.Float",
+					"value": 0
+				},
+				"PoisonTickMult": {
+					"type": "java.lang.Float",
+					"value": 1
+				},
+				"SurvivalBonus": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"m_recoveryTimer": {
+					"type": "java.lang.Float",
+					"value": -0.013497878
+				},
+				"DualWieldAttackSpeedMultiplier": {
+					"type": "java.lang.Float",
+					"value": 1
+				},
+				"MightBonus": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"BaseReflexes": {
+					"type": "java.lang.Integer",
+					"value": 20
+				},
+				"CritHitDamageMultiplierBonusEnemyBelow10Percent": {
+					"type": "java.lang.Float",
+					"value": 0
+				}
 			},
 			"GUID": "09517a0d-4fec-407c-a749-a531f3be64e0",
 			"name": "Elwyn",

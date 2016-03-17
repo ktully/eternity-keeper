@@ -20,6 +20,7 @@
 package uk.me.mantas.eternity.tests.save;
 
 import com.google.common.primitives.UnsignedInteger;
+import com.google.common.primitives.UnsignedInts;
 import org.apache.commons.io.FileUtils;
 import org.cef.callback.CefQueryCallback;
 import org.jooq.lambda.tuple.Tuple2;
@@ -406,6 +407,7 @@ public class SavedGameOpenerTest extends TestHarness {
 			put("Float", 1f);
 			put("String", "1");
 			put("UnsignedInteger", UnsignedInteger.valueOf(1L));
+			put("NotSupported", new byte[0]);
 		}};
 
 		packet.ComponentPackets = new ComponentPersistencePacket[]{ notStatsComponent };
@@ -419,10 +421,19 @@ public class SavedGameOpenerTest extends TestHarness {
 
 		result = exposedOpener.call("extractCharacterStats", packet);
 		assertTrue(result.isPresent());
-		assertEquals(1, result.get().get("Integer"));
-		assertEquals(1f, (float) result.get().get("Float"), 1e-6);
-		assertEquals("1", result.get().get("String"));
-		assertNull(result.get().get("UnsignedInteger"));
+		assertEquals(
+			"{\"type\":\"java.lang.Integer\",\"value\":1}"
+			, result.get().get("Integer").toString());
+		assertEquals(
+			"{\"type\":\"java.lang.String\",\"value\":\"1\"}"
+			, result.get().get("String").toString());
+		assertEquals(
+			"{\"type\":\"java.lang.Float\",\"value\":1}"
+			, result.get().get("Float").toString());
+		assertEquals(
+			"{\"type\":\"com.google.common.primitives.UnsignedInteger\",\"value\":1}"
+			, result.get().get("UnsignedInteger").toString());
+		assertNull(result.get().get("NotSupported"));
 	}
 
 	@Test
@@ -533,5 +544,47 @@ public class SavedGameOpenerTest extends TestHarness {
 		}};
 
 		assertEquals(3.14159f, setup.v2().call("extractCurrency", argMap), 1e-6f);
+	}
+
+	private enum Enum {ONE, TWO}
+
+	@Test
+	public void recordTypeTest () {
+		final ExposedClass exposedOpener = expose(SavedGameOpener.class);
+		final Map<Object, Class> argMap = new HashMap<>();
+
+		argMap.put(1, Object.class);
+		final JSONObject intTest = exposedOpener.call("recordType", argMap);
+		assertEquals("{\"type\":\"java.lang.Integer\",\"value\":1}", intTest.toString());
+
+		argMap.clear();
+		argMap.put(1d, Object.class);
+		final JSONObject dblTest = exposedOpener.call("recordType", argMap);
+		assertEquals("{\"type\":\"java.lang.Double\",\"value\":1}", dblTest.toString());
+
+		argMap.clear();
+		argMap.put(true, Object.class);
+		final JSONObject boolTest = exposedOpener.call("recordType", argMap);
+		assertEquals("{\"type\":\"java.lang.Boolean\",\"value\":true}", boolTest.toString());
+
+		argMap.clear();
+		argMap.put("str", Object.class);
+		final JSONObject strTest = exposedOpener.call("recordType", argMap);
+		assertEquals("{\"type\":\"java.lang.String\",\"value\":\"str\"}", strTest.toString());
+
+		argMap.clear();
+		argMap.put(UnsignedInteger.valueOf(Integer.MAX_VALUE + 1L), Object.class);
+		final JSONObject uintTest = exposedOpener.call("recordType", argMap);
+		assertEquals(
+			"{\"type\":\"com.google.common.primitives.UnsignedInteger\",\"value\":2147483648}"
+			, uintTest.toString());
+
+		argMap.clear();
+		argMap.put(Enum.ONE, Object.class);
+		final JSONObject enumTest = exposedOpener.call("recordType", argMap);
+		assertEquals(
+			"{\"type\":\"uk.me.mantas.eternity.tests.save.SavedGameOpenerTest$Enum\""
+			+ ",\"value\":\"ONE\"}"
+			, enumTest.toString());
 	}
 }

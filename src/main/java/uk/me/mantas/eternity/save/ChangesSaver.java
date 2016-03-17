@@ -19,6 +19,7 @@
 
 package uk.me.mantas.eternity.save;
 
+import com.google.common.primitives.UnsignedInteger;
 import net.lingala.zip4j.core.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
 import net.lingala.zip4j.model.ZipParameters;
@@ -240,8 +241,8 @@ public class ChangesSaver implements Runnable {
 		}
 	}
 
-	private Object castValue (Object primitive, String val) {
-		String cls = primitive.getClass().getSimpleName();
+	private static Object castValue (final Object primitive, final String val) {
+		final String cls = primitive.getClass().getSimpleName();
 
 		if (cls.equals("int") || cls.equals("Integer")) {
 			return Integer.parseInt(val);
@@ -257,6 +258,25 @@ public class ChangesSaver implements Runnable {
 
 		if (cls.equals("boolean") || cls.equals("Boolean")) {
 			return Boolean.parseBoolean(val);
+		}
+
+		if (cls.equals("UnsignedInteger")) {
+			return UnsignedInteger.valueOf(val);
+		}
+
+		if (primitive.getClass().isEnum()) {
+			for (final Object constant : primitive.getClass().getEnumConstants()) {
+				final Optional<String> constantName = EKUtils.enumConstantName(constant);
+				if (constantName.isPresent() && constantName.get().equals(val)) {
+					return constant;
+				}
+			}
+
+			logger.error(
+				"Client returned non-existent enum value '%s' for class %s."
+				, val
+				, primitive.getClass().getName());
+			return primitive.getClass().getEnumConstants()[0];
 		}
 
 		return val;

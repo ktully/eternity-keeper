@@ -5,6 +5,7 @@ import org.cef.browser.CefBrowser;
 import org.cef.callback.CefQueryCallback;
 import org.cef.handler.CefMessageRouterHandlerAdapter;
 import org.json.JSONObject;
+import uk.me.mantas.eternity.EKUtils;
 import uk.me.mantas.eternity.Logger;
 import uk.me.mantas.eternity.environment.Environment;
 
@@ -55,7 +56,7 @@ public class GetGameStructures extends CefMessageRouterHandlerAdapter {
 		for (final Class<?> enm : enums) {
 			final String[] constants =
 				Arrays.stream(enm.getEnumConstants())
-					.map(GetGameStructures::enumConstantName)
+					.map(EKUtils::enumConstantName)
 					.filter(Optional::isPresent)
 					.map(Optional::get)
 					.toArray(String[]::new);
@@ -63,24 +64,6 @@ public class GetGameStructures extends CefMessageRouterHandlerAdapter {
 		}
 
 		return json.toString();
-	}
-
-	private static Optional<String> enumConstantName (final Object constant) {
-		final Class<?> cls = constant.getClass();
-
-		try {
-			final Method nameMethod = cls.getMethod("name");
-			final Object result = nameMethod.invoke(constant);
-
-			if (result instanceof String) {
-				return Optional.of((String) result);
-			}
-		} catch (final NoSuchMethodException
-			| IllegalAccessException
-			| InvocationTargetException ignore) {}
-
-		logger.error("Unable to extract enum constant name for %s.", cls.getName());
-		return Optional.empty();
 	}
 
 	@Override

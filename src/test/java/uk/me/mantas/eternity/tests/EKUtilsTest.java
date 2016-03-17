@@ -21,18 +21,20 @@ package uk.me.mantas.eternity.tests;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
+import uk.me.mantas.eternity.EKUtils;
+import uk.me.mantas.eternity.Logger;
 import uk.me.mantas.eternity.game.ComponentPersistencePacket;
 import uk.me.mantas.eternity.game.ObjectPersistencePacket;
+import uk.me.mantas.eternity.handlers.GetGameStructures;
 import uk.me.mantas.eternity.serializer.properties.ComplexProperty;
 import uk.me.mantas.eternity.serializer.properties.Property;
 import uk.me.mantas.eternity.serializer.properties.SingleDimensionalArrayProperty;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static uk.me.mantas.eternity.EKUtils.*;
 
 public class EKUtilsTest {
@@ -130,5 +132,21 @@ public class EKUtilsTest {
 
 		assertFalse(findSubComponent(haystack, "404").isPresent());
 		assertSame(needleProperty, findSubComponent(haystack, "FINDME").get());
+	}
+
+	private enum Enum {A, B}
+	private static class NotAnEnum {}
+
+	@Test
+	public void enumConstantNameTest () {
+		final Optional<String> testA = EKUtils.enumConstantName(Enum.A);
+		final Optional<String> testB = EKUtils.enumConstantName(Enum.B);
+		final Optional<String> testFail = enumConstantName(new NotAnEnum());
+
+		assertTrue(testA.isPresent());
+		assertEquals("A", testA.get());
+		assertTrue(testB.isPresent());
+		assertEquals("B", testB.get());
+		assertFalse(testFail.isPresent());
 	}
 }

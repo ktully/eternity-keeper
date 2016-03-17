@@ -19,11 +19,14 @@
 
 package uk.me.mantas.eternity.save;
 
+import com.google.common.collect.Maps;
+import com.google.common.primitives.UnsignedInteger;
 import org.apache.commons.io.FileUtils;
 import org.cef.callback.CefQueryCallback;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import uk.me.mantas.eternity.EKUtils;
 import uk.me.mantas.eternity.Logger;
 import uk.me.mantas.eternity.Settings;
 import uk.me.mantas.eternity.environment.Environment;
@@ -136,16 +139,16 @@ public class SavedGameOpener implements Runnable {
 		final boolean isDead = detectDead(packet);
 		String name = extractName(packet);
 
-		final Optional<Map<String, Object>> stats = extractCharacterStats(packet);
+		final Optional<Map<String, JSONObject>> stats = extractCharacterStats(packet);
 		if (!stats.isPresent()) {
 			// This is a stored character that is not presently in the party.
 			return Optional.empty();
 		}
 
-		if (stats.get().get("OverrideName") != null
-			&& !stats.get().get("OverrideName").equals("")) {
+		if (stats.get().get("OverrideName").get("value") != null
+			&& !stats.get().get("OverrideName").get("value").equals("")) {
 
-			name = (String) stats.get().get("OverrideName");
+			name = (String) stats.get().get("OverrideName").get("value");
 		} else if (isCompanion) {
 			final String mappedName =
 				Environment.getInstance().config().companionNameMap().get(name);
@@ -154,7 +157,7 @@ public class SavedGameOpener implements Runnable {
 				name = mappedName;
 			}
 
-			stats.get().put("OverrideName", name);
+			stats.get().get("OverrideName").put("value", name);
 		}
 
 		jsonObject.put("isCompanion", isCompanion);
@@ -198,23 +201,39 @@ public class SavedGameOpener implements Runnable {
 		return objectName.startsWith("companion_") && !objectName.startsWith("companion_generic");
 	}
 
-	private Optional<Map<String, Object>> extractCharacterStats (
+	private Optional<Map<String, JSONObject>> extractCharacterStats (
 		final ObjectPersistencePacket packet) {
 
 		return findComponent(packet.ComponentPackets, "CharacterStats")
 			.map(c ->
 				c.Variables.entrySet().stream()
 					.filter(entry -> isSupportedType(entry.getValue()))
+					.map(entry ->
+						new AbstractMap.SimpleEntry<>(entry.getKey(), recordType(entry.getValue())))
 					.collect(Collectors.toMap(Entry::getKey, Entry::getValue)));
 	}
 
-	private boolean isSupportedType (Object obj) {
-		String cls = obj.getClass().getSimpleName();
-		return cls.equals("int") || cls.equals("Integer")
-			|| cls.equals("float") || cls.equals("Float")
-			|| cls.equals("double") || cls.equals("Double")
-			|| cls.equals("boolean") || cls.equals("Boolean")
-			|| cls.equals("String");
+	private static JSONObject recordType (final Object obj) {
+		final JSONObject json = new JSONObject();
+		json.put("type", obj.getClass().getName());
+
+		if (obj.getClass().isEnum()) {
+			json.put("value", EKUtils.enumConstantName(obj).orElse(""));
+		} else if (obj instanceof UnsignedInteger) {
+			json.put("value", ((UnsignedInteger) obj).longValue());
+		} else {
+			json.put("value", obj);
+		}
+
+		return json;
+	}
+
+	private boolean isSupportedType (final Object obj) {
+		final String cls = obj.getClass().getSimpleName();
+		return cls.equals("int") || cls.equals("Integer") || cls.equals("float")
+			|| cls.equals("Float") || cls.equals("double") || cls.equals("Double")
+			|| cls.equals("boolean") || cls.equals("Boolean") || cls.equals("String")
+			|| cls.equals("UnsignedInteger") || obj.getClass().isEnum();
 	}
 
 	private String extractName (ObjectPersistencePacket packet) {

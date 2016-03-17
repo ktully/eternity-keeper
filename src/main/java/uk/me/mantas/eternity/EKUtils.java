@@ -30,6 +30,8 @@ import uk.me.mantas.eternity.serializer.properties.SingleDimensionalArrayPropert
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.List;
@@ -40,7 +42,6 @@ import java.util.function.Function;
 public class EKUtils {
 	private static final Logger logger = Logger.getLogger(EKUtils.class);
 
-	@SuppressWarnings("EmptyCatchBlock")
 	public static Rectangle getDefaultWindowBounds () {
 		final double multiplier = 2d / 3d;
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -51,10 +52,10 @@ public class EKUtils {
 		double y = screenSize.height / 2 - h / 2;
 
 		JSONObject settings = Settings.getInstance().json;
-		try { w = settings.getDouble("width"); } catch (JSONException e) {}
-		try { h = settings.getDouble("height"); } catch (JSONException e) {}
-		try { x = settings.getDouble("x"); } catch (JSONException e) {}
-		try { y = settings.getDouble("y"); } catch (JSONException e) {}
+		try { w = settings.getDouble("width"); } catch (final JSONException ignore) {}
+		try { h = settings.getDouble("height"); } catch (final JSONException ignore) {}
+		try { x = settings.getDouble("x"); } catch (final JSONException ignore) {}
+		try { y = settings.getDouble("y"); } catch (final JSONException ignore) {}
 
 		return new Rectangle((int) x, (int) y, (int) w, (int) h);
 	}
@@ -170,5 +171,23 @@ public class EKUtils {
 			.filter(component ->
 				((ComponentPersistencePacket) component.obj).TypeString.equalsIgnoreCase(needle))
 			.findFirst();
+	}
+
+	public static Optional<String> enumConstantName (final Object constant) {
+		final Class<?> cls = constant.getClass();
+
+		try {
+			final Method nameMethod = cls.getMethod("name");
+			final Object result = nameMethod.invoke(constant);
+
+			if (result instanceof String) {
+				return Optional.of((String) result);
+			}
+		} catch (final NoSuchMethodException
+			| IllegalAccessException
+			| InvocationTargetException ignore) {}
+
+		logger.error("Unable to extract enum constant name for %s.", cls.getName());
+		return Optional.empty();
 	}
 }

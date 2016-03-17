@@ -19,6 +19,7 @@
 
 package uk.me.mantas.eternity.tests.save;
 
+import com.google.common.primitives.UnsignedInteger;
 import org.apache.commons.io.FileUtils;
 import org.cef.callback.CefQueryCallback;
 import org.joox.Match;
@@ -26,6 +27,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Test;
 import uk.me.mantas.eternity.EKUtils;
+import uk.me.mantas.eternity.Logger;
 import uk.me.mantas.eternity.Settings;
 import uk.me.mantas.eternity.environment.Environment;
 import uk.me.mantas.eternity.factory.PacketDeserializerFactory;
@@ -36,16 +38,20 @@ import uk.me.mantas.eternity.game.ObjectPersistencePacket;
 import uk.me.mantas.eternity.save.ChangesSaver;
 import uk.me.mantas.eternity.serializer.SharpSerializer;
 import uk.me.mantas.eternity.serializer.properties.Property;
+import uk.me.mantas.eternity.tests.ExposedClass;
 import uk.me.mantas.eternity.tests.TestHarness;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 
 import static org.joox.JOOX.$;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 import static uk.me.mantas.eternity.EKUtils.findComponent;
@@ -192,5 +198,54 @@ public class ChangesSaverTest extends TestHarness {
 		}
 
 		assertTrue(mightUpdated && resolveUpdated && currencyUpdated);
+	}
+
+	private enum Enum {ONE, TWO}
+
+	@Test
+	public void castValueTest () {
+		final Logger mockLogger = interceptLogging(ChangesSaver.class);
+		final ExposedClass exposedSaver = expose(ChangesSaver.class);
+		final Map<Object, Class> argMap = new LinkedHashMap<>();
+
+		argMap.put(1, Object.class);
+		argMap.put("2", String.class);
+		final int intTest = exposedSaver.call("castValue", argMap);
+		assertEquals(2, intTest);
+
+		argMap.clear();
+		argMap.put(1d, Object.class);
+		argMap.put("3.14159", String.class);
+		final double dblTest = exposedSaver.call("castValue", argMap);
+		assertEquals(3.14159, dblTest, 1e-6);
+
+		argMap.clear();
+		argMap.put(true, Object.class);
+		argMap.put("false", String.class);
+		final boolean boolTest = exposedSaver.call("castValue", argMap);
+		assertFalse(boolTest);
+
+		argMap.clear();
+		argMap.put(UnsignedInteger.valueOf(Integer.MAX_VALUE + 1L), Object.class);
+		argMap.put("2147483648", String.class);
+		final UnsignedInteger uintTest = exposedSaver.call("castValue", argMap);
+		assertEquals(2147483648L, uintTest.longValue());
+
+		argMap.clear();
+		argMap.put(Enum.ONE, Object.class);
+		argMap.put("TWO", String.class);
+		final Enum enumTest = exposedSaver.call("castValue", argMap);
+		assertEquals(Enum.TWO, enumTest);
+
+		argMap.clear();
+		argMap.put(Enum.ONE, Object.class);
+		argMap.put("THREE", String.class);
+		final Enum enumFailTest = exposedSaver.call("castValue", argMap);
+		assertEquals(Enum.ONE, enumFailTest);
+
+		verify(mockLogger).error(
+			"Client returned non-existent enum value '%s' for class %s."
+			, "THREE"
+			, Enum.class.getName());
 	}
 }
