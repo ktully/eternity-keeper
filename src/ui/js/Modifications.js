@@ -106,7 +106,7 @@ Modifications.prototype.save = function () {
 		newData.characters = data.characters.map(character => {
 			for (var stat in character.stats) {
 				//noinspection JSUnfilteredForInLoop
-				character.stats[stat] = character.stats[stat].toString();
+				character.stats[stat].value = character.stats[stat].value.toString();
 			}
 
 			return character;

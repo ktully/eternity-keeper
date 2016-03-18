@@ -224,9 +224,8 @@ public class ChangesSaver implements Runnable {
 		}
 
 		for (final String updateKey : character.keySet()) {
-			final String updateValue = character.getString(updateKey);
-			final Optional<SimpleProperty> savedValue =
-				variables.get().<SimpleProperty>findEntry(updateKey);
+			final String updateValue = character.getJSONObject(updateKey).getString("value");
+			final Optional<SimpleProperty> savedValue =	variables.get().<SimpleProperty>findEntry(updateKey);
 
 			if (!savedValue.isPresent()) {
 				logger.error(
@@ -236,8 +235,15 @@ public class ChangesSaver implements Runnable {
 				continue;
 			}
 
-			final Object typedValue = castValue(savedValue.get().obj, updateValue);
-			Property.update(savedValue.get(), typedValue);
+			try {
+				final Object typedValue = castValue(savedValue.get().obj, updateValue);
+				Property.update(savedValue.get(), typedValue);
+			} catch (final NumberFormatException e) {
+				logger.error(
+					"Unable to save value '%s' in character stat '%s'."
+					, updateValue
+					, updateKey);
+			}
 		}
 	}
 

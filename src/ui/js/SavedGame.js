@@ -56,6 +56,43 @@ var SavedGame = function () {
 		return sortable;
 	};
 
+	var createBooleanEditor = initialValue => {
+		return createEnumEditor(['true', 'false'], initialValue);
+	};
+
+	var createEnumEditor = (enumValues, initialValue) => {
+		return $('<select></select>')
+			.addClass('form-control')
+			.append(enumValues.map(v =>
+				$('<option></option>').prop('selected', v == initialValue).text(v).val(v)));
+	};
+
+	var createRawEditor = (stat, value) => {
+		var row = $('<tr></tr>');
+		var keyCol = $('<td></td>');
+		var valCol = $('<td></td>');
+		var editor;
+
+		keyCol.text(stat);
+		valCol.data('key', stat);
+
+		if (value.type === 'java.lang.Boolean') {
+			editor = createBooleanEditor(value.value);
+			valCol.append(editor);
+			editor.change(self.update.bind(self));
+		} else if (Eternity.structures[value.type] !== undefined) {
+			editor = createEnumEditor(Eternity.structures[value.type], value.value);
+			valCol.append(editor);
+			editor.change(self.update.bind(self));
+		} else {
+			valCol.prop('contenteditable', true);
+			valCol.keyup(self.update.bind(self));
+		}
+
+		row.append(keyCol, valCol);
+		return row;
+	};
+
 	var populateCharacter = (container, data) => {
 		container.find('.portrait')
 			.empty()
@@ -64,7 +101,6 @@ var SavedGame = function () {
 			.html((data.isDead) ? '<div>DEAD</div>' : '');
 
 		var sortedData = sortData(data.stats);
-		var row = $('<tr><td></td><td contenteditable></td></tr>');
 		var rawTable = self.html.rawTable.find('tbody');
 		rawTable.empty();
 
@@ -75,16 +111,10 @@ var SavedGame = function () {
 			container
 				.find('.stats')
 				.find('input[data-key="' + stat + '"]')
-				.val(value.toString())
+				.val(value.value.toString())
 				.prop('disabled', data.isCompanion && disabledForCompanions.indexOf(stat) > -1);
 
-			var rawRow = row.clone();
-			rawRow.find('td:first-child').text(stat);
-			rawRow.find('td:last-child')
-				.text(value)
-				.data('key', stat);
-
-			rawTable.append(rawRow);
+			rawTable.append(createRawEditor(stat, value));
 		});
 
 		container
@@ -92,8 +122,6 @@ var SavedGame = function () {
 			.find('input')
 			.change(self.update.bind(self))
 			.keyup(self.update.bind(self));
-
-		self.html.rawTable.find('tr > td:last-child').keyup(self.update.bind(self));
 	};
 
 	var lastSearch = 0;
@@ -179,8 +207,11 @@ SavedGame.prototype.switchView = function (view) {
 SavedGame.prototype.update = function (e) {
 	var self = this;
 	var element = $(e.currentTarget);
-	var key = element.data('key');
 	var value = (element.prop('nodeName') === 'TD') ? element.text() : element.val();
+	var key =
+		(element.prop('nodeName') === 'SELECT')
+			? element.parent().data('key')
+			: element.data('key');
 
 	if (key === null || key.length < 1) {
 		return;
@@ -188,7 +219,7 @@ SavedGame.prototype.update = function (e) {
 
 	var character =
 		self.state.saveData.characters.filter(c => c.GUID === self.state.activeCharacter)[0];
-	character.stats[key] = value;
+	character.stats[key].value = value;
 	Eternity.Modifications.transition({modifications: true});
 };
 

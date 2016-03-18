@@ -124,9 +124,11 @@ public class ChangesSaverTest extends TestHarness {
 			+ ",\"saveData\":{"
 				+ "\"characters\":[{"
 					+ "\"GUID\":\"b1a7e809-0000-0000-0000-000000000000\""
-					+ ", \"stats\":{\"BaseMight\":\"30\"}}, {"
+					+ ", \"stats\":{\"BaseMight\":{"
+						+ "\"type\":\"java.lang.Integer\",\"value\":\"30\"}}}, {"
 					+ "\"GUID\":\"09517a0d-4fec-407c-a749-a531f3be64e0\""
-					+ ", \"stats\":{\"BaseResolve\":\"50\"}}]"
+					+ ", \"stats\":{\"BaseResolve\":{"
+							+ "\"type\":\"java.lang.Integer\",\"value\":\"50\"}}}]"
 				+ ", \"currency\":3.14159}}";
 
 		final String absolutePath =
