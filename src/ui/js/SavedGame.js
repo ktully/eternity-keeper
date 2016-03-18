@@ -86,6 +86,7 @@ var SavedGame = function () {
 			editor.change(self.update.bind(self));
 		} else {
 			valCol.prop('contenteditable', true);
+			valCol.text(value.value);
 			valCol.keyup(self.update.bind(self));
 		}
 
