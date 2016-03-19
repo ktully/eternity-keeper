@@ -18,6 +18,8 @@
 
 package uk.me.mantas.eternity.environment;
 
+import com.google.common.collect.ImmutableList;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -35,9 +37,12 @@ public class Configuration {
 		add("Program Files (x86)\\Steam\\SteamApps\\common\\Pillars of Eternity");
 	}};
 
+	private List<String> usefulGlobals = ImmutableList.of("GameState", "WorldTime");
 
 	public long maxLogSize () { return 0x20000; }
 	public String pillarsDataDirectory () {	return "PillarsOfEternity_Data"; }
+	public String gameStructuresPkg () { return "uk.me.mantas.eternity.game"; }
+	public List<String> usefulGlobals () { return usefulGlobals; }
 
 	public String companionPortraitPath () {
 		return "data/art/gui/portraits/companion/portrait_%s_lg.png";
@@ -55,6 +60,4 @@ public class Configuration {
 
 		return map;
 	}
-
-	public String gameStructuresPkg () { return "uk.me.mantas.eternity.game"; }
 }

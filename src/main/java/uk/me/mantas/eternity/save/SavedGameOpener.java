@@ -19,7 +19,6 @@
 
 package uk.me.mantas.eternity.save;
 
-import com.google.common.collect.Maps;
 import com.google.common.primitives.UnsignedInteger;
 import org.apache.commons.io.FileUtils;
 import org.cef.callback.CefQueryCallback;
@@ -44,6 +43,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -79,7 +79,7 @@ public class SavedGameOpener implements Runnable {
 				.collect(Collectors.toList());
 
 		final Map<String, Property> characters = extractCharacters(gameObjects);
-		final Map<String, Integer> globals = extractGlobals(gameObjects);
+		final Map<String, Property> globals = extractGlobals(gameObjects);
 		final float currency = extractCurrency(gameObjects);
 		sendJSON(currency, globals, characters);
 	}
@@ -120,13 +120,27 @@ public class SavedGameOpener implements Runnable {
 		return ((CurrencyValue) currencyValue).v;
 	}
 
-	private Map<String, Integer> extractGlobals (final List<Property> gameObjects) {
-		final Map<String, Integer> globals = new HashMap<>();
-		return globals;
-	}
+	private static JSONObject globalsToJSON (final Property globalProperty) {
+		final ObjectPersistencePacket global = unwrapPacket(globalProperty);
+		final JSONObject json = new JSONObject();
 
-	private Optional<JSONObject> globalsToJSON (final Entry<String, Integer> entry) {
-		return Optional.empty();
+		for (final String usefulGlobal : Environment.getInstance().config().usefulGlobals()) {
+			final Optional<ComponentPersistencePacket> packet =
+				findComponent(global.ComponentPackets, usefulGlobal);
+
+			if (packet.isPresent()) {
+				final Map<String, JSONObject> variables =
+					packet.get().Variables.entrySet().stream()
+						.filter(entry -> isSupportedType(entry.getValue()))
+						.map(entry ->
+							new SimpleEntry<>(entry.getKey(), recordType(entry.getValue())))
+						.collect(Collectors.toMap(Entry::getKey, Entry::getValue));
+
+				json.put(usefulGlobal, variables);
+			}
+		}
+
+		return json;
 	}
 
 	private Optional<JSONObject> charactersToJSON (final Entry<String, Property> entry) {
@@ -134,7 +148,7 @@ public class SavedGameOpener implements Runnable {
 		jsonObject.put("GUID", entry.getKey());
 
 		final Property property = entry.getValue();
-		final ObjectPersistencePacket packet = (ObjectPersistencePacket) property.obj;
+		final ObjectPersistencePacket packet = unwrapPacket(property);
 		final boolean isCompanion = detectCompanion(packet);
 		final boolean isDead = detectDead(packet);
 		String name = extractName(packet);
@@ -171,19 +185,17 @@ public class SavedGameOpener implements Runnable {
 
 	private void sendJSON (
 		final float currency
-		, final Map<String, Integer> globals
+		, final Map<String, Property> globals
 		, final Map<String, Property> characters) {
 
 		final JSONObject json = new JSONObject();
 		json.put("currency", currency);
 
-		final JSONObject[] jsonGlobals =
+		final Map<String, JSONObject> jsonGlobals =
 			globals.entrySet().stream()
-				.map(this::globalsToJSON)
-				.filter(Optional::isPresent)
-				.map(Optional::get)
-				.toArray(JSONObject[]::new);
-		//json.put("globals", new JSONArray(jsonGlobals));
+				.map(entry -> new SimpleEntry<>(entry.getKey(), globalsToJSON(entry.getValue())))
+				.collect(Collectors.toMap(Entry::getKey, Entry::getValue));
+		json.put("globals", jsonGlobals);
 
 		final JSONObject[] jsonCharacters =
 			characters.entrySet().stream()
@@ -209,7 +221,7 @@ public class SavedGameOpener implements Runnable {
 				c.Variables.entrySet().stream()
 					.filter(entry -> isSupportedType(entry.getValue()))
 					.map(entry ->
-						new AbstractMap.SimpleEntry<>(entry.getKey(), recordType(entry.getValue())))
+						new SimpleEntry<>(entry.getKey(), recordType(entry.getValue())))
 					.collect(Collectors.toMap(Entry::getKey, Entry::getValue)));
 	}
 
@@ -228,7 +240,7 @@ public class SavedGameOpener implements Runnable {
 		return json;
 	}
 
-	private boolean isSupportedType (final Object obj) {
+	private static boolean isSupportedType (final Object obj) {
 		final String cls = obj.getClass().getSimpleName();
 		return cls.equals("int") || cls.equals("Integer") || cls.equals("float")
 			|| cls.equals("Float") || cls.equals("double") || cls.equals("Double")
@@ -314,10 +326,25 @@ public class SavedGameOpener implements Runnable {
 		return "";
 	}
 
+	private Map<String, Property> extractGlobals (final List<Property> gameObjects) {
+		final Map<String, Property> globals = new HashMap<>();
+		for (final Property property : gameObjects) {
+			final ObjectPersistencePacket packet = unwrapPacket(property);
+
+			if (packet.ObjectName.startsWith("Global")
+				|| packet.ObjectName.startsWith("InGameGlobal")) {
+
+				globals.put(packet.ObjectName.replace("(Clone)", ""), property);
+			}
+		}
+
+		return globals;
+	}
+
 	private Map<String, Property> extractCharacters (final List<Property> gameObjects) {
 		final Map<String, Property> characters = new HashMap<>();
 		for (final Property property : gameObjects) {
-			final ObjectPersistencePacket packet = (ObjectPersistencePacket) property.obj;
+			final ObjectPersistencePacket packet = unwrapPacket(property);
 			final String objectName = packet.ObjectName.toLowerCase();
 
 			if (packet.ObjectID != null

@@ -1275,5 +1275,70 @@
 			"isDead": false
 		}
 	],
+	"globals": {
+		"InGameGlobal": {},
+		"Global": {
+			"WorldTime": {
+				"RealWorldPlayTime": {
+					"type": "java.lang.Float",
+					"value": 417.93634
+				}
+			},
+			"GameState": {
+				"ExpertMode": {
+					"type": "java.lang.Boolean",
+					"value": false
+				},
+				"Difficulty": {
+					"type": "uk.me.mantas.eternity.game.GameDifficulty",
+					"value": "Normal"
+				},
+				"TrialOfIron": {
+					"type": "java.lang.Boolean",
+					"value": false
+				},
+				"UiWorldMapTutorialFinished": {
+					"type": "java.lang.Boolean",
+					"value": true
+				},
+				"HasNotifiedPX2Installation": {
+					"type": "java.lang.Boolean",
+					"value": false
+				},
+				"HasEnteredPX2": {
+					"type": "java.lang.Boolean",
+					"value": false
+				},
+				"HasEnteredPX1": {
+					"type": "java.lang.Boolean",
+					"value": false
+				},
+				"RetroactiveSpellMasteryChecked": {
+					"type": "java.lang.Boolean",
+					"value": true
+				},
+				"CheatsEnabled": {
+					"type": "java.lang.Boolean",
+					"value": false
+				},
+				"AutosaveCycleNumber": {
+					"type": "java.lang.Integer",
+					"value": 1
+				},
+				"IgnoreInGrimoire": {
+					"type": "java.lang.Boolean",
+					"value": false
+				},
+				"IgnoreSpellLimits": {
+					"type": "java.lang.Boolean",
+					"value": false
+				},
+				"ActiveScalers": {
+					"type": "uk.me.mantas.eternity.game.DifficultyScaling$Scaler",
+					"value": "NONE"
+				}
+			}
+		}
+	},
 	"currency": 100
 }

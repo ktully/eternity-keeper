@@ -19,8 +19,8 @@
 
 package uk.me.mantas.eternity.tests.save;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.primitives.UnsignedInteger;
-import com.google.common.primitives.UnsignedInts;
 import org.apache.commons.io.FileUtils;
 import org.cef.callback.CefQueryCallback;
 import org.jooq.lambda.tuple.Tuple2;
@@ -146,6 +146,67 @@ public class SavedGameOpenerTest extends TestHarness {
 		exposedOpener.call("deserialize", mockMobileObjectsFile);
 
 		verify(mockCallback).success(DESERIALIZATION_ERR);
+	}
+
+	@Test
+	public void extractGlobalsTest () {
+		final CefQueryCallback mockCallback = mock(CefQueryCallback.class);
+		final Property startsWithGlobal = mock(Property.class);
+		final Property startsWithInGameGlobal = mock(Property.class);
+		final Property notFound = mock(Property.class);
+
+		final List<Property> gameObjects =
+			ImmutableList.of(startsWithGlobal, startsWithInGameGlobal, notFound);
+
+		final ObjectPersistencePacket startsWithGlobalPacket = new ObjectPersistencePacket();
+		startsWithGlobalPacket.ObjectName = "Global(Clone)";
+		startsWithGlobal.obj = startsWithGlobalPacket;
+
+		final ObjectPersistencePacket startsWithInGameGlobalPacket = new ObjectPersistencePacket();
+		startsWithInGameGlobalPacket.ObjectName = "InGameGlobal(Clone)";
+		startsWithInGameGlobal.obj = startsWithInGameGlobalPacket;
+
+		final ObjectPersistencePacket notFoundPacket = new ObjectPersistencePacket();
+		notFoundPacket.ObjectName = "SecondWind(Clone)";
+		notFound.obj = notFoundPacket;
+
+		final SavedGameOpener savedGameOpener = new SavedGameOpener("404", mockCallback);
+		final ExposedClass exposedOpener = expose(savedGameOpener);
+
+		final Map<Object, Class> argMap = new HashMap<>();
+		argMap.put(gameObjects, List.class);
+
+		final Map<String, Property> globals = exposedOpener.call("extractGlobals", argMap);
+		assertEquals(2, globals.size());
+		assertSame(startsWithGlobal, globals.get("Global"));
+		assertSame(startsWithInGameGlobal, globals.get("InGameGlobal"));
+	}
+
+	@Test
+	public void globalsToJSONTest () {
+		final Environment mockEnvironment = mockEnvironment();
+		final CefQueryCallback mockCallback = mock(CefQueryCallback.class);
+		final Property global = mock(Property.class);
+		final ComponentPersistencePacket found = new ComponentPersistencePacket();
+		final ComponentPersistencePacket notFound = new ComponentPersistencePacket();
+
+		when(mockEnvironment.config().usefulGlobals()).thenReturn(ImmutableList.of("Found"));
+		final ObjectPersistencePacket packet = new ObjectPersistencePacket();
+		packet.ComponentPackets = new ComponentPersistencePacket[] {found, notFound};
+		global.obj = packet;
+
+		found.TypeString = "Found";
+		notFound.TypeString = "NotFound";
+
+		found.Variables = new HashMap<>();
+		found.Variables.put("SupportedType", 1);
+		found.Variables.put("UnsupportedType", new CurrencyValue());
+
+		final SavedGameOpener savedGameOpener = new SavedGameOpener("404", mockCallback);
+		final ExposedClass exposedOpener = expose(savedGameOpener);
+		assertEquals(
+			"{\"Found\":{\"SupportedType\":{\"type\":\"java.lang.Integer\",\"value\":1}}}"
+			, exposedOpener.call("globalsToJSON", global).toString());
 	}
 
 	@Test
