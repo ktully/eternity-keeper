@@ -26,5 +26,7 @@ public class PrerequisiteData {
 	public String Tag;
 	public float Value;
 	public CharacterStats.Class ClassValue;
+	public Affliction AfflictionPrefab;
 	public boolean IsConsumed;
+	public boolean HideIfFailed;
 }

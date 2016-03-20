@@ -248,10 +248,11 @@ public class SavedGameOpener implements Runnable {
 			|| cls.equals("UnsignedInteger") || obj.getClass().isEnum();
 	}
 
-	private String extractName (ObjectPersistencePacket packet) {
+	private String extractName (final ObjectPersistencePacket packet) {
 		String name = "";
 		if (packet.ObjectName.contains("_")) {
-			name = packet.ObjectName.split("_")[1];
+			final int firstUnderscore = packet.ObjectName.indexOf("_");
+			name = packet.ObjectName.substring(firstUnderscore + 1);
 			if (name.contains("(")) {
 				name = name.split("\\(")[0];
 			}
@@ -277,15 +278,12 @@ public class SavedGameOpener implements Runnable {
 			findComponent(packet.ComponentPackets, "Portrait")
 			.map(c -> (String) c.Variables.get("m_textureLargePath"));
 
-		if (isCompanion) {
+		if (isCompanion && portraitSubPath.orElse("").length() < 1) {
 			final String name = extractName(packet);
-			String mappedName = Environment.getInstance().config().companionNameMap().get(name);
-			mappedName = (mappedName == null) ? null : mappedName.toLowerCase().replace(" ", "_");
-
 			portraitSubPath = Optional.of(
 				String.format(
 					Environment.getInstance().config().companionPortraitPath()
-					, (mappedName == null) ? name.toLowerCase() : mappedName));
+					, name.toLowerCase().replace(" ", "_")));
 		}
 
 		if (!portraitSubPath.isPresent()) {

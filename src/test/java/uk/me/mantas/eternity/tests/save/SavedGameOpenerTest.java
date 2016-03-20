@@ -387,7 +387,7 @@ public class SavedGameOpenerTest extends TestHarness {
 				.toFile();
 
 		mockSettings.json = new JSONObject().put("gameLocation", testResources.getAbsolutePath());
-		packet.ObjectName = "Companion_GM";
+		packet.ObjectName = "Companion_Grieving_Mother";
 		component.TypeString = "Portrait";
 		component.Variables = new HashMap<>();
 		packet.ComponentPackets = new ComponentPersistencePacket[]{ component };
