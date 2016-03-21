@@ -424,10 +424,10 @@ table.dark-theme>tbody>tr>td {
 	padding: 8px;
 }
 
-#rawTable {
+.view {
 	margin-top: -8px;
 }
 
-#searchRaw {
+.table-search {
 	width: 240px;
 }

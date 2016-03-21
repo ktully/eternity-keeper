@@ -28,7 +28,6 @@ var CurrencyEditor = function () {
 	self.html = {};
 
 	self.init = () => {
-		self.html.menuCurrencyEditor.click(self.open.bind(self));
 		self.html.currencyEditorCancel.click(self.close.bind(self));
 		self.html.currencyEditorSet.click(self.update.bind(self));
 	};
@@ -36,6 +35,8 @@ var CurrencyEditor = function () {
 	self.render = newState => {
 		self.state = $.extend({}, defaultState, newState);
 		self.html.currency.val(parseInt(self.state.amount));
+		self.html.menuCurrencyEditor.off();
+		self.html.menuCurrencyEditor.click(self.open.bind(self));
 
 		if (self.state.enabled) {
 			self.html.menuCurrencyEditor.parent().removeClass('disabled');

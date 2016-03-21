@@ -22,7 +22,7 @@ var SavedGame = function () {
 		'BaseMight', 'BaseConstitution', 'BaseDexterity', 'BaseIntellect', 'BasePerception'
 		, 'BaseResolve'];
 
-	self.views = Object.freeze({ATTR: 0, RAW: 1});
+	self.views = Object.freeze({ATTR: 0, RAW: 1, GLOBALS: 2});
 
 	var defaultState = {
 		saveData: {}
@@ -94,6 +94,39 @@ var SavedGame = function () {
 		return row;
 	};
 
+	var populateGlobals = globals => {
+		var globalsTable = self.html.globalsTable.find('tbody');
+		globalsTable.empty();
+
+		var tuples = [];
+		for (var p1 in globals) {
+			if (!globals.hasOwnProperty(p1)) {
+				continue;
+			}
+
+			for (var p2 in globals[p1]) {
+				if (!globals[p1].hasOwnProperty(p2)) {
+					continue;
+				}
+
+				for (var k in globals[p1][p2]) {
+					if (!globals[p1][p2].hasOwnProperty(k)) {
+						continue;
+					}
+
+					tuples.push([p1 + '.' + p2, k, globals[p1][p2][k]]);
+				}
+			}
+		}
+
+		tuples.sort((a, b) => a[1].toLowerCase() > b[1].toLowerCase() ? 1 : -1);
+		tuples.forEach(tuple => {
+			var row = createRawEditor(tuple[1], tuple[2]);
+			row.data('key', tuple[0]);
+			globalsTable.append(row);
+		});
+	};
+
 	var populateCharacter = (container, data) => {
 		container.find('.portrait')
 			.empty()
@@ -151,8 +184,6 @@ var SavedGame = function () {
 	};
 
 	self.init = () => {
-		self.html.menuCharacterAttributes.click(self.switchView.bind(self, self.views.ATTR));
-		self.html.menuCharacterRaw.click(self.switchView.bind(self, self.views.RAW));
 		self.html.searchRaw.keyup(filterRaw);
 	};
 
@@ -163,10 +194,19 @@ var SavedGame = function () {
 		self.state = $.extend({}, defaultState, newState);
 		self.html.characterList.empty();
 		Eternity.render({saveView: true});
+
+		self.html.menuCharacterAttributes.off();
+		self.html.menuCharacterAttributes.click(self.switchView.bind(self, self.views.ATTR));
+		self.html.menuCharacterRaw.off();
+		self.html.menuCharacterRaw.click(self.switchView.bind(self, self.views.RAW));
+		self.html.menuEditGlobals.off();
+		self.html.menuEditGlobals.click(self.switchView.bind(self, self.views.GLOBALS));
+
 		Eternity.CurrencyEditor.render({enabled: true, amount: self.state.saveData.currency});
 		Eternity.Modifications.html.newSaveName.val(
 			Eternity.Modifications.suggestSaveName(self.state.info));
 		populateCharacterList(self.html.characterList, self.state.saveData.characters);
+		populateGlobals(self.state.saveData.globals);
 
 		if (self.state.activeCharacter) {
 			self.html.characterList.find('li')
@@ -208,19 +248,30 @@ SavedGame.prototype.switchView = function (view) {
 SavedGame.prototype.update = function (e) {
 	var self = this;
 	var element = $(e.currentTarget);
-	var value = (element.prop('nodeName') === 'TD') ? element.text() : element.val();
-	var key =
-		(element.prop('nodeName') === 'SELECT')
-			? element.parent().data('key')
-			: element.data('key');
+	var isCol = element.prop('nodeName') === 'TD';
+	var isDropdown = element.prop('nodeName') === 'SELECT';
+	var value = isCol ? element.text() : element.val();
+	var key = isDropdown ? element.parent().data('key') : element.data('key');
+	var superKey =
+		isDropdown
+			? element.parent().parent().data('key')
+			: element.parent().data('key');
 
 	if (key === null || key.length < 1) {
 		return;
 	}
 
-	var character =
-		self.state.saveData.characters.filter(c => c.GUID === self.state.activeCharacter)[0];
-	character.stats[key].value = value;
+	if (superKey == null || superKey.length < 1) {
+		var character =
+			self.state.saveData.characters.filter(c => c.GUID === self.state.activeCharacter)[0];
+		character.stats[key].value = value;
+	} else {
+		var explode = superKey.split('.');
+		var p1 = explode[0];
+		var p2 = explode[1];
+		self.state.saveData.globals[p1][p2][key].value = value;
+	}
+
 	Eternity.Modifications.transition({modifications: true});
 };
 
