@@ -24,4 +24,5 @@ public enum GameDifficulty {
 	, Normal
 	, Hard
 	, PathOfTheDamned
+	, StoryTime
 }

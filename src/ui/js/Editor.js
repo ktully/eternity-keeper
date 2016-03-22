@@ -111,6 +111,7 @@ var Editor = function () {
 		self.SaveSearch.html.saveBlocks.hide();
 		self.SavedGame.html.character.hide();
 		self.SavedGame.html.rawTable.hide();
+		self.SavedGame.html.globalsTable.hide();
 		self.SavedGame.html.characterList.empty();
 
 		if (self.state.listView) {
