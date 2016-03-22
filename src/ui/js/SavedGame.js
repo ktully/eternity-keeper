@@ -98,31 +98,21 @@ var SavedGame = function () {
 		var globalsTable = self.html.globalsTable.find('tbody');
 		globalsTable.empty();
 
+		var flat = flattenObject(globals, 2);
 		var tuples = [];
-		for (var p1 in globals) {
-			if (!globals.hasOwnProperty(p1)) {
-				continue;
-			}
-
-			for (var p2 in globals[p1]) {
-				if (!globals[p1].hasOwnProperty(p2)) {
+		flat.forEach(tuple => {
+			for (var key in tuple[1]) {
+				if (!tuple[1].hasOwnProperty(key)) {
 					continue;
 				}
 
-				for (var k in globals[p1][p2]) {
-					if (!globals[p1][p2].hasOwnProperty(k)) {
-						continue;
-					}
-
-					tuples.push([p1 + '.' + p2, k, globals[p1][p2][k]]);
-				}
+				tuples.push([tuple[0], key, tuple[1][key]]);
 			}
-		}
+		});
 
 		tuples.sort((a, b) => a[1].toLowerCase() > b[1].toLowerCase() ? 1 : -1);
 		tuples.forEach(tuple => {
-			var row = createRawEditor(tuple[1], tuple[2]);
-			row.data('key', tuple[0]);
+			var row = createRawEditor(tuple[0] + '.' + tuple[1], tuple[2]);
 			globalsTable.append(row);
 		});
 	};
@@ -229,6 +219,10 @@ var SavedGame = function () {
 				filterRaw();
 				break;
 
+			case self.views.GLOBALS:
+				self.html.globalsTable.show();
+				break;
+
 			default:
 				self.html.character.show();
 		}
@@ -252,24 +246,18 @@ SavedGame.prototype.update = function (e) {
 	var isDropdown = element.prop('nodeName') === 'SELECT';
 	var value = isCol ? element.text() : element.val();
 	var key = isDropdown ? element.parent().data('key') : element.data('key');
-	var superKey =
-		isDropdown
-			? element.parent().parent().data('key')
-			: element.parent().data('key');
 
 	if (key === null || key.length < 1) {
 		return;
 	}
 
-	if (superKey == null || superKey.length < 1) {
+	if (key.indexOf('.') < 0) {
 		var character =
 			self.state.saveData.characters.filter(c => c.GUID === self.state.activeCharacter)[0];
 		character.stats[key].value = value;
 	} else {
-		var explode = superKey.split('.');
-		var p1 = explode[0];
-		var p2 = explode[1];
-		self.state.saveData.globals[p1][p2][key].value = value;
+		var ex = superKey.split('.');
+		self.state.saveData.globals[ex[0]][ex[1]][ex[2]].value = value;
 	}
 
 	Eternity.Modifications.transition({modifications: true});
