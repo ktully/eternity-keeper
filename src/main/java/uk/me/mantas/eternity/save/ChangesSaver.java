@@ -35,6 +35,7 @@ import uk.me.mantas.eternity.Logger;
 import uk.me.mantas.eternity.Settings;
 import uk.me.mantas.eternity.environment.Environment;
 import uk.me.mantas.eternity.factory.PacketDeserializerFactory;
+import uk.me.mantas.eternity.game.ComponentPersistencePacket;
 import uk.me.mantas.eternity.game.ObjectPersistencePacket;
 import uk.me.mantas.eternity.handlers.SaveChanges;
 import uk.me.mantas.eternity.serializer.DeserializedPackets;
@@ -172,11 +173,20 @@ public class ChangesSaver implements Runnable {
 	private Property updateMobileObject (final Property property, final JSONObject saveData) {
 		final ObjectPersistencePacket packet = unwrapPacket(property);
 		final JSONArray characters = saveData.getJSONArray("characters");
+		final JSONObject globals = saveData.getJSONObject("globals");
 		final float currency = (float) saveData.getDouble("currency");
 
 		// TODO: Refactor out this check for the 'player' object.
 		if (packet.ObjectName.toLowerCase().startsWith("player_")) {
 			updateCurrency((ComplexProperty) property, currency);
+		}
+
+		if (packet.ObjectName.startsWith("Global")) {
+			updateGlobal((ComplexProperty) property, globals.getJSONObject("Global"));
+		}
+
+		if (packet.ObjectName.startsWith("InGameGlobal")) {
+			updateGlobal((ComplexProperty) property, globals.getJSONObject("InGameGlobal"));
 		}
 
 		for (int i = 0; i < characters.length(); i++) {
@@ -206,6 +216,40 @@ public class ChangesSaver implements Runnable {
 		Property.update(currencyValue.get(), "v", currency);
 	}
 
+	private void updateGlobal (final ComplexProperty root, final JSONObject global) {
+		final Optional<SingleDimensionalArrayProperty> packetsProperty =
+			root.findProperty("ComponentPackets");
+
+		if (!packetsProperty.isPresent()) {
+			logger.error("Unable to navigate property structure when updating globals.%n");
+			return;
+		}
+
+		for (final Object uncastPacketProperty : packetsProperty.get().items) {
+			if (!(uncastPacketProperty instanceof ComplexProperty)) {
+				logger.error("Unexpected item in ComponentPackets list when navigating globals.%n");
+				continue;
+			}
+
+			final ComplexProperty packetProperty = (ComplexProperty) uncastPacketProperty;
+			final ComponentPersistencePacket packet =
+				(ComponentPersistencePacket) packetProperty.obj;
+			final Optional<DictionaryProperty> variables = packetProperty.findProperty("Variables");
+
+			if (!variables.isPresent()) {
+				logger.error(
+					"Invalid ComponentPersistencePacket detected in ComponentPackets "
+					+ "list when navigating globals.");
+				continue;
+			}
+
+			try {
+				final JSONObject update = global.getJSONObject(packet.TypeString);
+				updateVariables(variables.get(), update);
+			} catch (final JSONException ignore) {}
+		}
+	}
+
 	private void updateCharacter (final ComplexProperty root, final JSONObject character) {
 		// Having to do linear searches through everything multiple times
 		// sucks for performance efficiency however that's our only option as
@@ -223,13 +267,21 @@ public class ChangesSaver implements Runnable {
 			return;
 		}
 
-		for (final String updateKey : character.keySet()) {
-			final String updateValue = character.getJSONObject(updateKey).getString("value");
-			final Optional<SimpleProperty> savedValue =	variables.get().<SimpleProperty>findEntry(updateKey);
+		updateVariables(variables.get(), character);
+	}
+
+	private static void updateVariables (
+		final DictionaryProperty variables
+		, final JSONObject updates) {
+
+		for (final String updateKey : updates.keySet()) {
+			final String updateValue = updates.getJSONObject(updateKey).getString("value");
+			final Optional<SimpleProperty> savedValue =	variables.<SimpleProperty>findEntry(updateKey);
 
 			if (!savedValue.isPresent()) {
 				logger.error(
-					"Wanted to update character stat %s but could not find it in saved data!%n"
+					"Wanted to update ComponentPacket variable %s but "
+					+ "could not find it in saved data.%n"
 					, updateKey);
 
 				continue;
@@ -240,7 +292,7 @@ public class ChangesSaver implements Runnable {
 				Property.update(savedValue.get(), typedValue);
 			} catch (final NumberFormatException e) {
 				logger.error(
-					"Unable to save value '%s' in character stat '%s'."
+					"Unable to save value '%s' in ComponentPacket variable '%s'."
 					, updateValue
 					, updateKey);
 			}

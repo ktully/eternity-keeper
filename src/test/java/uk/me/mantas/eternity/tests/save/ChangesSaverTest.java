@@ -34,6 +34,7 @@ import uk.me.mantas.eternity.factory.PacketDeserializerFactory;
 import uk.me.mantas.eternity.factory.SharpSerializerFactory;
 import uk.me.mantas.eternity.game.ComponentPersistencePacket;
 import uk.me.mantas.eternity.game.CurrencyValue;
+import uk.me.mantas.eternity.game.GameDifficulty;
 import uk.me.mantas.eternity.game.ObjectPersistencePacket;
 import uk.me.mantas.eternity.save.ChangesSaver;
 import uk.me.mantas.eternity.serializer.SharpSerializer;
@@ -129,7 +130,12 @@ public class ChangesSaverTest extends TestHarness {
 					+ "\"GUID\":\"09517a0d-4fec-407c-a749-a531f3be64e0\""
 					+ ", \"stats\":{\"BaseResolve\":{"
 							+ "\"type\":\"java.lang.Integer\",\"value\":\"50\"}}}]"
-				+ ", \"currency\":3.14159}}";
+				+ ", \"currency\":3.14159"
+				+ ", \"globals\":{"
+					+ "\"Global\":{\"GameState\":{\"Difficulty\":{"
+						+ "\"type\":\"uk.me.mantas.eternity.game.GameDifficulty\""
+						+ ", \"value\":\"StoryTime\"}}}"
+					+ ", \"InGameGlobal\":{}}}}";
 
 		final String absolutePath =
 			new File(
@@ -165,6 +171,7 @@ public class ChangesSaverTest extends TestHarness {
 		boolean mightUpdated = false;
 		boolean resolveUpdated = false;
 		boolean currencyUpdated = false;
+		boolean difficultyUpdated = false;
 
 		for (int i = 0; i < objectCount; i++) {
 			final Optional<Property> property = deserializer.deserialize();
@@ -172,34 +179,44 @@ public class ChangesSaverTest extends TestHarness {
 			final ObjectPersistencePacket packet = unwrapPacket(property.get());
 
 			if (!packet.ObjectID.equals("b1a7e809-0000-0000-0000-000000000000")
-				&& !packet.ObjectID.equals("09517a0d-4fec-407c-a749-a531f3be64e0")) {
+				&& !packet.ObjectID.equals("09517a0d-4fec-407c-a749-a531f3be64e0")
+				&& !packet.ObjectName.equals("Global(Clone)")) {
 
 				continue;
 			}
 
-			final ComponentPersistencePacket stats =
-				findComponent(packet.ComponentPackets, "CharacterStats").get();
+			final Optional<ComponentPersistencePacket> stats =
+				findComponent(packet.ComponentPackets, "CharacterStats");
 
-			final Map<String, Object> vars = stats.Variables;
+			if (stats.isPresent()) {
+				final Map<String, Object> vars = stats.get().Variables;
 
-			if (packet.ObjectID.equals("b1a7e809-0000-0000-0000-000000000000")) {
-				mightUpdated = (int) vars.get("BaseMight") == 30;
+				if (packet.ObjectID.equals("b1a7e809-0000-0000-0000-000000000000")) {
+					mightUpdated = (int) vars.get("BaseMight") == 30;
+				}
+
+				if (packet.ObjectID.equals("09517a0d-4fec-407c-a749-a531f3be64e0")) {
+					resolveUpdated = (int) vars.get("BaseResolve") == 50;
+
+					final ComponentPersistencePacket inventory =
+						findComponent(packet.ComponentPackets, "PlayerInventory").get();
+
+					final CurrencyValue currency =
+						(CurrencyValue) inventory.Variables.get("currencyTotalValue");
+
+					currencyUpdated = currency.v == 3.14159f;
+				}
 			}
 
-			if (packet.ObjectID.equals("09517a0d-4fec-407c-a749-a531f3be64e0")) {
-				resolveUpdated = (int) vars.get("BaseResolve") == 50;
-
-				final ComponentPersistencePacket inventory =
-					findComponent(packet.ComponentPackets, "PlayerInventory").get();
-
-				final CurrencyValue currency =
-					(CurrencyValue) inventory.Variables.get("currencyTotalValue");
-
-				currencyUpdated = currency.v == 3.14159f;
+			if (packet.ObjectName.equals("Global(Clone)")) {
+				final ComponentPersistencePacket gameState =
+					findComponent(packet.ComponentPackets, "GameState").get();
+				final Map<String, Object> vars = gameState.Variables;
+				difficultyUpdated = vars.get("Difficulty").equals(GameDifficulty.StoryTime);
 			}
 		}
 
-		assertTrue(mightUpdated && resolveUpdated && currencyUpdated);
+		assertTrue(mightUpdated && resolveUpdated && currencyUpdated && difficultyUpdated);
 	}
 
 	private enum Enum {ONE, TWO}

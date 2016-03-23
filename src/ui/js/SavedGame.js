@@ -67,14 +67,15 @@ var SavedGame = function () {
 				$('<option></option>').prop('selected', v == initialValue).text(v).val(v)));
 	};
 
-	var createRawEditor = (stat, value) => {
+	var createRawEditor = (key, fullKey, value) => {
 		var row = $('<tr></tr>');
 		var keyCol = $('<td></td>');
 		var valCol = $('<td></td>');
 		var editor;
 
-		keyCol.text(stat);
-		valCol.data('key', stat);
+		keyCol.text(key);
+		valCol.data('key', key);
+		valCol.data('fullKey', fullKey);
 
 		if (value.type === 'java.lang.Boolean') {
 			editor = createBooleanEditor(value.value);
@@ -112,7 +113,7 @@ var SavedGame = function () {
 
 		tuples.sort((a, b) => a[1].toLowerCase() > b[1].toLowerCase() ? 1 : -1);
 		tuples.forEach(tuple => {
-			var row = createRawEditor(tuple[0] + '.' + tuple[1], tuple[2]);
+			var row = createRawEditor(tuple[1], tuple[0] + '.' + tuple[1], tuple[2]);
 			globalsTable.append(row);
 		});
 	};
@@ -138,7 +139,7 @@ var SavedGame = function () {
 				.val(value.value.toString())
 				.prop('disabled', data.isCompanion && disabledForCompanions.indexOf(stat) > -1);
 
-			rawTable.append(createRawEditor(stat, value));
+			rawTable.append(createRawEditor(stat, stat, value));
 		});
 
 		container
@@ -148,28 +149,18 @@ var SavedGame = function () {
 			.keyup(self.update.bind(self));
 	};
 
-	var lastSearch = 0;
-	var filterRaw = () => {
-		var thisSearch = new Date().valueOf();
-		lastSearch = thisSearch;
-
-		var searchString = self.html.searchRaw.val().toLowerCase();
+	var filterTable = (search, table) => {
+		var searchString = search.val().toLowerCase();
 		if (searchString.length < 1) {
-			self.html.rawTable.find('tbody tr').show();
+			table.find('tbody tr').show();
 			return;
 		}
 
 		var matches =
-			self.html.rawTable.find('td:last-child')
+			table.find('td:last-child')
 				.filter((i, el) => $(el).data('key').toLowerCase().includes(searchString));
 
-		if (thisSearch < lastSearch) {
-			// There has been another keypress since we calculated the matches, the new keypress
-			// takes priority.
-			return;
-		}
-
-		self.html.rawTable.find('tbody tr').hide();
+		table.find('tbody tr').hide();
 		matches.each((i, el) => $(el).parent().show());
 	};
 
@@ -216,11 +207,12 @@ var SavedGame = function () {
 		switch(self.state.view) {
 			case self.views.RAW:
 				self.html.rawTable.show();
-				filterRaw();
+				filterTable(self.html.searchRaw, self.html.rawTable);
 				break;
 
 			case self.views.GLOBALS:
 				self.html.globalsTable.show();
+				filterTable(self.html.searchGlobals, self.html.globalsTable);
 				break;
 
 			default:
@@ -245,7 +237,7 @@ SavedGame.prototype.update = function (e) {
 	var isCol = element.prop('nodeName') === 'TD';
 	var isDropdown = element.prop('nodeName') === 'SELECT';
 	var value = isCol ? element.text() : element.val();
-	var key = isDropdown ? element.parent().data('key') : element.data('key');
+	var key = isDropdown ? element.parent().data('fullKey') : element.data('fullKey');
 
 	if (key === null || key.length < 1) {
 		return;
@@ -256,7 +248,7 @@ SavedGame.prototype.update = function (e) {
 			self.state.saveData.characters.filter(c => c.GUID === self.state.activeCharacter)[0];
 		character.stats[key].value = value;
 	} else {
-		var ex = superKey.split('.');
+		var ex = key.split('.');
 		self.state.saveData.globals[ex[0]][ex[1]][ex[2]].value = value;
 	}
 
