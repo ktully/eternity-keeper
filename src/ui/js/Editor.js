@@ -101,7 +101,7 @@ var Editor = function () {
 		});
 	};
 
-	var disableMenu = menuID => $('#' + menuID).find('li').addClass('disabled').off();
+	var disableMenu = menuID => $('#' + menuID).find('li').addClass('disabled').find('a').off();
 	var enableMenu = menuID => $('#' + menuID).find('li').removeClass('disabled');
 
 	self.state = $.extend({}, defaultState);
@@ -118,12 +118,12 @@ var Editor = function () {
 			self.SaveSearch.html.searchContainer.show();
 			self.SaveSearch.html.saveBlocks.show();
 			self.CurrencyEditor.transition({enabled: false});
-			self.SavedGame.html.menuEditGlobals.addClass('disabled').off();
+			self.SavedGame.html.menuEditGlobals.off().parent().addClass('disabled');
 			disableMenu('menuCharacter');
 		}
 
 		if (self.state.saveView) {
-			self.SavedGame.html.menuEditGlobals.removeClass('disabled');
+			self.SavedGame.html.menuEditGlobals.parent().removeClass('disabled');
 			enableMenu('menuCharacter');
 		}
 	};
