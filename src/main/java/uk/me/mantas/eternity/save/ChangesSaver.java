@@ -297,7 +297,7 @@ public class ChangesSaver implements Runnable {
 				Property.update(savedValue.get(), typedValue);
 			} catch (final NumberFormatException e) {
 				logger.error(
-					"Unable to save value '%s' in ComponentPacket variable '%s'."
+					"Unable to save value '%s' in ComponentPacket variable '%s'.%n"
 					, updateValue
 					, updateKey);
 			}
@@ -311,7 +311,8 @@ public class ChangesSaver implements Runnable {
 		final Optional<DictionaryProperty> data = variables.findEntry("m_data");
 		if (!data.isPresent()) {
 			logger.error(
-				"Tried to update a Hashtable property that did not contain an 'm_data' Hashtable.");
+				"Tried to update a Hashtable property that "
+				+ "did not contain an 'm_data' Hashtable.%n");
 			return;
 		}
 
@@ -362,7 +363,7 @@ public class ChangesSaver implements Runnable {
 			}
 
 			logger.error(
-				"Client returned non-existent enum value '%s' for class %s."
+				"Client returned non-existent enum value '%s' for class %s.%n"
 				, val
 				, primitive.getClass().getName());
 			return primitive.getClass().getEnumConstants()[0];

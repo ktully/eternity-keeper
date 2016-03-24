@@ -105,6 +105,7 @@ public class StatusEffect {
 	public boolean IsTriggerActivated;
 	public boolean AppliedTriggered;
 	public float Duration;
+	public float UnadjustedDurationAdd;
 	public boolean LastsUntilCombatEnds;
 	public boolean LastsUntilRest;
 	public float TimeLeft;

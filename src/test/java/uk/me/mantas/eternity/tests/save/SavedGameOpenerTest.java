@@ -683,6 +683,10 @@ public class SavedGameOpenerTest extends TestHarness {
 		table.put("B", 2);
 
 		final JSONObject result = exposedOpener.call("globalsToJSON", globalProperty);
-		assertEquals("{\"GlobalVariables\":{\"A\":1,\"B\":2}}", result.toString());
+		assertEquals(
+			"{\"GlobalVariables\":{"
+				+ "\"A\":{\"type\":\"java.lang.Integer\",\"value\":1}"
+				+ ",\"B\":{\"type\":\"java.lang.Integer\",\"value\":2}}}"
+			, result.toString());
 	}
 }

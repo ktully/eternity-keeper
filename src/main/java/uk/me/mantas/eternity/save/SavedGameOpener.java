@@ -129,8 +129,13 @@ public class SavedGameOpener implements Runnable {
 			if (usefulGlobal.equals("GlobalVariables") && packet.isPresent()) {
 				// TODO: deal with hashtables more generically.
 				@SuppressWarnings("unchecked")
-				final Map<String, Integer> data =
-					(Hashtable<String, Integer>) packet.get().Variables.get("m_data");
+				final Map<String, JSONObject> data =
+					((Hashtable<String, Integer>) packet.get().Variables.get("m_data"))
+						.entrySet().stream()
+						.filter(entry -> isSupportedType(entry.getValue()))
+						.map(entry ->
+							new SimpleEntry<>(entry.getKey(), recordType(entry.getValue())))
+						.collect(Collectors.toMap(Entry::getKey, Entry::getValue));
 				json.put("GlobalVariables", data);
 				continue;
 			}
@@ -256,8 +261,8 @@ public class SavedGameOpener implements Runnable {
 		return cls.equals("int") || cls.equals("Integer") || cls.equals("float")
 			|| cls.equals("Float") || cls.equals("double") || cls.equals("Double")
 			|| cls.equals("boolean") || cls.equals("Boolean") || cls.equals("String")
-			|| cls.equals("UnsignedInteger") || cls.equals("EternityDateTime")
-			|| cls.equals("EternityTimeInterval") || obj.getClass().isEnum();
+			|| cls.equals("UnsignedInteger") || /*cls.equals("EternityDateTime")
+			|| cls.equals("EternityTimeInterval") ||*/ obj.getClass().isEnum();
 	}
 
 	private String extractName (final ObjectPersistencePacket packet) {

@@ -1276,7 +1276,7758 @@
 		}
 	],
 	"globals": {
-		"InGameGlobal": {},
+		"InGameGlobal": {
+			"GlobalVariables": {
+				"b_Cliaban_Water_Bag": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Maerwith_met": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Lafda_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Court_Bridge": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Stalwart_Battle_Started": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Dozens_Friend": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_ON_enc_fampyrs": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_gramrfel_dilemma": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Seal_Blue": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Nedmar_Known": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Animancy_Hearing_Credibility_Factor": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_renengild_first_chat": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Revel_Actors": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"nHylea_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Baetti_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Boss_Priest_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Level_09_Bounties_Complete": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_weald_intellect": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Maw_Stealth": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Knights_Killed": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"nThaosSoulFate": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"1008_Found": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_1002_Encounters_Cleared": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"nWaterfall_Lion_E_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_God_Words_Hylea": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Zahua_Quest_Debug": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Boss_Rogue_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Despawn_Gordy_Hamor": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_killed_Black_Hound": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_rauatai_hireling": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Deryan_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Hiravias_Talk": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Svef_Examined": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_int_GV_timer": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_brothel_iqali_acquired": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Fort_sleepers_killed": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_companion_hiravias_watcher_react": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_smith_shipment_main": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Sagani_Quest_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_kolfecg_state": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_left_person_free": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Dorvhal_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_brothel_lyrinia_hireling": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_weald_knowledge": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Disable_Brigand_Ambush": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"1003_Found": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_lots_slot_chosen": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Feara_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Ridai_Hearing_Lie_Stelgaer": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"nRecordsKeeperSkillChecksPassed": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_brothel_worker_hired": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Penhelm_Disposition": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Cwineth_Expedition_Fate": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Have_Horn": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_found_treasure_map": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Forge_Globe_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_maneha_arc": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Raedric_Keep_Alert": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Lliras_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Icantha_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Andred_knife_player_wins": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_db_west_tower_lower_accessible": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Iwen_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Zahua_Quest_Refusals": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Okrun_Ice_Hole": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_God_Crystal": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_abydon_argument_danger": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Nonton_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Feara_Rewarded": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Gwron_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Icantha_Watcher_Power_Used": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Cwineth_Fang_At_Maw": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Rope_Attached": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Dozens_Superfriend": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Glaswal_Intro": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"nUscgrim_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_weald_questions": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Gilded_Vale_Goal": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Boss_GSociety_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_stronghold_clearing": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Bog_Dragons_Killed": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Kana_Recruited": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"bAzoMentioned": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Battery_Mines_Forge_Key": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Bogged_Down_main": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Kolsc_Intro": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_leaden_key_prisoner": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_right_person_free": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_walked_old_watcher": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Arch_Sacrifice": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_slaver_dilemma": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_GV_Rest": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Desthwn_In_Room": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Have_Weapon": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_soul_hunter_hireling": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Abbey_Skel_Hand_SI_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Got_Danna_Invite": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Bookcase_02_Searches": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Dunstan_Golem_Schematic": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Ambient_Brackenbury_Inn_Upper": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Eder_Post_Maerwald_Discussion": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Kolsc_Intro": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Ambient_GV_Inn_Upper": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Pumpkin": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_08_tsk_shrine": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Fampyrs_Fight_Ogres": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Deryan_confessed_murder": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Abbey_Recitation": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Chute_Rope_Secured": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Dunstan_Quest_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_cannons_main": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Passphrase_RH": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Abbey_Kaoto_Soul": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Caravan_Ambush": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_pwgra_confronted": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Abbey_Alt_End": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Gave_North_Ward_Key": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_gearbox_fixed": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Raedrics_Hold_Moat_Grate": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Kana_Maerwald": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Ambient_Brothel_Upper": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"bTopicStaffBlackTrees": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_maneha_dead": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_ON_LV10_11_Cleared": {
+					"type": "java.lang.Integer",
+					"value": 1
+				},
+				"b_Bog_ruins_inside": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"nDuranceMainQuestionNodeIntro": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_sleaf_happy": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_SH_ENC_Drakes": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Archdruid_Rehstin_Dead": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Vignette_02_Encounter_Rioters": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Heodan_Finale": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Have_Heirloom": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Aloth_Joined": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Penhelm_Confirmed_Breastplate": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_companion_gm_unavailable": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_native_trouble_main": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_white_wurm_pet": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_mines_main": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_burning_building_cleaned_up": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_nyrid_dilemma": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Merc_Disposition": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Aranroed_Intro": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"nBerath_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_giantslayers_killed": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_animat_phrase_04": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Osmaer_Glanfathan_Talk": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_animat_phrase_05": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_animat_phrase_01": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_animat_phrase_02": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_animat_phrase_03": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Spawn_Yenwood_Messenger_1": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Spawn_Yenwood_Messenger_2": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Crypt_Secret_Found": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Found_Tunnel": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Chorus_Helm_Check": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Penhelm_Exposed": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Enable_Bridge_District_Gate": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Osmaer_Forest_Talk": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_wanted_criminal_sent_to_deadfire": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Ally_Readceran_Available": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Zahua_Persist_Axis": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_SH_ENC_Dozens": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Teanleycg_games_won": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_SH_ENC_Doemenel": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Stalwart_Tax_Score": {
+					"type": "java.lang.Integer",
+					"value": 10
+				},
+				"n_Osric_Quest_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Prisoner_Uprising_Rand": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Durgans_Battery_Progress": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Know_Price": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Affliction_Vines": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Know_Gaderman_Involved": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"nAzo_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Kadal_Dead": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Grimda_Angry": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Nest_Dragon_Combat": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Soul_Platform_Used": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Aldhelm_Tower_Dial": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_concelhaut_quest_main": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Nest_Reputation": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Abbey_Farentis_Met_Before_Kaoto": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"bPlayerWatcher": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Inside_Emporium": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Dragon_Stairs": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_hanwen_state": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_AR_1201_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Nest_Dragon_Intro": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_SH_ENC_Xaurips": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Linete_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Kaenra_Quest_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_kestorik_prisoner": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_recognize_Nonton": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Northweald_Visited": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Prot2_Crypt_Discovered": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Patient_Info": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Nyrid_Transformed": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_RIM_art_dealer": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Desthwn_Einden_Intro": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Fyrga_Quest_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_fort_guards_warned": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_lucen_hireling": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Boss_DotTF_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Duc_Assassinated": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_1001_Encounters_Clear": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_bm_dragonslayer_spawn": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Skaen_Bridge_Inspected": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Sagani_tradition_family": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lore_Naasitaq_Poetry": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Yenwood_Court_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Abbey_Library_Info": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Eder_CR_Active": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Rumbald_Ogre_Attacked": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Dissapointer_Found": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"nMiddleInlay": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Rymrgand_Vision": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lore_Animancy": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Wyla_Quest_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Aloth_quest_finished": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_pwgra_told": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Uariki_Hostile": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Palace_Quest_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_bleakwalker_hireling": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Abbey_Tear_Chasm_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"bDuranceMentionedAshfall": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Chute_Free_Descent": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lore_The_Saints_War_2": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Fyrga_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Gramrfel_dead": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Garodh_Preservation_Level": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Lisc_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Boss_Lafda_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_maneha_bad_dreams": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Twin_Elms_Access": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"nEthelmoer_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Abbey_Pool_Actor": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lore_The_Saints_War_1": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Doran_Status": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Glaswal_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_nyrid_prisoner": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Met_Gedmar": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Level_12_Bounties_Complete": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"nArchivesMain": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Kaenra_Gave_Quest": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_archer_hireling": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Played_Pond_POI": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Clyver_Quest_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Fight_Verzano": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Aufra_bread": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_beregan_strike": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Reymont_Guard_Alerted": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Dunstan_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Marceno_Quest_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_book_thieves": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Maea_Free_Room": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Ruins_Quest_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Forge_Eyes_Lit": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_PX2_Battery_Current_Level": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_08_Ruins_Spot4_Occupied": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_cruel_lord_attack": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Chute_Lagufaeth_Alarmed": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n1008Aggitated": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_SH_ENC_Shades_Lurkers": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lumdala_Dead": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_AR_0707_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_crpg_dialogue_loop": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Hall_Attacked": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Player_Lagufaeth_Diver": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Kurren_Killed": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_prisoners_flogged": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Hylea_Vow": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Concelhaut_Note_02_Read": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Nest_quest_start": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Agosti_Stoic_Responses": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_01_Cook_Company_Met": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_BV_cruel_lord": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lore_God_Hylea": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Trygil_Attacks": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Forge_Active": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Stalwarts_Vengeance_main": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Abbey_Guard_Mural_Warn": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Grimda_disposition": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Creitum_Duration": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Verzano_Quest_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Deryan_Final_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_caravan_ambush_screams": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_machine_middle_on": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Renengild_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Aldhelm_Dead": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Llensi_Cage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Derrin_Info": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_AR_0705_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Skaen_Bridge_Rope": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Bog_Acoyltes_Killed": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Yenwood_Battlemages_Defeated": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_chasm_rescue_finished": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Dozens_Blamed": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Eastern_Barbican": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Galawain_Reputation": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lore_Glanfathan_Customs": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Embassy_Quest_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_stronghold_attack": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_have_ferry_cargo": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_IB_Quest_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Sparfel_dead": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lore_God_Wael": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_weald_tree": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"nDuranceRests": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"nNotes": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_watcher_prestige": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_AR_0812_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Grefs_Rest_Visited": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_ON_head_addendum": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Maw_Bridge_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Forge_Eye_Left_placed": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Harond_Convince_Str": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"nDuranceMaxQuestionsPerRest": {
+					"type": "java.lang.Integer",
+					"value": 3
+				},
+				"b_brute_hireling": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Passage_Cleared": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Galawain_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"nGuardsDead": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Battery_Base_Exit_Wraiths": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Abbey_HoS_Main_Gate_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Aloth_probation": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Boss_Ranger_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_PX1_Battery_Level_Reached": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Forge_Lever_Pulled": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_SH_ENC_Cut_Throats": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_08_Ruins_Convo_Circle_Examined": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Abbey_Guard_Forbidden_Out_Warn": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Aefre_House": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Boss_Terror_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lore_God_Rymrgand": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Abbey_Enc_HoS_Patrol_01_Attacked": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Tax_Collector_Quest_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Nyfre_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Have_Potion": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Eder_Saw_Records": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Stop_Archive_Bark": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Kurren_Quest_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_basket_made": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"bTopicPurges": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_maneha_reflection_bark_played": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Knights_Hearing_Modifier": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Waterfall_Lion_Direction": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_mdhmmr_ferry": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_SH_ENC_Leaden_Key_Assassins": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Irensi_Men_Dead": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_DB_Riot": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Forge_Entered": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Hiravias_Stelgaerknown": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_old_watcher_main": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"nGrimdaState": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Marshal_At_Keep": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Sided_With_Agosti": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_blade_ing_Gland": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Player_Escape_Volunteer": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Kurren_Dead": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_myllas_wichts": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Bookcase_03_Searches": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Herald2_Dead": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_companion_sagani_watcher_react": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"nDuranceSilencingQuestion": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Cilant_Lis_Rested": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Vianna_Diary": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Yenwood_Doemenels_Used": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_crucible_knights_encountered": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Acquired_Amulet": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"nSanitarium_Death_Increment": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Russetwood_Ogres_Defeated": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Bog_Quest_main": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_gearbox_cog_removed": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Breaking_Bread_main": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_God_Words_Galawain": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Player_Garodh_Location": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Prot2_Crypt_Open": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_lucen_dilemma": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_troll_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Verzano_Fate_Verzano": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Played_Stalwart_Village_POI": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_PV_wealthy_lord": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Galawain_Quest_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_IB_Final_Prep_Convos": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_available_rim": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Raedric_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_fort_teams_neutralized": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Cwineth_Fang_Bow_Given": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_battle_prep_discussed": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Cwineth_Expedition_Cats": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_sacrificed_companion": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Raedric_Intro": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_windmill_enc_over": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Have_Baby": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_AR_0201_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Disable_Stalwart_Smoke": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Kolsc_int_miller": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Glaswal_Guards": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_1007_Earth_Switch": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_sleaf_killed": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_DB_weak_wall_si_completed": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_weald_sword": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_encampment_quest_stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_IB_Ability_Cannons": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_hunters_protected": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Archive_Key": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_SH_ENC_Goldpact": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Sagani_tradition_meaningless": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_PX1_0301_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"nLeadsReportedThisConversation": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_1004_Encounters_Cleared": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Legacy_Plate_Used": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_add_Badrwn_letter": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Knights_In_Mines": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Eder_Faith_Axis": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_troll_encountered": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Boss_Forest_Lurker_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_expedition_PoI": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Abbey_Guard_General_Warn_Speaker": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_companion_gm_dream_sequence": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Two_Story_Quest_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_crpg_ring_used": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_lodgar_state": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Chute_Roped": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Penhelm_Bark": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_1007_Flame_Switch": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Nest_Dragon_Support_Dead": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Kana_realist": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lore_Skaenite_Holy_Text": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Abbey_Pool_Info": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_stalwart_revisits": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Forge_Globe_Examine": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lore_House_Doemenel": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Did_Optional_Webb_Meeting": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Arthwn_Reward": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_stormcaller_progression": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Quest_Known": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lore_Sea_and_Her_Love": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_blade_ing_Tentacle": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_DB_Smith_Presence": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lore_Edrang_Hadret": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_celby_known": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_shade_uncovered": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Burial_Horn_Blown": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_weald_cat_Dead": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Abbey_Witness_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_mine_door_dial_direction": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Nest_Dragon_Dead": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Copperlane_Crier_Active": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_SH_ENC_Vithrack": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Galvino_Quest_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Beregan_Quest_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"nGMDream2Queued": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_CL_Rack_Activated": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Turanbert_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_shade_ignored": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_weald_wall": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_gv_bear": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"bTopicAshfallStaff": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"nDuranceConvinceCounter": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Trygil_Letter": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_skald_hireling": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_TE_Music_Burial": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_BV_wanted_criminal": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lore_Readceran_Morality_Play_1": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Hendyna_Egg": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lore_Readceran_Morality_Play_2": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_henchman_fampyr": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Doemenel_Bitter_Squash": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Reyfald_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_dinner_task_stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_merchant_dilemma": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Attacked_Forgotten": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_companion_eder_watcher_react": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Abbey_Guard_General_Warn_Speaker_Ramparts": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Abbey_Guard_Forbidden_Cooldown": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_devil_dead": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Guard_Patrol": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Doran_Deal": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"nXaurip_Mood_Inc": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Abbey_Guard_General_Warn_Speaker_Gate": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Savory_Pie": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Maw_Bridge_Affliction": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Rinatto_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Current_Act": {
+					"type": "java.lang.Integer",
+					"value": 1
+				},
+				"b_bird_Nest": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Battery_Mines_Trap_Sword": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"nBanterChanceMax": {
+					"type": "java.lang.Integer",
+					"value": 2
+				},
+				"n_Oly_Compliance": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Tuatanu_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Knight_03_Dead": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Coren_gone": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Zahua_Joined": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_SH_ENC_Hired_Killers": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_GV_Magistrate": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Master_Quest_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"nWarningGiven": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_shipment_tracks_followed": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_AR_0805_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"nWoedica_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Unlocked_Russetwood": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_elevator_position": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_companion_gm_unlock_dreams": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"nDuranceConvinceChoice": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_lucen_hireling_available": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_blade_ing_Adra": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_knows_spider_maze_exists": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Cwineth_Esmar_Prisoner": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Harond_Fooled": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Crucible_Keep_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Shadow_Soul_Light_02": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_brothel_orico_acquired": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Shadow_Soul_Light_01": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Hiravias_Wael": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Shadow_Soul_Light_03": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_beregan_solution": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Forge_vents_active": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Tealdor_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Kana_Paths": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_SH_ENC_Beetles": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Did_Moon_Escape": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_weald_might": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Played_Chasm_POI": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Despawn_Russetwood_Fampyrs": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_eorn_dilemma": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_ON_LV5_6_Cleared": {
+					"type": "java.lang.Integer",
+					"value": 1
+				},
+				"1014_Found": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_quest_lessons_stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Dodwyna_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Antelope_Lion_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Ridai_Reward": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"bWentUpstairsAfterCompletingSanitarium": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Ailef_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_encamp_caravanners_dead": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Discussed_Background": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_available_slaver": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Nedyn_Quest_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_spider_maze_scene": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Doemenel_Hearing_Modifier": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Fiorm_Body_Found": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lower_Cavern_Ogre_Truce_Active": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_watcher_security": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_bird_Oldsong": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Sided_With_Pallegina": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Recitation_Q2_Wrong": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Bloodlines_Reputation": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Thaos_Enc_Defeated": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_keydy_ring_stolen": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_08_Ruins_Drained": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Kana_Dragon": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Boss_Fighter_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_companion_gm_end": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Forge_Globe_Button_A": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_AR_0704_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Battery_Vision_Received": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Forge_Eye_Right_placed": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Lilith_Killed": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Trygil_Aelys_Asked": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Abbey_Enc_HoS_A_Hall_Attacked": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Servant_Attacked": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lore_Knights_of_the_Crucible_2": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lore_Knights_of_the_Crucible_1": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Ista_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Stalwart_Defended": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Suldrun_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Forge_Globe_Button_C": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Forge_Globe_Button_B": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Alarhi_Met_In_Market": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Convinced_Penhelm": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_(NPC_or_QuestName)_Quest_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Have_Ring": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_AR_0703_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Ambient_Copperlane_Inn_Upper": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Buyers_Remorse_main": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_know_experiments": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Boss_Lagufaeth_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Kurren_Post_Riots": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Abbey_Ondra_Secret": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Hiravias_Nature": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Battery_Mines_Treasure": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Kana_banters": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Berath_Vision": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Adaryc_disagreement": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Pallegina_Available": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_08_Cook_Convo_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_prot2_cave_searched": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Kana_quest_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Giacco_Intro": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Unwelcome_Guest_main": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Eng_Word_2": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Eng_Word_1": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Concelhaut_Note_01_Read": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Eng_Word_4": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Abbey_Vault_Guard_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Eng_Word_3": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Deryan_fort_wrap_chat": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_08_Ruins_Spot3_Occupied": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Heritage_Hill_Entered": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_mylla_dead": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Thaos_Machine_Save": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"bReceivedAcolyteSanitariumVision": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_read_journal": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_SH_ENC_Death_Guard": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_08_ogre_cave": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Boss_Menpwgra_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_1002_Ritual_Scene": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lore_The_Fangs": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Bragan_Dead": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Battery_Quest_Main": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Urwa_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Spawn_Hamor": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Prison_Uprising_Inc": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_sleaf_met": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Heralds_Enc_Defeated": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Weald_of_Fates_Cut": {
+					"type": "java.lang.Integer",
+					"value": 1
+				},
+				"b_flagon_knife_won": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Aldmar_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Eder_Available": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Tuatanu_Store": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Sagani_tradition_helpful": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_road_repair_main": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_AR_0717_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Recitation_Q3_Wrong": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Farentis_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Vignette_02_Encounter_Knights": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Durgan_Quest_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_08_Ruins_Spot1_Occupied": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Hiravias_Dead": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Start_Archive_Patrol": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_maw_gap_rope_used": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_AR_1101_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_killed_dragon_first": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_shade_convo_done": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_riverside_scene": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Reason_For_Leaving": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Aloth_dead": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_phantom_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Lords_Fort_Quest_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_SH_ENC_Wurms": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Bethwl_Dead": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_cl_relief": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_companion_kana_watcher_react": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Eska_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Rinatto_Inn": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_gramrfel_prisoner": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_08_missive_delivery": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_theorems_main": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Thugs_Killed": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Have_Fake_Jewel": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_PX1_End_Interstitial_Played": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Okrun_Impatient": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_character_durability_max": {
+					"type": "java.lang.Integer",
+					"value": 5
+				},
+				"n_Harond_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_sleaf_deal": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Fyrga_Drake_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Cwineth_Merc_Leader_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"bEderLookingForCipher": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_1002_soul_warning": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_db_white_forge_accessible": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Assassination_Debug": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Aldhelm_Quest_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_companion_pallegina_watcher_react": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Boss_Barbarian_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Forge_Recipes": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Know_About_Igrun": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_galvino_first_chat": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_1007_Wind_Switch": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Maw_Lions_By_Oernos": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Osrya_Door": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_AR_1204_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Undead_Cat": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Found_Engwithan": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Trygil_Door": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Trumbel_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Ogre_Lair_Entered": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_acquired_ryonas_breastplate": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Gareth_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_criminal_dilemma": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Battery_Frozen_Dwarf": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_maneha_reached_afm": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Dog_chase_tracker": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_skaen_hireling": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Affliction_Window": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_deathguard_attacks": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Oernos_Repopulates": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_HH_Quest_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Rymrgand_Gate_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Zoll": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Boss_SotSS_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lore_Galven_Regd": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_SH_ENC_Blights": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Aelys_Healed": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_AR_0112_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_spoke_Tamrwn": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_SH_ENC_Sellswords": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_cruel_lord_dilemma": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_machine_left_on": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Revel_Connection": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_curnd_password_known": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Aspiration_Plate_Used": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_voice_main": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Nudwin_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Boss_Xaurip_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Servant_Knocked_Out": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Verzano_Fate_Danna": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_AR_0804_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Vessel_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_leader_spotted": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Teanleycg_dice_broke": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Aloth_stole_research": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"bPlayerEngagedDuranceIntro": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Stalwart_Vision_Received": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Fyrga_Fires_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Rumbald_Paid": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Found_Mercs": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Disable_Derrin": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Reason_to_GV": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Black_Hound": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Fort_Cannon_Strike": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_God_Fight": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"1010_Found": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_disciple_hireling": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Keydy_Primed": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_start_heist": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Ambient_Brothel_Lower": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Songs_Wild_int": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Unlocked_DB_Exterior": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Penhelm_Dead": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"bTopicSalvation": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Veteran_Troops_Available": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Oernos_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Wirtan_barking": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Abbey_Panels_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_eyeless_disabled": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"nRestsTillRestConversation": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Gordy_Disposition": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Grefs_Rest_Bard_Dead": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Rabble_Cutscene_Triggered": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Webb_Mentioned_Watcher": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Fort_Gates_Seen": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Saeda_Rescue": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Smashed_Window": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lafda_Spied_Ready": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Eder_Knights_Talk": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_brothel_gjefa_hireling": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Ambient_Lighthouse": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Prot2_Blood_Pool": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Nedmar_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Met_Caldara": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Icantha_pride_burn": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_companion_gm_mind_wipe": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Bitter_Squash": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Irensi_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Odrun_Gone": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Erona_Reputation": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Bleakwalkers_killed": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"1015_Found": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Gedmar_Quest_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Flagon_Innkeeper_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Boss_Deadfire_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"nGMDream1Queued": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_animancer_dilemma": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"bDuranceFriends": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_black_hound_discount": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Verzano_Fate_Final": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_lever_fixed": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_entered_brothel": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_brothel_big_durmsey_acquired": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Zahua_Swears": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_maneha_thaos_bark_played": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Noonfrost_Key_Warn": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Kana_Od_Nua": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Fishery_Galvino_Quest": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Dunstan_Dead": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_naca_dead": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Aspiration_Convo_Completed": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Okrun_Ice_Hole_Protection": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Bridge_Bark_Playing": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_temple_ondra_token_known": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_owynna_met": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_gilded_wolf_enc_done": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Tenfrith_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Ailef_Killed": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"nCafden_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Edmar_favor": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Wengra_Final_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_TE_Music_Northweald": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lore_God_Galawain": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Aloth_ending": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Lafda_Offering_Chest": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Ambient_GV_Inn_Lower": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Padebald_Ambush": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Doemenel_Hireling_Available": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Alarhi_Attacked_In_House": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lore_God_Skaen": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Cliaban_Bridge": {
+					"type": "java.lang.Integer",
+					"value": 1
+				},
+				"b_Spawn_Wenfeld": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_weald_ruins": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lore_Discoveries_of_Padgram": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_elmshore_crucible_ambsh": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Kraken_Autosave_Done": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_AR_0806_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Got_Affidavit": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_find_sparfel": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_IB_Hammer_Fragment": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Knows_About_Thaos": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_merc_warning": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Odrun_Relic_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_face_fow_reavealer": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_BB_Sweynur": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lore_Eir_Glanfath_2": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lore_Eir_Glanfath_1": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_brothel_big_durmsey_hireling": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Aspiration_Trait": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_aed_noble_hireling": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"nIrwenState": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Cliaban_Water_Inspected": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Bledha_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Mind_Hunter_Smoked": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Tower_Off": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Beodmar_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Recitation_Q1_Wrong": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_E3_Interstitial_OFF": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_pwgra_dead": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Battery_Main_Door": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Gordy_Has_Dagger": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Raedric_Moat_Interaction": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Wengra_or_Daryn_Dead": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Aloth_encounter_Killed": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_gv_wilds_retraversal": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Aelys_Spawn": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"1012_Found": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Abbey_Enc_HoS_A_Horde_Attacked": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Odrun_Question_Node": {
+					"type": "java.lang.Integer",
+					"value": 1
+				},
+				"n_Icantha_Aggro": {
+					"type": "java.lang.Integer",
+					"value": 1
+				},
+				"b_Kana_Steward": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"bDuranceTopicTitle": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_brothel_iqali_hireling": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Ambient_Copperlane_Inn_Lower": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Maw_Bridge_Rope": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Heodan_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_character_reached_point": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Cwineth_Northweald_Leave": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Concelhaut_Dead": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"nRandomWaelVariable": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"1013_Found": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Sanitarium_Quest_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Imatl_Quest_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_blade_halves": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_1006_Encounters_Cleared": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Calisca_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Zahua_Legacy_Axis": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Teir_Evron_Effects": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Eder_Missed_Standard_Acquisition": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Prisoner_Uprising_Triggered": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Discovered_Records": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_finished_burning_building_si": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_maneha_morning_bark_played": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Abrecan_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Heodan_Injured": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Kana_Sanitarium": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Stalwart_Delegation_Killed": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Breith_Eaman_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_ON_LV1_Cleared": {
+					"type": "java.lang.Integer",
+					"value": 1
+				},
+				"n_Berath_Quest_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Ridai_Hearing": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_AR_0301_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_has_bellmet": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Pallegina_At_OG": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Aloth_LK_trigger_tripped": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_tamrwn_dead": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Fishery_Galvino_Quest_main": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_PX1_Completed": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Aldhelm_Tower_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Dragon_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Specific_Background": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Simoc_Fight": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_defeated_ghost_encounter": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Waterfall_Camp_Found": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Seal_Green": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"nBanterChanceMin": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Pallegina_At_Trading_Company": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Ingroed_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Lumdala_Interrogation_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_left_person_carried": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_deal_with_shade": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_1007_Rain_Switch": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_brothel_gjefa_acquired": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Alwah_Returns": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Forgotten_Killed": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_stronghold_available": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Desthwn_Dead": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Yenwood_Knights_Used": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Aeldin_Talk": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_mad_vithrack": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Cwineth_Expedition_Found": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Dorvhal_Killed_Oldsong": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_told_about_diving_helm": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Beafi_encountered": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Fort_enemy_death_count": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Maw_Lions_Killed": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_scared_guard_barking": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_banshee_phrase": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Zahua_Waterfall_Spirit_Active": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Have_Poison_First": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Ethik_Chanter_Rite": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Hendyna_Talk": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_read_inscription_on_blade": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lore_Magranic_Holy_Text": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_AR_0803_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_devil_quest_state": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Harond_Bark_Fired": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Fiorm_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_prot2_wymund_confronted": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Tealeycg_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Thyrsc_Quest_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_told_about_thyrsc": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Waldr_Lisc_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Abbey_Guard_General_Speaker": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_eothas_spirit_seen_chamber": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_RH_priests_convinced": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Abrecan_Dead": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_AR_0802_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Abbey_Guard_General_Cooldown": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Osric_Angry": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_shipment_corpses": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_08_woodend_crucible_ambsh": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_war_chat": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Concelhaut_Note_04_Read": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_vith_scouts_Dead": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_bird_Wilderness": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_family_request": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lore_God_Eothas": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Kolsc_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_lagufaeth_nests_searched": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_soul_twin_main": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Gordy_Quest_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Adaryc_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Lord_Reymont_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Buyers_Remorse_delved": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Knights_Friend": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_AR_0801_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Faint_Of_Heart_main": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"nTempleAccess": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Nest_priests_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Kolsc_Quest_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Abbey_Area_Current": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Delem_Bird_Solved": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Doemenel_Lower_Floor_Entry": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Dozens_Outlook": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_weald_main": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"nDuranceQuestState": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_visitors_hanged": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_watcher_chamber": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Abbey_Guard_General_Out_Warn": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Rehstin_Reputation": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_ON_LV2_Cleared": {
+					"type": "java.lang.Integer",
+					"value": 1
+				},
+				"n_Iovara_Terms": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_SUP_petitioner": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_AR_0401_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Tuatanu_Shipment": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Messenger_Cutscene": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lafda_Pushed": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Battery_Mines_Hall_01_Bark": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Sagani_conclusion": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_wolf_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Thaos_Showdown": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Battery_Mines_Trap_Helm": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_merc_captain_hireling": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_know_spore_can_talk": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Abrecan_Dissented": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Chute_Ledge_Attempt": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"nThaosLeavingReason": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Imatl_Robbed": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Iselmyr_choice": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lore_Admeth_Hadret_2": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lore_Admeth_Hadret_1": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Cargo_Stolen": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_AR_0811_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_08_Ruins_Spot2_Occupied": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Aufra_Status": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Pallegina_Quest_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_asked_about_lagufaeth_quest": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Andred_games_lost": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_ON_Fampyr_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_available_animancer": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Osmaer_Ogre": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"nLeftInlay": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_beregan_favor": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_workshop_level_A": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Odrun_Relic_By_Chance": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lore_Tides_and_Moons": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_workshop_level_B": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Aloth_inn": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Rabble_Dispersed": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Fight_Danna": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Boss_Wizard_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Allow_Stalwart_Hello": {
+					"type": "java.lang.Integer",
+					"value": 1
+				},
+				"n_fort_player_state": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Chorus_Pieces_Found": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Urgeat_dead": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_endstate_status": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_found_perly": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Boss_Vithrack_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Exit_Location": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Bargain_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Ridai_Quest_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Merdreth_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_deathguard_provoke": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"bReceivedAcolyteHeritageHillVision": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Teanleycg_dice_underway": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_shade_confronted": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Zahua_Traps_Active": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_AR_0706_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Eder_Iovara_Talk": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Cilant_Lis_Intro_Timer": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Tower_Transition_From_Top": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_IB_Final_Prep_Beregan_Leave_Point": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Reaction_Barks": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Reached_Tower_Top": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_SH_ENC_Spectres": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Wind_Encouter_At_Waypoint": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Rumbald_Ogre_Info": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Cilant_Lis_Quest_Update_Timer": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_px2_Fort_knowledge": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Sweynur_slain": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Beregan_Dead": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Marceno_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Bog_caravanner_corpse": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_dunryd_hireling": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Soul_Vessel_Variant": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Harond_Pushed": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Penhelm_On_Patrol": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Reymont_Informed": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Stalwart_Interiors_Visited": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_ogne_score": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"1011_Found": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Hiravias_Galawain": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_weald_wrestling": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Alarhi_Cage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"bDuranceCompletedIntro": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lore_God_Abydon": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Cliff_Party_Member_Sent": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Lafda_Priests_Gone": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Flail_Alarm_Triggered": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Noonfrost_Warn_02": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_TE_Music_Elmshore": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Noonfrost_Warn_01": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Abbey_Musing_Info": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_guards_Spotted": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_lk_dilemma": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_orlan_awake": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_standing_stones": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Vignette_01_Encounter_Knights": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_chasm_rescue_victim_damage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Harond_Guard_Talk": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lore_The_Calendar": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_08_missive_seal": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_aedyran_statue_ON": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"bTopicSaintsWar": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_AR_0101_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_SH_ENC_Crucible": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_machine_right_powered": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Scale_Placed": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_bleakwalker_convinced": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_prot2_hendyna_aelys_info": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_add_Badrwn_note": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Hiravias_Available": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lore_Monsters_Deadfire_Archipelago": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_maneha_flirt": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Cargo_Thieves_Found": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_wealthy_lord_dilemma": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"nThristwnMad": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_helig_status": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Stalwart_Fishery_Closed": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_wolf_hunters_dead": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"bDuranceSpiritShear": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lore_St_Waidwen": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Ygrid_discovered": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Bronze_Spear_Examined": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Grynde_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_started_in_stalwart": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Danna_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_HH_Gate_Open": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lliras_Fight": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"bDuranceKnowStaff": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_SH_ENC_Glanfath_Fangs": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Boss_Cipher_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lore_God_Magran": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lore_Dunryd_Row": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Oernos_Arrives": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_giacco_undead_guards": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Raedric_Undead_deaths": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Asked_Doemenel_Invite": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Iovara_Vision_Camp": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Harond_Guard_Info": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_tower_door_lie": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Reymont_Dead": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Fortin_Killed": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_right_person_killed": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_PX2_Critpath_Umbrella": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Suldrun_dead": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Enable_Yenwood": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Concelhaut_Note_03_Read": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Odda_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_lagoon_xaurips_dead": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Alwah_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Carousers_banter_playing": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"bTopicGodhammerConstruction": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"nGalawain_Coalition_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Snowgre_Bands_Defeated": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Kana_Dead": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Kana_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Nest_quest_main": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_companion_gm_rest_count": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_PX1_0307_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Rumbald_Talk": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Iselmyr_favor": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Imatl_Paid": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_bricanta_store": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Prot2_Crypt_Key": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Vesgel_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_maneha_jolly_bark_played": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Kolsc_int_aufra": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_eorn_status": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_keydy_dead": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Calisca_escape": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Helig_Amulet_Removed": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Animancy_Hearing_Judgment": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Nyrid_Status": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Rymrgand_Vow": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Pallegina_Dead": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Odrun_Lagufaeth_Leaves": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"bBanterDisabled": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Saeda_At_Keep": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Entered_WH_Ready_for_Quest": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_stairs_found": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_bb_state": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Hilde_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_brothel_orico_hireling": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"bPlayedCourtLanding": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_turned_in_nedyn": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_berathite_hireling": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Osrya_Known": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_has_beam_fallen": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Stalwart_Villagers_Killed": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Fyrga_Drake_Scene": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Durgan_Steel_Recipes": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Nest_Wurmling_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Zahua_SI_Complete": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_MercenaryHire_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lore_Eothasian_Holy_Text": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Icantha_Goods_Visible": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Abbey_Vault_Approached": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"nPriceMain": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Kana_Ambush_Party": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Ondra_Examples": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_chasm_rescue_rope_durability_max": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Odrun_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_crucible_hireling": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Kaenra_Dead": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Eldrid_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_know_temple_abydon": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Aloth_rest": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Aldhelm_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Have_Poison": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Noonfrost_Found": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Fishermen_killed": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_lots_chosen": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Foelmar_alive": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lore_The_Dyrwood_1": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lore_The_Dyrwood_2": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Cilant_Lis_Rockslide_Timer": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lore_The_Dyrwood_3": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lore_The_Dyrwood_4": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lore_The_Dyrwood_5": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lore_The_Dyrwood_6": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Calisca_gone_exterior": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_inn_rennovated": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_archives_main": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Ridai_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Eder_Post_Standard_Dialogue": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_1012_Encounters_Cleared": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_db_west_tower_upper_accessible": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Bargain_Money": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Ally_Ogre_Available": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Buyers_Remorse_resolution": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Marshal_Alone": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_brothel_poi": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Russetwood_Ogre_Truce_Active": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_relief_examined": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_FF_Crier_Active": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_harond_bridge_guard": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Eder_Riots_Talk": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Llensi_Warn": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Taena_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Twin_Elms_Hostile": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Kana_truthseeker": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Ogre_Fate": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Abbey_Mural_Panel_Current": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_know_poem": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Scepter_Pieces_Found": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Sul_Intro": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_companion_gm_know_BB": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Twin_Elms_Warn_C": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Twin_Elms_Warn_A": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Twin_Elms_Warn_B": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_TE_Music_Sun": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Aldhelm_Hunger_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_1011_Encounters_Cleared": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_merc_note_read": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Black_Cat": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Peasant_Payoff": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Erona_Suicide": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Simoc_Key": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Found_Treasure": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Battery_Mines_Foreman_Key": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Missing_Cargo_Found": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_devil_reading_witnessed": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Long_Bosc_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_LK_Ambush_01": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Delem_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Maea_Discount_Given": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_companion_aloth_watcher_react": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Sul_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Giftbearer_Warning": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Aefre_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_PX2_Started": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Galawain_Vow": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_mine_door_stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"1002_Found": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Alarhi_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"1009_Found": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Nudwin_Patrol": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_01_Crucible_Knight_Ambush": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_weald_Beast_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_buried_secrets_main": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Chest_Unlocked": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Adaryc_Final_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"nNightPaid": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Dorvhal_Killed_Burial": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Abrecan_Quest_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Pallegina_At_Embassy": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_gas_chamber_bark_fired": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Cliaban_Water_Weapon": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Herald1_Dead": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_bricanta_dead": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_severed_spore_connection": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_hood_toggle": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Act_2_Achievement": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Maw_Alt_Entrance": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_gv_Bell_Event": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lliras_Killed_Hall": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Ambient_Dyrford_Inn_Lower": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Clyver_Refused": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_AR_0718_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Ogre_Groups_Defeated": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_mercenary_prisoner": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_High_Tide": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Herla_killed": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Eder_Post_Standard_Dialogue_Complete": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Fiorm_Stelgaer_Pack": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Odrun_Leaves_Town": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Cwineth_Killed_At_Inn": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_moedred_status": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_player_party": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Background_Chosen": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Kurren_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Tanoss_Thrall_Message_Delivered": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Kana_region": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Abbey_Kaoto_Dreams": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Zahua_Died": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Trygil_Gone": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"bTopicWatcherTheology": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_PX1_Will_Quest_main": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Adra_Disc_Forge_Placed": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"1004_Found": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Stalwart_Village_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_ailef_prisoner": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Simoc_Poison_Attempted": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_kestorik_dilemma": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lore_Aedyran_Customs": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lore_God_Ondra": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Fyrga_Searing_Falls_Location": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Vela_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Know_Derrin_Father": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_eorn_prisoner": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Simoc_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Dozens_Token_Planted": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_rite_Potion": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Giacco_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_SH_ENC_Ethik_Nol": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Unlocked_Longwatch": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Boss_Fampyr_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_BB_Trumbel": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Battery_Mines_Trap_Shield": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Found_Derrin": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Revealed_Iselmyr": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Grefs_Rest_Bard_Singing": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Irensi_Leaves": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Webb_Message_Delivered": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Alarhi_Met_In_House": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_eothas_bell_door_seen": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Harond_Resolved": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_egg_taken": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_lucen_prisoner": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_infiltration_hour": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_fishery_fishing_line_known": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n1009MachinesDestroyed": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Met_Icantha": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Ruin_Banter_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Abbey_Enc_HoS_A_Pool_Attacked": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Raedric_Tower_Interaction": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Andred_knife_andred_wins": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Hylea_Vision": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Have_Jewel": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Saeda_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_mercs_killed": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Knight_04_Dead": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Aldhelm_Food": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_waidwen_hireling": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Gathbin_Army_State": {
+					"type": "java.lang.Integer",
+					"value": 5
+				},
+				"n_Aloth_LK": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Eldrid_Dead": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Gaderman_Dead": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Osmaer_Locals_Talk": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_vith_base_attacked": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Berath_Vow": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_AR_1301_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Pallegina_Met": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Abbey_Panel_D": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_egg_lowered": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Abbey_Panel_C": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Fyrga_Dragon_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Abbey_Panel_B": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Enable_LK_Encounters": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"1007_Found": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Abbey_Panel_A": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_character_durability": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Cevestin_killed": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Hiravias_Quest_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"bBanterReady": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"bRestedAtInn": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Abbey_Forbidden_Warned_Zone": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_RIM_exotic_wares": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Beregan_Final_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Harond_Convince_Int": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Ambient_Hearthsong_Inn": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_hid_scroll": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_TE_Music_Hearthsong": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_cilant_lis_state": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Cort_At_Inn": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Riply_Rescue_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Kana_confident": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Emery_Traitor": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Aloth_fight_played": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Spawn_Morug": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Noonfrost_SW_Door_Warn": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Gods_Favor_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Abbey_Panels_Order": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Abbey_Guard_Mural_Coolio": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Galawain_Reputation_Oernos": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_PX_Okrun_Heirlooms": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_weald_trials": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Tallan_ovate": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Lafda_Spied": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"nDuranceQuestionCounter": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Maea_Lowered_Prices": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_harmke_addendum": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_cursed_estoc_main": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_dragon_attacked": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Desthwn_Question_Toggle": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_companion_gm_recruited": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Cwineth_Quest_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_companion_volunteer": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Galawain_appeased": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_devil_transformation_chat": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_ruin_exited": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Dozens_Hireling_Available": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"nSerelMet": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_lagufaeth_egg_main": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lore_God_Berath": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Dozens_Hearing_Modifier": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Doemenel_Friend": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_goldpact_hireling": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Osric_Disposition": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Seal_Red": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_steward_barrier": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_told_Palloc_fishing_line": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Tealdor_105": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_cilant_lis_screenshake": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Nest_dragon_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_crpg_door": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Zahua_Pedestal_Spirit_Active": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Ish_state": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Palloc_motivations_known": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Iron_Flail_Fort_Besieged": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Knights_Superfriend": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_gv_inn_maid_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_korgrak_hireling": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Raedric_Disguise": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lore_True_Stories": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Zahua_Unavailable": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_1006_soul_warning": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_taking_dragon_item": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Noonfrost_Alert": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_weald_water": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Boss_Troll_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_lots_max": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_beregan_help_accepted": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Thieves_Plans_Known": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_ogre_task_stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Character_Creation_Opened": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Disable_Knight_Barks": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_PX2_Hammer_Reactivity": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Odda_Quest_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"nWael_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_blade_paths_Ingredients": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Andred_Status": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_resolvestate": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_cave_rope": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"bTopicHollowborn": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Thyrsc_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Osrya_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_PV_aedyran_dignitary": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Erona_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Osmaer_Talk": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"bDuranceTopicTeachings": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_quest_start": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Lafda_Spied_Interaction": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Cwineth_Reward": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_PV_war_hero": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Okrun_Lagufaeth": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"bKnowsDuranceBuiltGodhammer": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Nyrid_Discount": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_elevator_si_completed": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_PX2_Okrun_Quest_Operations": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Abbey_Threat": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Eder_Met_Maerwald": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Qexetl_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_CR_Critpath_Complete": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Chute_Spell_Cast": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Denied_Iovara_Answer": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lore_The_Aedyr_Empire_2": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lore_The_Aedyr_Empire_1": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_PX2_Lafda_Loot_Given": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_weald_ruins_trigger": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_caravan_murder": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Pelden_Hostile": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_war_criminal_hireling": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_draw_blade_easier": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Odema_dead": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_galvino_nice": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_ON_LV12_Cleared": {
+					"type": "java.lang.Integer",
+					"value": 1
+				},
+				"n_CR_Quest_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_eothasian_water_off": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Maea_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Yenwood_Ogres_Used": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Heist_Death_Increment": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_maerwald_blights_dead": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_ogre_volunteer": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Wenan_Refused": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Battery_Mines_Foreman_Encounter": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Andred_games_won": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_vithrack_Spotted": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Pallegina_Ambush_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Vignette_01_Encounter": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Delemgan_Task_main": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Cwineth_Nortweald_Intro": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Hiravias_Ruins": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Irensi_Pacifies_Lions": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Llensi_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lore_The_Moons_of_Eora": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_08_Ruins_Adra_Placed": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_devil_met_ethelmoer": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Cwineth_Fangs_Leave": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_RIM_valian_merchant": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"nDuranceDream2Queued": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Odrun_Giftbearer_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Palloc_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Antelope_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Thug_sneak": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lore_Language_Aedyran": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Know_Key_Missing": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_SH_ENC_cruel_lord": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_mercs_discussed": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Bloodlines_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Aldhelm_Sacrifice": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_play": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_od_nua_secret_exit": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_lurgolder_dead": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Waterfall_Spirit_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Padebald_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Galawain_Vision": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_sickly_xaurip_state": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_valewood_climbed_wall": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Kaoto_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Forge_Efficient_Recipes": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_summoners_state": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Odrun_Lagufaeth_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_galvino_dead": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Sagani_Northweald_Scene": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Animancy_Hearing_Score": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Eder_Dead": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Teanleycg_dice_player_wins": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Maea_Quest_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_bb_character_chosen": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Legacy_Trait": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Played_Last_Stand_Scene": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_slaver_request": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Nest_Dragon_Support_Spawned": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Ambient_Dyrford_Inn_Upper": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Theorems_Aquired": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Ambient_Brackenbury_Inn_Lower": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lore_Ethik_Nol": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Raed_Deathguard_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_shade_dead": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Calisca_gone": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Iovara_Court_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_God_Favor": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Verzano_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_hook_used": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"nDuranceAskAboutSomethingElseIntro": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Ranga_Status": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Osrya_Intro": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_eorn_past": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_PX2_end_decision": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_burning_building_help": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_(NPC)_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Abbey_Enc_HoS_Guards_03_Attacked": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Webbing_Removed": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_let_gamel_live": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Chorus_Quest_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Kana_Gabrannos": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Cwineth_Fang_Leader_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_SH_ENC_Skeletons": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Dunryd_Guard_Bark_Delay": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_PX2_Okrun_Quest_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_SH_ENC_Bandits": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Arthwn_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Flagon_Discount": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Abbey_Kaoto_Doubters_Dead": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Larha_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Vianna_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_thieves_spotted": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_PX2_DB_Reactivity": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Aranroed_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_companion_any_watcher_react": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"1006_Found": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Rehstin_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Elcga_Bark": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Purnisc_Location": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Pro_Pallegina": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Zahua_Antelope_Active": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_IB_Ability_Ogres": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Iovara_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Glimmerguard_Decision": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Prisoner_Punish_Inc": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lore_Berathian_Holy_Text": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_quest_giver_position": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Alpha_Body_Found": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Lafda_Ice_Hole_Chest": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_machine_middle_powered": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_08_Ruins_Outer_Circle_Examined": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Moedred_Dead": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Sul_Showdown": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Spawn_Pallegina_Trading": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Magran_Stone_Fragment": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_vith_scouts_Spotted": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lore_Glanfathan_Poetry": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_machine_right_on": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_08_pilgrim_move": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_machine_left_powered": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Prot2_Dungeon_Discovered": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_AR_0001_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Spoke_With_Steward": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Keydy_Assisted": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Eder_Dozens_Talk": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Aelys_Swayed": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Yenwood_Battle_Complete": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_spoke_Naca": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_spirit_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Alarhi_Beetle": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Kana_idealist": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Osmaer_Hendyna_Talk": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Harond_Offended": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_companion_gm_dead": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Abbey_Kaoto_Doubters_Attack": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_eothasian_switch_found": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Guilty_Party": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Sagani_dead": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"1005_Found": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Iovara_Relationship": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_stronghold_cleared": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_weald_resolve": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"bDuranceDead": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Thaos_Machine_Unlocked": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Giacco_carving": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Sanitarium_Critpath_Complete": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Er_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Osmaer_Aelys_Talk": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Imatl_slain": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Zahua_Final_Vignette_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Abbey_Moon_Quest_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_AR_0006_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_chest_lock_broken": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Urthal_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_mysteries_PoI": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_companion_gm_failure": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Battery_Level_Completed": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Abbey_Vault_Door_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Eder_Cipher": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_twig_snapped": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_caravanwolves_dead": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Doemenels_Superfriend": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_weald_figure_int": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Harond_Helps": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"nOverseersMain": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_AR_0601_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Alarhi_Back_Market": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Abbey_Enc_HoS_Guards_Attacked": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Zahua_Vision_Active": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_ruin_traveled": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Aloth_intro": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_marceno_info": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Boss_Ogre_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Saeda_Quest_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Osmaer_Aeldin_Talk": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Karon_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Vianna_Roommate_Intro": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Einden_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Azo_Fired": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Eder_Acquired_Standard": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Ixtli_Notebook_Found": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Waterfall_Lion_W_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Falanroed_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Switch_Dialogue_Active": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Bookcase_01_Searches": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_ailef_dilemma": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"nRightInlay": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Abbey_Guard_General_Warn_Speaker_Ridge": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"1001_Found": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_bird_Hearthsong": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Osmaer_Winfrith_Talk": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_quest_inquired": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lore_Dyrwoodan_Farce_2": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Fort_frontal_assault": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_maneha_aggro": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Calisca_Finale": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lore_Dyrwoodan_Farce_1": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_God_Words_Rymrgand": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Battery_Level_Current": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Pillars_lit": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Einden_Leaves": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_1005_Drake_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_IB_Beregan_Attackers_Dead": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lore_The_Dozens": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Eder_Read_Standard": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Eder_Records_Ready": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Masca_Banished": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_know_crystal_location": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"bNedynDead": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_SH_ENC_Leaden_Key": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_dignitary_dilemma": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_OdNua_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"nEarlyCreditsScenario": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_AR_0501_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Player_Killed_Danna": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Affliction_Skaen_Bridge": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Yenwood_Battle_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_abydon_argument_burden": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Wymund_Allied": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"nThristwnState": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Adaryc_agreement": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Harond_Intro": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Berry_Wolves_Dead": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_maneha_pool_decision": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"nHunt_Down_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Erona_Position": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Ixtli_Info": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Niah_Quest_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_lost_child_main": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Burial_Isle_Current": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_mothers_plea_main": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Aelys_Fooled": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Ogre_Cave_Vision_Received": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_war_hero_dilemma": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Niah_Timer": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Nonton_Quest_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_met_pensi": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_tanoss_aid": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Watch_Informed": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_bandit_enc_over": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Noonfrost_Reputation": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lore_Valian_Tragedy": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_warden_wilds_hireling": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Sacred_Instruments_main": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Ridai_Hearing_Lie_Fiorm": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Rymrgand_Quest_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Pedestal_Spirit_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_drunkard_dilemma": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Ending": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_PoI_Barks_Stronghold": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_devil_recruited": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Stout_Quest_main": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Desthwn_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_critpath_water_state": {
+					"type": "java.lang.Integer",
+					"value": 1
+				},
+				"b_player_sneak": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Cearu_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Jailer_Bark_Fired": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Alwah_Freedom": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"nSerelSleep": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_egg_tied": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Dyrford_Hollowborn": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Kolsc_int_smith": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Sweynur_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_interacted_with_forge": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Angry_Knights": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Noble_Attacked": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Doran_Discount": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_SH_ENC_Trolls_Oozes": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Wirtan_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_lots_cast": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_observed_lagufaeth_tracks": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_sleaf_hostile": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Legacy_Convo_Completed": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Owynna_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_brothel_aldwyn_acquired": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"nRymrgand_Coalition_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_vanguard_hireling": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Alarhi_Attacked_In_Market": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Abbey_Enc_HoS_Patrol_02_Attacked": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"nCurrentDefianceBayDistrict": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Abbey_Witness_Machine_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Pallegina_Decision": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Raedric_Hold_deaths": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Played_Copperlane_POI": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Haeferic_Tattled": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Maw_Bridge_Inspected": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Aefre_Found": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_IB_Ability_Readcerans": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Aldhelm_Degenerated": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_perceived_thin_ice": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_guardian_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Noonfrost_Stealth": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_abydon_arguments_won": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_ON_Fampyrs_Dead": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_God_Words_Berath": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Deathguard_Greeter_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_burning_building_active": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_valian_mage_hireling": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Affliction_Cliaban_Bridge": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Level_11_Bounties_Complete": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_wisp_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_seen_sameth": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_AR_0008_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_foreman_killed": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_mercenaries_hostile": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Boss_Paladin_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Kana_Tablet": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"nDuranceDream1Queued": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_merc_mind_hireling": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Abbey_Mural_Info": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Clyver_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lore_Language_Glanfathan": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_beregan_help_refused": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_know_dragon_involvement": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_masters_tools_main": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Crucible_Hireling_Available": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_eothas_spirit_seen_altar": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Rumbald_Ogre_Resolved": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_eothas_critters_encountered": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Faction_Palace_Invite": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_spoke_with_dragon": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Eder_Acquired_PreMaerwald": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_ON_LV3_4_Cleared": {
+					"type": "java.lang.Integer",
+					"value": 1
+				},
+				"b_Given_Stout": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Abbey_Pool_HoS_Danger": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_forton_dead": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Suldrun_druid_known": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Larha_Quest_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_db_great_hall_accessible": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_doemenel_hireling": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Chute_Treasure": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_defala_told_crimes": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Leyra_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Glaswal_Elves_Gone": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_crucible_knight_warning": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Ice_Door_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_current_dilemma": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_ON_LV13_Cleared": {
+					"type": "java.lang.Integer",
+					"value": 1
+				},
+				"bDuranceMagranAspects": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Aloth_autonomy": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_hostile_miners_situation": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_weald_gem": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Dunstan_Golem_Trap": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"bTopicGodhammer": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Abydon_Shrine_Quest_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_PX1_0201_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Tablet2": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Tablet1": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Aelys_Explanation": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lore_God_Woedica": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Abbey_Tear_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Forge_Eye_Last": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Level_10_Bounties_Complete": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Thugs_Vs_Noble": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Yenwood_Return_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Weyd_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_know_book": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Sanitarium_Hostile": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Tablet4": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Leyra_Defeated": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Rumbald_Ogre_hired": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_exterior_approached": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Tablet3": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Have_Note": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Gordy_Punished": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_IB_Foundry_Transition": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Alarhi_Remove_Cash_Once": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Tallan_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_unwanted_finished": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_blade_ing_Venom": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Ice_Floes_Frozen": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_vith_guards_Dead": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Yenwood_Paladins_Defeated": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Revel_Leader": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_slept_in_alpine_lair": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_sided_moedred": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Boss_Chanter_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Odrun_Quest_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Boss_ODHL_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Cletlan_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Fiorm_Death_Clues": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Raedric_Berathians_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Aelys_Fate": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Odrun_Relic_Found": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Knight_02_Dead": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Yenwood_Dozens_Used": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_maneha_recruited": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Iselmyr_trigger_tripped": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_gv_mill_enter": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_In_Whitestone_Hollow": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_PX2_Completed": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Aloth_authority": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lafda_Question_Node": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_blade_paths_Parts": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_brothel_aldwyn_hireling": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Baelsyr_lever": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lore_The_White_that_Wends": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_HH_Tower_Unlocked": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_anslogs_xaurip_ambush": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Borrowed_Initiate_Hood": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Pedestal_Lion_State": {
+					"type": "java.lang.Integer",
+					"value": 1
+				},
+				"b_Lore_Woedican_Holy_Text": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"bDuranceTopicGodhammerRobes": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_AR_1401_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Webb_Message_Area": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Angry_Doemenels": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Kurren_Smoked": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Kern_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_weald_ruins_si": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_SH_ENC_Raedric": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Rogue_Main": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lore_Abydons_Hands": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_nridek_state": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Abbey_Guard_General_Warn_Speaker_West": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_thug_hireling": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_chain_fixed": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_FF_Exit_Open": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"nIshGone": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Pillar_A": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Pillar_C": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Pillar_B": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Ally_DB_Available": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Pillar_E": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Pillar_D": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Pillar_F": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lore_The_Blacksmith_Knights": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lafda_Qexetl_Exchange_Detected": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_maneha_ondrite_spy": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Harond_Convince_Will": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_weald_thorns": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"nConfront_Thaos_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Cort_Quest_Stage": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lafda_Spied_Interaction_On": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lore_The_Great_Western_Stag": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_ON_LV7_9_Cleared": {
+					"type": "java.lang.Integer",
+					"value": 1
+				},
+				"n_Osmaer_Convince": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Battery_Base_Exit_Door": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_fampyr_hireling": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_HH_Guards_Attacked": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_flagon_wine_known": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Trygil_Intro": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_1013_Encounters_Cleared": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_BV_town_drunk": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_brothel_lyrinia_acquired": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Abbey_Alt_Lowtide_Intro": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_critpath_GV_state": {
+					"type": "java.lang.Integer",
+					"value": 1
+				},
+				"b_Know_Engwithan": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"nXaurip_Patrol_Inc": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Abbey_Guard_Forbidden_In_Warn": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_chasm_rescue_has_wrenched_shoulder": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Lafda_Refuses_Info": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_deathguard_main": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_blade_paths_Forged": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Abbey_Guard_Convo_Serv_01": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Thulagr": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"nNedynState": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Sul_Showdown_Cut": {
+					"type": "java.lang.Integer",
+					"value": 1
+				},
+				"b_brothel_worker_stronghold": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_HH_Critpath_Complete": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_weald_dexterity": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_chasm_rescue_rope_durability": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Wengra_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Cwineth_Merc_Fire_Given": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_scared_guard_intro": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Fought_Low_Tide": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Angry_Dozens": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Chute_Fall": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_aefre_prisoner": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_near_steward": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_experiment_request": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Thug_bribe": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Emery_Released": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Osmaer_Killed": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Urgeat_Intro_Complete": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_masters_tools_items": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_found_key": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Teanleycg_dice_tean_wins": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Yenwood_Berserkers_Defeated": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Cwineth_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Iron_Brand_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Harond_Tricked": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_chasm_rescue_time": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Llengrath_State": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_Anamenfath_Reward": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_galvino_rude": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"b_Yenwood_Readcerans_Used": {
+					"type": "java.lang.Integer",
+					"value": 0
+				},
+				"n_abydon_argument_stuck": {
+					"type": "java.lang.Integer",
+					"value": 0
+				}
+			}
+		},
 		"Global": {
 			"WorldTime": {
 				"RealWorldPlayTime": {

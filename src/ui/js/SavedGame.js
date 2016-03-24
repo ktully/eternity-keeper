@@ -165,9 +165,9 @@ var SavedGame = function () {
 	};
 
 	self.init = () => {
-		self.html.searchRaw.keyup(filterTable.bind(self.html.searchRaw, self.html.rawTable));
+		self.html.searchRaw.keyup(filterTable.bind(self, self.html.searchRaw, self.html.rawTable));
 		self.html.searchGlobals.keyup(
-			filterTable.bind(self.html.searchGlobals, self.html.globalsTable));
+			filterTable.bind(self, self.html.searchGlobals, self.html.globalsTable));
 	};
 
 	self.state = $.extend({}, defaultState);

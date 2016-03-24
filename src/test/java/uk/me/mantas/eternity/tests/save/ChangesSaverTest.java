@@ -42,12 +42,13 @@ import uk.me.mantas.eternity.tests.TestHarness;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.*;
+import java.util.Hashtable;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Optional;
 
 import static org.joox.JOOX.$;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 import static uk.me.mantas.eternity.EKUtils.findComponent;
 import static uk.me.mantas.eternity.EKUtils.unwrapPacket;
@@ -294,7 +295,7 @@ public class ChangesSaverTest extends TestHarness {
 		assertEquals(Enum.ONE, enumFailTest);
 
 		verify(mockLogger).error(
-			"Client returned non-existent enum value '%s' for class %s."
+			"Client returned non-existent enum value '%s' for class %s.%n"
 			, "THREE"
 			, Enum.class.getName());
 	}

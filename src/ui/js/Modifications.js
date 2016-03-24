@@ -112,6 +112,26 @@ Modifications.prototype.save = function () {
 			return character;
 		});
 
+		for (var p1 in data.globals) {
+			if (!data.globals.hasOwnProperty(p1)) {
+				continue;
+			}
+
+			for (var p2 in data.globals[p1]) {
+				if (!data.globals[p1].hasOwnProperty(p2)) {
+					continue;
+				}
+
+				for (var p3 in data.globals[p1][p2]) {
+					if (!data.globals[p1][p2].hasOwnProperty(p3)) {
+						continue;
+					}
+
+					newData.globals[p1][p2][p3].value = data.globals[p1][p2][p3].value.toString();
+				}
+			}
+		}
+
 		return newData;
 	};
 
