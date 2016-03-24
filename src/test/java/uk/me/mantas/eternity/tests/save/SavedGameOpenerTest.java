@@ -32,9 +32,7 @@ import uk.me.mantas.eternity.Logger;
 import uk.me.mantas.eternity.Settings;
 import uk.me.mantas.eternity.environment.Environment;
 import uk.me.mantas.eternity.factory.PacketDeserializerFactory;
-import uk.me.mantas.eternity.game.ComponentPersistencePacket;
-import uk.me.mantas.eternity.game.CurrencyValue;
-import uk.me.mantas.eternity.game.ObjectPersistencePacket;
+import uk.me.mantas.eternity.game.*;
 import uk.me.mantas.eternity.save.SavedGameOpener;
 import uk.me.mantas.eternity.serializer.PacketDeserializer;
 import uk.me.mantas.eternity.serializer.properties.Property;
@@ -612,7 +610,12 @@ public class SavedGameOpenerTest extends TestHarness {
 	@Test
 	public void recordTypeTest () {
 		final ExposedClass exposedOpener = expose(SavedGameOpener.class);
+		final EternityDateTime dateTime = new EternityDateTime();
+		final EternityTimeInterval timeInterval = new EternityTimeInterval();
 		final Map<Object, Class> argMap = new HashMap<>();
+
+		dateTime.TotalSeconds = 42;
+		timeInterval.SerializedSeconds = 42;
 
 		argMap.put(1, Object.class);
 		final JSONObject intTest = exposedOpener.call("recordType", argMap);
@@ -647,5 +650,19 @@ public class SavedGameOpenerTest extends TestHarness {
 			"{\"type\":\"uk.me.mantas.eternity.tests.save.SavedGameOpenerTest$Enum\""
 			+ ",\"value\":\"ONE\"}"
 			, enumTest.toString());
+
+		argMap.clear();
+		argMap.put(dateTime, Object.class);
+		final JSONObject dateTimeTest = exposedOpener.call("recordType", argMap);
+		assertEquals(
+			"{\"type\":\"uk.me.mantas.eternity.game.EternityDateTime\",\"value\":42}"
+			, dateTimeTest.toString());
+
+		argMap.clear();
+		argMap.put(timeInterval, Object.class);
+		final JSONObject timeIntervalTest = exposedOpener.call("recordType", argMap);
+		assertEquals(
+			"{\"type\":\"uk.me.mantas.eternity.game.EternityTimeInterval\",\"value\":42}"
+			, timeIntervalTest.toString());
 	}
 }

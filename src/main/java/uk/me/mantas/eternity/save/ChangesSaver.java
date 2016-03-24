@@ -36,6 +36,8 @@ import uk.me.mantas.eternity.Settings;
 import uk.me.mantas.eternity.environment.Environment;
 import uk.me.mantas.eternity.factory.PacketDeserializerFactory;
 import uk.me.mantas.eternity.game.ComponentPersistencePacket;
+import uk.me.mantas.eternity.game.EternityDateTime;
+import uk.me.mantas.eternity.game.EternityTimeInterval;
 import uk.me.mantas.eternity.game.ObjectPersistencePacket;
 import uk.me.mantas.eternity.handlers.SaveChanges;
 import uk.me.mantas.eternity.serializer.DeserializedPackets;
@@ -320,6 +322,18 @@ public class ChangesSaver implements Runnable {
 
 		if (cls.equals("UnsignedInteger")) {
 			return UnsignedInteger.valueOf(val);
+		}
+
+		if (cls.equals("EternityDateTime")) {
+			final EternityDateTime dateTime = new EternityDateTime();
+			dateTime.TotalSeconds = Integer.parseInt(val);
+			return dateTime;
+		}
+
+		if (cls.equals("EternityTimeInterval")) {
+			final EternityTimeInterval timeInterval = new EternityTimeInterval();
+			timeInterval.SerializedSeconds = Integer.parseInt(val);
+			return timeInterval;
 		}
 
 		if (primitive.getClass().isEnum()) {

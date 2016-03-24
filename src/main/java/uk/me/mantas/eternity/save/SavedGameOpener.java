@@ -30,9 +30,7 @@ import uk.me.mantas.eternity.Logger;
 import uk.me.mantas.eternity.Settings;
 import uk.me.mantas.eternity.environment.Environment;
 import uk.me.mantas.eternity.factory.PacketDeserializerFactory;
-import uk.me.mantas.eternity.game.ComponentPersistencePacket;
-import uk.me.mantas.eternity.game.CurrencyValue;
-import uk.me.mantas.eternity.game.ObjectPersistencePacket;
+import uk.me.mantas.eternity.game.*;
 import uk.me.mantas.eternity.handlers.OpenSavedGame;
 import uk.me.mantas.eternity.serializer.DeserializedPackets;
 import uk.me.mantas.eternity.serializer.PacketDeserializer;
@@ -233,6 +231,10 @@ public class SavedGameOpener implements Runnable {
 			json.put("value", EKUtils.enumConstantName(obj).orElse(""));
 		} else if (obj instanceof UnsignedInteger) {
 			json.put("value", ((UnsignedInteger) obj).longValue());
+		} else if (obj instanceof EternityDateTime) {
+			json.put("value", ((EternityDateTime) obj).TotalSeconds);
+		} else if (obj instanceof EternityTimeInterval) {
+			json.put("value", ((EternityTimeInterval) obj).SerializedSeconds);
 		} else {
 			json.put("value", obj);
 		}
@@ -245,7 +247,8 @@ public class SavedGameOpener implements Runnable {
 		return cls.equals("int") || cls.equals("Integer") || cls.equals("float")
 			|| cls.equals("Float") || cls.equals("double") || cls.equals("Double")
 			|| cls.equals("boolean") || cls.equals("Boolean") || cls.equals("String")
-			|| cls.equals("UnsignedInteger") || obj.getClass().isEnum();
+			|| cls.equals("UnsignedInteger") || cls.equals("EternityDateTime")
+			|| cls.equals("EternityTimeInterval") || obj.getClass().isEnum();
 	}
 
 	private String extractName (final ObjectPersistencePacket packet) {

@@ -32,10 +32,7 @@ import uk.me.mantas.eternity.Settings;
 import uk.me.mantas.eternity.environment.Environment;
 import uk.me.mantas.eternity.factory.PacketDeserializerFactory;
 import uk.me.mantas.eternity.factory.SharpSerializerFactory;
-import uk.me.mantas.eternity.game.ComponentPersistencePacket;
-import uk.me.mantas.eternity.game.CurrencyValue;
-import uk.me.mantas.eternity.game.GameDifficulty;
-import uk.me.mantas.eternity.game.ObjectPersistencePacket;
+import uk.me.mantas.eternity.game.*;
 import uk.me.mantas.eternity.save.ChangesSaver;
 import uk.me.mantas.eternity.serializer.SharpSerializer;
 import uk.me.mantas.eternity.serializer.properties.Property;
@@ -225,6 +222,8 @@ public class ChangesSaverTest extends TestHarness {
 	public void castValueTest () {
 		final Logger mockLogger = interceptLogging(ChangesSaver.class);
 		final ExposedClass exposedSaver = expose(ChangesSaver.class);
+		final EternityDateTime dateTime = new EternityDateTime();
+		final EternityTimeInterval timeInterval = new EternityTimeInterval();
 		final Map<Object, Class> argMap = new LinkedHashMap<>();
 
 		argMap.put(1, Object.class);
@@ -249,6 +248,18 @@ public class ChangesSaverTest extends TestHarness {
 		argMap.put("2147483648", String.class);
 		final UnsignedInteger uintTest = exposedSaver.call("castValue", argMap);
 		assertEquals(2147483648L, uintTest.longValue());
+
+		argMap.clear();
+		argMap.put(dateTime, Object.class);
+		argMap.put("42", String.class);
+		final EternityDateTime dateTimeTest = exposedSaver.call("castValue", argMap);
+		assertEquals(42, dateTimeTest.TotalSeconds);
+
+		argMap.clear();
+		argMap.put(timeInterval, Object.class);
+		argMap.put("42", String.class);
+		final EternityTimeInterval timeIntervalTest = exposedSaver.call("castValue", argMap);
+		assertEquals(42, timeIntervalTest.SerializedSeconds);
 
 		argMap.clear();
 		argMap.put(Enum.ONE, Object.class);
