@@ -665,4 +665,24 @@ public class SavedGameOpenerTest extends TestHarness {
 			"{\"type\":\"uk.me.mantas.eternity.game.EternityTimeInterval\",\"value\":42}"
 			, timeIntervalTest.toString());
 	}
+
+	@Test
+	public void globalsToJSONGlobalVariablesTest () {
+		final ExposedClass exposedOpener = expose(SavedGameOpener.class);
+		final Property globalProperty = mock(Property.class);
+		final ObjectPersistencePacket global = new ObjectPersistencePacket();
+		final ComponentPersistencePacket packet = new ComponentPersistencePacket();
+		final Hashtable<String, Integer> table = new Hashtable<>();
+
+		globalProperty.obj = global;
+		global.ComponentPackets = new ComponentPersistencePacket[]{packet};
+		packet.TypeString = "GlobalVariables";
+		packet.Variables = new HashMap<>();
+		packet.Variables.put("m_data", table);
+		table.put("A", 1);
+		table.put("B", 2);
+
+		final JSONObject result = exposedOpener.call("globalsToJSON", globalProperty);
+		assertEquals("{\"GlobalVariables\":{\"A\":1,\"B\":2}}", result.toString());
+	}
 }

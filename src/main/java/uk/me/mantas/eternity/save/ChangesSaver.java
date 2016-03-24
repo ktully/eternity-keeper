@@ -208,7 +208,7 @@ public class ChangesSaver implements Runnable {
 			.flatMap(components -> findSubComponent(components, "PlayerInventory"))
 			.flatMap(playerInventory ->
 				playerInventory.<DictionaryProperty>findProperty("Variables"))
-			.flatMap(variables -> variables.<ComplexProperty>findEntry("currencyTotalValue"));
+			.flatMap(variables -> variables.findEntry("currencyTotalValue"));
 
 		if (!currencyValue.isPresent()) {
 			logger.error("Unable to navigate property structure when updating currency!%n");
@@ -247,7 +247,11 @@ public class ChangesSaver implements Runnable {
 
 			try {
 				final JSONObject update = global.getJSONObject(packet.TypeString);
-				updateVariables(variables.get(), update);
+				if (packet.TypeString.equals("GlobalVariables")) {
+					updateHashtable(variables.get(), update);
+				} else {
+					updateVariables(variables.get(), update);
+				}
 			} catch (final JSONException ignore) {}
 		}
 	}
@@ -261,8 +265,7 @@ public class ChangesSaver implements Runnable {
 		final Optional<DictionaryProperty> variables =
 			root.<SingleDimensionalArrayProperty>findProperty("ComponentPackets")
 			.flatMap(components -> findSubComponent(components, "CharacterStats"))
-			.flatMap(characterStats ->
-				characterStats.<DictionaryProperty>findProperty("Variables"));
+			.flatMap(characterStats -> characterStats.findProperty("Variables"));
 
 		if (!variables.isPresent()) {
 			logger.error("Unable to navigate property structure when updating character!%n");
@@ -278,7 +281,7 @@ public class ChangesSaver implements Runnable {
 
 		for (final String updateKey : updates.keySet()) {
 			final String updateValue = updates.getJSONObject(updateKey).getString("value");
-			final Optional<SimpleProperty> savedValue =	variables.<SimpleProperty>findEntry(updateKey);
+			final Optional<SimpleProperty> savedValue =	variables.findEntry(updateKey);
 
 			if (!savedValue.isPresent()) {
 				logger.error(
@@ -299,6 +302,20 @@ public class ChangesSaver implements Runnable {
 					, updateKey);
 			}
 		}
+	}
+
+	private static void updateHashtable (
+		final DictionaryProperty variables
+		, final JSONObject updates) {
+
+		final Optional<DictionaryProperty> data = variables.findEntry("m_data");
+		if (!data.isPresent()) {
+			logger.error(
+				"Tried to update a Hashtable property that did not contain an 'm_data' Hashtable.");
+			return;
+		}
+
+		updateVariables(data.get(), updates);
 	}
 
 	private static Object castValue (final Object primitive, final String val) {

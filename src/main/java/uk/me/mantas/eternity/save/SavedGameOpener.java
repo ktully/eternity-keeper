@@ -126,6 +126,15 @@ public class SavedGameOpener implements Runnable {
 			final Optional<ComponentPersistencePacket> packet =
 				findComponent(global.ComponentPackets, usefulGlobal);
 
+			if (usefulGlobal.equals("GlobalVariables") && packet.isPresent()) {
+				// TODO: deal with hashtables more generically.
+				@SuppressWarnings("unchecked")
+				final Map<String, Integer> data =
+					(Hashtable<String, Integer>) packet.get().Variables.get("m_data");
+				json.put("GlobalVariables", data);
+				continue;
+			}
+
 			if (packet.isPresent()) {
 				final Map<String, JSONObject> variables =
 					packet.get().Variables.entrySet().stream()

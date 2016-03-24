@@ -37,12 +37,13 @@ public class Configuration {
 		add("Program Files (x86)\\Steam\\SteamApps\\common\\Pillars of Eternity");
 	}};
 
-	private List<String> usefulGlobals = ImmutableList.of("GameState", "WorldTime");
+	private List<String> usefulGlobals =
+		ImmutableList.of("GameState", "WorldTime", "GlobalVariables");
+	public List<String> usefulGlobals () { return usefulGlobals; }
 
 	public long maxLogSize () { return 0x20000; }
 	public String pillarsDataDirectory () {	return "PillarsOfEternity_Data"; }
 	public String gameStructuresPkg () { return "uk.me.mantas.eternity.game"; }
-	public List<String> usefulGlobals () { return usefulGlobals; }
 
 	public String companionPortraitPath () {
 		return "data/art/gui/portraits/companion/portrait_%s_lg.png";

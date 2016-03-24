@@ -42,10 +42,7 @@ import uk.me.mantas.eternity.tests.TestHarness;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 import static org.joox.JOOX.$;
 import static org.junit.Assert.assertEquals;
@@ -96,6 +93,7 @@ public class ChangesSaverTest extends TestHarness {
 	}
 
 	@Test
+	@SuppressWarnings("OptionalGetWithoutIsPresent")
 	public void changesSaved ()
 		throws NoSuchFieldException
 		, IllegalAccessException
@@ -132,7 +130,11 @@ public class ChangesSaverTest extends TestHarness {
 					+ "\"Global\":{\"GameState\":{\"Difficulty\":{"
 						+ "\"type\":\"uk.me.mantas.eternity.game.GameDifficulty\""
 						+ ", \"value\":\"StoryTime\"}}}"
-					+ ", \"InGameGlobal\":{}}}}";
+					+ ", \"InGameGlobal\":{\"GlobalVariables\":{"
+						+ "\"n_Eder_Cipher\":{\"type\":\"java.lang.Integer\",\"value\":\"50\"}"
+						+ ",\"b_gramrfel_prisoner\":{"
+							+ "\"type\":\"java.lang.Integer\""
+							+ ",\"value\":\"-1\"}}}}}}";
 
 		final String absolutePath =
 			new File(
@@ -160,7 +162,8 @@ public class ChangesSaverTest extends TestHarness {
 		assertEquals("TEST", xml.find("Simple[name='UserSaveName']").attr("value"));
 
 		final File mobileObjectsFile = new File(saveDirectory, "MobileObjects.save");
-		final SharpSerializer deserializer = new SharpSerializer(mobileObjectsFile.getAbsolutePath());
+		final SharpSerializer deserializer =
+			new SharpSerializer(mobileObjectsFile.getAbsolutePath());
 		final Optional<Property> objectCountProp = deserializer.deserialize();
 		assertTrue(objectCountProp.isPresent());
 
@@ -169,6 +172,7 @@ public class ChangesSaverTest extends TestHarness {
 		boolean resolveUpdated = false;
 		boolean currencyUpdated = false;
 		boolean difficultyUpdated = false;
+		boolean globalVariablesUpdated = false;
 
 		for (int i = 0; i < objectCount; i++) {
 			final Optional<Property> property = deserializer.deserialize();
@@ -177,7 +181,8 @@ public class ChangesSaverTest extends TestHarness {
 
 			if (!packet.ObjectID.equals("b1a7e809-0000-0000-0000-000000000000")
 				&& !packet.ObjectID.equals("09517a0d-4fec-407c-a749-a531f3be64e0")
-				&& !packet.ObjectName.equals("Global(Clone)")) {
+				&& !packet.ObjectName.equals("Global(Clone)")
+				&& !packet.ObjectName.equals("InGameGlobal(Clone)")) {
 
 				continue;
 			}
@@ -211,9 +216,24 @@ public class ChangesSaverTest extends TestHarness {
 				final Map<String, Object> vars = gameState.Variables;
 				difficultyUpdated = vars.get("Difficulty").equals(GameDifficulty.StoryTime);
 			}
+
+			if (packet.ObjectName.equals("InGameGlobal(Clone)")) {
+				final ComponentPersistencePacket globalVariables =
+					findComponent(packet.ComponentPackets, "GlobalVariables").get();
+				@SuppressWarnings("unchecked")
+				final Hashtable<String, Integer> data =
+					(Hashtable<String, Integer>) globalVariables.Variables.get("m_data");
+				globalVariablesUpdated =
+					data.get("n_Eder_Cipher") == 50 && data.get("b_gramrfel_prisoner") == -1;
+			}
 		}
 
-		assertTrue(mightUpdated && resolveUpdated && currencyUpdated && difficultyUpdated);
+		assertTrue(
+			mightUpdated
+			&& resolveUpdated
+			&& currencyUpdated
+			&& difficultyUpdated
+			&& globalVariablesUpdated);
 	}
 
 	private enum Enum {ONE, TWO}
