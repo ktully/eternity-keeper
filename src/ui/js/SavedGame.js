@@ -67,7 +67,7 @@ var SavedGame = function () {
 				$('<option></option>').prop('selected', v == initialValue).text(v).val(v)));
 	};
 
-	var createRawEditor = (key, fullKey, value) => {
+	var createRawEditor = (key, fullkey, value) => {
 		var row = $('<tr></tr>');
 		var keyCol = $('<td></td>');
 		var valCol = $('<td></td>');
@@ -75,7 +75,7 @@ var SavedGame = function () {
 
 		keyCol.text(key);
 		valCol.data('key', key);
-		valCol.data('fullKey', fullKey);
+		valCol.data('fullkey', fullkey);
 
 		if (value.type === 'java.lang.Boolean') {
 			editor = createBooleanEditor(value.value);
@@ -135,7 +135,7 @@ var SavedGame = function () {
 
 			container
 				.find('.stats')
-				.find('input[data-key="' + stat + '"]')
+				.find('input[data-fullkey="' + stat + '"]')
 				.val(value.value.toString())
 				.prop('disabled', data.isCompanion && disabledForCompanions.indexOf(stat) > -1);
 
@@ -239,7 +239,7 @@ SavedGame.prototype.update = function (e) {
 	var isCol = element.prop('nodeName') === 'TD';
 	var isDropdown = element.prop('nodeName') === 'SELECT';
 	var value = isCol ? element.text() : element.val();
-	var key = isDropdown ? element.parent().data('fullKey') : element.data('fullKey');
+	var key = isDropdown ? element.parent().data('fullkey') : element.data('fullkey');
 
 	if (key === null || key.length < 1) {
 		return;
