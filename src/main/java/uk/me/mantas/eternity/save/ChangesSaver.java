@@ -41,6 +41,7 @@ import uk.me.mantas.eternity.game.EternityTimeInterval;
 import uk.me.mantas.eternity.game.ObjectPersistencePacket;
 import uk.me.mantas.eternity.handlers.SaveChanges;
 import uk.me.mantas.eternity.serializer.DeserializedPackets;
+import uk.me.mantas.eternity.serializer.Deserializer;
 import uk.me.mantas.eternity.serializer.PacketDeserializer;
 import uk.me.mantas.eternity.serializer.properties.*;
 
@@ -155,7 +156,7 @@ public class ChangesSaver implements Runnable {
 
 		final List<Property> updatedMobileObjects =
 			deserialized.get().getPackets().stream().map(
-				packet -> updateMobileObject(packet, saveData))
+				packet -> updateMobileObject(deserializer, packet, saveData))
 			.collect(Collectors.toList());
 
 		deserialized.get().setPackets(updatedMobileObjects);
@@ -172,7 +173,11 @@ public class ChangesSaver implements Runnable {
 		deserialized.get().reserialize(mobileObjectsFile);
 	}
 
-	private Property updateMobileObject (final Property property, final JSONObject saveData) {
+	private Property updateMobileObject (
+		final PacketDeserializer deserializer
+		, final Property property
+		, final JSONObject saveData) {
+
 		final ObjectPersistencePacket packet = unwrapPacket(property);
 		final JSONArray characters = saveData.getJSONArray("characters");
 		final JSONObject globals = saveData.getJSONObject("globals");
@@ -184,17 +189,23 @@ public class ChangesSaver implements Runnable {
 		}
 
 		if (packet.ObjectName.startsWith("Global")) {
-			updateGlobal((ComplexProperty) property, globals.getJSONObject("Global"));
+			updateGlobal(deserializer, (ComplexProperty) property, globals.getJSONObject("Global"));
 		}
 
 		if (packet.ObjectName.startsWith("InGameGlobal")) {
-			updateGlobal((ComplexProperty) property, globals.getJSONObject("InGameGlobal"));
+			updateGlobal(
+				deserializer
+				, (ComplexProperty) property
+				, globals.getJSONObject("InGameGlobal"));
 		}
 
 		for (int i = 0; i < characters.length(); i++) {
 			final JSONObject character = characters.getJSONObject(i);
 			if (character.getString("GUID").equals(packet.ObjectID)) {
-				updateCharacter((ComplexProperty) property, character.getJSONObject("stats"));
+				updateCharacter(
+					deserializer
+					, (ComplexProperty) property
+					, character.getJSONObject("stats"));
 				break;
 			}
 		}
@@ -218,7 +229,11 @@ public class ChangesSaver implements Runnable {
 		Property.update(currencyValue.get(), "v", currency);
 	}
 
-	private void updateGlobal (final ComplexProperty root, final JSONObject global) {
+	private void updateGlobal (
+		final PacketDeserializer deserializer
+		, final ComplexProperty root
+		, final JSONObject global) {
+
 		final Optional<SingleDimensionalArrayProperty> packetsProperty =
 			root.findProperty("ComponentPackets");
 
@@ -227,40 +242,43 @@ public class ChangesSaver implements Runnable {
 			return;
 		}
 
-		for (final Object uncastPacketProperty : packetsProperty.get().items) {
-			if (!(uncastPacketProperty instanceof ComplexProperty)) {
-				logger.error("Unexpected item in ComponentPackets list when navigating globals.%n");
+		for (final String updateKey : global.keySet()) {
+			final JSONObject update = global.getJSONObject(updateKey);
+			final Optional<ComplexProperty> packetProperty =
+				findSubComponent(packetsProperty.get(), updateKey);
+
+			if (!packetProperty.isPresent()) {
+				logger.error(
+					"Client tried to update global ComponentPacket '%s' "
+					+ "which did not exist in the saved data.%n"
+					, updateKey);
 				continue;
 			}
 
-			final ComplexProperty packetProperty = (ComplexProperty) uncastPacketProperty;
 			final ComponentPersistencePacket packet =
-				(ComponentPersistencePacket) packetProperty.obj;
-			final Optional<DictionaryProperty> variables = packetProperty.findProperty("Variables");
+				(ComponentPersistencePacket) packetProperty.get().obj;
+			final Optional<DictionaryProperty> variables =
+				packetProperty.get().findProperty("Variables");
 
 			if (!variables.isPresent()) {
 				logger.error(
 					"Invalid ComponentPersistencePacket detected in ComponentPackets "
-					+ "list when navigating globals.");
+					+ "list when navigating globals.%n");
 				continue;
 			}
 
-			try {
-				final JSONObject update = global.getJSONObject(packet.TypeString);
-				if (packet.TypeString.equals("GlobalVariables")) {
-					updateHashtable(variables.get(), update);
-				} else {
-					updateVariables(variables.get(), update);
-				}
-			} catch (final JSONException ignore) {}
+			if (packet.TypeString.equals("GlobalVariables")) {
+				updateHashtable(deserializer, variables.get(), update);
+			} else {
+				updateVariables(deserializer, variables.get(), update);
+			}
 		}
 	}
 
-	private void updateCharacter (final ComplexProperty root, final JSONObject character) {
-		// Having to do linear searches through everything multiple times
-		// sucks for performance efficiency however that's our only option as
-		// we have to use Property-first serialization. If profiling later shows
-		// that this is taking too long then we may need to do some optimising.
+	private void updateCharacter (
+		final PacketDeserializer deserializer
+		, final ComplexProperty root
+		, final JSONObject character) {
 
 		final Optional<DictionaryProperty> variables =
 			root.<SingleDimensionalArrayProperty>findProperty("ComponentPackets")
@@ -272,16 +290,17 @@ public class ChangesSaver implements Runnable {
 			return;
 		}
 
-		updateVariables(variables.get(), character);
+		updateVariables(deserializer, variables.get(), character);
 	}
 
 	private static void updateVariables (
-		final DictionaryProperty variables
+		final PacketDeserializer deserializer
+		, final DictionaryProperty variables
 		, final JSONObject updates) {
 
 		for (final String updateKey : updates.keySet()) {
-			final String updateValue = updates.getJSONObject(updateKey).getString("value");
-			final Optional<SimpleProperty> savedValue =	variables.findEntry(updateKey);
+			final String newValue = updates.getJSONObject(updateKey).getString("value");
+			final Optional<Property> savedValue = variables.findEntry(updateKey);
 
 			if (!savedValue.isPresent()) {
 				logger.error(
@@ -293,19 +312,19 @@ public class ChangesSaver implements Runnable {
 			}
 
 			try {
-				final Object typedValue = castValue(savedValue.get().obj, updateValue);
-				Property.update(savedValue.get(), typedValue);
+				updateValue(deserializer, savedValue.get(), newValue);
 			} catch (final NumberFormatException e) {
 				logger.error(
 					"Unable to save value '%s' in ComponentPacket variable '%s'.%n"
-					, updateValue
+					, newValue
 					, updateKey);
 			}
 		}
 	}
 
 	private static void updateHashtable (
-		final DictionaryProperty variables
+		final PacketDeserializer deserializer
+		, final DictionaryProperty variables
 		, final JSONObject updates) {
 
 		final Optional<DictionaryProperty> data = variables.findEntry("m_data");
@@ -316,7 +335,48 @@ public class ChangesSaver implements Runnable {
 			return;
 		}
 
-		updateVariables(data.get(), updates);
+		updateVariables(deserializer, data.get(), updates);
+	}
+
+	private static void updateValue (
+		final PacketDeserializer deserializer
+		, final Property property
+		, final String val) {
+
+		if (property instanceof SimpleProperty) {
+			final Object typedValue = castValue(property.obj, val);
+			Property.update(property, typedValue);
+		} else if (property instanceof ComplexProperty) {
+			final ComplexProperty complexProperty = (ComplexProperty) property;
+			if (complexProperty.reference == null) {
+				final Object typedValue = castValue(property.obj, val);
+				updateComplexProperty((ComplexProperty) property, typedValue);
+			} else {
+				final Optional<Property> referencedProperty =
+					deserializer.followReference(complexProperty);
+				if (referencedProperty.isPresent()) {
+					final Object typedValue = castValue(referencedProperty.get().obj, val);
+					updateComplexProperty((ComplexProperty) referencedProperty.get(), typedValue);
+				} else {
+					logger.error("ComplexProperty was a reference that could not be followed.%n");
+				}
+			}
+		} else {
+			logger.error(
+				"Unable to update a property that is not SimpleProperty or ComplexProperty.%n");
+		}
+	}
+
+	private static void updateComplexProperty (final ComplexProperty property, final Object field) {
+		if (property.obj instanceof EternityDateTime) {
+			Property.update(property, "TotalSeconds", field);
+		} else if (property.obj instanceof EternityTimeInterval) {
+			Property.update(property, "SerializedSeconds", field);
+		} else {
+			logger.error(
+				"Tried to update unsupported object of type '%s'."
+				, property.obj.getClass().getSimpleName());
+		}
 	}
 
 	private static Object castValue (final Object primitive, final String val) {
@@ -338,20 +398,16 @@ public class ChangesSaver implements Runnable {
 			return Boolean.parseBoolean(val);
 		}
 
-		if (cls.equals("UnsignedInteger")) {
+		if (primitive instanceof UnsignedInteger) {
 			return UnsignedInteger.valueOf(val);
 		}
 
-		if (cls.equals("EternityDateTime")) {
-			final EternityDateTime dateTime = new EternityDateTime();
-			dateTime.TotalSeconds = Integer.parseInt(val);
-			return dateTime;
+		if (primitive instanceof EternityDateTime) {
+			return Integer.parseInt(val);
 		}
 
-		if (cls.equals("EternityTimeInterval")) {
-			final EternityTimeInterval timeInterval = new EternityTimeInterval();
-			timeInterval.SerializedSeconds = Integer.parseInt(val);
-			return timeInterval;
+		if (primitive instanceof EternityTimeInterval) {
+			return Integer.parseInt(val);
 		}
 
 		if (primitive.getClass().isEnum()) {

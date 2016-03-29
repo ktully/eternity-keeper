@@ -34,18 +34,16 @@ import uk.me.mantas.eternity.factory.PacketDeserializerFactory;
 import uk.me.mantas.eternity.factory.SharpSerializerFactory;
 import uk.me.mantas.eternity.game.*;
 import uk.me.mantas.eternity.save.ChangesSaver;
+import uk.me.mantas.eternity.serializer.PacketDeserializer;
 import uk.me.mantas.eternity.serializer.SharpSerializer;
-import uk.me.mantas.eternity.serializer.properties.Property;
+import uk.me.mantas.eternity.serializer.properties.*;
 import uk.me.mantas.eternity.tests.ExposedClass;
 import uk.me.mantas.eternity.tests.TestHarness;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.Hashtable;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 import static org.joox.JOOX.$;
 import static org.junit.Assert.*;
@@ -273,14 +271,14 @@ public class ChangesSaverTest extends TestHarness {
 		argMap.clear();
 		argMap.put(dateTime, Object.class);
 		argMap.put("42", String.class);
-		final EternityDateTime dateTimeTest = exposedSaver.call("castValue", argMap);
-		assertEquals(42, dateTimeTest.TotalSeconds);
+		final int dateTimeTest = exposedSaver.call("castValue", argMap);
+		assertEquals(42, dateTimeTest);
 
 		argMap.clear();
 		argMap.put(timeInterval, Object.class);
 		argMap.put("42", String.class);
-		final EternityTimeInterval timeIntervalTest = exposedSaver.call("castValue", argMap);
-		assertEquals(42, timeIntervalTest.SerializedSeconds);
+		final int timeIntervalTest = exposedSaver.call("castValue", argMap);
+		assertEquals(42, timeIntervalTest);
 
 		argMap.clear();
 		argMap.put(Enum.ONE, Object.class);
@@ -298,5 +296,51 @@ public class ChangesSaverTest extends TestHarness {
 			"Client returned non-existent enum value '%s' for class %s.%n"
 			, "THREE"
 			, Enum.class.getName());
+	}
+
+	@Test
+	public void updateValueTest () {
+		final ExposedClass exposedSaver = expose(ChangesSaver.class);
+		final PacketDeserializer mockDeserializer = mock(PacketDeserializer.class);
+		final SimpleProperty mockSimpleProperty = mock(SimpleProperty.class);
+		final ComplexProperty mockComplexProperty = mock(ComplexProperty.class);
+		final ComplexProperty mockReferencedProperty = mock(ComplexProperty.class);
+		final SimpleProperty mockDateTimeField = mock(SimpleProperty.class);
+		final SimpleProperty mockTimeIntervalField = mock(SimpleProperty.class);
+		final Map<Object, Class> argMap = new LinkedHashMap<>();
+
+		when(mockDeserializer.followReference(any(ReferenceTargetProperty.class)))
+			.thenReturn(Optional.of(mockReferencedProperty));
+
+		argMap.put(mockDeserializer, PacketDeserializer.class);
+		argMap.put(mockSimpleProperty, Property.class);
+		argMap.put("42", String.class);
+		mockSimpleProperty.obj = 1;
+		exposedSaver.call("updateValue", argMap);
+		assertEquals(42, mockSimpleProperty.value);
+
+		argMap.clear();
+		argMap.put(mockDeserializer, PacketDeserializer.class);
+		argMap.put(mockComplexProperty, Property.class);
+		argMap.put("100", String.class);
+		mockComplexProperty.reference = new Reference(1);
+		mockReferencedProperty.obj = new EternityDateTime();
+		mockReferencedProperty.properties = new ArrayList<>();
+		mockReferencedProperty.properties.add(mockDateTimeField);
+		mockDateTimeField.name = "TotalSeconds";
+		exposedSaver.call("updateValue", argMap);
+		assertEquals(100, mockDateTimeField.value);
+
+		argMap.clear();
+		argMap.put(mockDeserializer, PacketDeserializer.class);
+		argMap.put(mockComplexProperty, Property.class);
+		argMap.put("2000", String.class);
+		mockComplexProperty.reference = null;
+		mockComplexProperty.obj = new EternityTimeInterval();
+		mockComplexProperty.properties = new ArrayList<>();
+		mockComplexProperty.properties.add(mockTimeIntervalField);
+		mockTimeIntervalField.name = "SerializedSeconds";
+		exposedSaver.call("updateValue", argMap);
+		assertEquals(2000, mockTimeIntervalField.value);
 	}
 }

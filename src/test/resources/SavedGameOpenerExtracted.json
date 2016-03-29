@@ -9030,9 +9030,25 @@
 		},
 		"Global": {
 			"WorldTime": {
+				"TimeSpentTravelling": {
+					"type": "uk.me.mantas.eternity.game.EternityTimeInterval",
+					"value": 0
+				},
+				"TimeInCombat": {
+					"type": "uk.me.mantas.eternity.game.EternityTimeInterval",
+					"value": 0
+				},
 				"RealWorldPlayTime": {
 					"type": "java.lang.Float",
 					"value": 417.93634
+				},
+				"CurrentTime": {
+					"type": "uk.me.mantas.eternity.game.EternityDateTime",
+					"value": 7656705
+				},
+				"AdventureStart": {
+					"type": "uk.me.mantas.eternity.game.EternityDateTime",
+					"value": 7651739
 				}
 			},
 			"GameState": {

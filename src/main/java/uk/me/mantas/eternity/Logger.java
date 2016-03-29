@@ -29,7 +29,15 @@ public class Logger {
 		slfLogger = LoggerFactory.getLogger(cls);
 	}
 
+	public void warn (final String format, final Object... varargs) {
+		log("WARN   ", format, varargs);
+	}
+
 	public void error (final String format, final Object... varargs) {
+		log("ERROR  ", format, varargs);
+	}
+
+	private void log (final String level, final String format, final Object... varargs) {
 		final String className = cls.getSimpleName();
 		final int lineNumber = getCallerLineNumber();
 
@@ -42,9 +50,9 @@ public class Logger {
 
 		slfLogger.error(
 			displayClassName + "  "
-			+ displayLineNumber + "  "
-			+ "ERROR  "
-			+ String.format(format, varargs));
+				+ displayLineNumber + "  "
+				+ level
+				+ String.format(format, varargs));
 	}
 
 	private int getCallerLineNumber () {

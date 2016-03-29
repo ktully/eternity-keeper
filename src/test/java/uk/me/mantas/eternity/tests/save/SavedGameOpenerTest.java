@@ -102,7 +102,9 @@ public class SavedGameOpenerTest extends TestHarness {
 		verify(mockCallback).success(extractedJSON.toString());
 	}
 
-	private PacketDeserializer mockDeserializer (final Environment mockEnvironment) {
+	private PacketDeserializer mockDeserializer (final Environment mockEnvironment)
+		throws FileNotFoundException {
+
 		final PacketDeserializerFactory mockFactory = mock(PacketDeserializerFactory.class);
 		final PacketDeserializer mockDeserializer = mock(PacketDeserializer.class);
 

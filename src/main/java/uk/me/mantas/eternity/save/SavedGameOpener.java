@@ -19,6 +19,7 @@
 
 package uk.me.mantas.eternity.save;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.common.primitives.UnsignedInteger;
 import org.apache.commons.io.FileUtils;
 import org.cef.callback.CefQueryCallback;
@@ -53,6 +54,17 @@ public class SavedGameOpener implements Runnable {
 	private final String saveGameLocation;
 	private final CefQueryCallback callback;
 	private final PacketDeserializerFactory packetDeserializer;
+
+	private static final Set<String> SUPPORTED_CLASS_NAMES = ImmutableSet.copyOf(new String[]{
+		"int", "Integer"
+		, "float", "Float"
+		, "double", "Double"
+		, "boolean", "Boolean"
+		, "String"
+		, "UnsignedInteger"
+		, "EternityDateTime"
+		, "EternityTimeInterval"
+	});
 
 	public SavedGameOpener (final String saveGameLocation, final CefQueryCallback callback) {
 		this.saveGameLocation = saveGameLocation;
@@ -258,11 +270,7 @@ public class SavedGameOpener implements Runnable {
 
 	private static boolean isSupportedType (final Object obj) {
 		final String cls = obj.getClass().getSimpleName();
-		return cls.equals("int") || cls.equals("Integer") || cls.equals("float")
-			|| cls.equals("Float") || cls.equals("double") || cls.equals("Double")
-			|| cls.equals("boolean") || cls.equals("Boolean") || cls.equals("String")
-			|| cls.equals("UnsignedInteger") || /*cls.equals("EternityDateTime")
-			|| cls.equals("EternityTimeInterval") ||*/ obj.getClass().isEnum();
+		return SUPPORTED_CLASS_NAMES.contains(cls) || obj.getClass().isEnum();
 	}
 
 	private String extractName (final ObjectPersistencePacket packet) {
@@ -374,10 +382,9 @@ public class SavedGameOpener implements Runnable {
 	}
 
 	private List<Property> deserialize (final File mobileObjectsFile) {
-		final PacketDeserializer deserializer = packetDeserializer.forFile(mobileObjectsFile);
 		List<Property> objects = new ArrayList<>();
-
 		try {
+			final PacketDeserializer deserializer = packetDeserializer.forFile(mobileObjectsFile);
 			final Optional<DeserializedPackets> deserialized = deserializer.deserialize();
 			if (!deserialized.isPresent()) {
 				OpenSavedGame.deserializationError(callback);

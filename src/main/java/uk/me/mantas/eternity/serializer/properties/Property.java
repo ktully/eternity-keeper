@@ -104,14 +104,13 @@ public abstract class Property {
 		return true;
 	}
 
-	@SuppressWarnings("unchecked")
 	public static Optional<Property> find (final Property haystack, final String needle) {
 		if (!(haystack instanceof ComplexProperty)) {
 			return Optional.empty();
 		}
 
 		final ComplexProperty complexHaystack = (ComplexProperty) haystack;
-		for (final Property subProperty : (List<Property>) complexHaystack.properties) {
+		for (final Property subProperty : complexHaystack.properties) {
 			if (subProperty.name.equals(needle)) {
 				return Optional.of(subProperty);
 			}

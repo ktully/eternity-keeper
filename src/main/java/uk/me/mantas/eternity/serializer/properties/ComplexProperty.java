@@ -28,7 +28,7 @@ import java.util.Optional;
 
 public class ComplexProperty extends ReferenceTargetProperty {
 	private static final Logger logger = Logger.getLogger(ComplexProperty.class);
-	public List properties = new ArrayList<>();
+	public List<Property> properties = new ArrayList<>();
 
 	public ComplexProperty (String name, TypePair type) {
 		super(name, type);
@@ -51,18 +51,18 @@ public class ComplexProperty extends ReferenceTargetProperty {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	public <T extends Property> Optional<T> findProperty (final String needle) {
 		final Optional<Property> found =
-			((List<Property>) properties).stream()
+			properties.stream()
 				.filter(property -> property != null)
 				.filter(property -> property.name.equalsIgnoreCase(needle))
 				.findFirst();
 
 		if (!found.isPresent()) {
-			return Optional.<T>empty();
+			return Optional.empty();
 		}
 
+		//noinspection unchecked
 		return Optional.of((T) found.get());
 	}
 }

@@ -65,7 +65,7 @@ public class DictionaryProperty extends ComplexProperty {
 			.findFirst();
 
 		if (!found.isPresent()) {
-			return Optional.<T>empty();
+			return Optional.empty();
 		}
 
 		return Optional.of((T) found.get().getValue());

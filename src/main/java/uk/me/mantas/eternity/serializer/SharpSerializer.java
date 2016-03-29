@@ -122,6 +122,14 @@ public class SharpSerializer {
 		}
 	}
 
+	public Optional<Property> followReference (final ReferenceTargetProperty property) {
+		if (property.reference == null) {
+			return Optional.empty();
+		}
+
+		return Optional.ofNullable(propertyCache.get(property.reference.id));
+	}
+
 	private Property createObject (Property property) {
 		if (property == null) {
 			logger.error("Property is null!%n");

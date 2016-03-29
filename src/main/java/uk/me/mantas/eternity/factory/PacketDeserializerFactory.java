@@ -21,13 +21,14 @@ package uk.me.mantas.eternity.factory;
 import uk.me.mantas.eternity.serializer.PacketDeserializer;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 
 public class PacketDeserializerFactory {
-	public PacketDeserializer forFile (final String filePath) {
+	public PacketDeserializer forFile (final String filePath) throws FileNotFoundException {
 		return new PacketDeserializer(filePath);
 	}
 
-	public PacketDeserializer forFile (final File file) {
+	public PacketDeserializer forFile (final File file) throws FileNotFoundException {
 		return new PacketDeserializer(file);
 	}
 }

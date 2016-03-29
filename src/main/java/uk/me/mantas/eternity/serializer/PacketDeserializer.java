@@ -21,6 +21,7 @@ package uk.me.mantas.eternity.serializer;
 import uk.me.mantas.eternity.environment.Environment;
 import uk.me.mantas.eternity.factory.SharpSerializerFactory;
 import uk.me.mantas.eternity.serializer.properties.Property;
+import uk.me.mantas.eternity.serializer.properties.ReferenceTargetProperty;
 import uk.me.mantas.eternity.serializer.properties.SimpleProperty;
 
 import java.io.File;
@@ -34,21 +35,23 @@ import java.util.Optional;
 // number of following ComponentPersistencePacket objects).
 
 public class PacketDeserializer {
-	private final File file;
-	private final SharpSerializerFactory sharpSerializer;
+	private final SharpSerializer deserializer;
 
-	public PacketDeserializer (final File file) {
-		this.file = file;
-		sharpSerializer = Environment.getInstance().factory().sharpSerializer();
+	public PacketDeserializer (final File file) throws FileNotFoundException {
+		deserializer =
+			Environment.getInstance().factory().sharpSerializer().forFile(file.getAbsolutePath());
 	}
 
-	public PacketDeserializer (final String filename) {
+	public PacketDeserializer (final String filename) throws FileNotFoundException {
 		this(new File(filename));
+	}
+
+	public Optional<Property> followReference (final ReferenceTargetProperty property) {
+		return deserializer.followReference(property);
 	}
 
 	public Optional<DeserializedPackets> deserialize () throws FileNotFoundException {
 		final List<Property> deserialized = new ArrayList<>();
-		final SharpSerializer deserializer = sharpSerializer.forFile(file.getAbsolutePath());
 		final Optional<Property> objCountProp = deserializer.deserialize();
 
 		if (!objCountProp.isPresent()) {
