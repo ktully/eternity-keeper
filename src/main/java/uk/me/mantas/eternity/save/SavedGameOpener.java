@@ -62,8 +62,8 @@ public class SavedGameOpener implements Runnable {
 		, "boolean", "Boolean"
 		, "String"
 		, "UnsignedInteger"
-		, "EternityDateTime"
-		, "EternityTimeInterval"
+		//, "EternityDateTime"
+		//, "EternityTimeInterval"
 	});
 
 	public SavedGameOpener (final String saveGameLocation, final CefQueryCallback callback) {
