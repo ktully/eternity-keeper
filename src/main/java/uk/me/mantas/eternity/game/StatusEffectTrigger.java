@@ -33,5 +33,8 @@ public class StatusEffectTrigger {
 		, WhileStaminaPercentAbove
 		, OnWeaponChange
 		, OnWeaponChangeToNonSummoned
+		, OnHitOrCriticallyHit
+		, OnUnconscious
+		, WhileGriefed
 	}
 }

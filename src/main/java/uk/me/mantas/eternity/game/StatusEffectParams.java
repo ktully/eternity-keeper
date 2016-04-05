@@ -75,7 +75,8 @@ public class StatusEffectParams {
 	public UUID TrapPrefabSerialized;
 	public Trap TrapSerialized2;
 	public UUID EquippablePrefabSerialized;
-	public Equippable EquippableSerialized2;
+	//public Equippable EquippableSerialized2;
+	public String EquippableSerialized2;
 	public UUID AttackPrefabSerialized;
 	public AttackBase AttackPrefabSerialized2;
 	// TODO: Check this.
