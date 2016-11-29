@@ -83,6 +83,7 @@ public class StatusEffectParams {
 	//public Affliction AfflictionPrefabSerialized;
 	public String AfflictionPrefabSerialized;
 	public float UnadjustedDurationAdd;
+	public float TemporaryDurationAdjustment;
 	public UUID OnDamageCallbackAbilitySerialized;
 	public String Description;
 	public boolean IsCleanedUp;
