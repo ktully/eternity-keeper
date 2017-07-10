@@ -1,6 +1,6 @@
 #!/bin/sh
 
-ROOT=$(dirname $(readlink -f $0))
+ROOT=$(dirname "$(readlink -f $0)")
 JRE="$ROOT/jre/bin/java"
 JARS="$ROOT/jar"
 SRC="$ROOT/src"
