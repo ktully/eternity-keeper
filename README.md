@@ -1,5 +1,8 @@
 A Pillars of Eternity save editor and character importer/exporter.
 
+# N.B.
+This is a clone of the code from https://bitbucket.org/Fyorl/eternity-keeper/src/master/ but with the commit history revised to strip symbols from all the linux shared libraries (otherwise they were too large for github)
+
 # Dependencies
 Several dependencies are already bundled with the project. In order to build and run the project you will also need the following:
 
