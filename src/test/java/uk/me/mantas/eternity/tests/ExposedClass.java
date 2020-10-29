@@ -147,7 +147,7 @@ public class ExposedClass {
 
 		try {
 			field = cls.getDeclaredField(fieldName);
-			modifiersField = Field.class.getDeclaredField("modifiers");
+			modifiersField = getModifiersField();
 		} catch (final NoSuchFieldException e) {
 			e.printStackTrace();
 			assertNull(e);
@@ -164,4 +164,39 @@ public class ExposedClass {
 			assertNull(e);
 		}
 	}
+
+
+	/** Tests were failing at the point they tried to mock logging,
+		due to https://bugs.openjdk.java.net/browse/JDK-8217225
+
+	 	This workaround (from https://github.com/prestodb/presto/pull/15240/files)
+	 	will probably break in future. Long term option might be : https://github.com/eolivelli/tweakjava
+
+	 	See also
+		https://github.com/powermock/powermock/issues/939#issuecomment-485235038 and
+	 	https://github.com/powermock/powermock/issues/939#issuecomment-530517158
+	*/
+	private static Field getModifiersField() throws NoSuchFieldException {
+		try {
+			return Field.class.getDeclaredField("modifiers");
+		}
+		catch (NoSuchFieldException e) {
+			try {
+				Method getDeclaredFields0 = Class.class.getDeclaredMethod("getDeclaredFields0", boolean.class);
+				getDeclaredFields0.setAccessible(true);
+				Field[] fields = (Field[]) getDeclaredFields0.invoke(Field.class, false);
+				getDeclaredFields0.setAccessible(false);
+
+				for (Field field : fields) {
+					if ("modifiers".equals(field.getName())) {
+						return field;
+					}
+				}
+			} catch (ReflectiveOperationException ex) {
+				e.addSuppressed(ex);
+			}
+			throw e;
+		}
+	}
+
 }

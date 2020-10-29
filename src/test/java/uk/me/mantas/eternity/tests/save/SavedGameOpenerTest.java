@@ -27,6 +27,7 @@ import org.jooq.lambda.tuple.Tuple2;
 import org.json.JSONObject;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
+import org.mockito.ArgumentMatcher;
 import uk.me.mantas.eternity.EKUtils;
 import uk.me.mantas.eternity.Logger;
 import uk.me.mantas.eternity.Settings;
@@ -80,26 +81,48 @@ public class SavedGameOpenerTest extends TestHarness {
 
 	@Test
 	public void saveGameOpened () throws URISyntaxException, IOException {
-		final Settings mockSettings = mockSettings();
-		final JSONObject mockJSON = mock(JSONObject.class);
-		final CefQueryCallback mockCallback = mock(CefQueryCallback.class);
 		final File resources = new File(getClass().getResource("/").toURI());
+		final CefQueryCallback mockCallback = mock(CefQueryCallback.class);
 		final SavedGameOpener cls =
 			new SavedGameOpener(resources.getAbsolutePath(), mockCallback);
 
-		final File extractedFile =
-			new File(getClass().getResource("/SavedGameOpenerExtracted.json").toURI());
+		final Settings mockSettings = mockSettings();
+		final JSONObject mockJSON = mock(JSONObject.class);
 
-		final String extractedJSONString = FileUtils.readFileToString(extractedFile);
-		// We stick the JSON string in a JSON object to remove all whitespace.
-		final JSONObject extractedJSON = new JSONObject(extractedJSONString);
-
+		// (don't remove settings mock; SavedGameOpener needs this singleton to load correct portraits)
 		mockSettings.json = mockJSON;
 		when(mockJSON.getString("gameLocation")).thenReturn(
 			new File(resources, "SavedGameOpenerTest").getAbsolutePath());
 
-		cls.run();
-		verify(mockCallback).success(extractedJSON.toString());
+		cls.run(); // we expect this to invoke success() on the mockCallback with JSON as below
+
+		final File extractedFile =
+			new File(getClass().getResource("/SavedGameOpenerExtracted.json").toURI());
+		final String extractedJSONString = FileUtils.readFileToString(extractedFile);
+
+		verify(mockCallback).success(
+			argThat(new EquivalentJSON(extractedJSONString)));
+	}
+
+	private class EquivalentJSON implements ArgumentMatcher<String> {
+		JSONObject wanted = null;
+
+		public EquivalentJSON(String expected) {
+			wanted = new JSONObject(expected);
+		}
+
+		public boolean matches(String actual) {
+			// ignores whitespace & ordering of object keys/children
+			// (order of array entries is still significant)
+			return wanted.similar(new JSONObject(actual));
+		}
+
+		public String toString() {
+			// this removes whitespace
+			// BUT may still have insignificant object key ordering differences	from actual
+			// TODO: to aid troubleshooting tests, output wanted using the ordering from actual (where available)
+			return wanted.toString();
+		}
 	}
 
 	private PacketDeserializer mockDeserializer (final Environment mockEnvironment)
