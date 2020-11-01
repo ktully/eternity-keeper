@@ -21,6 +21,7 @@ package uk.me.mantas.eternity.tests.serializer;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;
+import uk.me.mantas.eternity.serializer.SerializerFormat;
 import uk.me.mantas.eternity.serializer.SharpSerializer;
 import uk.me.mantas.eternity.serializer.properties.Property;
 
@@ -70,14 +71,12 @@ public class SerializerTest {
 	}
 
 	@Test
-	public void serializesWindowsStoreSaveToSteamSaveFile () throws URISyntaxException, IOException {
+	public void serializesWindowsStoreToSteamSaveFile () throws URISyntaxException, IOException {
 		final File saveFile = new File(getClass().getResource("/SerializerTest/windowStoreSave/MobileObjects.save").toURI());
 		final SharpSerializer deserializer = new SharpSerializer(saveFile.getAbsolutePath());
 		final List<Property> deserialized = new ArrayList<>();
 		final Optional<Property> objectCount = deserializer.deserialize();
 		final int count = (int) objectCount.get().obj;
-
-		// TODO: force the setting on in a mocked settings file once added, or maybe try it both ways
 
 		for (int i = 0; i < count; i++) {
 			final Optional<Property> obj = deserializer.deserialize();
@@ -87,7 +86,7 @@ public class SerializerTest {
 		final File saveOutputFile = Files.createTempFile(null, null).toFile();
 		try {
 			final SharpSerializer serializer =
-					new SharpSerializer(saveOutputFile.getAbsolutePath());
+					new SharpSerializer(saveOutputFile.getAbsolutePath(), SerializerFormat.UNITY_2017);
 
 			serializer.serialize(objectCount.get());
 			for (final Property obj : deserialized) {

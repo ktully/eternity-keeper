@@ -69,11 +69,19 @@ public class SharpSerializer {
 	private final File targetFile;
 	private long position = 0;
 
-	public SharpSerializer (String filePath) throws FileNotFoundException {
+	private final SerializerFormat format;
+
+	public SharpSerializer (String filePath, SerializerFormat format) throws FileNotFoundException {
 		targetFile = new File(filePath);
 		if (!targetFile.exists()) {
 			throw new FileNotFoundException();
 		}
+
+		this.format = format;
+	}
+
+	public SharpSerializer (String filePath) throws FileNotFoundException {
+		this(filePath, SerializerFormat.PRESERVE);
 	}
 
 	public Optional<Property> deserialize () {
@@ -111,7 +119,7 @@ public class SharpSerializer {
 				baseStream.getChannel()
 					.position(baseStream.getChannel().size());
 
-				Serializer serializer =	new Serializer(stream);
+				Serializer serializer =	new Serializer(stream, format);
 				serializer.serialize(property);
 			}
 		} catch (IOException e) {

@@ -37,10 +37,17 @@ public class Serializer {
 	private final List<WriteCommand> commandCache = new ArrayList<>();
 	private final IndexGenerator<String> types = new IndexGenerator<>();
 	private final IndexGenerator<String> names = new IndexGenerator<>();
+
 	private final BinaryWriter stream;
+	private final SerializerFormat format;
+
+	public Serializer (DataOutput stream, SerializerFormat format) {
+		this.stream = new BinaryWriter(stream);
+		this.format = format;
+	}
 
 	public Serializer (DataOutput stream) {
-		this.stream = new BinaryWriter(stream);
+		this(stream, SerializerFormat.PRESERVE);
 	}
 
 	public void serialize (Property property) throws IOException {
@@ -74,12 +81,10 @@ public class Serializer {
 		}
 	}
 
-	// TODO: new setting
-	static final boolean backwardsCompatibleTypes = true;
-
 	private String convertToTypeName (String type) {
 		if (type == null) return null;
 
+		boolean backwardsCompatibleTypes = (format == SerializerFormat.UNITY_2017);
 		if (!backwardsCompatibleTypes) return type;
 
 		String shortType = TypeMap.getBackwardsCompatibleType(type);
