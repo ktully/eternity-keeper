@@ -35,6 +35,11 @@ public class Configuration {
 		add("Program Files (x86)\\GOG Games\\Pillars of Eternity");
 		add("Program Files\\Steam\\SteamApps\\common\\Pillars of Eternity");
 		add("Program Files (x86)\\Steam\\SteamApps\\common\\Pillars of Eternity");
+
+		// Microsoft Store/GamePass installs mount a hidden xbox volume for each game
+		// A custom kernel driver (gameflt) prevents most access attempts
+		// This is a sample mount point which may differ across PCs or game versions
+		//add("Program Files\WindowsApps\ParadoxInteractive.PillarsofEternity-MicrosoftStor_1.2.6.0_x64__zfnrdv2de78ny\");
 	}};
 
 	private List<String> usefulGlobals =

@@ -25,6 +25,7 @@ import org.apache.commons.io.FileUtils;
 import org.cef.callback.CefQueryCallback;
 import org.jooq.lambda.tuple.Tuple2;
 import org.json.JSONObject;
+
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.ArgumentMatcher;
@@ -105,23 +106,26 @@ public class SavedGameOpenerTest extends TestHarness {
 	}
 
 	private class EquivalentJSON implements ArgumentMatcher<String> {
-		JSONObject wanted = null;
+		JSONObject expected = null;
+		JSONObject actual = null;
 
 		public EquivalentJSON(String expected) {
-			wanted = new JSONObject(expected);
+			this.expected = new JSONObject(expected);
 		}
 
 		public boolean matches(String actual) {
+			this.actual = new JSONObject(actual);
 			// ignores whitespace & ordering of object keys/children
 			// (order of array entries is still significant)
-			return wanted.similar(new JSONObject(actual));
+
+			return expected.similar(this.actual);
 		}
 
 		public String toString() {
 			// this removes whitespace
 			// BUT may still have insignificant object key ordering differences	from actual
-			// TODO: to aid troubleshooting tests, output wanted using the ordering from actual (where available)
-			return wanted.toString();
+			// TODO: to aid troubleshooting tests, output expected using the ordering from actual (where available)
+			return expected.toString();
 		}
 	}
 

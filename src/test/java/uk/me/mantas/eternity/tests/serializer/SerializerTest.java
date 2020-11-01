@@ -68,4 +68,42 @@ public class SerializerTest {
 			assertTrue(saveOutputFile.delete());
 		}
 	}
+
+	@Test
+	public void serializesWindowsStoreSaveToSteamSaveFile () throws URISyntaxException, IOException {
+		final File saveFile = new File(getClass().getResource("/SerializerTest/windowStoreSave/MobileObjects.save").toURI());
+		final SharpSerializer deserializer = new SharpSerializer(saveFile.getAbsolutePath());
+		final List<Property> deserialized = new ArrayList<>();
+		final Optional<Property> objectCount = deserializer.deserialize();
+		final int count = (int) objectCount.get().obj;
+
+		// TODO: force the setting on in a mocked settings file once added, or maybe try it both ways
+
+		for (int i = 0; i < count; i++) {
+			final Optional<Property> obj = deserializer.deserialize();
+			deserialized.add(obj.get());
+		}
+
+		final File saveOutputFile = Files.createTempFile(null, null).toFile();
+		try {
+			final SharpSerializer serializer =
+					new SharpSerializer(saveOutputFile.getAbsolutePath());
+
+			serializer.serialize(objectCount.get());
+			for (final Property obj : deserialized) {
+				serializer.serialize(obj);
+			}
+
+			final byte[] actual = FileUtils.readFileToByteArray(saveOutputFile);
+
+			final File expectedSaveFile = new File(getClass().getResource("/SerializerTest/windowStoreSaveConverted/MobileObjects.save").toURI());
+			final byte[] expected = FileUtils.readFileToByteArray(expectedSaveFile);
+
+			assertArrayEquals(expected, actual);
+		} catch (final Exception e) {
+			e.printStackTrace();
+		} finally {
+			assertTrue(saveOutputFile.delete());
+		}
+	}
 }

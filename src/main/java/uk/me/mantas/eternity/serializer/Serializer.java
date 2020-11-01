@@ -74,8 +74,18 @@ public class Serializer {
 		}
 	}
 
+	// TODO: new setting
+	static final boolean backwardsCompatibleTypes = true;
+
 	private String convertToTypeName (String type) {
-		return type != null ? type : null;
+		if (type == null) return null;
+
+		if (!backwardsCompatibleTypes) return type;
+
+		String shortType = TypeMap.getBackwardsCompatibleType(type);
+		if (shortType == null) shortType = type;
+
+		return shortType;
 	}
 
 	private void writeNamesHeader () throws IOException {

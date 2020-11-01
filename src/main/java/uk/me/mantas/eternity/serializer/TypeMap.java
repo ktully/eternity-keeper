@@ -26,8 +26,12 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.UUID;
+import java.util.regex.Pattern;
 
 public class TypeMap {
+
+	// map Unity or C sharp object types to Java containers
+	// note: primitives are handled separately
 	public static final Map<String, Class> map = new HashMap<String, Class>() {{
 		put("System.Boolean", boolean.class);
 		put("System.Guid", UUID.class);
@@ -144,4 +148,29 @@ public class TypeMap {
 		put("StrongholdVisitorArrival", StrongholdVisitorArrival.class);
 		put("StrongholdVisitorSerializeData", StrongholdVisitorSerializeData.class);
 	}};
+
+	// 	Convert to backwards compatible Unity type path
+	//
+	//	Windows Store and Xbox version of game use a newer version of Unity, whose saves don't work with Steam or GoG
+	//  This fix allows transferring new format saves to Steam (and hopefully GoG too)
+	private static final String newTypeModule = ", UnityEngine.CoreModule";
+	private static final String oldTypeModule = ", UnityEngine";
+
+	private static final Pattern newPattern = Pattern.compile(newTypeModule);
+
+	public static String getBackwardsCompatibleType(String type) {
+		return newPattern.matcher(type).replaceFirst(oldTypeModule);
+	}
+
+	//	I've used a reqex to work with unknown types, but an equivalent map for the types I know of is as follows:
+	//
+	//public static final Map<String, String> backwardsCompatible = new HashMap<String, String>() {{
+	//	// always strip .CoreModule
+	//	put("UnityEngine.Color, UnityEngine.CoreModule", "UnityEngine.Color, UnityEngine");
+	//	put("UnityEngine.Vector2, UnityEngine.CoreModule", "UnityEngine.Vector2, UnityEngine");
+	//	put("UnityEngine.CoreModule", "UnityEngine");
+	//	put("UnityEngine.Vector3[][], UnityEngine.CoreModule", "UnityEngine.Vector3[][], UnityEngine");
+	//	put("UnityEngine.Vector3[], UnityEngine.CoreModule", "UnityEngine.Vector3[], UnityEngine");
+	//	put("UnityEngine.Vector3, UnityEngine.CoreModule", "UnityEngine.Vector3, UnityEngine");
+	//}};
 }
