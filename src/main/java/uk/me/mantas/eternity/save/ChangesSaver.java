@@ -20,7 +20,7 @@
 package uk.me.mantas.eternity.save;
 
 import com.google.common.primitives.UnsignedInteger;
-import net.lingala.zip4j.core.ZipFile;
+import net.lingala.zip4j.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
 import net.lingala.zip4j.model.ZipParameters;
 import org.apache.commons.io.FileUtils;
@@ -97,7 +97,7 @@ public class ChangesSaver implements Runnable {
 			callback.success("{\"success\":true}");
 		} catch (final JSONException e) {
 			callback.failure(-1, SaveChanges.jsonError());
-		} catch (final IOException | ZipException e) {
+		} catch (final IOException e) {
 			logger.error("%s%n", e.getMessage());
 			callback.failure(-1, SaveChanges.ioError());
 		} catch (final DeserializationException e) {
@@ -138,7 +138,7 @@ public class ChangesSaver implements Runnable {
 		}
 
 		ZipFile saveArchive = new ZipFile(saveFile);
-		saveArchive.createZipFile(
+		saveArchive.addFiles(
 			new ArrayList<>(Arrays.asList(saveContents))
 			, new ZipParameters());
 	}
