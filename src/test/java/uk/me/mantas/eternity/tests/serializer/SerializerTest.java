@@ -19,8 +19,11 @@
 
 package uk.me.mantas.eternity.tests.serializer;
 
+import com.google.common.io.MoreFiles;
+import com.google.common.io.RecursiveDeleteOption;
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;
+import uk.me.mantas.eternity.serializer.Serializer;
 import uk.me.mantas.eternity.serializer.SerializerFormat;
 import uk.me.mantas.eternity.serializer.SharpSerializer;
 import uk.me.mantas.eternity.serializer.properties.Property;
@@ -29,40 +32,26 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class SerializerTest {
+	private static final String TEMP_FILE_PREFIX = "ek";
+
 	@Test
 	public void serializesSaveFile () throws URISyntaxException, IOException {
 		final File saveFile = new File(getClass().getResource("/MobileObjects.save").toURI());
-		final SharpSerializer deserializer = new SharpSerializer(saveFile.getAbsolutePath());
-		final List<Property> deserialized = new ArrayList<>();
-		final Optional<Property> objectCount = deserializer.deserialize();
-		final int count = (int) objectCount.get().obj;
+		final File saveOutputFile = Files.createTempFile(TEMP_FILE_PREFIX, null).toFile();
 
-		for (int i = 0; i < count; i++) {
-			final Optional<Property> obj = deserializer.deserialize();
-			deserialized.add(obj.get());
-		}
-
-		final File saveOutputFile = Files.createTempFile(null, null).toFile();
 		try {
-			final SharpSerializer serializer =
-				new SharpSerializer(saveOutputFile.getAbsolutePath());
+			reserializeFile(saveFile, saveOutputFile, SerializerFormat.PRESERVE);
 
-			serializer.serialize(objectCount.get());
-			for (final Property obj : deserialized) {
-				serializer.serialize(obj);
-			}
-
-			final byte[] actual = FileUtils.readFileToByteArray(saveOutputFile);
-			final byte[] expected = FileUtils.readFileToByteArray(saveFile);
-			assertArrayEquals(expected, actual);
+			assertFileContentsEquals(saveFile, saveOutputFile);
 		} catch (final Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -73,36 +62,104 @@ public class SerializerTest {
 	@Test
 	public void serializesWindowsStoreToSteamSaveFile () throws URISyntaxException, IOException {
 		final File saveFile = new File(getClass().getResource("/SerializerTest/windowStoreSave/MobileObjects.save").toURI());
-		final SharpSerializer deserializer = new SharpSerializer(saveFile.getAbsolutePath());
-		final List<Property> deserialized = new ArrayList<>();
-		final Optional<Property> objectCount = deserializer.deserialize();
-		final int count = (int) objectCount.get().obj;
+		final File saveOutputFile = Files.createTempFile(TEMP_FILE_PREFIX, null).toFile();
 
-		for (int i = 0; i < count; i++) {
-			final Optional<Property> obj = deserializer.deserialize();
-			deserialized.add(obj.get());
-		}
-
-		final File saveOutputFile = Files.createTempFile(null, null).toFile();
 		try {
+			reserializeFile(saveFile, saveOutputFile, SerializerFormat.UNITY_2017);
+
+			final File expectedSaveFile = new File(getClass().getResource("/SerializerTest/windowStoreSaveConverted/MobileObjects.save").toURI());
+			assertFileContentsEquals(expectedSaveFile, saveOutputFile);
+		} catch (final Exception e) {
+			e.printStackTrace();
+		} finally {
+			assertTrue(saveOutputFile.delete());
+		}
+	}
+
+	@Test
+	public void convertWindowsStoreToSteamSaveFiles () throws URISyntaxException, IOException {
+		final File inputDir = new File(getClass().getResource("/SerializerTest/windowStoreSave/").toURI());
+		final List<File> inputFiles = Arrays.asList(inputDir.listFiles());
+
+		final Path outputDirPath = Files.createTempDirectory(TEMP_FILE_PREFIX);
+
+		try {
+			for (File inputFile : inputFiles) {
+				final String inputFilename = inputFile.getName();
+				final Path outputFilePath = outputDirPath.resolve(inputFilename);
+
+				assertTrue(outputFilePath.toFile().createNewFile());
+
+				if (inputFilename.endsWith(".save") || inputFilename.endsWith(".lvl")) {
+					reserializeFile(inputFile, outputFilePath.toFile(), SerializerFormat.UNITY_2017);
+				} else {
+					final byte[] input = FileUtils.readFileToByteArray(inputFile);
+					Files.write(outputFilePath, input);
+				}
+			}
+
+			// TODO: optimize performance - convert in parallel threads
+
+			// check the result
+			// TODO: factor out to compare directory contents or similar. Or does guava have this already?
+			final List<File> outputFiles = Arrays.asList(outputDirPath.toFile().listFiles());
+
+			final File expectedDir = new File(getClass().getResource("/SerializerTest/windowStoreSaveConverted/").toURI());
+			final List<String> expectedFilenames = Arrays.asList(expectedDir.list());
+
+			assertEquals("number of files", expectedFilenames.size(), outputFiles.size());
+
+			for (File outputFile : outputFiles) {
+				String outputFilename = outputFile.getName();
+				assertTrue(expectedFilenames.contains(outputFilename));
+
+				final byte[] actual = FileUtils.readFileToByteArray(outputFile);
+
+				final File expectedFile = expectedDir.toPath().resolve(outputFilename).toFile();
+				final byte[] expected = FileUtils.readFileToByteArray(expectedFile);
+				assertArrayEquals(outputFilename + " contents", expected, actual);
+			}
+
+		} catch (final Exception e) {
+			e.printStackTrace();
+		} finally {
+			// TODO: cleanup to delete before releasing test
+			// MoreFiles.deleteRecursively(outputDirPath, RecursiveDeleteOption.ALLOW_INSECURE );
+		}
+	}
+
+	private void reserializeFile(File input, File output, SerializerFormat outputFormat) throws IOException {
+		try {
+			final SharpSerializer deserializer = new SharpSerializer(input.getAbsolutePath());
+			final List<Property> deserialized = new ArrayList<>();
+			final Optional<Property> objectCount = deserializer.deserialize();
+			final int count = (int) objectCount.get().obj;
+
+			for (int i = 0; i < count; i++) {
+				final Optional<Property> obj = deserializer.deserialize();
+				deserialized.add(obj.get());
+			}
+
 			final SharpSerializer serializer =
-					new SharpSerializer(saveOutputFile.getAbsolutePath(), SerializerFormat.UNITY_2017);
+					new SharpSerializer(output.getAbsolutePath(), outputFormat);
 
 			serializer.serialize(objectCount.get());
 			for (final Property obj : deserialized) {
 				serializer.serialize(obj);
 			}
+		} catch (final Exception e) {
+			throw e;
+		}
+	}
 
-			final byte[] actual = FileUtils.readFileToByteArray(saveOutputFile);
-
-			final File expectedSaveFile = new File(getClass().getResource("/SerializerTest/windowStoreSaveConverted/MobileObjects.save").toURI());
-			final byte[] expected = FileUtils.readFileToByteArray(expectedSaveFile);
+	public static void assertFileContentsEquals(File expectedFile, File actualFile) throws IOException {
+		try {
+			final byte[] actual = FileUtils.readFileToByteArray(actualFile);
+			final byte[] expected = FileUtils.readFileToByteArray(expectedFile);
 
 			assertArrayEquals(expected, actual);
 		} catch (final Exception e) {
-			e.printStackTrace();
-		} finally {
-			assertTrue(saveOutputFile.delete());
+			throw e;
 		}
 	}
 }
