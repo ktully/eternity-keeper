@@ -16,10 +16,8 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 package uk.me.mantas.eternity.tests.serializer;
 
-import com.google.common.io.MoreFiles;
 import com.google.common.io.RecursiveDeleteOption;
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;
@@ -27,6 +25,7 @@ import uk.me.mantas.eternity.serializer.Serializer;
 import uk.me.mantas.eternity.serializer.SerializerFormat;
 import uk.me.mantas.eternity.serializer.SharpSerializer;
 import uk.me.mantas.eternity.serializer.properties.Property;
+import uk.me.mantas.eternity.tests.TestHarness;
 
 import java.io.File;
 import java.io.IOException;
@@ -40,13 +39,12 @@ import java.util.Optional;
 
 import static org.junit.Assert.*;
 
-public class SerializerTest {
-	private static final String TEMP_FILE_PREFIX = "ek";
+public class SerializerTest extends TestHarness {
 
 	@Test
 	public void serializesSaveFile () throws URISyntaxException, IOException {
 		final File saveFile = new File(getClass().getResource("/MobileObjects.save").toURI());
-		final File saveOutputFile = Files.createTempFile(TEMP_FILE_PREFIX, null).toFile();
+		final File saveOutputFile = Files.createTempFile(PREFIX, null).toFile();
 
 		try {
 			reserializeFile(saveFile, saveOutputFile, SerializerFormat.PRESERVE);
@@ -54,15 +52,13 @@ public class SerializerTest {
 			assertFileContentsEquals(saveFile, saveOutputFile);
 		} catch (final Exception e) {
 			e.printStackTrace();
-		} finally {
-			assertTrue(saveOutputFile.delete());
 		}
 	}
 
 	@Test
 	public void serializesWindowsStoreToSteamSaveFile () throws URISyntaxException, IOException {
 		final File saveFile = new File(getClass().getResource("/SerializerTest/windowStoreSave/MobileObjects.save").toURI());
-		final File saveOutputFile = Files.createTempFile(TEMP_FILE_PREFIX, null).toFile();
+		final File saveOutputFile = Files.createTempFile(PREFIX, null).toFile();
 
 		try {
 			reserializeFile(saveFile, saveOutputFile, SerializerFormat.UNITY_2017);
@@ -71,8 +67,6 @@ public class SerializerTest {
 			assertFileContentsEquals(expectedSaveFile, saveOutputFile);
 		} catch (final Exception e) {
 			e.printStackTrace();
-		} finally {
-			assertTrue(saveOutputFile.delete());
 		}
 	}
 
@@ -81,7 +75,7 @@ public class SerializerTest {
 		final File inputDir = new File(getClass().getResource("/SerializerTest/windowStoreSave/").toURI());
 		final List<File> inputFiles = Arrays.asList(inputDir.listFiles());
 
-		final Path outputDirPath = Files.createTempDirectory(TEMP_FILE_PREFIX);
+		final Path outputDirPath = Files.createTempDirectory(PREFIX);
 
 		try {
 			for (File inputFile : inputFiles) {
@@ -122,9 +116,6 @@ public class SerializerTest {
 
 		} catch (final Exception e) {
 			e.printStackTrace();
-		} finally {
-			// TODO: cleanup to delete before releasing test
-			// MoreFiles.deleteRecursively(outputDirPath, RecursiveDeleteOption.ALLOW_INSECURE );
 		}
 	}
 

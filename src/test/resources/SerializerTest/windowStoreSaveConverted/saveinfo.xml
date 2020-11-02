@@ -1,0 +1,20 @@
+﻿<Complex name="Root" type="SaveGameInfo, Assembly-CSharp">
+  <Properties>
+    <Simple name="PlayerName" type="System.String, mscorlib" value="Kat Wolf" />
+    <Simple name="MapName" type="System.String, mscorlib" value="AR_0708_Raedrics_Hold_Int_01" />
+    <Simple name="SceneTitle" type="System.String, mscorlib" value="Raedric's Keep" />
+    <Simple name="SceneTitleId" type="System.Int32, mscorlib" value="138" />
+    <Simple name="Chapter" type="System.Int32, mscorlib" value="1" />
+    <Simple name="RealtimePlayDurationSeconds" type="System.Int32, mscorlib" value="51421" />
+    <Simple name="PlaytimeSeconds" type="System.Int32, mscorlib" value="1213242" />
+    <Simple name="TrialOfIron" type="System.Boolean, mscorlib" value="False" />
+    <Simple name="RealTimestamp" type="System.DateTime, mscorlib" value="10/11/2020 02:43:44" />
+    <Simple name="SessionID" type="System.Guid, mscorlib" value="74c256ba-01c2-4747-a67d-3522df116dad" />
+    <Simple name="FileName" type="System.String, mscorlib" value="" />
+    <Simple name="SaveVersion" type="System.Int32, mscorlib" value="2" />
+    <Simple name="GameComplete" type="System.Boolean, mscorlib" value="False" />
+    <Simple name="UserSaveName" type="System.String, mscorlib" value="" />
+    <Simple name="Difficulty" type="GameDifficulty, Assembly-CSharp" value="Normal" />
+    <Simple name="ActivePackages" type="ProductConfiguration+Package, Assembly-CSharp" value="BaseGame" />
+  </Properties>
+</Complex>
