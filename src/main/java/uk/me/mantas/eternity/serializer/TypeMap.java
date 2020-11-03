@@ -155,6 +155,7 @@ public class TypeMap {
 	//  This fix allows transferring new format saves to Steam (and hopefully GoG too)
 	private static final String newTypeModule = ", UnityEngine.CoreModule";
 	private static final String oldTypeModule = ", UnityEngine";
+	// TODO: rename to UNITY_2017 and UNITY_2018 types
 
 	private static final Pattern newPattern = Pattern.compile(newTypeModule);
 
@@ -165,7 +166,6 @@ public class TypeMap {
 	//	I've used a reqex to work with unknown types, but an equivalent map for the types I know of is as follows:
 	//
 	//public static final Map<String, String> backwardsCompatible = new HashMap<String, String>() {{
-	//	// always strip .CoreModule
 	//	put("UnityEngine.Color, UnityEngine.CoreModule", "UnityEngine.Color, UnityEngine");
 	//	put("UnityEngine.Vector2, UnityEngine.CoreModule", "UnityEngine.Vector2, UnityEngine");
 	//	put("UnityEngine.CoreModule", "UnityEngine");

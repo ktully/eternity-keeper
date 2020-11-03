@@ -84,13 +84,19 @@ public class Serializer {
 	private String convertToTypeName (String type) {
 		if (type == null) return null;
 
-		boolean backwardsCompatibleTypes = (format == SerializerFormat.UNITY_2017);
-		if (!backwardsCompatibleTypes) return type;
+		switch (format) {
+			case UNITY_2017:
+				type = TypeMap.getBackwardsCompatibleType(type);
+				break;
 
-		String shortType = TypeMap.getBackwardsCompatibleType(type);
-		if (shortType == null) shortType = type;
+			// TODO: add UNITY_2018 for Windows Store format (although it can already open Steam saves)
 
-		return shortType;
+			case PRESERVE:
+			default:
+				break;
+		}
+
+		return type;
 	}
 
 	private void writeNamesHeader () throws IOException {

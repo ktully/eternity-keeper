@@ -21,6 +21,7 @@ package uk.me.mantas.eternity.tests.serializer;
 import com.google.common.io.RecursiveDeleteOption;
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;
+import uk.me.mantas.eternity.EKUtils;
 import uk.me.mantas.eternity.serializer.Serializer;
 import uk.me.mantas.eternity.serializer.SerializerFormat;
 import uk.me.mantas.eternity.serializer.SharpSerializer;
@@ -48,7 +49,19 @@ public class SerializerTest extends TestHarness {
 
 		try {
 			reserializeFile(saveFile, saveOutputFile, SerializerFormat.PRESERVE);
+			assertFileContentsEquals(saveFile, saveOutputFile);
+		} catch (final Exception e) {
+			e.printStackTrace();
+		}
+	}
 
+	@Test
+	public void serializesLevelFile () throws URISyntaxException, IOException {
+		final File saveFile = new File(getClass().getResource("/SerializerTest/windowStoreSave/AR_0701_Encampment.lvl").toURI());
+		final File saveOutputFile = Files.createTempFile(PREFIX, null).toFile();
+
+		try {
+			reserializeFile(saveFile, saveOutputFile, SerializerFormat.PRESERVE);
 			assertFileContentsEquals(saveFile, saveOutputFile);
 		} catch (final Exception e) {
 			e.printStackTrace();
@@ -75,27 +88,27 @@ public class SerializerTest extends TestHarness {
 		final File inputDir = new File(getClass().getResource("/SerializerTest/windowStoreSave/").toURI());
 		final List<File> inputFiles = Arrays.asList(inputDir.listFiles());
 
-		final Path outputDirPath = Files.createTempDirectory(PREFIX);
+		final Optional<File> outputDir = EKUtils.createTempDir(PREFIX);
+		assertTrue(outputDir.isPresent());
+		final Path outputDirPath = outputDir.get().toPath();
 
 		try {
 			for (File inputFile : inputFiles) {
 				final String inputFilename = inputFile.getName();
-				final Path outputFilePath = outputDirPath.resolve(inputFilename);
-
-				assertTrue(outputFilePath.toFile().createNewFile());
+				final File outputFile = new File(outputDir.get(), inputFilename);
 
 				if (inputFilename.endsWith(".save") || inputFilename.endsWith(".lvl")) {
-					reserializeFile(inputFile, outputFilePath.toFile(), SerializerFormat.UNITY_2017);
+					assertTrue(outputFile.createNewFile());
+					reserializeFile(inputFile, outputFile, SerializerFormat.UNITY_2017);
 				} else {
-					final byte[] input = FileUtils.readFileToByteArray(inputFile);
-					Files.write(outputFilePath, input);
+					Files.copy(inputFile.toPath(), outputFile.toPath());
 				}
 			}
 
 			// TODO: optimize performance - convert in parallel threads
 
 			// check the result
-			// TODO: factor out to compare directory contents or similar. Or does guava have this already?
+			// TODO: factor out to EKUtils.compareDirectoryContents() or similar. Or does guava have this already?
 			final List<File> outputFiles = Arrays.asList(outputDirPath.toFile().listFiles());
 
 			final File expectedDir = new File(getClass().getResource("/SerializerTest/windowStoreSaveConverted/").toURI());
@@ -107,11 +120,8 @@ public class SerializerTest extends TestHarness {
 				String outputFilename = outputFile.getName();
 				assertTrue(expectedFilenames.contains(outputFilename));
 
-				final byte[] actual = FileUtils.readFileToByteArray(outputFile);
-
-				final File expectedFile = expectedDir.toPath().resolve(outputFilename).toFile();
-				final byte[] expected = FileUtils.readFileToByteArray(expectedFile);
-				assertArrayEquals(outputFilename + " contents", expected, actual);
+				final File expectedFile = new File(expectedDir, outputFilename);
+				assertFileContentsEquals(expectedFile, outputFile);
 			}
 
 		} catch (final Exception e) {
@@ -148,7 +158,7 @@ public class SerializerTest extends TestHarness {
 			final byte[] actual = FileUtils.readFileToByteArray(actualFile);
 			final byte[] expected = FileUtils.readFileToByteArray(expectedFile);
 
-			assertArrayEquals(expected, actual);
+			assertArrayEquals(actualFile.getName() + " contents", expected, actual);
 		} catch (final Exception e) {
 			throw e;
 		}

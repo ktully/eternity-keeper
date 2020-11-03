@@ -25,7 +25,7 @@ namespace EternityBootstrapper {
 
 				if (Directory.Exists(updateOutput)) {
 					Directory.Delete(updateOutput, true);
-				}
+				}z
 
 				Directory.CreateDirectory(updateOutput);
 				ZipFile.ExtractToDirectory(mostRecentZip, updateOutput);
