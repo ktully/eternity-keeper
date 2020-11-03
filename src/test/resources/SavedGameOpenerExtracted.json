@@ -1,5 +1,7 @@
 {
-	"characters": [
+    "isWindowStoreSave": false,
+
+    "characters": [
 		{
 			"isCompanion": true,
 			"stats": {

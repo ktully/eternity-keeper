@@ -146,6 +146,8 @@ SaveSearch.prototype.open = function (info, i) {
 			Eternity.GenericError.render({msg: msg});
 		} else if (response.characters.length < 1) {
 			Eternity.GenericError.render({msg: 'No characters found in save game.'});
+		} else if (response.isWindowStoreSave) {
+			Eternity.GenericError.render({msg: 'Windows Store save selected.'});
 		} else {
 			Eternity.SavedGame.render({saveData: response, info: info});
 		}

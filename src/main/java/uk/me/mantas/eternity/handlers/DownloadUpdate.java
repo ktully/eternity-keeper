@@ -38,6 +38,9 @@ import java.util.concurrent.atomic.AtomicLong;
 public class DownloadUpdate extends CefMessageRouterHandlerAdapter {
 	private static final Logger logger = Logger.getLogger(DownloadUpdate.class);
 
+	// TODO: this no longer works as domain is down. move or redirect to github releases?
+	static final String UPDATE_DOWNLOAD_LOCATION = "http://eternity.mantas.me.uk/updates";
+
 	@Override
 	public boolean onQuery (
 		final CefBrowser browser
@@ -82,7 +85,7 @@ public class DownloadUpdate extends CefMessageRouterHandlerAdapter {
 
 		private void downloadLatest (final File destination) {
 			final String url = String.format(
-				"http://eternity.mantas.me.uk/updates/?platform=%s&download"
+				UPDATE_DOWNLOAD_LOCATION + "/?platform=%s&download"
 				, Environment.detectPlatform());
 			final HttpClient client = HttpClients.createDefault();
 			final HttpGet request = new HttpGet(url);

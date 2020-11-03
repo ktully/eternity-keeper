@@ -152,15 +152,24 @@ public class TypeMap {
 	// 	Convert to backwards compatible Unity type path
 	//
 	//	Windows Store and Xbox version of game use a newer version of Unity, whose saves don't work with Steam or GoG
-	//  This fix allows transferring new format saves to Steam (and hopefully GoG too)
-	private static final String newTypeModule = ", UnityEngine.CoreModule";
-	private static final String oldTypeModule = ", UnityEngine";
-	// TODO: rename to UNITY_2017 and UNITY_2018 types
+	//  This fix allows transferring new format saves to Steam and GoG
+	private static final String MODULE_PREFIX = ", ";
+	public static final String NEW_TYPE_MODULE = "UnityEngine.CoreModule";
+	private static final String OLD_TYPE_MODULE = "UnityEngine";
 
-	private static final Pattern newPattern = Pattern.compile(newTypeModule);
+	private static final Pattern newPattern = Pattern.compile(MODULE_PREFIX + NEW_TYPE_MODULE);
+
+	public static boolean usesNewUnityModule(String type) {
+		return type.contains(NEW_TYPE_MODULE);
+	}
 
 	public static String getBackwardsCompatibleType(String type) {
-		return newPattern.matcher(type).replaceFirst(oldTypeModule);
+		if (usesNewUnityModule(type)) {
+			// TODO: use a cache for performance
+			type = newPattern.matcher(type).replaceFirst(MODULE_PREFIX + OLD_TYPE_MODULE);
+		}
+
+		return type;
 	}
 
 	//	I've used a reqex to work with unknown types, but an equivalent map for the types I know of is as follows:
@@ -168,7 +177,6 @@ public class TypeMap {
 	//public static final Map<String, String> backwardsCompatible = new HashMap<String, String>() {{
 	//	put("UnityEngine.Color, UnityEngine.CoreModule", "UnityEngine.Color, UnityEngine");
 	//	put("UnityEngine.Vector2, UnityEngine.CoreModule", "UnityEngine.Vector2, UnityEngine");
-	//	put("UnityEngine.CoreModule", "UnityEngine");
 	//	put("UnityEngine.Vector3[][], UnityEngine.CoreModule", "UnityEngine.Vector3[][], UnityEngine");
 	//	put("UnityEngine.Vector3[], UnityEngine.CoreModule", "UnityEngine.Vector3[], UnityEngine");
 	//	put("UnityEngine.Vector3, UnityEngine.CoreModule", "UnityEngine.Vector3, UnityEngine");

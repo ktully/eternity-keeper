@@ -89,8 +89,6 @@ public class Serializer {
 				type = TypeMap.getBackwardsCompatibleType(type);
 				break;
 
-			// TODO: add UNITY_2018 for Windows Store format (although it can already open Steam saves)
-
 			case PRESERVE:
 			default:
 				break;

@@ -35,6 +35,7 @@ import uk.me.mantas.eternity.game.*;
 import uk.me.mantas.eternity.handlers.OpenSavedGame;
 import uk.me.mantas.eternity.serializer.DeserializedPackets;
 import uk.me.mantas.eternity.serializer.PacketDeserializer;
+import uk.me.mantas.eternity.serializer.TypeMap;
 import uk.me.mantas.eternity.serializer.properties.Property;
 
 import java.io.File;
@@ -88,10 +89,13 @@ public class SavedGameOpener implements Runnable {
 				.filter(this::hasObjectName)
 				.collect(Collectors.toList());
 
-		final Map<String, Property> characters = extractCharacters(gameObjects);
-		final Map<String, Property> globals = extractGlobals(gameObjects);
+		final boolean isWindowsStoreSave = isWindowsStoreSave(mobileObjectsFile);
 		final float currency = extractCurrency(gameObjects);
-		sendJSON(currency, globals, characters);
+		final Map<String, Property> globals = extractGlobals(gameObjects);
+		final Map<String, Property> characters = extractCharacters(gameObjects);
+
+
+		sendJSON(isWindowsStoreSave, currency, globals, characters);
 	}
 
 	private boolean isObjectPersistencePacket (final Property property) {
@@ -208,11 +212,14 @@ public class SavedGameOpener implements Runnable {
 	}
 
 	private void sendJSON (
+		boolean isWindowsStoreSave,
 		final float currency
 		, final Map<String, Property> globals
 		, final Map<String, Property> characters) {
 
 		final JSONObject json = new JSONObject();
+		json.put("isWindowStoreSave", isWindowsStoreSave);
+
 		json.put("currency", currency);
 
 		final Map<String, JSONObject> jsonGlobals =
@@ -397,5 +404,20 @@ public class SavedGameOpener implements Runnable {
 		}
 
 		return objects;
+	}
+
+	private boolean isWindowsStoreSave (final File mobileObjectsFile) {
+		String contents = "";
+
+		try {
+			contents = FileUtils.readFileToString(mobileObjectsFile);
+		} catch (final IOException e) {
+			logger.error(
+					"Unable to open save file '%s': %s%n"
+					, mobileObjectsFile
+					, e.getMessage());
+		}
+
+		return contents.contains(TypeMap.NEW_TYPE_MODULE);
 	}
 }

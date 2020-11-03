@@ -157,7 +157,7 @@ public class CheckForUpdates extends CefMessageRouterHandlerAdapter {
 		@Override
 		public void run () {
 			final String url = String.format(
-				"http://eternity.mantas.me.uk/updates/?platform=%s"
+				DownloadUpdate.UPDATE_DOWNLOAD_LOCATION + "/?platform=%s"
 				, Environment.detectPlatform());
 
 			try {
