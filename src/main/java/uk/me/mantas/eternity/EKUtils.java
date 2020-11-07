@@ -16,7 +16,6 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 package uk.me.mantas.eternity;
 
 import org.json.JSONException;
@@ -26,7 +25,6 @@ import uk.me.mantas.eternity.game.ObjectPersistencePacket;
 import uk.me.mantas.eternity.serializer.DeserializedPackets;
 import uk.me.mantas.eternity.serializer.PacketDeserializer;
 import uk.me.mantas.eternity.serializer.SerializerFormat;
-import uk.me.mantas.eternity.serializer.SharpSerializer;
 import uk.me.mantas.eternity.serializer.properties.ComplexProperty;
 import uk.me.mantas.eternity.serializer.properties.Property;
 import uk.me.mantas.eternity.serializer.properties.SingleDimensionalArrayProperty;
@@ -38,8 +36,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -203,26 +199,35 @@ public class EKUtils {
 		final List<File> inputFiles = Arrays.asList(inputDir.listFiles());
 
 		try {
-			// TODO: optimize performance - convert in parallel threads (or even using parallel sterams initially!)
+			// TODO: optimize performance further
 
-			for (File inputFile : inputFiles) {
-				final String inputFilename = inputFile.getName();
-				final File outputFile = new File(outputDir, inputFilename);
+			// TODO: catch null output files, indicating conversion error
+			inputFiles.parallelStream().forEach((inputFile) -> convertWindowsStoreSubFileToSteam(inputFile, outputDir));
 
-				if (inputFilename.endsWith(".save") || inputFilename.endsWith(".lvl")) {
-
-					// TODO: check for error on output file creation
-					outputFile.createNewFile();
-					EKUtils.reserializeFile(inputFile, outputFile, SerializerFormat.UNITY_2017);
-				} else {
-					Files.copy(inputFile.toPath(), outputFile.toPath());
-				}
-			}
 
 		} catch (final Exception e) {
+			// TODO: consider returning on success/log on error, rather than rethrowing exception
 			throw e;
-			// TODO: logger.error or return ?
 		}
+	}
+
+	public static File convertWindowsStoreSubFileToSteam(File inputFile, File outputDir) {
+		final String inputFilename = inputFile.getName();
+		File outputFile = new File(outputDir, inputFilename);
+
+		try {
+			if (inputFilename.endsWith(".save") || inputFilename.endsWith(".lvl")) {
+				outputFile.createNewFile();
+				EKUtils.reserializeFile(inputFile, outputFile, SerializerFormat.UNITY_2017);
+			} else {
+				Files.copy(inputFile.toPath(), outputFile.toPath());
+			}
+		} catch (final Exception e) {
+			logger.error("Failed to copy or convert subfile %s to %s", inputFile.getPath(), outputFile.getPath());
+			outputFile = null;
+		}
+
+		return outputFile;
 	}
 
 	public static void reserializeFile(File input, File output, SerializerFormat outputFormat) throws IOException {
@@ -234,7 +239,7 @@ public class EKUtils {
 
 		} catch (final Exception e) {
 			throw e;
-			// TODO: logger.error or return ?
+			// TODO: consider returning on success/log on error, rather than rethrowing exception
 		}
 	}
 }

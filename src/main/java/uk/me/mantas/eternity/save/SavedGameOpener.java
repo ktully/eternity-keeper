@@ -447,18 +447,13 @@ public class SavedGameOpener implements Runnable {
 		String msg = "";
 
 		try {
-			// TODO: run in background maybe using something like
-			// Environment.getInstance().workers().execute(
-			//			new ChangesSaver(request, callback));
 			EKUtils.convertWindowsStoreToSteamSaveFiles(saveGameExtractedDir, outputDir);
 
 			SaveGameInfo saveInfo = SaveGameExtractor.extractInfo(outputDir).get();
 			String saveName = saveInfo.userSaveName;
 
 			// TODO: allow user to supply output name in GUI (see suggest JS for editing)
-			// TODO: why is this causing nested brackets
-			SaveGameInfo.updateSaveInfo(outputDir, saveName +  " (converted)");
-
+			SaveGameInfo.updateSaveInfo(outputDir, saveName +  " converted");
 			ChangesSaver.packageSaveGame(outputDir);
 
 			msg = "Windows Store save " + saveGameExtractedDir.getName() + " selected; converted to equivalent Steam/GoG save " +  outputDir.getName();
