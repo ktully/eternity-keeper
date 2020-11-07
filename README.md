@@ -33,7 +33,7 @@ Assuming you've already built the project and have a `target` directory now and 
 # Converting Windows Store save files to Steam/GoG
 Saves from the Windows Store/GamePass game build cannot be loaded by Steam or GoG game builds.
 
-This 0.4 alpha project release includes initial code by ktully allowing you to generate Steam/GoG compatible saves from Windows saves.
+This alpha release includes initial code by ktully allowing you to generate Steam/GoG compatible saves from Windows saves.
 
 1. Run Eternity Keeper as Normal
 1. Close the settings dialog if it appears
