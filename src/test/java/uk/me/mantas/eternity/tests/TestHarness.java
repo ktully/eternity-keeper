@@ -27,6 +27,7 @@ import uk.me.mantas.eternity.Logger;
 import uk.me.mantas.eternity.Settings;
 import uk.me.mantas.eternity.environment.*;
 import uk.me.mantas.eternity.factory.SharpSerializerFactory;
+import uk.me.mantas.eternity.serializer.SerializerFormat;
 import uk.me.mantas.eternity.serializer.SharpSerializer;
 
 import java.io.File;
@@ -39,6 +40,7 @@ import java.util.Locale;
 
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -165,6 +167,7 @@ public abstract class TestHarness {
 
 		when(mockEnvironment.factory().sharpSerializer()).thenReturn(mockSerializerFactory);
 		when(mockSerializerFactory.forFile(anyString())).thenReturn(mockSerializer);
+		when(mockSerializer.toFormat(any(SerializerFormat.class))).thenReturn(mockSerializer);
 
 		return mockSerializer;
 	}

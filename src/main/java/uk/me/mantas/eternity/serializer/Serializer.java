@@ -39,15 +39,17 @@ public class Serializer {
 	private final IndexGenerator<String> names = new IndexGenerator<>();
 
 	private final BinaryWriter stream;
-	private final SerializerFormat format;
+	private SerializerFormat format = SerializerFormat.PRESERVE;
 
-	public Serializer (DataOutput stream, SerializerFormat format) {
+	public Serializer (DataOutput stream) {
 		this.stream = new BinaryWriter(stream);
 		this.format = format;
 	}
 
-	public Serializer (DataOutput stream) {
-		this(stream, SerializerFormat.PRESERVE);
+	public Serializer toFormat(SerializerFormat format) {
+		this.format = format;
+
+		return this;
 	}
 
 	public void serialize (Property property) throws IOException {

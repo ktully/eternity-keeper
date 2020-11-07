@@ -26,9 +26,11 @@ import org.cef.callback.CefQueryCallback;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONStringer;
 import uk.me.mantas.eternity.EKUtils;
 import uk.me.mantas.eternity.Logger;
 import uk.me.mantas.eternity.Settings;
+import uk.me.mantas.eternity.environment.Directories;
 import uk.me.mantas.eternity.environment.Environment;
 import uk.me.mantas.eternity.factory.PacketDeserializerFactory;
 import uk.me.mantas.eternity.game.*;
@@ -41,6 +43,7 @@ import uk.me.mantas.eternity.serializer.properties.Property;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.AbstractMap.SimpleEntry;
@@ -89,10 +92,34 @@ public class SavedGameOpener implements Runnable {
 				.filter(this::hasObjectName)
 				.collect(Collectors.toList());
 
-		final boolean isWindowsStoreSave = isWindowsStoreSave(mobileObjectsFile);
+
+		boolean isWindowsStoreSave = false;
+
+		try {
+			isWindowsStoreSave = new PacketDeserializer(mobileObjectsFile).isWindowsStoreSave();
+
+		} catch (final IOException e) {
+			logger.error(
+					"Unable to open save file '%s': %s%n"
+					, mobileObjectsFile
+					, e.getMessage());
+		}
+
 		final float currency = extractCurrency(gameObjects);
 		final Map<String, Property> globals = extractGlobals(gameObjects);
 		final Map<String, Property> characters = extractCharacters(gameObjects);
+
+
+		try {
+			if (isWindowsStoreSave) convertWindowsStoreSave(savedgame);
+			// TODO: move out so JS dialog offers conversion decision to user
+
+		} catch (final IOException e) {
+			logger.error(
+					"Unable to convert save file '%s': %s%n"
+					, mobileObjectsFile
+					, e.getMessage());
+		}
 
 
 		sendJSON(isWindowsStoreSave, currency, globals, characters);
@@ -406,18 +433,54 @@ public class SavedGameOpener implements Runnable {
 		return objects;
 	}
 
-	private boolean isWindowsStoreSave (final File mobileObjectsFile) {
-		String contents = "";
+
+	// TODO: move out to a file handling class
+	private void convertWindowsStoreSave(File saveGameExtractedDir) throws IOException {
+		final File outputDir = ChangesSaver.createNewSaveDirectory(saveGameExtractedDir.getPath());
+
+		convertWindowsStoreSave(saveGameExtractedDir, outputDir);
+	}
+
+	private void convertWindowsStoreSave(File saveGameExtractedDir, File outputDir) {
+		String newFilePath = "";
+
+		String saveDir = Settings.getInstance().json.getString("savesLocation");
+
+		// TODO: run in background maybe using something like
+		// Environment.getInstance().workers().execute(
+		//			new ChangesSaver(request, callback));
+
+		String msg = "Windows Store save " + saveGameExtractedDir + " selected; created equivalent Steam/GoG save in " + newFilePath;
 
 		try {
-			contents = FileUtils.readFileToString(mobileObjectsFile);
-		} catch (final IOException e) {
-			logger.error(
-					"Unable to open save file '%s': %s%n"
-					, mobileObjectsFile
+			EKUtils.convertWindowsStoreToSteamSaveFiles(saveGameExtractedDir, outputDir);
+
+
+			SaveGameInfo saveInfo = SaveGameExtractor.extractInfo(outputDir).get();
+			String saveName = saveInfo.userSaveName;
+
+			// TODO: allow user to supply output name in GUI (see suggest JS for editing)
+			SaveGameInfo.updateSaveInfo(outputDir, saveName +  " (converted)");
+
+			ChangesSaver.packageSaveGame(outputDir);
+
+		} catch (final IOException | URISyntaxException | NoSuchElementException e) {
+			msg = String.format("Unable to convert Windows save file '%s' to %s: %s"
+					, saveGameExtractedDir
+					, outputDir
 					, e.getMessage());
+
+			logger.error(msg);
 		}
 
-		return contents.contains(TypeMap.NEW_TYPE_MODULE);
+		// TODO: mention path zipped to here
+		final String json = new JSONStringer()
+				.object()
+				.key("error").value("WINDOWS_STORE_SAVE")
+				.key("msg").value(msg)
+				.endObject()
+				.toString();
+
+		callback.success(json);
 	}
 }

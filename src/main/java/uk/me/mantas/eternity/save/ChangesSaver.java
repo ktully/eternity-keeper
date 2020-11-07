@@ -41,7 +41,6 @@ import uk.me.mantas.eternity.game.EternityTimeInterval;
 import uk.me.mantas.eternity.game.ObjectPersistencePacket;
 import uk.me.mantas.eternity.handlers.SaveChanges;
 import uk.me.mantas.eternity.serializer.DeserializedPackets;
-import uk.me.mantas.eternity.serializer.Deserializer;
 import uk.me.mantas.eternity.serializer.PacketDeserializer;
 import uk.me.mantas.eternity.serializer.properties.*;
 
@@ -87,11 +86,11 @@ public class ChangesSaver implements Runnable {
 			}
 
 			if (!savedYet) {
-				saveDirectory = createNewSave(absolutePath);
+				saveDirectory = cloneExtractedSave(absolutePath);
 				environment.state().previousSaveDirectory(saveDirectory);
 			}
 
-			updateSaveInfo(saveDirectory, saveName);
+			SaveGameInfo.updateSaveInfo(saveDirectory, saveName);
 			updateMobileObjects(saveDirectory, saveData);
 			packageSaveGame(saveDirectory);
 			callback.success("{\"success\":true}");
@@ -106,7 +105,9 @@ public class ChangesSaver implements Runnable {
 		}
 	}
 
-	private void packageSaveGame (File saveDirectory) throws ZipException {
+	// TODO: separate file operations from in-memory operations
+
+	static void packageSaveGame (File saveDirectory) throws ZipException {
 		File pillarsSavesDirectory;
 		try {
 			pillarsSavesDirectory = new File(
@@ -146,6 +147,12 @@ public class ChangesSaver implements Runnable {
 	private void updateMobileObjects (final File saveDirectory, final JSONObject saveData)
 		throws IOException, DeserializationException {
 
+		updateMobileObjects(saveDirectory, saveData, this.packetDeserializer);
+	}
+	private static void updateMobileObjects (final File saveDirectory, final JSONObject saveData,
+											 PacketDeserializerFactory packetDeserializer)
+		throws IOException, DeserializationException {
+
 		final File mobileObjectsFile = new File(saveDirectory, "MobileObjects.save");
 		final PacketDeserializer deserializer = packetDeserializer.forFile(mobileObjectsFile);
 		final Optional<DeserializedPackets> deserialized = deserializer.deserialize();
@@ -173,7 +180,7 @@ public class ChangesSaver implements Runnable {
 		deserialized.get().reserialize(mobileObjectsFile);
 	}
 
-	private Property updateMobileObject (
+	private static Property updateMobileObject (
 		final PacketDeserializer deserializer
 		, final Property property
 		, final JSONObject saveData) {
@@ -213,7 +220,7 @@ public class ChangesSaver implements Runnable {
 		return property;
 	}
 
-	private void updateCurrency (final ComplexProperty root, final float currency) {
+	private static void updateCurrency (final ComplexProperty root, final float currency) {
 		final Optional<ComplexProperty> currencyValue =
 			root.<SingleDimensionalArrayProperty>findProperty("ComponentPackets")
 			.flatMap(components -> findSubComponent(components, "PlayerInventory"))
@@ -229,7 +236,7 @@ public class ChangesSaver implements Runnable {
 		Property.update(currencyValue.get(), "v", currency);
 	}
 
-	private void updateGlobal (
+	private static void updateGlobal (
 		final PacketDeserializer deserializer
 		, final ComplexProperty root
 		, final JSONObject global) {
@@ -275,7 +282,7 @@ public class ChangesSaver implements Runnable {
 		}
 	}
 
-	private void updateCharacter (
+	private static void updateCharacter (
 		final PacketDeserializer deserializer
 		, final ComplexProperty root
 		, final JSONObject character) {
@@ -428,53 +435,34 @@ public class ChangesSaver implements Runnable {
 		return val;
 	}
 
-	private void updateSaveInfo (File saveDirectory, String saveName)
-		throws IOException {
 
-		File saveinfoXML = new File(saveDirectory, "saveinfo.xml");
-		String contents = new String(
-			EKUtils.removeBOM(FileUtils.readFileToByteArray(saveinfoXML))
-			, "UTF-8");
 
-		ByteArrayOutputStream newContentsStream = new ByteArrayOutputStream(contents.length());
-		try {
-			Match xml = $(contents);
-			xml.find("Simple[name='UserSaveName']").attr("value", saveName);
-			xml.write(newContentsStream);
-		} catch (DOMException e) {
-			logger.error(
-				"Error parsing copied saveinfo '%s': %s%n"
-				, saveinfoXML.getAbsolutePath()
-				, e.getMessage());
-		}
+	private static File cloneExtractedSave(final String oldSaveAbsolutePath) throws IOException {
+		final File oldSave = new File(oldSaveAbsolutePath);
+		final File newDirectory = createNewSaveDirectory(oldSaveAbsolutePath);
 
-		String newContents = newContentsStream.toString("UTF-8");
-		byte[] newContentsBytes = newContents.getBytes();
-		if (newContentsBytes[0] != -17) {
-			newContentsBytes = EKUtils.addBOM(newContentsBytes);
-		}
+		FileUtils.copyDirectory(oldSave, newDirectory);
 
-		FileUtils.writeByteArrayToFile(saveinfoXML, newContentsBytes, false);
+		return newDirectory;
 	}
 
-	private File createNewSave (final String absolutePath) throws IOException {
+	static File createNewSaveDirectory (final String oldSaveAbsolutePath) throws IOException {
 		final Environment environment = Environment.getInstance();
 		final File workingDirectory = environment.directory().working();
-		final File oldSave = new File(absolutePath);
+		final File oldSave = new File(oldSaveAbsolutePath);
 		final String sessionID = oldSave.getName().split(" ")[0].replace("-", "");
 
 		final int gameID = getAvailableGameID(workingDirectory, sessionID);
 		final File newDirectory = createNewSaveDirectory(
-			workingDirectory
-			, oldSave.getName()
-			, sessionID
-			, gameID);
+				workingDirectory
+				, oldSave.getName()
+				, sessionID
+				, gameID);
 
-		FileUtils.copyDirectory(oldSave, newDirectory);
 		return newDirectory;
 	}
 
-	private File createNewSaveDirectory (
+	private static File createNewSaveDirectory (
 		File workingDirectory
 		, String oldSaveName
 		, String sessionID
@@ -495,7 +483,7 @@ public class ChangesSaver implements Runnable {
 		return newSaveDirectory;
 	}
 
-	private int getAvailableGameID (File workingDirectory, String sessionID) {
+	private static int getAvailableGameID (File workingDirectory, String sessionID) {
 		// Games are saved with the session ID, followed by a space, followed
 		// by some number that I'm not sure about yet but is perhaps game time.
 
@@ -503,6 +491,8 @@ public class ChangesSaver implements Runnable {
 		// different games under the same session ID from each other. The game
 		// actually doesn't care if this number is correct, just that it is
 		// unique so we try to find a unique one in this method.
+
+		// TODO: try the current system epoch first, as that's what the id actually is (although the game doesn't care)
 
 		int candidateID = 0;
 		File[] existingSaves = workingDirectory.listFiles();

@@ -23,6 +23,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import uk.me.mantas.eternity.game.ComponentPersistencePacket;
 import uk.me.mantas.eternity.game.ObjectPersistencePacket;
+import uk.me.mantas.eternity.serializer.DeserializedPackets;
+import uk.me.mantas.eternity.serializer.PacketDeserializer;
+import uk.me.mantas.eternity.serializer.SerializerFormat;
+import uk.me.mantas.eternity.serializer.SharpSerializer;
 import uk.me.mantas.eternity.serializer.properties.ComplexProperty;
 import uk.me.mantas.eternity.serializer.properties.Property;
 import uk.me.mantas.eternity.serializer.properties.SingleDimensionalArrayProperty;
@@ -32,7 +36,10 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -189,5 +196,45 @@ public class EKUtils {
 
 		logger.error("Unable to extract enum constant name for %s.", cls.getName());
 		return Optional.empty();
+	}
+
+	// TODO: move into a save.SaveConverter class
+	public static void convertWindowsStoreToSteamSaveFiles (File inputDir, File outputDir) throws URISyntaxException, IOException {
+		final List<File> inputFiles = Arrays.asList(inputDir.listFiles());
+
+		try {
+			// TODO: optimize performance - convert in parallel threads (or even using parallel sterams initially!)
+
+			for (File inputFile : inputFiles) {
+				final String inputFilename = inputFile.getName();
+				final File outputFile = new File(outputDir, inputFilename);
+
+				if (inputFilename.endsWith(".save") || inputFilename.endsWith(".lvl")) {
+
+					// TODO: check for error on output file creation
+					outputFile.createNewFile();
+					EKUtils.reserializeFile(inputFile, outputFile, SerializerFormat.UNITY_2017);
+				} else {
+					Files.copy(inputFile.toPath(), outputFile.toPath());
+				}
+			}
+
+		} catch (final Exception e) {
+			throw e;
+			// TODO: logger.error or return ?
+		}
+	}
+
+	public static void reserializeFile(File input, File output, SerializerFormat outputFormat) throws IOException {
+		try {
+			final PacketDeserializer deserializer = new PacketDeserializer(input.getAbsolutePath());
+			final DeserializedPackets deserialized = deserializer.deserialize().get();
+
+			deserialized.reserialize(output, outputFormat);
+
+		} catch (final Exception e) {
+			throw e;
+			// TODO: logger.error or return ?
+		}
 	}
 }

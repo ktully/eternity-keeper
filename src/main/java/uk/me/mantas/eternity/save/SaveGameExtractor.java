@@ -58,7 +58,7 @@ public class SaveGameExtractor {
 		return null;
 	}
 
-	private Optional<SaveGameInfo> extractInfo (final File saveFolder) {
+	static Optional<SaveGameInfo> extractInfo (final File saveFolder) {
 		final File[] contents = saveFolder.listFiles();
 
 		if (contents == null) {
@@ -107,7 +107,7 @@ public class SaveGameExtractor {
 			Arrays.stream(saveFiles)
 				.map(this::unpackSave)
 				.filter(a -> a != null)
-				.map(this::extractInfo)
+				.map(SaveGameExtractor::extractInfo)
 				.filter(Optional::isPresent)
 				.map(Optional::get)
 				.toArray(SaveGameInfo[]::new);

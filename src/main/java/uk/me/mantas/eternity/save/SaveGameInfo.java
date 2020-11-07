@@ -28,6 +28,7 @@ import org.w3c.dom.DOMException;
 import uk.me.mantas.eternity.EKUtils;
 import uk.me.mantas.eternity.Logger;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
@@ -169,5 +170,36 @@ public class SaveGameInfo {
 		SaveFileInfoException () {
 			super();
 		}
+	}
+
+	// TODO: refactor to update an opened saveinfo
+	static void updateSaveInfo (File saveDirectory, String newUserSaveName)
+			throws IOException {
+
+		File saveinfoXML = new File(saveDirectory, "saveinfo.xml");
+		String contents = new String(
+				EKUtils.removeBOM(FileUtils.readFileToByteArray(saveinfoXML))
+				, "UTF-8");
+
+		ByteArrayOutputStream newContentsStream = new ByteArrayOutputStream(contents.length());
+		try {
+			Match xml = $(contents);
+			xml.find("Simple[name='UserSaveName']").attr("value", newUserSaveName);
+			xml.write(newContentsStream);
+		} catch (DOMException e) {
+
+			logger.error(
+					"Error parsing copied saveinfo '%s': %s%n"
+					, saveinfoXML.getAbsolutePath()
+					, e.getMessage());
+		}
+
+		String newContents = newContentsStream.toString("UTF-8");
+		byte[] newContentsBytes = newContents.getBytes();
+		if (newContentsBytes[0] != -17) {
+			newContentsBytes = EKUtils.addBOM(newContentsBytes);
+		}
+
+		FileUtils.writeByteArrayToFile(saveinfoXML, newContentsBytes, false);
 	}
 }

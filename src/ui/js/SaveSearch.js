@@ -139,6 +139,8 @@ SaveSearch.prototype.open = function (info, i) {
 				msg = 'Error deserializing save file, please report your eternity.log file.';
 			} else if (response.error === 'NOT_EXISTS') {
 				msg = 'Save file "' + info.absolutePath + '" does not exist.';
+			} else if (response.msg) {
+				msg = response.msg;
 			} else {
 				msg = 'Unknown error when opening save file, please report your eternity.log file.';
 			}
@@ -147,7 +149,8 @@ SaveSearch.prototype.open = function (info, i) {
 		} else if (response.characters.length < 1) {
 			Eternity.GenericError.render({msg: 'No characters found in save game.'});
 		} else if (response.isWindowStoreSave) {
-			Eternity.GenericError.render({msg: 'Windows Store save selected.'});
+			// TODO: redirect to new modal dialog which optionally kicks off the conversion and blocks until conversion is complete
+			Eternity.GenericError.render({msg: 'Windows Store save selected'});
 		} else {
 			Eternity.SavedGame.render({saveData: response, info: info});
 		}

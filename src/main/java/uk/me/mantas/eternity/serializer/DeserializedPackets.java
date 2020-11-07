@@ -52,8 +52,11 @@ public class DeserializedPackets {
 	}
 
 	public void reserialize (final File destinationFile) throws FileNotFoundException {
+		reserialize(destinationFile, SerializerFormat.PRESERVE);
+	}
+	public void reserialize (final File destinationFile, SerializerFormat outputFormat) throws FileNotFoundException {
 		final SharpSerializer serializer =
-			sharpSerializer.forFile(destinationFile.getAbsolutePath());
+			sharpSerializer.forFile(destinationFile.getAbsolutePath()).toFormat(outputFormat);
 
 		serializer.serialize(count);
 		for (final Property property : packets) {
