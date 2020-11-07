@@ -40,9 +40,9 @@ This 0.4 alpha project release includes initial code by ktully allowing you to g
 1. Enter the path to your Windows Store saves in 'Save Folder' box and click 'Search' to refresh the savegame list.
     * Typically your Windows Store saves are in a numeric subdirectory like `%USERPROFILE%\Saved Games\Pillars of Eternity\1234567890987654`.
 1. Click on a Windows Store save file to load it
-1. Progress indicator on the selected file will spin as the file is opened and converted - this may take a few minutes.
+1. Progress indicator on the selected file will spin as the file is opened and converted - this may take a few minutes (depending on your hardware and on how much progress you had made in the game)
 1. When conversion has completed, the save file list will refresh showing a new `( converted)` save
-1. Quit Enternity Keeper
+1. Quit Eternity Keeper
 1. Open your Windows Store save directory in Windows Explorer and move the converted savefile into `%USERPROFILE%\Saved Games\Pillars of Eternity\`, so that the Steam/GoG version of the game can find it.
 
 **Note:** Keep a backup of your original unconverted save file(s) - the conversion process could conceivably cause the game to crash or have other unanticipated bugs later.
