@@ -200,10 +200,8 @@ public class EKUtils {
 
 		try {
 			// TODO: optimize performance further
-
 			// TODO: catch null output files, indicating conversion error
 			inputFiles.parallelStream().forEach((inputFile) -> convertWindowsStoreSubFileToSteam(inputFile, outputDir));
-
 
 		} catch (final Exception e) {
 			// TODO: consider returning on success/log on error, rather than rethrowing exception
