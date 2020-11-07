@@ -146,6 +146,11 @@ SaveSearch.prototype.open = function (info, i) {
 			}
 
 			Eternity.GenericError.render({msg: msg});
+
+			// TODO: move this when flow changes to allow user confirm whether to convert or not
+			if (response.error === 'WINDOWS_STORE_SAVE') {
+				self.search();
+			}
 		} else if (response.characters.length < 1) {
 			Eternity.GenericError.render({msg: 'No characters found in save game.'});
 		} else if (response.isWindowStoreSave) {

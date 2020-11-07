@@ -442,27 +442,26 @@ public class SavedGameOpener implements Runnable {
 	}
 
 	private void convertWindowsStoreSave(File saveGameExtractedDir, File outputDir) {
-		String newFilePath = "";
-
 		String saveDir = Settings.getInstance().json.getString("savesLocation");
 
-		// TODO: run in background maybe using something like
-		// Environment.getInstance().workers().execute(
-		//			new ChangesSaver(request, callback));
-
-		String msg = "Windows Store save " + saveGameExtractedDir + " selected; created equivalent Steam/GoG save in " + newFilePath;
+		String msg = "";
 
 		try {
+			// TODO: run in background maybe using something like
+			// Environment.getInstance().workers().execute(
+			//			new ChangesSaver(request, callback));
 			EKUtils.convertWindowsStoreToSteamSaveFiles(saveGameExtractedDir, outputDir);
-
 
 			SaveGameInfo saveInfo = SaveGameExtractor.extractInfo(outputDir).get();
 			String saveName = saveInfo.userSaveName;
 
 			// TODO: allow user to supply output name in GUI (see suggest JS for editing)
+			// TODO: why is this causing nested brackets
 			SaveGameInfo.updateSaveInfo(outputDir, saveName +  " (converted)");
 
 			ChangesSaver.packageSaveGame(outputDir);
+
+			msg = "Windows Store save " + saveGameExtractedDir.getName() + " selected; converted to equivalent Steam/GoG save " +  outputDir.getName();
 
 		} catch (final IOException | URISyntaxException | NoSuchElementException e) {
 			msg = String.format("Unable to convert Windows save file '%s' to %s: %s"
@@ -473,7 +472,6 @@ public class SavedGameOpener implements Runnable {
 			logger.error(msg);
 		}
 
-		// TODO: mention path zipped to here
 		final String json = new JSONStringer()
 				.object()
 				.key("error").value("WINDOWS_STORE_SAVE")
