@@ -6,7 +6,7 @@
 
 	<groupId>uk.me.mantas</groupId>
 	<artifactId>eternity</artifactId>
-	<version>0.4a</version>
+	<version>0.20a</version>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
