@@ -201,8 +201,9 @@ public class EKUtils {
 		try {
 			// TODO: optimize performance further
 			// TODO: catch null output files, indicating conversion error
-			inputFiles.parallelStream().forEach((inputFile) -> convertWindowsStoreSubFileToSteam(inputFile, outputDir));
-
+			inputFiles.parallelStream().forEach(
+					(inputFile) -> convertWindowsStoreSubFileToSteam(inputFile, outputDir)
+			);
 		} catch (final Exception e) {
 			// TODO: consider returning on success/log on error, rather than rethrowing exception
 			throw e;
@@ -216,6 +217,7 @@ public class EKUtils {
 		try {
 			if (inputFilename.endsWith(".save") || inputFilename.endsWith(".lvl")) {
 				outputFile.createNewFile();
+				// TODO: performance - would be much quicker to just regex the module names
 				EKUtils.reserializeFile(inputFile, outputFile, SerializerFormat.UNITY_2017);
 			} else {
 				Files.copy(inputFile.toPath(), outputFile.toPath());
