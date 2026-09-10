@@ -93,7 +93,11 @@ public class SaveGameExtractor {
 			return Optional.empty();
 		}
 
-		final File[] saves = savesDirectory.listFiles();
+		// The saves directory holds more than just saves -- Steam drops steam_autocloud.vdf in
+		// there, for example -- and trying to unzip those just produces noise in the log.
+		final File[] saves = savesDirectory.listFiles(
+			(dir, name) -> name.endsWith(SAVE_FILE_EXTENSION));
+
 		if (saves == null) {
 			return Optional.empty();
 		}

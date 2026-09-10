@@ -41,6 +41,8 @@ public class SaveGameInfo {
 	private static final DateTimeFormatter dateFormatter =
 		DateTimeFormat.forPattern("MM/dd/yyyy HH:mm:ss").withZoneUTC();
 
+	public static final String SAVE_FILE_EXTENSION = ".savegame";
+
 	public static final String[] REQUIRED_FILES = {
 		"0.png"
 		, "screenshot.png"
@@ -96,7 +98,7 @@ public class SaveGameInfo {
 		throws ArrayIndexOutOfBoundsException {
 
 		String[] nameComponents =
-			saveFolder.getName().replace(".savegame", "").split(" ");
+			saveFolder.getName().replace(SAVE_FILE_EXTENSION, "").split(" ");
 
 		guid = nameComponents[0];
 		systemName = nameComponents[1];

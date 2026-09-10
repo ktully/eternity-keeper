@@ -88,6 +88,10 @@ public class StatusEffectParams {
 	public String Description;
 	public boolean IsCleanedUp;
 	public float MergedValue;
+	// Added by a later game patch, alongside the new TacticalMode global. Older saves simply don't
+	// contain these, which is harmless because properties are matched by name.
+	public float TacticalMultiplier;
+	public boolean HideFromPortrait;
 
 	public enum IntervalRateType {
 		None

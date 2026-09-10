@@ -349,8 +349,14 @@ ul.characters {
 	line-height: 330px;
 }
 
-.character .attributes .control-label {
+.character .section .control-label {
 	text-align: left;
+}
+
+.character .section-heading {
+	margin: 0 0 10px 0;
+	font-variant: small-caps;
+	font-weight: bold;
 }
 
 .character .stats input[type="number"] {

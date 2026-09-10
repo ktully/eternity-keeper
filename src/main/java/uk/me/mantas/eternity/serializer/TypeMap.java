@@ -81,6 +81,7 @@ public class TypeMap {
 		put("ObjectPersistencePacket", ObjectPersistencePacket.class);
 		put("PrerequisiteData", PrerequisiteData.class);
 		put("StatusEffect", StatusEffect.class);
+		put("TacticalMode", TacticalMode.class);
 		put("Team", Team.class);
 
 		put("AchievementTracker+TrackedAchievementStat"

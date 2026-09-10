@@ -38,6 +38,7 @@ import uk.me.mantas.eternity.handlers.OpenSavedGame;
 import uk.me.mantas.eternity.serializer.DeserializedPackets;
 import uk.me.mantas.eternity.serializer.PacketDeserializer;
 import uk.me.mantas.eternity.serializer.TypeMap;
+import uk.me.mantas.eternity.serializer.UnknownPropertyException;
 import uk.me.mantas.eternity.serializer.properties.Property;
 
 import java.io.File;
@@ -86,8 +87,15 @@ public class SavedGameOpener implements Runnable {
 			return;
 		}
 
+		final Optional<List<Property>> packets = deserialize(mobileObjectsFile);
+		if (!packets.isPresent()) {
+			// deserialize() has already reported the failure to the UI. Carrying on would only
+			// produce a second callback and, for a Windows Store save, an empty converted save.
+			return;
+		}
+
 		final List<Property> gameObjects =
-			deserialize(mobileObjectsFile).stream()
+			packets.get().stream()
 				.filter(this::isObjectPersistencePacket)
 				.filter(this::hasObjectName)
 				.collect(Collectors.toList());
@@ -415,22 +423,29 @@ public class SavedGameOpener implements Runnable {
 		return characters;
 	}
 
-	private List<Property> deserialize (final File mobileObjectsFile) {
-		List<Property> objects = new ArrayList<>();
+	private Optional<List<Property>> deserialize (final File mobileObjectsFile) {
 		try {
 			final PacketDeserializer deserializer = packetDeserializer.forFile(mobileObjectsFile);
 			final Optional<DeserializedPackets> deserialized = deserializer.deserialize();
 			if (!deserialized.isPresent()) {
 				OpenSavedGame.deserializationError(callback);
-				return objects;
+				return Optional.empty();
 			}
 
-			objects = deserialized.get().getPackets();
-		} catch (final FileNotFoundException | IndexOutOfBoundsException e) {
+			return Optional.of(deserialized.get().getPackets());
+		} catch (final FileNotFoundException
+			| IndexOutOfBoundsException
+			| UnknownPropertyException e) {
+
+			logger.error(
+				"Unable to deserialize '%s': %s%n"
+				, mobileObjectsFile.getAbsolutePath()
+				, e.getMessage());
+
 			OpenSavedGame.deserializationError(callback);
 		}
 
-		return objects;
+		return Optional.empty();
 	}
 
 

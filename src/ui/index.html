@@ -338,6 +338,52 @@
 							</form>
 						</div>
 					</div>
+					<!--
+					 | Skills are the base points the player has allocated, held in the same
+					 | CharacterStats variables as the attributes above. The matching <Skill>Bonus
+					 | variables are granted by items and effects rather than spent, so they are left
+					 | to the Raw tab. This column carries the 'stats' class so that populateCharacter
+					 | finds and binds its inputs exactly as it does the attributes.
+					 -->
+					<div class="col-sm-3 stats skills">
+						<div class="row">
+							<h5 class="section-heading">Skills</h5>
+						</div>
+						<div class="row section">
+							<form class="form-horizontal">
+								<div class="row form-group form-group-sm">
+									<label class="col-sm-6 control-label">Stealth</label>
+									<div class="col-sm-6">
+										<input type="number" class="form-control"	data-fullkey="StealthSkill">
+									</div>
+								</div>
+								<div class="row form-group form-group-sm">
+									<label class="col-sm-6 control-label">Athletics</label>
+									<div class="col-sm-6">
+										<input type="number" class="form-control"	data-fullkey="AthleticsSkill">
+									</div>
+								</div>
+								<div class="row form-group form-group-sm">
+									<label class="col-sm-6 control-label">Lore</label>
+									<div class="col-sm-6">
+										<input type="number" class="form-control"	data-fullkey="LoreSkill">
+									</div>
+								</div>
+								<div class="row form-group form-group-sm">
+									<label class="col-sm-6 control-label">Mechanics</label>
+									<div class="col-sm-6">
+										<input type="number" class="form-control"	data-fullkey="MechanicsSkill">
+									</div>
+								</div>
+								<div class="row form-group form-group-sm">
+									<label class="col-sm-6 control-label">Survival</label>
+									<div class="col-sm-6">
+										<input type="number" class="form-control"	data-fullkey="SurvivalSkill">
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
 				</div>
 				<div class="row view raw" id="rawTable" data-bound="SavedGame">
 					<form>

@@ -353,18 +353,28 @@ public class Deserializer {
 	private void parseSimpleProperty (SimpleProperty property)
 		throws IOException {
 
-		property.value = readValue(property.type.type);
+		property.value = readValue(property.name, property.type.type);
 	}
 
-	private Object readValue (Class expectedType) throws IOException {
+	private Object readValue (String propertyName, Class expectedType)
+		throws IOException {
+
 		if (!stream.readBoolean()) {
 			return null;
 		}
 
-		return readValueCore(expectedType);
+		return readValueCore(propertyName, expectedType);
 	}
 
-	private Object readValueCore (Class expectedType) throws IOException {
+	private Object readValueCore (String propertyName, Class expectedType)
+		throws IOException {
+
+		if (expectedType == null) {
+			// A null value is fine -- we've already consumed it above -- but a value we know
+			// nothing about isn't, since its width isn't recorded anywhere in the file.
+			throw new UnknownPropertyException(propertyName);
+		}
+
 		try {
 			if (expectedType.getSimpleName().equals("int")) {
 				return stream.readInt();
@@ -438,23 +448,17 @@ public class Deserializer {
 				"Unable to read property value: %s%n", e.getMessage());
 		}
 
-		if (expectedType != null) {
-			String typeName = readCSharpString();
-			Class javaType = typeMap.get(typeName);
+		String typeName = readCSharpString();
+		Class javaType = typeMap.get(typeName);
 
-			if (javaType == null) {
-				logger.error(
-					"No mapping found for type '%s', expected type was '%s'.%n"
-					, typeName
-					, expectedType.getSimpleName());
-			}
-
-			return javaType;
-		} else {
-			logger.error("Expected type was null in readValueCore.%n");
+		if (javaType == null) {
+			logger.error(
+				"No mapping found for type '%s', expected type was '%s'.%n"
+				, typeName
+				, expectedType.getSimpleName());
 		}
 
-		return null;
+		return javaType;
 	}
 
 	private Byte[] boxBytes (byte[] in) {
@@ -486,12 +490,16 @@ public class Deserializer {
 		} catch (ArrayIndexOutOfBoundsException e) {
 			logger.error(
 				"Tried to get enum value index #%d that "
-					+ "didn't exist for enum %s.%n"
+					+ "didn't exist for enum %s, keeping the raw value.%n"
 				, value
 				, type.getSimpleName());
 		}
 
-		return null;
+		// Our copy of the enum is missing this constant, probably because a game patch added it.
+		// Returning the ordinal keeps it intact: BinaryWriter writes an Integer back as the same
+		// four bytes, whereas null would be written as a one byte "no value" and shift everything
+		// after it, leaving the game unable to load the save.
+		return value;
 	}
 
 	private Property createProperty (byte elementID, String propertyName, TypePair propertyType) {

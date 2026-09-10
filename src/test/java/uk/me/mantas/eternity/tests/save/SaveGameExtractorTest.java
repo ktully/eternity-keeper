@@ -59,6 +59,9 @@ public class SaveGameExtractorTest extends TestHarness {
 		Optional<SaveGameInfo[]> saveGameInfo =
 			saveGameExtractor.unpackAllSaves();
 
+		// The fixture directory holds five files: two good saves, one that isn't a zip, one that
+		// unzips but is missing the required files, and a steam_autocloud.vdf which we shouldn't
+		// even look at.
 		assertTrue(saveGameInfo.isPresent());
 		assertEquals(2, saveGameInfo.get().length);
 		assertEquals(6, saveGameInfo.get()[0].portraits.size());

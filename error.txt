@@ -1,0 +1,17 @@
+SaveGameExtractor     37   ERROR  Unable to unzip 'C:\Users\dasa9\Saved Games\Pillars of Eternity\steam_autocloud.vdf': Probably not a zip file or a corrupted zip file
+Deserializer          37   ERROR  No such field 'TacticalMultiplier' for type 'StatusEffectParams'!
+Deserializer          37   ERROR  Unable to read property value: null
+Deserializer          37   ERROR  Expected type was null in readValueCore.
+Deserializer          37   ERROR  No such field 'Root' for type 'StatusEffectParams'!
+SavedGameOpener       37   ERROR  Unable to find player mobile object.
+Deserializer          37   ERROR  No such field 'TacticalMultiplier' for type 'StatusEffectParams'!
+Deserializer          37   ERROR  Unable to read property value: null
+Deserializer          37   ERROR  Expected type was null in readValueCore.
+Deserializer          37   ERROR  No such field 'Root' for type 'StatusEffectParams'!
+SavedGameOpener       37   ERROR  Unable to find player mobile object.
+Deserializer          37   ERROR  No such field 'TacticalMultiplier' for type 'StatusEffectParams'!
+Deserializer          37   ERROR  Unable to read property value: null
+Deserializer          37   ERROR  Expected type was null in readValueCore.
+Deserializer          37   ERROR  No such field 'Root' for type 'StatusEffectParams'!
+SavedGameOpener       37   ERROR  Unable to find player mobile object.
+
